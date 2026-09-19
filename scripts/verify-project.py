@@ -13,7 +13,9 @@ required = [
 ]
 for name in required:
     assert (ROOT / name).is_file(), name
-assert len(list((ROOT / "docs/adr").glob("ADR-*.md"))) == 10
+# Preserve all ten Phase 1 decisions while permitting later additive ADRs.
+for number in range(1, 11):
+    assert len(list((ROOT / "docs/adr").glob(f"ADR-{number:03d}-*.md"))) == 1
 for profile in ("development", "test", "paper", "production"):
     assert (ROOT / f"apps/trading-core/src/main/resources/application-{profile}.yml").is_file()
 config = (ROOT / "apps/trading-core/src/main/resources/application.yml").read_text()

@@ -1,7 +1,9 @@
 # System overview
 
 Phase 1 establishes boundaries, contracts and testable foundations. Arrows below
-describe the target architecture; no broker connection, transport or executable OMS exists.
+describe the target trading architecture; no streaming transport or executable OMS exists.
+Phase 2 adds only read-only Kite REST profile/instrument access and an immutable
+registry. See [REST and instrument architecture](kite-rest-and-instruments.md).
 
 ```mermaid
 flowchart LR
@@ -124,5 +126,6 @@ Redis must not be a required source of truth for deduplication or risk.
 
 Phase 1 is local development only, bound to loopback. Authentication/authorization
 for future trading APIs and dashboards must be designed before exposure.
-Management exposes health/info/Prometheus only. No secrets are required for Kite.
+Management exposes health/info/Prometheus only. Credentials are required only for
+explicit Phase 2 Kite REST reads; normal startup and tests do not need them.
 No production messaging technology has been selected.

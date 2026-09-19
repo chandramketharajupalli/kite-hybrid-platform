@@ -9,3 +9,8 @@ ready=false because execution is unavailable. It is separate from health.
 
 Future command APIs require authentication, authorization, idempotency, audit
 and explicit risk/OMS application services before any broker execution.
+
+Phase 2 exposes no broker REST diagnostic over HTTP. The standalone kiteDiagnostic
+Gradle task is explicit and read-only. The internal kitestatus Actuator endpoint
+reports passive session/registry state, remains unexposed by default and does not
+make application health depend on Kite.
