@@ -13,6 +13,11 @@ No commit or push was performed. Pre-existing infrastructure changes were
 preserved. No application execution/trading logic changed; the sole Java source
 edit replaces the obsolete Gradle diagnostic command in its usage message.
 
+This report preserves the migration's historical validation, which used a
+process-local UTC override. That override is no longer an integration-test
+prerequisite: see the [subsequent scoped timezone fix](postgres-integration-timezone.md).
+The original commands and results below remain historical evidence.
+
 ## Configuration translated
 
 | Gradle configuration | Maven equivalent |

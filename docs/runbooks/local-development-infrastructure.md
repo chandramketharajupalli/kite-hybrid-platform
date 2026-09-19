@@ -148,8 +148,8 @@ $env:JAVA_HOME = 'C:\path\to\existing\jdk-21'
 
 Stop if both commands do not identify version 21. On this machine the host JVM
 timezone `Asia/Calcutta` is rejected by PostgreSQL 17.6 during connection setup.
-For integration tests and database-backed Java startup on affected hosts, set a
-process-local UTC override before launching Maven:
+For database-backed application startup on affected hosts, set a process-local
+UTC override before launching the application through Maven:
 
 ```powershell
 $env:JAVA_TOOL_OPTIONS = '-Duser.timezone=UTC'
@@ -157,9 +157,10 @@ $env:JAVA_TOOL_OPTIONS = '-Duser.timezone=UTC'
 
 Retain any existing Java options when adding this setting. Hosts whose default
 timezone PostgreSQL accepts do not need the override. The setting is inherited
-by Maven and its forked test/application JVMs until this PowerShell session ends;
+by Maven and its forked application JVM until this PowerShell session ends;
 no global environment or application configuration is changed. Maven does not
-set the timezone automatically.
+set the application timezone automatically. This workaround is for application
+startup only; integration tests configure UTC themselves and do not require it.
 
 Spring does not automatically read `.env`. The small helper captures Compose
 configuration in memory, exports only the local datasource/Redis settings to
@@ -214,12 +215,14 @@ Flyway validates and leaves the migration unchanged on subsequent startup.
 
 ## Tests
 
-Use the JDK 21 and, on affected hosts, UTC setup above in this PowerShell session.
+Use an existing JDK 21. Integration tests require neither `JAVA_TOOL_OPTIONS`
+nor a machine timezone change. Normal Docker discovery does not require a user
+`~/.testcontainers.properties` file.
 
 ```powershell
-.\mvnw.cmd verify
+.\mvnw.cmd clean verify
 if ($LASTEXITCODE -ne 0) { throw 'Java build failed.' }
-.\mvnw.cmd -Pintegration '-DskipUnitTests=true' verify
+.\mvnw.cmd -Pintegration verify
 if ($LASTEXITCODE -ne 0) { throw 'PostgreSQL integration tests failed.' }
 ```
 
@@ -228,12 +231,18 @@ makes no real Kite calls. The separate integration suite currently contains
 **one** `PostgresMigrationTest` test. Testcontainers starts its own isolated,
 disposable `postgres:17.6` database, applies the migration, validates it, verifies
 a second migration run performs no work, and checks the `trading` namespace.
+The test explicitly configures UTC for the server and JDBC session and checks
+the connected session timezone. It temporarily selects UTC in the isolated test
+JVM scope and restores the previous default afterward. See the
+[integration timezone note](../operations/postgres-integration-timezone.md)
+for the connection-startup root cause. Application timezone behavior is unchanged.
 It does not use or delete the Compose database. Testcontainers manages shutdown;
 check for unexpectedly remaining test containers if a run is interrupted.
 Compose does not need to be running for this test, but Docker Engine does.
 Missing Docker means **BLOCKED / NOT EXECUTED**, never passed.
-Run `.\mvnw.cmd -Pintegration verify` for the complete lifecycle with both unit
-and integration suites. Unit reports are in `apps/trading-core/target/surefire-reports`;
+The integration command runs both unit and integration suites; use
+`.\mvnw.cmd -Pintegration '-DskipUnitTests=true' verify` to run only the integration
+suite. Unit reports are in `apps/trading-core/target/surefire-reports`;
 integration reports are in `apps/trading-core/target/failsafe-reports`.
 
 Use the existing Python project working directory so pytest and mypy read their
@@ -329,9 +338,11 @@ If PostgreSQL reports `FATAL: invalid value for parameter "TimeZone": "Asia/Calc
 the JDBC connection is supplying a JVM timezone alias that the server rejects.
 Docker can be reachable and containers healthy while this connection fails.
 Apply the process-local `JAVA_TOOL_OPTIONS` UTC setting described above, then
-rerun the integration tests or restart Java from that shell. This issue also
-occurred in the previous build's integration baseline; changing the build system
-does not fix it. Keep the pinned database image and existing database volume.
+restart the database-backed application from that shell. `PostgresMigrationTest`
+handles this alias independently with its scoped UTC configuration and needs no
+environment override. The [integration timezone note](../operations/postgres-integration-timezone.md)
+explains why the driver sends the JVM default during connection establishment.
+Keep the pinned database image and existing database volume.
 
 If a script is blocked by local PowerShell policy, inspect the file and follow
 the machine's approved script-execution process; do not change system policy

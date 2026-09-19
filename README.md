@@ -58,21 +58,10 @@ machine's default Java 8. The implementation report identifies the existing
 Spring Tools Java 21 installation used here; no machine-specific path is built
 into Maven configuration.
 
-On this machine the host JVM timezone is `Asia/Calcutta`, which the pinned
-PostgreSQL 17.6 image rejects during connection setup. Before PostgreSQL integration
-tests or database-backed application startup, select UTC for Java processes in
-this PowerShell session:
-
-```powershell
-$env:JAVA_TOOL_OPTIONS = '-Duser.timezone=UTC'
-```
-
-If you already use `JAVA_TOOL_OPTIONS`, retain those options when adding the UTC
-setting. This is an environment workaround for rejected timezone aliases; hosts
-whose default timezone PostgreSQL accepts do not need it. Maven does not apply
-the override automatically. No global environment or application configuration
-is changed; closing the shell discards this process-local setting. See the
-[infrastructure troubleshooting notes](docs/runbooks/local-development-infrastructure.md#troubleshooting-and-networking).
+Integration tests configure their own PostgreSQL/JDBC timezone as UTC; no
+`JAVA_TOOL_OPTIONS` override or machine timezone change is required. See the
+[integration timezone note](docs/operations/postgres-integration-timezone.md)
+for the JDBC startup behavior and test scope.
 
 ## Java build and tests (no Docker)
 
@@ -156,6 +145,10 @@ they contain local passwords. `config --quiet` validates without printing them.
 Testcontainers starts its own disposable PostgreSQL; Compose need not be running
 for integration tests, but Docker must work. Tests are explicit and do not silently
 skip when Docker is missing. Missing Docker means BLOCKED / NOT EXECUTED.
+Normal Docker discovery does not require a user `~/.testcontainers.properties`
+file. `PostgresMigrationTest` explicitly sets the disposable server and JDBC
+session to UTC, restores the test JVM's previous timezone afterward, and runs in
+isolation from other JUnit tests. Application timezone settings are unchanged.
 The `integration` profile compiles the separate `src/integrationTest/java` sources and
 runs both unit tests and PostgreSQL integration tests during `verify`. To run
 only the integration suite, use `.\mvnw.cmd -Pintegration '-DskipUnitTests=true' verify`.
@@ -187,6 +180,11 @@ Alternatively configure the same variables in an IntelliJ run configuration;
 an already running IDE does not inherit a different PowerShell process's values.
 Host Java connects to `localhost:5432` and `localhost:6379`; future containerized
 Java would use `postgres:5432` and `redis:6379` on the Compose network.
+
+If database-backed application startup fails because PostgreSQL rejects the
+host JVM timezone alias `Asia/Calcutta`, use the application-only process-local
+workaround in the [infrastructure runbook](docs/runbooks/local-development-infrastructure.md#host-java-flyway-and-health).
+The integration-test timezone setup does not change application startup behavior.
 
 A reachable PostgreSQL and matching password are required; Flyway creates only a
 trading namespace. Development, test, paper and production profiles are provided.
