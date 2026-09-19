@@ -23,12 +23,21 @@ trading:
   mode: ${TRADING_MODE:PAPER}
   enable-live-trading: ${ENABLE_LIVE_TRADING:false}
   emergency-stop: ${EMERGENCY_STOP:true}
+kite:
+  rest-enabled: ${KITE_REST_ENABLED:false}
+  api-key: ${KITE_API_KEY:}
+  api-secret: ${KITE_API_SECRET:}
+  access-token: ${KITE_ACCESS_TOKEN:}
 management:
   endpoints:
     web:
       exposure:
         include: health,info,prometheus
   endpoint:
+    env:
+      show-values: never
+    configprops:
+      show-values: never
     health:
       show-details: never
       probes:

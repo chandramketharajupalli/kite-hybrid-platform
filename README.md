@@ -1,8 +1,9 @@
 # kite-hybrid-platform
 
-Phase 1: modular Java control plane and lightweight Python strategy/quant plane.
-No Kite connectivity, strategies, broker execution, runtime messaging or frontend
-exists. Clearing emergency stop or changing live flags cannot enable orders.
+Phase 2 adds read-only Java Kite REST profile and instrument-master integration
+to the modular Java control plane and lightweight Python strategy/quant plane.
+No strategies, broker execution, runtime messaging or frontend exist.
+Clearing emergency stop or changing live flags cannot enable orders.
 
 Java owns signal validation → risk → order intents → OMS → execution → broker →
 lifecycle → positions → reconciliation. Python emits signals only.
@@ -22,6 +23,9 @@ PostgreSQL is the future durable ledger; Redis is optional ephemeral state.
 Spring Boot 3.5 and Gradle 8 preserve the requested JUnit 5 baseline and Java 21
 compatibility. Boot's BOM pins managed Java dependency versions; ArchUnit 1.4.1
 and JSON Schema validator 1.5.9 are explicitly pinned test dependencies.
+Phase 2 adds only Jackson CSV, aligned to the existing Boot-managed Jackson 2.21.4.
+The official Kite SDK was reviewed; a narrow Spring HTTP adapter preserves exact
+decimal parsing and read-only scope (see ADR-011).
 Python uses uv.lock; version constraints express supported dependency families.
 Review security/support and image patches before any deployment.
 
@@ -60,6 +64,7 @@ The ordinary build runs unit, architecture, configuration, application and
 contract tests. Test reports: apps/trading-core/build/reports/tests/test/index.html.
 The bootable JAR is under apps/trading-core/build/libs.
 First execution downloads the pinned Gradle distribution and dependencies.
+Ordinary test/build commands use mock HTTP responses and never contact Zerodha.
 
 ## Python environment, tests, lint and types
 
@@ -154,6 +159,32 @@ orchestration, production risk rules, paper execution, recovery/reconciliation,
 authenticated control APIs, market-data ingestion and measured transport design.
 No throughput or 1,000-instrument performance claim is made.
 
-Recommended Phase 2 objective: a deterministic, durable paper-only vertical slice
-through signal validation, risk, OMS, simulated fills and restart recovery,
-before adding live broker execution.
+Paper execution and durable order processing remain separate future phases.
+Recommended Phase 3 objective: read-only WebSocket market-data ingestion through
+the existing gateway boundary, with bounded handoff, freshness and reconnect tests.
+
+## Phase 2: explicit read-only Kite diagnostics
+
+Normal startup has KITE_REST_ENABLED=false and performs no Kite calls, even when
+credentials are present. API key and an externally obtained access token are
+required only for explicit REST use. API secret is reserved for future login
+exchange; it is not used by the current GET endpoints. No automatic login,
+refresh, broker mutation, WebSocket, PostgreSQL or Redis registry is implemented.
+
+See [safe PowerShell credential/diagnostic instructions](docs/runbooks/kite-rest-diagnostic.md).
+After setting process-local environment variables as described there:
+
+```powershell
+.\gradlew.bat :trading-core:kiteDiagnostic --args="profile" --no-daemon
+.\gradlew.bat :trading-core:kiteDiagnostic --args="instruments" --no-daemon
+```
+
+These commands make real read-only requests only when invoked with explicit
+KITE_REST_ENABLED=true. Each runs without a server/database. The instruments
+command creates a temporary process-local registry; it does not refresh another
+running application's registry. Failed refreshes preserve its prior valid snapshot.
+
+See [REST/session/registry architecture](docs/architecture/kite-rest-and-instruments.md),
+[HTTP decision](docs/adr/ADR-011-read-only-kite-rest-adapter.md) and
+[identity/snapshot decision](docs/adr/ADR-012-instrument-identity-and-atomic-snapshots.md).
+Real connectivity must be reported separately from unit/mock validation.

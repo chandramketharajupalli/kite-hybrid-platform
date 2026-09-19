@@ -12,6 +12,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-csv")
     implementation("org.flywaydb:flyway-core")
     runtimeOnly("org.flywaydb:flyway-database-postgresql")
     runtimeOnly("org.postgresql:postgresql")
@@ -43,3 +44,11 @@ tasks.register<Test>("integrationTest") {
 }
 // Integration tests are explicit: ordinary build/check/test do not require Docker.
 tasks.withType<JavaCompile>().configureEach { options.encoding = "UTF-8" }
+
+tasks.register<JavaExec>("kiteDiagnostic") {
+    description = "Explicit read-only Kite diagnostic: --args=profile or --args=instruments."
+    group = "application"
+    classpath = sourceSets.main.get().runtimeClasspath
+    mainClass.set("com.kitehybrid.platform.broker.infrastructure.kite.KiteRestDiagnostic")
+    javaLauncher.set(javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(21) })
+}

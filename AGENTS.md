@@ -13,3 +13,5 @@
 - Accompany critical domain behavior with meaningful tests. Never claim unexecuted checks passed.
 - Do not install a JDK or Docker automatically or change global JAVA_HOME.
 - Keep unit tests independent of Docker; run integration tests explicitly.
+- Phase 2 permits only explicit read-only Kite profile/instrument GETs. No broker mutations or WebSocket.
+- Never run real Kite diagnostics as part of normal tests; report mock and real validation separately.
