@@ -1,0 +1,5 @@
+# Profile does not weaken safety defaults.
+spring:
+  config:
+    activate:
+      on-profile: paper
