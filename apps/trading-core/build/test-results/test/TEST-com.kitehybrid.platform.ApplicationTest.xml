@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.kitehybrid.platform.ApplicationTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-09-19T09:06:59.539Z" hostname="DESKTOP-0GGQORP" time="1.102">
+  <properties/>
+  <testcase name="applicationCanBeHealthyWhileTradingIsUnavailable()" classname="com.kitehybrid.platform.ApplicationTest" time="1.095"/>
+  <testcase name="contextStartsWithoutDockerAndHasNoExecutableBroker()" classname="com.kitehybrid.platform.ApplicationTest" time="0.005"/>
+  <system-out><![CDATA[{"@timestamp":"2026-09-19T14:36:56.4849577+05:30","@version":"1","message":"Starting ApplicationTest using Java 21.0.8 with PID 4236 (started by Chandram K in D:\\Yogendra\\kite-hybrid-platform\\apps\\trading-core)","logger_name":"com.kitehybrid.platform.ApplicationTest","thread_name":"Test worker","level":"INFO","level_value":20000}
+{"@timestamp":"2026-09-19T14:36:56.4991372+05:30","@version":"1","message":"The following 1 profile is active: \"test\"","logger_name":"com.kitehybrid.platform.ApplicationTest","thread_name":"Test worker","level":"INFO","level_value":20000}
+{"@timestamp":"2026-09-19T14:36:59.2618809+05:30","@version":"1","message":"Initializing Spring TestDispatcherServlet ''","logger_name":"org.springframework.boot.test.mock.web.SpringBootMockServletContext","thread_name":"Test worker","level":"INFO","level_value":20000}
+{"@timestamp":"2026-09-19T14:36:59.2628836+05:30","@version":"1","message":"Initializing Servlet ''","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"Test worker","level":"INFO","level_value":20000}
+{"@timestamp":"2026-09-19T14:36:59.278377+05:30","@version":"1","message":"Exposing 2 endpoints beneath base path '/actuator'","logger_name":"org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver","thread_name":"Test worker","level":"INFO","level_value":20000}
+{"@timestamp":"2026-09-19T14:36:59.298687+05:30","@version":"1","message":"Completed initialization in 33 ms","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"Test worker","level":"INFO","level_value":20000}
+{"@timestamp":"2026-09-19T14:36:59.3898412+05:30","@version":"1","message":"Started ApplicationTest in 3.303 seconds (process running for 4.716)","logger_name":"com.kitehybrid.platform.ApplicationTest","thread_name":"Test worker","level":"INFO","level_value":20000}
+]]></system-out>
+  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\Chandram K\.gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy-agent\1.17.8\f09415827a71be7ed621c7bd02550678f28bc81c\byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>

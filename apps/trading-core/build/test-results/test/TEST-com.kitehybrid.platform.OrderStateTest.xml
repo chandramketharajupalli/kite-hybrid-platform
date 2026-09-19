@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.kitehybrid.platform.OrderStateTest" tests="20" skipped="0" failures="0" errors="0" timestamp="2026-09-19T09:07:02.005Z" hostname="DESKTOP-0GGQORP" time="0.064">
+  <properties/>
+  <testcase name="followsLifecycleAndHandlesFillDuringCancellation()" classname="com.kitehybrid.platform.OrderStateTest" time="0.005"/>
+  <testcase name="[1] state=CREATED" classname="com.kitehybrid.platform.OrderStateTest" time="0.008"/>
+  <testcase name="[2] state=VALIDATED" classname="com.kitehybrid.platform.OrderStateTest" time="0.001"/>
+  <testcase name="[3] state=RISK_APPROVED" classname="com.kitehybrid.platform.OrderStateTest" time="0.001"/>
+  <testcase name="[4] state=SUBMITTING" classname="com.kitehybrid.platform.OrderStateTest" time="0.0"/>
+  <testcase name="[5] state=SUBMITTED" classname="com.kitehybrid.platform.OrderStateTest" time="0.001"/>
+  <testcase name="[6] state=ACKNOWLEDGED" classname="com.kitehybrid.platform.OrderStateTest" time="0.001"/>
+  <testcase name="[7] state=OPEN" classname="com.kitehybrid.platform.OrderStateTest" time="0.001"/>
+  <testcase name="[8] state=PARTIALLY_FILLED" classname="com.kitehybrid.platform.OrderStateTest" time="0.001"/>
+  <testcase name="[9] state=FILLED" classname="com.kitehybrid.platform.OrderStateTest" time="0.0"/>
+  <testcase name="[10] state=CANCEL_PENDING" classname="com.kitehybrid.platform.OrderStateTest" time="0.001"/>
+  <testcase name="[11] state=CANCELLED" classname="com.kitehybrid.platform.OrderStateTest" time="0.001"/>
+  <testcase name="[12] state=REJECTED" classname="com.kitehybrid.platform.OrderStateTest" time="0.001"/>
+  <testcase name="[13] state=FAILED" classname="com.kitehybrid.platform.OrderStateTest" time="0.0"/>
+  <testcase name="cannotSkipRiskOrSubmissionAndCannotRewind()" classname="com.kitehybrid.platform.OrderStateTest" time="0.002"/>
+  <testcase name="cancellationAndRejectionAreExplicit()" classname="com.kitehybrid.platform.OrderStateTest" time="0.0"/>
+  <testcase name="[1] terminal=FILLED" classname="com.kitehybrid.platform.OrderStateTest" time="0.001"/>
+  <testcase name="[2] terminal=CANCELLED" classname="com.kitehybrid.platform.OrderStateTest" time="0.0"/>
+  <testcase name="[3] terminal=REJECTED" classname="com.kitehybrid.platform.OrderStateTest" time="0.0"/>
+  <testcase name="[4] terminal=FAILED" classname="com.kitehybrid.platform.OrderStateTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,6 @@
+# Local dependencies supplied by Docker Compose; credentials are external.
+spring:
+  config:
+    activate:
+      on-profile: development
+

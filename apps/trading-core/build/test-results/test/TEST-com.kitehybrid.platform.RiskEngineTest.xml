@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.kitehybrid.platform.RiskEngineTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-09-19T09:07:02.073Z" hostname="DESKTOP-0GGQORP" time="0.009">
+  <properties/>
+  <testcase name="rejectionStopsFurtherEvaluation()" classname="com.kitehybrid.platform.RiskEngineTest" time="0.004"/>
+  <testcase name="emergencyStopOverridesOtherwiseValidSignalAndReadsCurrentState()" classname="com.kitehybrid.platform.RiskEngineTest" time="0.002"/>
+  <testcase name="exceptionsNullResultsAndInvalidSignalsFailClosed()" classname="com.kitehybrid.platform.RiskEngineTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
