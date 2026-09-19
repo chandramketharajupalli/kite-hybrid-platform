@@ -1,6 +1,7 @@
-# Java / Gradle
+# Java / Maven (retain legacy Gradle cache/output protection)
 .gradle/
 **/build/
+**/target/
 *.class
 *.hprof
 # Python / uv

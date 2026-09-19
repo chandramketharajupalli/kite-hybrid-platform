@@ -1,5 +1,9 @@
 # Phase 1 implementation and verification report
 
+Historical record: commands, Gradle paths and validation results below describe
+the original Phase 1 implementation. For the current Maven build and validation,
+see the [Maven migration report](maven-migration-report.md) and [README](../../README.md).
+
 Phase 1 implemented under D:/Yogendra/kite-hybrid-platform. No Phase 2 work performed.
 All 94 listed source/configuration/documentation files are new; no pre-existing
 project files were overwritten. Generated caches, virtual environment, build artifacts

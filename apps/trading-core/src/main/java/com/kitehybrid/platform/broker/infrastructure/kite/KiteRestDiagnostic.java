@@ -16,7 +16,7 @@ public final class KiteRestDiagnostic {
     public static void main(String[] arguments) { System.exit(run(arguments, System.getenv(), System.out)); }
     public static int run(String[] arguments, Map<String, String> environment, PrintStream output) {
         if (arguments.length != 1 || !(arguments[0].equals("profile") || arguments[0].equals("instruments"))) {
-            output.println("Usage: kiteDiagnostic --args=profile|instruments");
+            output.println("Usage: mvnw -pl apps/trading-core compile exec:exec -Dkite.diagnostic=profile|instruments");
             return 2;
         }
         var metrics = new SimpleMeterRegistry();

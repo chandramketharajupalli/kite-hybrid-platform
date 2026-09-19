@@ -121,7 +121,8 @@ No credential or successful diagnostic changes these defaults or enables trading
 
 ## Explicit diagnostic scope
 
-The Gradle kiteDiagnostic task runs a standalone Java main, not a web server.
+The Maven `exec:exec` diagnostic forks a standalone Java main using the selected
+JDK 21. See the [diagnostic runbook](../runbooks/kite-rest-diagnostic.md) for commands.
 It does not need PostgreSQL, Redis or Docker. It reads environment variables only.
 The two commands are separate: instruments does not implicitly call profile.
 The one-shot registry disappears when the command exits. A running application's

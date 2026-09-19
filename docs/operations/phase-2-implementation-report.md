@@ -1,5 +1,9 @@
 # Phase 2 implementation and verification report
 
+Historical record: commands, Gradle paths and validation results below describe
+the original Phase 2 implementation. For the current Maven build and validation,
+see the [Maven migration report](maven-migration-report.md) and [README](../../README.md).
+
 Implemented Java-only read-only Kite REST foundation. No Phase 3 work, automatic
 commit, staging or push was performed. All 49 changed/new files are listed below.
 

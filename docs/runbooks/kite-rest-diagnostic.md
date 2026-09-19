@@ -17,8 +17,8 @@ $env:ENABLE_LIVE_TRADING = 'false'
 $env:EMERGENCY_STOP = 'true'
 
 # These are separate, explicit real calls. Do not run them in automated unit tests.
-.\gradlew.bat :trading-core:kiteDiagnostic --args="profile" --no-daemon
-.\gradlew.bat :trading-core:kiteDiagnostic --args="instruments" --no-daemon
+.\mvnw.cmd -pl apps/trading-core compile exec:exec '-Dkite.diagnostic=profile'
+.\mvnw.cmd -pl apps/trading-core compile exec:exec '-Dkite.diagnostic=instruments'
 ```
 
 Do not place tokens in command arguments, commit them, or paste diagnostic request
@@ -28,8 +28,8 @@ The API secret placeholder remains for a later controlled exchange flow.
 A successful profile command prints CONNECTED, without account identity.
 An instrument command prints retrieved/accepted/rejected counts, snapshot version
 and UTC timestamp. This is a process-local snapshot; it is discarded on exit.
-The command returns nonzero for failures. Gradle may then report a failed JavaExec
-task; the safe category printed above it is the diagnostic result.
+The command returns nonzero for failures. Maven may then report a failed
+`exec:exec` goal; the safe category printed above it is the diagnostic result.
 
 | Category | Action |
 | --- | --- |

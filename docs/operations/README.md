@@ -16,3 +16,8 @@ their owning runtime behavior; do not invent inactive metric registries.
 
 Docker Compose is for local development only; choose production credentials,
 TLS, backups, retention and access control before deployment.
+
+Use the [local development runbook](../runbooks/local-development-infrastructure.md)
+for the Maven/Docker workflow and the [Maven migration report](maven-migration-report.md)
+for current build and infrastructure validation. The Phase 1, Phase 2 and earlier
+development-infrastructure reports retain historical commands and results.

@@ -6,7 +6,7 @@ The production profile requires DB_URL, DB_USER and DB_PASSWORD environment valu
 
 .env.example documents variables; populated .env is ignored. Compose loads .env
 for its own substitution. Spring Boot does NOT automatically load it. Export the
-required variables in PowerShell before bootRun (see root README).
+required variables in PowerShell before Maven `spring-boot:run` (see root README).
 Python settings use STRATEGY_ prefix and do not receive Kite credentials.
 
 Phase 2 adds KITE_REST_ENABLED=false and external KITE_API_KEY/KITE_ACCESS_TOKEN.
