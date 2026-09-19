@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.kitehybrid.platform.ArchitectureTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-09-19T09:07:00.646Z" hostname="DESKTOP-0GGQORP" time="1.357">
+  <properties/>
+  <testcase name="domainIsIndependentAndTradingCoreHasNoBrokerSdkDependency()" classname="com.kitehybrid.platform.ArchitectureTest" time="1.357"/>
+  <system-out><![CDATA[{"@timestamp":"2026-09-19T14:37:00.6618113+05:30","@version":"1","message":"Detected Java version 21.0.8","logger_name":"com.tngtech.archunit.core.PluginLoader","thread_name":"Test worker","level":"INFO","level_value":20000}
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

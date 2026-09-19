@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.kitehybrid.platform.SignalContractTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-09-19T09:07:02.159Z" hostname="DESKTOP-0GGQORP" time="0.259">
+  <properties/>
+  <testcase name="sharedFixtureRoundTripsWithoutLosingDecimalPrecision()" classname="com.kitehybrid.platform.SignalContractTest" time="0.215"/>
+  <testcase name="sharedInvalidFixturesAreRejectedBeforeBinding()" classname="com.kitehybrid.platform.SignalContractTest" time="0.036"/>
+  <testcase name="bindingRejectsFloatingTokenEvenWhenSchemaSeesAnIntegralValue()" classname="com.kitehybrid.platform.SignalContractTest" time="0.007"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
