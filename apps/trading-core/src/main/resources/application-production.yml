@@ -1,0 +1,9 @@
+spring:
+  config:
+    activate:
+      on-profile: production
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+# Live remains unavailable in Phase 1, in every profile.

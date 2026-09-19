@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kite-hybrid.local/contracts/v1/SignalEvent.v1.schema.json",
+  "title": "SignalEvent v1",
+  "allOf": [
+    {
+      "$ref": "envelope.schema.json"
+    }
+  ],
+  "properties": {
+    "event_type": {
+      "const": "SignalEvent"
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "signal_id",
+        "strategy_id",
+        "instrument_id",
+        "side",
+        "quantity",
+        "reference_price"
+      ],
+      "properties": {
+        "signal_id": {
+          "$ref": "envelope.schema.json#/$defs/uuid"
+        },
+        "strategy_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,63}$"
+        },
+        "instrument_id": {
+          "$ref": "envelope.schema.json#/$defs/uuid"
+        },
+        "side": {
+          "enum": [
+            "BUY",
+            "SELL"
+          ]
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "reference_price": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,11})(\\.[0-9]{1,8})?$"
+        }
+      }
+    }
+  },
+  "unevaluatedProperties": false
+}
