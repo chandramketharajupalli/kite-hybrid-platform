@@ -27,7 +27,9 @@ flowchart LR
 ```
 
 These adapters do not implement BrokerAdapter, which is the separate execution
-port. There is no OMS connection, order operation, WebSocket or Python change.
+port. These REST adapters have no OMS connection, order operation or Python
+change. [Phase 4 market data](kite-market-data.md) adds a separate WebSocket
+adapter using the same authenticated session and instrument registry.
 
 ## Credentials and session
 

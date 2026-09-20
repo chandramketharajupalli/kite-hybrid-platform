@@ -229,6 +229,28 @@ Expect versions `1` and `2`, `success=true` and the `trading` schema. If the his
 does not exist, investigate Java startup/Flyway failure; do not create it by hand.
 Flyway validates and leaves applied migrations unchanged on subsequent startup.
 
+## Optional Phase 4 market data
+
+The existing authentication flow and instrument initialization must first report
+`KITE_AUTHENTICATED`. Follow the [market-data runbook](market-data.md) to explicitly
+enable the development-only diagnostics, subscribe to one registry-resolved
+instrument, inspect normalized ticks and stop cleanly. Market data defaults to
+disabled and never starts a connection merely because the application starts.
+
+Run the infrastructure helper before explicitly exporting
+`KITE_MARKET_DATA_ENABLED=true` and `KITE_MARKET_DATA_DIAGNOSTIC_ENABLED=true` in
+the application shell. The helper deliberately continues to load only its existing
+infrastructure/authentication variables; new market-data entries in `.env` do not
+automatically opt the application into streaming. Keep the development server on
+loopback and preserve PAPER, disabled live trading and emergency stop.
+
+Optional `/actuator/marketdatastatus` exposure reports connection and per-desired-
+instrument freshness separately from process/database readiness. Latest ticks
+are held in-process; this phase adds no PostgreSQL migrations or Redis dependency.
+No strategy, risk decision, order processing, position or P&L work is enabled.
+Real broker WebSocket checks are manual only; automated tests use fake/loopback
+WebSocket infrastructure and never contact Kite.
+
 ## Tests
 
 Use an existing JDK 21. Integration tests require neither `JAVA_TOOL_OPTIONS`

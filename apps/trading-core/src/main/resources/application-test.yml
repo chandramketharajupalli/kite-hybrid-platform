@@ -1,4 +1,8 @@
 # Pure configuration/application tests require neither a database nor Redis.
+kite:
+  market-data:
+    enabled: false
+    diagnostic-enabled: false
 spring:
   autoconfigure:
     exclude:

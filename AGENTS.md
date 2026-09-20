@@ -13,5 +13,6 @@
 - Accompany critical domain behavior with meaningful tests. Never claim unexecuted checks passed.
 - Do not install a JDK or Docker automatically or change global JAVA_HOME.
 - Keep unit tests independent of Docker; run integration tests explicitly.
-- Phase 2 permits only explicit read-only Kite profile/instrument GETs. No broker mutations or WebSocket.
+- Phase 4 permits the existing official interactive Kite authentication, read-only profile/instrument GETs, and explicitly enabled market-data WebSocket streaming. No order placement/modification/cancellation, strategies, signals, risk decisions, position management, P&L or automated trading in market-data work.
+- Market data must use the existing authenticated KiteSession, remain disabled by default, and never start real broker streaming in automated tests. Live diagnostics require explicit user action.
 - Never run real Kite diagnostics as part of normal tests; report mock and real validation separately.

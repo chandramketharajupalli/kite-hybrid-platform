@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 import static com.kitehybrid.platform.broker.application.BrokerReadException.Category.INVALID_RESPONSE;
+import static com.kitehybrid.platform.broker.infrastructure.kite.KiteBrokerIdentity.BROKER_ID;
 
 /** Broker CSV interpretation only. Candidate-wide consistency belongs to the registry. */
 final class KiteInstrumentCsvMapper {
@@ -70,7 +71,7 @@ final class KiteInstrumentCsvMapper {
             Optional<BigDecimal> strike = option ? Optional.of(decimal(strikeText)) : Optional.empty();
             if (!option && !strikeText.isEmpty() && decimal(strikeText).signum() != 0)
                 throw new IllegalArgumentException("Unexpected strike");
-            return Instrument.create(new BrokerInstrumentId("ZERODHA", Long.toString(token)),
+            return Instrument.create(new BrokerInstrumentId(BROKER_ID, Long.toString(token)),
                     required(row, "tradingsymbol"), exchange, segment, type, expiry, strike,
                     decimal(required(row, "tick_size")), lot);
         } catch (RuntimeException invalid) { throw new BrokerReadException(INVALID_RESPONSE); }

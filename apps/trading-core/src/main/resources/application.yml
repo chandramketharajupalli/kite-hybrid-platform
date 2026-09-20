@@ -34,6 +34,18 @@ kite:
   api-key: ${KITE_API_KEY:}
   api-secret: ${KITE_API_SECRET:}
   access-token: ${KITE_ACCESS_TOKEN:}
+  market-data:
+    enabled: ${KITE_MARKET_DATA_ENABLED:false}
+    diagnostic-enabled: ${KITE_MARKET_DATA_DIAGNOSTIC_ENABLED:false}
+    connect-timeout: ${KITE_MARKET_DATA_CONNECT_TIMEOUT:10s}
+    stale-after: ${KITE_MARKET_DATA_STALE_AFTER:30s}
+    idle-timeout: ${KITE_MARKET_DATA_IDLE_TIMEOUT:30s}
+    queue-capacity: ${KITE_MARKET_DATA_QUEUE_CAPACITY:4096}
+    max-subscriptions: ${KITE_MARKET_DATA_MAX_SUBSCRIPTIONS:3000}
+    reconnect:
+      initial-delay: ${KITE_MARKET_DATA_RECONNECT_INITIAL_DELAY:1s}
+      max-delay: ${KITE_MARKET_DATA_RECONNECT_MAX_DELAY:30s}
+      max-attempts: ${KITE_MARKET_DATA_RECONNECT_MAX_ATTEMPTS:8}
   auth:
     redirect-url: ${KITE_REDIRECT_URL:http://localhost:${server.port:8080}/api/broker/kite/auth/callback}
     encryption-key: ${KITE_TOKEN_ENCRYPTION_KEY:}

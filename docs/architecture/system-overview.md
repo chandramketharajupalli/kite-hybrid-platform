@@ -1,10 +1,12 @@
 # System overview
 
 Phase 1 establishes boundaries, contracts and testable foundations. Arrows below
-describe the target trading architecture; no streaming transport or executable OMS exists.
+describe the target trading architecture; no executable OMS exists.
 Kite integration adds official interactive authentication, encrypted PostgreSQL
 token persistence, read-only REST profile/instrument access and an immutable
-registry. See [authentication and REST architecture](kite-rest-and-instruments.md).
+registry. Phase 4 adds opt-in WebSocket ingestion, normalized market data and
+freshness health. See [authentication and REST architecture](kite-rest-and-instruments.md)
+and [market-data architecture](kite-market-data.md).
 
 ```mermaid
 flowchart LR
@@ -21,7 +23,8 @@ flowchart LR
     OMS --> PG[(PostgreSQL - authoritative trading state)]
     Adapter --> Reconcile[Java Reconciliation]
     Reconcile --> PG
-    MD --> Redis[(Redis - ephemeral cache)]
+    MD --> Latest[In-process latest ticks]
+    MD --> Freshness[Market-data health]
 ```
 
 Java is the control plane. Python is the strategy/quant plane. Python cannot
@@ -31,7 +34,8 @@ or positions, or bypass Java risk. Java owns all four execution modes.
 ## Modules and ownership
 
 Implemented packages contain only actual types: bootstrap/config, shared identity,
-instrument mapping, market-data ports, order lifecycle/models/repository port,
+instrument mapping, market-data ports/domain/store and Kite streaming adapters,
+order lifecycle/models/repository port,
 broker port, risk, health and one wire DTO adapter. Domain has no infrastructure,
 Spring, Jackson or broker SDK dependency. ArchUnit protects this direction.
 
@@ -60,8 +64,9 @@ tokens may be reused and must be resolved against an appropriate instrument mast
 StrategyId is a bounded name. SignalId and order/intent IDs are distinct Java types.
 BrokerOrderId and TradeId will be introduced with their actual models.
 
-Quantity means positive whole instrument units (1..2,147,483,647), not lots or
-signed exposure. Eligibility, lot size and quantity limits are future Java risk
+Order quantity means positive whole instrument units (1..2,147,483,647), not lots or
+signed exposure. Market-data quantities and volume are nonnegative whole units
+stored as `long`; absent values remain absent. Eligibility, lot size and quantity limits are future Java risk
 checks. Prices/money use BigDecimal/Decimal; wire decimal values are strings.
 Signal reference price is informational and cannot substitute for trusted market
 data in production risk calculations.
@@ -101,12 +106,24 @@ at dispatch. A configuration flag cannot make live trading operational.
 ## Market data
 
 Gateway lifecycle: STOPPED, STARTING, CONNECTED, RECONNECTING, DEGRADED, STOPPING.
-Subscription IDs are platform IDs; an adapter resolves broker tokens.
-SDK callbacks must do bounded decoding/handoff only. TickSink.offer is
-nonblocking and reports saturation. Future overload handling must count lost ticks,
-mark freshness/quality degraded and block dependent trading as appropriate.
-Strategies, indicators and database work run off the callback thread.
-Queue sizing, ordering, reconnect/backfill and benchmarks are deferred.
+Explicit subscriptions use platform IDs and typed LTP/QUOTE/FULL modes; the Kite
+adapter resolves tokens against a pinned instrument snapshot. Reconnect restores
+desired subscriptions and modes before reporting CONNECTED. Authentication is
+owned by the existing session subsystem, and market data never mints tokens.
+
+JDK WebSocket callbacks perform bounded assembly, decoding, normalization and
+nonblocking queue offers. A single worker atomically updates immutable `Tick`
+values in the in-process `LatestMarketDataStore`. The store rejects older updates
+using exchange time when both ticks provide it, then receive time. Queue overflow
+drops newest events, increments metrics and latches degraded quality. There is
+no database or Redis hot-path dependency.
+
+Health distinguishes NO_DATA, FRESH, STALE, RECONNECTING, DEGRADED and STOPPED.
+Every desired subscription must be fresh; a heartbeat is never a tick. Bounded
+reconnect, credential-safe observability and local opt-in diagnostics are
+implemented. Backfill, exchange calendars, throughput benchmarks, strategies,
+signals, risk decisions, order processing, positions and P&L are outside Phase 4.
+See [operational behavior](../runbooks/market-data.md).
 
 ## Persistence and recovery
 
@@ -130,7 +147,10 @@ Redis must not be a required source of truth for deduplication or risk.
 
 Phase 1 is local development only, bound to loopback. Authentication/authorization
 for future trading APIs and dashboards must be designed before exposure.
-Management exposes health/info/Prometheus only. Local Kite login, callback, status
+Management exposes health/info/Prometheus by default; marketdatastatus is an
+additional opt-in read-only endpoint. Development market-data start/stop/read
+diagnostics require both explicit market-data flags and the development profile.
+Local Kite login, callback, status
 and reset endpoints support official browser authentication when explicitly
 enabled. Credentials are required for that flow; disabled startup and automated
 tests do not need real Kite credentials. Browser state protects the callback,

@@ -1,8 +1,9 @@
 # kite-hybrid-platform
 
 Java Kite integration includes official interactive authentication, encrypted
-access-token persistence, and read-only profile and instrument-master retrieval
-in the modular Java control plane and lightweight Python strategy/quant plane.
+access-token persistence, read-only profile and instrument-master retrieval, and
+opt-in Kite WebSocket market data normalized behind broker-independent Java ports.
+The project has a modular Java control plane and lightweight Python strategy/quant plane.
 No strategies, broker execution, runtime messaging or frontend exist.
 Clearing emergency stop or changing live flags cannot enable orders.
 
@@ -80,7 +81,8 @@ First execution downloads the pinned Maven distribution and dependencies;
 globally installed Maven is not required. On POSIX shells, use `./mvnw` with the
 same goals and options. The root POM builds the `apps/trading-core` Java module;
 the Python application retains its independent uv build.
-Ordinary test/build commands use mock HTTP responses and never contact Zerodha.
+Ordinary test/build commands use mock HTTP responses, deterministic binary fixtures,
+and fake or loopback WebSocket infrastructure. They never contact Zerodha.
 
 ## Python environment, tests, lint and types
 
@@ -218,12 +220,15 @@ The pipeline is an architectural boundary, not a functioning OMS in this phase.
 
 Remaining work includes durable deduplication/ledger transactions, approved intent
 orchestration, production risk rules, paper execution, recovery/reconciliation,
-authenticated control APIs, market-data ingestion and measured transport design.
+authenticated trading control APIs and measured transport design.
 No throughput or 1,000-instrument performance claim is made.
 
 Paper execution and durable order processing remain separate future phases.
-Recommended Phase 3 objective: read-only WebSocket market-data ingestion through
-the existing gateway boundary, with bounded handoff, freshness and reconnect tests.
+Phase 4 implements market-data ingestion through the existing gateway, with a
+bounded queue, explicit subscriptions, reconnect/resubscription, normalized ticks,
+an in-process latest-value store, freshness health, and Micrometer metrics. It
+does not implement strategies, signals, risk decisions, orders, positions, P&L
+or automated trading.
 
 ## Kite Authentication
 
@@ -355,13 +360,43 @@ This is a local reset, not Zerodha account logout or broker-side token revocatio
 Open the login endpoint again when needed. Keep the application bound to loopback;
 these local control endpoints have no multi-user authorization layer.
 
+## Phase 4: market data
+
+The flow is authentication -> instrument registry -> explicit connection and
+subscriptions -> normalized ticks -> latest market state -> market-data health.
+The existing `KiteSession` supplies WebSocket credentials. `KITE_ACCESS_TOKEN` is
+not a second token source for streaming.
+
+Market data defaults to disabled, and enabling configuration does not start a
+connection automatically. Java callers use `MarketDataGateway` with platform
+`InstrumentId` values and typed `LTP`, `QUOTE` or `FULL` modes. LTP is the default;
+quote/depth are optional, and prices use `BigDecimal`. Latest ticks stay in-process.
+There are no Redis writes or database writes on the receive/processing path.
+
+For an explicit development-only live check with one registry-resolved instrument,
+follow the [market-data runbook](docs/runbooks/market-data.md). It requires
+`KITE_AUTHENTICATED`, `KITE_MARKET_DATA_ENABLED=true`, the development profile,
+and `KITE_MARKET_DATA_DIAGNOSTIC_ENABLED=true`. The runbook shows start, safe tick
+inspection, optional reconnect verification, unsubscribe and clean stop. Do not
+run it as part of automated tests. Keep the application on loopback.
+
+Connection state alone is not health: `FRESH` requires every desired subscription
+to have current data from the active connection. Heartbeats keep the socket alive
+without making prices fresh. `/actuator/marketdatastatus` is available only when
+explicitly added to Actuator exposure; database/process readiness is separate.
+
+See [market-data architecture](docs/architecture/kite-market-data.md) and
+[configuration reference](config/README.md#market-data).
+
 ## Optional legacy read-only Kite diagnostics
 
 KITE_REST_ENABLED defaults to false. Enabling it opts into the authentication
 flow above and automatic profile/instrument initialization. The optional standalone
 diagnostic commands retain their legacy API-key/access-token environment input;
 they do not share the application's PostgreSQL token store. They are unnecessary
-for daily browser authentication. No order mutation or WebSocket is implemented.
+for daily browser authentication. These standalone commands implement neither
+order mutations nor WebSocket streaming; Phase 4 streaming uses the running
+application's authenticated session.
 
 See [safe PowerShell credential/diagnostic instructions](docs/runbooks/kite-rest-diagnostic.md).
 After setting process-local environment variables as described there:

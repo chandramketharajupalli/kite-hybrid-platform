@@ -32,6 +32,6 @@ class KitePhase2SafetyTest {
                 .dependOnClassesThat().resideInAnyPackage("..infrastructure..", "org.springframework.web.client..",
                         "java.net.http..", "com.zerodhatech..").check(classes);
         noClasses().that().resideInAPackage("..broker.infrastructure.kite..").should()
-                .dependOnClassesThat().resideInAnyPackage("..order..", "..execution..", "..marketdata..").check(classes);
+                .dependOnClassesThat().resideInAnyPackage("..order..", "..execution..", "..risk..", "..position..").check(classes);
     }
 }
