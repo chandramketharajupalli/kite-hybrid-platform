@@ -34,6 +34,9 @@ kite:
   api-key: ${KITE_API_KEY:}
   api-secret: ${KITE_API_SECRET:}
   access-token: ${KITE_ACCESS_TOKEN:}
+  trading-read:
+    enabled: ${KITE_TRADING_READ_ENABLED:false}
+    diagnostic-enabled: ${KITE_TRADING_READ_DIAGNOSTIC_ENABLED:false}
   market-data:
     enabled: ${KITE_MARKET_DATA_ENABLED:false}
     diagnostic-enabled: ${KITE_MARKET_DATA_DIAGNOSTIC_ENABLED:false}

@@ -34,6 +34,9 @@ class KiteApplicationSafetyTest {
         http.perform(post("/api/development/market-data/start").param("exchange", "NSE").param("symbol", "INFY"))
                 .andExpect(status().isNotFound());
         http.perform(get("/api/development/market-data/status")).andExpect(status().isNotFound());
+        for (String operation : java.util.List.of("orders", "trades", "positions", "holdings", "margins")) {
+            http.perform(get("/api/development/trading-read/" + operation)).andExpect(status().isNotFound());
+        }
         http.perform(get("/actuator/env")).andExpect(status().isNotFound());
         http.perform(get("/actuator/configprops")).andExpect(status().isNotFound());
         assertThat(kiteStatus.status()).containsEntry("sessionState", "DISABLED")

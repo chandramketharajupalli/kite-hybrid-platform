@@ -12,11 +12,16 @@ import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 import static com.kitehybrid.platform.broker.application.BrokerReadException.Category.*;
 
-/** Fixed origin, two GET routes, no redirects/retries, bounded bodies and no wire logging. */
+/** Fixed origin and allowlisted GET routes, no redirects/retries, bounded bodies and no wire logging. */
 final class KiteRestTransport {
     enum Endpoint {
         PROFILE("/user/profile", 64 * 1024),
-        INSTRUMENTS("/instruments", 32 * 1024 * 1024);
+        INSTRUMENTS("/instruments", 32 * 1024 * 1024),
+        ORDERS("/orders", 4 * 1024 * 1024),
+        TRADES("/trades", 4 * 1024 * 1024),
+        POSITIONS("/portfolio/positions", 4 * 1024 * 1024),
+        HOLDINGS("/portfolio/holdings", 4 * 1024 * 1024),
+        MARGINS("/user/margins", 64 * 1024);
         final String path;
         final int limit;
         Endpoint(String path, int limit) { this.path = path; this.limit = limit; }

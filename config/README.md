@@ -57,3 +57,26 @@ For local health inspection, optionally set
 This exposes safe status metadata, without instrument labels or credentials.
 It does not add market data to database/process readiness and does not enable
 trading. Keep `SERVER_ADDRESS=127.0.0.1` for unauthenticated development controls.
+
+## Trading reads
+
+| Property | Environment variable | Default |
+| --- | --- | --- |
+| `kite.trading-read.enabled` | `KITE_TRADING_READ_ENABLED` | `false` |
+| `kite.trading-read.diagnostic-enabled` | `KITE_TRADING_READ_DIAGNOSTIC_ENABLED` | `false` |
+
+The first flag wires five read ports without making any requests. They require
+the existing profile-validated `KiteSession`; there is no additional token input.
+The second flag exposes GET diagnostics only with `development` active and
+`production` absent. Both flags must be true. Requests must originate on loopback;
+browser Origin, cross-site, nonlocal Host and forwarded requests are rejected. Keep the server bound to
+`127.0.0.1`. No forwarding/proxy deployment is supported for these local controls.
+
+As with market data, export these flags after the development helper; it does not
+load them from `.env`. The [manual runbook](../docs/runbooks/kite-trading-read.md)
+contains commands for all five reads. Metrics reuse `kite.rest.operations` and
+`kite.rest.duration` with bounded operation/result tags. HTTP response limits are
+4 MiB per orders/trades/positions/holdings response and 64 KiB for margins, applied
+to both compressed and decompressed bytes. The existing 10-second connect and
+30-second socket read timeouts apply. No retries, background polling or cache
+are introduced.

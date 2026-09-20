@@ -9,6 +9,8 @@ import com.kitehybrid.platform.broker.application.auth.KiteAuthenticationGateway
 import com.kitehybrid.platform.broker.application.auth.KiteAuthenticationUseCase;
 import com.kitehybrid.platform.broker.application.auth.KiteLoginAttemptStore;
 import com.kitehybrid.platform.broker.application.auth.KiteLoginAttemptUseCase;
+import com.kitehybrid.platform.broker.application.BrokerReadException;
+import com.kitehybrid.platform.broker.application.read.*;
 import com.kitehybrid.platform.instrument.application.InstrumentMasterProvider;
 import com.kitehybrid.platform.instrument.application.InstrumentRegistry;
 import com.kitehybrid.platform.instrument.domain.BrokerInstrumentId;
@@ -38,12 +40,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.client.MockRestServiceServer;
+import org.springframework.web.client.RestClient;
 import org.flywaydb.core.Flyway;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
 
 /** Production Spring wiring, Flyway, session, use cases and encrypted database; broker calls are fakes. */
 @Testcontainers
@@ -170,6 +179,50 @@ class KiteAuthenticationRestartIntegrationTest {
         }
     }
 
+    @Test
+    void tradingReadsUseTheRestoredSessionAndRemainExplicitAfterRestart() {
+        try (ConfigurableApplicationContext first = startApplication()) {
+            assertThatThrownBy(() -> first.getBean(BrokerOrdersProvider.class).orders())
+                    .isInstanceOfSatisfying(BrokerReadException.class, failure ->
+                            assertThat(failure.category()).isEqualTo(BrokerReadException.Category.AUTHENTICATION));
+            first.getBean(FakeTradingHttp.class).server.verify();
+            first.getBean(KiteAuthenticationUseCase.class)
+                    .complete("syntheticRequestToken", "success", "login", null);
+        }
+        try (ConfigurableApplicationContext restarted = startApplication()) {
+            assertThat(restarted.getBean(KiteSession.class).authenticated()).isTrue();
+            var http = restarted.getBean(FakeTradingHttp.class);
+            // No read expectations exist at startup: any automatic HTTP request would fail the test.
+            http.server.verify();
+            http.expect("/orders", "[]");
+            http.expect("/trades", "[]");
+            http.expect("/portfolio/positions", "{\"net\":[],\"day\":[]}");
+            http.expect("/portfolio/holdings", "[]");
+            // An incomplete account snapshot must stay a failure, never become zero margins.
+            http.expect("/user/margins", "{}");
+            String marginSegment = """
+                    {"enabled":false,"net":0,"available":{"adhoc_margin":0,"cash":0,
+                    "opening_balance":0,"live_balance":0,"collateral":0,"intraday_payin":0},
+                    "utilised":{"debits":0,"exposure":0,"m2m_realised":0,"m2m_unrealised":0,
+                    "option_premium":0,"payout":0,"span":0,"holding_sales":0,"turnover":0,
+                    "liquid_collateral":0,"stock_collateral":0,"delivery":0}}
+                    """;
+            http.expect("/user/margins", "{\"equity\":" + marginSegment + ",\"commodity\":" + marginSegment + "}");
+            assertThat(restarted.getBean(BrokerOrdersProvider.class).orders()).isEmpty();
+            assertThat(restarted.getBean(BrokerTradesProvider.class).trades()).isEmpty();
+            assertThat(restarted.getBean(BrokerPositionsProvider.class).positions().net()).isEmpty();
+            assertThat(restarted.getBean(BrokerHoldingsProvider.class).holdings()).isEmpty();
+            assertThatThrownBy(() -> restarted.getBean(BrokerMarginsProvider.class).margins())
+                    .isInstanceOfSatisfying(BrokerReadException.class, failure ->
+                            assertThat(failure.category()).isEqualTo(BrokerReadException.Category.INVALID_RESPONSE));
+            assertThat(restarted.getBean(BrokerMarginsProvider.class).margins().segments()).hasSize(2);
+            http.server.verify();
+            assertThat(restarted.getBean(KiteSession.class).authenticated()).isTrue();
+            assertThat(restarted.getBean(BrokerCalls.class).exchanges.get()).isZero();
+            assertOnlyCiphertextIsStored(restarted);
+        }
+    }
+
     private static ConfigurableApplicationContext startApplication() {
         return new SpringApplicationBuilder(TradingCoreApplication.class, FakeBrokerConfiguration.class)
                 .web(WebApplicationType.NONE)
@@ -180,6 +233,9 @@ class KiteAuthenticationRestartIntegrationTest {
                         "--spring.datasource.password=" + postgres.getPassword(),
                         "--spring.flyway.enabled=true",
                         "--kite.rest-enabled=true",
+                        "--kite.trading-read.enabled=true",
+                        "--kite.trading-read.diagnostic-enabled=false",
+                        "--kite.market-data.enabled=false",
                         "--kite.api-key=syntheticRestartKey",
                         "--kite.api-secret=syntheticRestartSecret",
                         "--kite.access-token=",
@@ -200,6 +256,12 @@ class KiteAuthenticationRestartIntegrationTest {
 
     @TestConfiguration(proxyBeanMethods = false)
     static class FakeBrokerConfiguration {
+        @Bean FakeTradingHttp fakeTradingHttp() { return new FakeTradingHttp(); }
+
+        @Bean @Primary KiteRestTransport fakeTradingTransport(FakeTradingHttp http, KiteSession session) {
+            return new KiteRestTransport(http.client, session);
+        }
+
         @Bean
         @Primary
         Clock deterministicAuthenticationClock() {
@@ -244,6 +306,24 @@ class KiteAuthenticationRestartIntegrationTest {
                 return List.of(Instrument.create(new BrokerInstrumentId("KITE", "123"), "TEST", "NSE", "CASH",
                         InstrumentType.CASH, Optional.empty(), Optional.empty(), new BigDecimal("0.05"), 1));
             };
+        }
+    }
+
+    static final class FakeTradingHttp {
+        final MockRestServiceServer server;
+        final RestClient client;
+        FakeTradingHttp() {
+            var builder = RestClient.builder().baseUrl("https://api.kite.trade");
+            server = MockRestServiceServer.bindTo(builder).build();
+            client = builder.build();
+        }
+        void expect(String path, String data) {
+            server.expect(requestTo("https://api.kite.trade" + path))
+                    .andExpect(method(HttpMethod.GET))
+                    .andExpect(header("Authorization", "token syntheticRestartKey:" + TOKEN_VALUE))
+                    .andExpect(header("X-Kite-Version", "3"))
+                    .andRespond(withSuccess("{\"status\":\"success\",\"data\":" + data + "}",
+                            MediaType.APPLICATION_JSON));
         }
     }
 

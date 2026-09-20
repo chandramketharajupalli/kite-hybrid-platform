@@ -3,6 +3,9 @@
 Java Kite integration includes official interactive authentication, encrypted
 access-token persistence, read-only profile and instrument-master retrieval, and
 opt-in Kite WebSocket market data normalized behind broker-independent Java ports.
+Phase 5A adds opt-in, on-demand orders, trades, positions, holdings and account
+margin reads through the same authenticated session. See the
+[trading-read runbook](docs/runbooks/kite-trading-read.md).
 The project has a modular Java control plane and lightweight Python strategy/quant plane.
 No strategies, broker execution, runtime messaging or frontend exist.
 Clearing emergency stop or changing live flags cannot enable orders.
