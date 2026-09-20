@@ -9,7 +9,14 @@ for its own substitution. Spring Boot does NOT automatically load it. Export the
 required variables in PowerShell before Maven `spring-boot:run` (see root README).
 Python settings use STRATEGY_ prefix and do not receive Kite credentials.
 
-Phase 2 adds KITE_REST_ENABLED=false and external KITE_API_KEY/KITE_ACCESS_TOKEN.
-KITE_API_SECRET is reserved for later request-token exchange. Credentials are
-validated only on explicit REST use; missing credentials do not break startup.
-See docs/runbooks/kite-rest-diagnostic.md for interactive PowerShell input.
+KITE_REST_ENABLED defaults to false. Set it to true for official browser
+authentication and profile/instrument initialization. The application uses
+KITE_API_KEY, KITE_API_SECRET,
+KITE_REDIRECT_URL=http://localhost:8080/api/broker/kite/auth/callback, and
+KITE_TOKEN_ENCRYPTION_KEY (Base64-encoded 32 random bytes retained across restarts).
+The development helper loads these from Compose's resolved environment without
+printing them; process environment values take precedence over `.env`.
+KITE_ACCESS_TOKEN is retained only for optional legacy standalone diagnostics.
+Missing interactive authentication does not break application startup.
+See [Kite Authentication](../README.md#kite-authentication) for setup and the
+browser flow. Never commit populated credentials or encryption keys.

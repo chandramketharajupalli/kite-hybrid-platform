@@ -1,14 +1,24 @@
-# Phase 2: read-only REST and instrument reference data
+# Kite authentication, read-only REST and instrument reference data
 
 ```mermaid
 flowchart LR
-    Manual[Explicit CLI / application invocation] --> Profile[ValidateBrokerProfileUseCase]
-    Manual --> Refresh[RefreshInstrumentRegistryUseCase]
+    Browser[Official interactive browser login] --> Callback[HTTP auth controller]
+    Startup[Application startup] --> Auth[KiteAuthenticationUseCase]
+    Callback --> Auth
+    Callback --> Attempts[KiteLoginAttemptUseCase]
+    Attempts --> AttemptPort[KiteLoginAttemptStore port]
+    AttemptPort --> AttemptDB[PostgreSQL: one-time nonce digest and timestamps]
+    Auth --> Gateway[KiteAuthenticationGateway port]
+    Gateway --> Exchange[Kite adapter: official POST session/token]
+    Auth --> Store[KiteAccessTokenStore port]
+    Store --> PG[PostgreSQL: AES-256-GCM encrypted token]
+    Auth --> Session[KiteSession: shared active session]
+    Auth --> Profile[ValidateBrokerProfileUseCase]
+    Auth --> Refresh[RefreshInstrumentRegistryUseCase]
     Profile --> ProfilePort[BrokerProfileProvider]
     Refresh --> MasterPort[InstrumentMasterProvider]
     ProfilePort --> Kite[Java Kite infrastructure]
     MasterPort --> Kite
-    Config[External configuration] --> Session[KiteSession]
     Session --> Kite
     Kite --> GET[Fixed HTTPS GET profile / instruments]
     GET --> Normalize[Internal profile / Instrument models]
@@ -21,29 +31,84 @@ port. There is no OMS connection, order operation, WebSocket or Python change.
 
 ## Credentials and session
 
-KiteProperties binds KITE_REST_ENABLED (default false), KITE_API_KEY,
-KITE_API_SECRET and KITE_ACCESS_TOKEN. It has no public secret getters and a
-redacted toString. Missing/partial credentials are allowed at startup and rejected
-with CONFIGURATION on explicit REST use. Credential syntax/length checks prevent
-header injection; error messages never include rejected values.
+KiteProperties and KiteAuthenticationProperties bind KITE_REST_ENABLED (default
+false), KITE_API_KEY, KITE_API_SECRET, KITE_REDIRECT_URL and
+KITE_TOKEN_ENCRYPTION_KEY. Secret-bearing
+objects have redacted string representations. Missing interactive authentication
+is a recoverable startup state. Credential syntax/length checks prevent header
+injection; error messages never include rejected values. KITE_ACCESS_TOKEN remains
+an optional input for the legacy standalone diagnostic only.
 
-API credentials identify an application. A request token comes from the
-interactive broker login and is later exchanged for an access token. Only the
-externally supplied access-token path is implemented. API secret is reserved
-and not sent by these GETs. No request token is accepted, logged or stored.
-No automatic browser login, token refresh, token exchange, logout or persistence.
+The application layer owns KiteAuthenticationUseCase and the gateway, session
+and token-store ports. It reuses ValidateBrokerProfileUseCase and
+RefreshInstrumentRegistryUseCase. The thin HTTP controller handles browser state,
+redirects and safe response codes; trading-domain types remain independent of
+authentication, Spring, PostgreSQL and HTTP clients.
 
-Session states: DISABLED, NOT_CONFIGURED, UNVERIFIED, VALIDATED, INVALIDATED.
-Successful profile mapping records VALIDATED. HTTP 401/403 or a TokenException
-invalidates the session and blocks subsequent calls in that process.
-Supply a newly obtained token and restart/reconstruct the session to recover.
-VALIDATED describes prior profile validation, not an active probe or trading permission.
-Kite may expire/invalidate a token at any time; no local expiry prediction is used.
+Login redirects to the official Kite Connect login page. KiteLoginAttemptUseCase
+creates a 256-bit random nonce and persists only its SHA-256 digest, creation time
+and ten-minute expiry through KiteLoginAttemptStore. Flyway V3 supplies the
+`trading.kite_login_attempts` table, scoped by API-key digest. The controller puts
+the nonce in a dedicated host-only HttpOnly SameSite=Lax cookie, Secure on HTTPS,
+and the documented once-encoded `redirect_params` parameter. The callback must
+carry matching state and cookie values. A constant-time comparison precedes one
+atomic SQL DELETE restricted by digest, namespace, creation and expiry times.
+Only the callback that deletes the row may proceed. No HttpSession or JSESSIONID
+is consulted. Expired-row cleanup uses a bounded batch with SKIP LOCKED.
+
+Outstanding attempts survive a restart within their original expiry when the
+database, API key, callback origin and browser cookie remain available. Consumed
+attempts stay invalid across restarts, including if exchange failed after
+consumption. Missing state remains a rejection; cookie-only acceptance would
+permit login CSRF. Database persistence does not explain or repair a parameter
+missing from a broker redirect. See the
+[callback runbook](../runbooks/kite-auth-callback.md).
+
+The gateway exchanges the callback's one-time request token with
+the configured API key and SHA-256 checksum using the API secret. Secrets and
+token values never appear in application responses or logs. The browser completes
+Zerodha credentials/TOTP and authorization; no private login API or automation is
+used. See the [official authentication protocol](https://kite.trade/docs/connect/v3/user/).
+
+The existing singleton KiteSession implements the session port. Its states are
+DISABLED, NOT_CONFIGURED, AUTH_REQUIRED, UNVERIFIED, AUTHENTICATED and INVALIDATED.
+The use case installs a candidate, validates it through the harmless profile
+endpoint, and persists it only after validation. Successful authentication then
+continues instrument initialization. AUTHENTICATED is prior profile validation,
+not a guarantee that the broker cannot revoke a token or permission to place orders.
+
+The PostgreSQL adapter uses the existing datasource and Flyway V2 table. An atomic
+upsert stores AES-256-GCM ciphertext with a random nonce and issue/expiry times,
+scoped to the configured API key's fingerprint. The 32-byte encryption key is
+supplied separately from the database. Plaintext access tokens and request tokens
+are never written to the database; request-token fingerprints for recent attempts
+exist only in process memory.
+
+On startup the use case loads the persisted token, rejects expired credentials,
+and validates the session before continuing initialization. Expiry uses the daily
+06:00 Asia/Kolkata cutoff independently of the host timezone. Authentication
+rejections clear the stored token and require another browser login. Temporary
+transport/broker failures preserve the durable token for a later validation attempt
+and report KITE_AUTH_UNAVAILABLE. A reference-data failure reports initialization
+pending and preserves the registry's previous snapshot.
+
+The use case serializes restore, callback and local-reset operations; synchronized
+KiteSession access coordinates broker reads and token changes. Recent callback
+fingerprints remain a secondary guard against repeat exchanges. The HTTP boundary
+consumes the durable login attempt first, so duplicate callbacks fail closed even
+after restart or an ambiguous exchange timeout. Attempt consumption is atomic
+across database clients; the active session and initialization still belong to
+one local application process.
+Local reset clears persistence/session only and does not perform account logout
+or call the broker's session-revocation endpoint.
 
 ## Transport and failures
 
-Only GET https://api.kite.trade/user/profile and GET https://api.kite.trade/instruments
-are implemented. No caller-provided URL or redirects. Connect timeout is 10 seconds;
+The adapter implements POST https://api.kite.trade/session/token,
+GET https://api.kite.trade/user/profile and GET https://api.kite.trade/instruments.
+Broker HTTP transport uses fixed destinations and disables redirects. The public
+login route separately redirects the browser to the official login URL.
+Connect timeout is 10 seconds;
 socket read inactivity timeout is 30 seconds. No retries or scheduling.
 Responses are bounded before and after gzip decompression: profile 64 KiB,
 instrument master 32 MiB. Unknown encoding, invalid UTF-8, corrupt compression,
@@ -110,6 +175,8 @@ KiteReadOperations wraps profile/refresh calls with duration and result counters
 Registry count/version gauges have no identity labels. Logs contain only operation
 and fixed result categories. No raw exceptions are passed to logging.
 
+The public `/api/broker/kite/auth/status` endpoint reports only safe authentication
+and initialization state. It does not return account details, secrets or tokens.
 KiteStatusEndpoint reports passive session/snapshot state and tradingReady=false.
 It is not exposed over HTTP by default and does not contribute DOWN to application
 health. Normal health/liveness/readiness never trigger Kite calls. Management env

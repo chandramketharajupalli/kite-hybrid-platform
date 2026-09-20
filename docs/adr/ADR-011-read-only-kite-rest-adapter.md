@@ -2,6 +2,13 @@
 
 Status: Accepted
 
+Authentication extension: the implementation now also supports the official
+interactive login callback and POST `/session/token`, behind application ports,
+with encrypted PostgreSQL token persistence. The original profile/instrument
+read adapters remain separate from order execution. See the current
+[authentication architecture](../architecture/kite-rest-and-instruments.md).
+The decision below records the original Phase 2 scope.
+
 ## Context
 
 Phase 2 needs only authenticated profile and instrument-master GET requests.

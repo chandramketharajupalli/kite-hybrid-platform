@@ -4,6 +4,11 @@ Start in PAPER with live disabled and emergency stop enabled.
 Application liveness does not depend on a broker or Redis. Readiness includes
 database availability outside isolated tests; trading readiness remains false.
 Flyway fails startup on migration errors. No order/position/trade schema exists.
+Flyway V2 stores encrypted Kite tokens. Retain KITE_TOKEN_ENCRYPTION_KEY separately
+from the database across restarts; losing it prevents token decryption. Missing
+interactive authentication reports KITE_AUTH_REQUIRED without stopping startup.
+See [Kite Authentication](../../README.md#kite-authentication) for the browser
+workflow, safe status endpoint and local-only reset.
 
 Boot emits structured JSON console logs with application identity. Never log
 credentials or full broker responses without redaction. Actuator/Micrometer

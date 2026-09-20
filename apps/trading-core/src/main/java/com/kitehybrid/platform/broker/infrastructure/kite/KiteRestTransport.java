@@ -30,6 +30,9 @@ final class KiteRestTransport {
         this.session = session;
     }
     static KiteRestTransport production(KiteSession session) {
+        return new KiteRestTransport(productionClient(), session);
+    }
+    static RestClient productionClient() {
         var factory = new SimpleClientHttpRequestFactory() {
             @Override protected void prepareConnection(HttpURLConnection connection, String method) throws IOException {
                 super.prepareConnection(connection, method);
@@ -38,11 +41,15 @@ final class KiteRestTransport {
         };
         factory.setConnectTimeout(10_000);
         factory.setReadTimeout(30_000);
-        return new KiteRestTransport(RestClient.builder().baseUrl("https://api.kite.trade")
-                .requestFactory(factory).build(), session);
+        return RestClient.builder().baseUrl("https://api.kite.trade")
+                .requestFactory(factory).build();
     }
 
     String get(Endpoint endpoint) {
+        // A late response from an old token must never invalidate a newly installed session.
+        synchronized (session) { return getWithSession(endpoint); }
+    }
+    private String getWithSession(Endpoint endpoint) {
         String authorization = session.authorization();
         try {
             return client.get().uri(endpoint.path)

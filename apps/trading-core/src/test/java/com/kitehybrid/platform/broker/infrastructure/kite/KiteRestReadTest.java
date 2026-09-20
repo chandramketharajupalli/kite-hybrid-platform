@@ -47,7 +47,7 @@ class KiteRestReadTest {
         assertThat(profile.exchanges()).containsExactlyInAnyOrder("NSE", "BSE");
         assertThrows(UnsupportedOperationException.class, () -> profile.exchanges().add("MCX"));
         assertThat(profile.toString()).doesNotContain("TEST123", "ignored@example.invalid", "Not retained");
-        assertThat(fixture.session().state()).isEqualTo(KiteSession.State.VALIDATED);
+        assertThat(fixture.session().state()).isEqualTo(KiteSession.State.AUTHENTICATED);
         fixture.server().verify();
     }
 

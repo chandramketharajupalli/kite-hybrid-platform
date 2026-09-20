@@ -8,10 +8,13 @@ No software, Windows/WSL settings or global Java settings are changed by this se
 
 This Compose project contains one PostgreSQL 17.6 container and one Redis 7.4.5
 container, using official images. Java and Python run on the Windows host.
-PostgreSQL is the authoritative future durable trading store. Redis is ephemeral,
+PostgreSQL stores encrypted Kite tokens and will be the authoritative durable
+trading store. Redis is ephemeral,
 requires a local password, disables snapshot/AOF persistence, and mounts `/data`
 as tmpfs. PostgreSQL retains its data in the named `postgres-data` volume.
-This workflow performs no Kite requests and adds no application containers.
+Infrastructure checks perform no Kite requests and add no application containers.
+Application startup can restore and validate a Kite session when explicitly
+enabled; see [Kite Authentication](../../README.md#kite-authentication).
 
 ## Prerequisites and environment checks
 
@@ -163,8 +166,8 @@ set the application timezone automatically. This workaround is for application
 startup only; integration tests configure UTC themselves and do not require it.
 
 Spring does not automatically read `.env`. The small helper captures Compose
-configuration in memory, exports only the local datasource/Redis settings to
-this PowerShell process, and sets
+configuration in memory, exports the local datasource/Redis settings and selected
+Kite authentication variables to this PowerShell process, and sets
 the safe development profile and trading defaults. It does not start services
 or make broker requests.
 
@@ -175,15 +178,28 @@ if (-not $?) { throw 'Development configuration was not loaded.' }
 ```
 
 The helper sets `SPRING_PROFILES_ACTIVE=development`, `TRADING_MODE=PAPER`,
-`ENABLE_LIVE_TRADING=false`, `EMERGENCY_STOP=true`, and `KITE_REST_ENABLED=false`.
+`ENABLE_LIVE_TRADING=false` and `EMERGENCY_STOP=true`.
+It loads configured `KITE_REST_ENABLED`, `KITE_API_KEY`, `KITE_API_SECRET`,
+`KITE_REDIRECT_URL` and `KITE_TOKEN_ENCRYPTION_KEY` values without printing them;
+Kite remains disabled when no opt-in is configured. For the DB/Redis/Kite source
+variables managed by this helper, `.env` is authoritative: stale values inherited
+from the shell are ignored while Compose resolves the file. Reloading applies
+changed values, preserves Base64 padding, and clears missing or blank Kite
+credentials. A failed load restores the previous shell configuration. Other
+Compose invocations retain Compose's normal shell-over-`.env` precedence.
 It supplies `DB_URL`, `DB_USER`, `DB_PASSWORD`, `REDIS_HOST`, `REDIS_PORT` and
 `REDIS_PASSWORD` from the local Compose setup. Run it again after changing the
 resolved configuration. Settings apply to this shell and child processes only;
 IntelliJ run configurations need the equivalent environment separately.
 
-Flyway runs on Java startup. The only existing migration,
-`V1__platform_baseline.sql`, creates the `trading` namespace. No new trading tables
-or data imports are part of this task. After successful startup, use a second
+Run `powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File
+scripts/Test-DevelopmentInfrastructure.ps1` to check the loader with temporary
+synthetic dotenv fixtures in a child shell. This requires the Docker Compose CLI,
+but no daemon or running services; it does not read the repository's `.env`.
+
+Flyway runs on Java startup. `V1__platform_baseline.sql` creates the `trading`
+namespace; V2 adds encrypted Kite access-token persistence. No order/position
+tables or data imports are implemented. After successful startup, use a second
 PowerShell window in the repository root to inspect application health:
 
 ```powershell
@@ -209,9 +225,9 @@ psql -h postgres -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1 -c "SE
 if ($LASTEXITCODE -ne 0) { throw 'Flyway verification failed.' }
 ```
 
-Expect version `1`, `success=true` and the `trading` schema. If the history table
+Expect versions `1` and `2`, `success=true` and the `trading` schema. If the history table
 does not exist, investigate Java startup/Flyway failure; do not create it by hand.
-Flyway validates and leaves the migration unchanged on subsequent startup.
+Flyway validates and leaves applied migrations unchanged on subsequent startup.
 
 ## Tests
 
@@ -227,10 +243,10 @@ if ($LASTEXITCODE -ne 0) { throw 'PostgreSQL integration tests failed.' }
 ```
 
 The ordinary build runs unit/architecture/contract tests without Docker and
-makes no real Kite calls. The separate integration suite currently contains
-**one** `PostgresMigrationTest` test. Testcontainers starts its own isolated,
-disposable `postgres:17.6` database, applies the migration, validates it, verifies
-a second migration run performs no work, and checks the `trading` namespace.
+makes no real Kite calls. The separate integration suite uses isolated,
+disposable `postgres:17.6` databases to verify migrations, validation, repeat
+migration, the `trading` namespace and encrypted Kite token persistence across
+new connections. Authentication flow tests use mock broker calls.
 The test explicitly configures UTC for the server and JDBC session and checks
 the connected session timezone. It temporarily selects UTC in the isolated test
 JVM scope and restores the previous default afterward. See the

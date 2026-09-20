@@ -38,7 +38,13 @@ public final class KiteProperties {
         requireConfigured();
         return "token " + apiKey + ":" + accessToken;
     }
-    // apiSecret is reserved for future request-token exchange; never used for these GETs.
+    String apiKey() { return apiKey; }
+    String apiSecret() { return apiSecret; }
+    String initialAccessToken() { return accessToken; }
+    boolean apiKeyValid() { return apiKey.matches("[A-Za-z0-9]{1,128}"); }
+    boolean authenticationConfigured() {
+        return restEnabled && apiKeyValid() && apiSecret.matches("[A-Za-z0-9_-]{1,256}");
+    }
     public static KiteProperties fromEnvironment(Map<String, String> environment) {
         String enabled = environment.getOrDefault("KITE_REST_ENABLED", "false");
         if (!enabled.equalsIgnoreCase("true") && !enabled.equalsIgnoreCase("false"))

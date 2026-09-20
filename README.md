@@ -1,13 +1,15 @@
 # kite-hybrid-platform
 
-Phase 2 adds read-only Java Kite REST profile and instrument-master integration
-to the modular Java control plane and lightweight Python strategy/quant plane.
+Java Kite integration includes official interactive authentication, encrypted
+access-token persistence, and read-only profile and instrument-master retrieval
+in the modular Java control plane and lightweight Python strategy/quant plane.
 No strategies, broker execution, runtime messaging or frontend exist.
 Clearing emergency stop or changing live flags cannot enable orders.
 
 Java owns signal validation → risk → order intents → OMS → execution → broker →
 lifecycle → positions → reconciliation. Python emits signals only.
-PostgreSQL is the future durable ledger; Redis is optional ephemeral state.
+PostgreSQL stores encrypted Kite tokens and will own the future durable trading
+ledger; Redis is optional ephemeral state.
 
 ## Selected toolchain
 
@@ -153,8 +155,8 @@ The `integration` profile compiles the separate `src/integrationTest/java` sourc
 runs both unit tests and PostgreSQL integration tests during `verify`. To run
 only the integration suite, use `.\mvnw.cmd -Pintegration '-DskipUnitTests=true' verify`.
 Integration reports are in apps/trading-core/target/failsafe-reports.
-There is **one** PostgreSQL integration test, covering migration, validation,
-repeat migration and SQL connectivity. Do not add `--volumes` to `compose down`
+PostgreSQL integration coverage includes migration, validation, repeat migration,
+SQL connectivity and encrypted Kite token storage. Do not add `--volumes` to `compose down`
 unless intentionally discarding the local database.
 
 See the [local infrastructure runbook](docs/runbooks/local-development-infrastructure.md)
@@ -174,7 +176,8 @@ process without printing them:
 ```
 
 The helper only sets this process's environment: development profile, matching
-database/Redis connection settings and safe trading/Kite flags. It does not
+database/Redis connection settings, configured Kite authentication variables,
+and safe trading flags. It does not
 start services, persist credentials or modify global environment variables.
 Alternatively configure the same variables in an IntelliJ run configuration;
 an already running IDE does not inherit a different PowerShell process's values.
@@ -186,8 +189,9 @@ host JVM timezone alias `Asia/Calcutta`, use the application-only process-local
 workaround in the [infrastructure runbook](docs/runbooks/local-development-infrastructure.md#host-java-flyway-and-health).
 The integration-test timezone setup does not change application startup behavior.
 
-A reachable PostgreSQL and matching password are required; Flyway creates only a
-trading namespace. Development, test, paper and production profiles are provided.
+A reachable PostgreSQL and matching password are required; Flyway creates the
+trading namespace and encrypted Kite token table. Development, test, paper and
+production profiles are provided.
 Production requires explicit database configuration and is not deployment-ready.
 Do not run the isolated test profile as an operational trading deployment.
 
@@ -221,13 +225,143 @@ Paper execution and durable order processing remain separate future phases.
 Recommended Phase 3 objective: read-only WebSocket market-data ingestion through
 the existing gateway boundary, with bounded handoff, freshness and reconnect tests.
 
-## Phase 2: explicit read-only Kite diagnostics
+## Kite Authentication
 
-Normal startup has KITE_REST_ENABLED=false and performs no Kite calls, even when
-credentials are present. API key and an externally obtained access token are
-required only for explicit REST use. API secret is reserved for future login
-exchange; it is not used by the current GET endpoints. No automatic login,
-refresh, broker mutation, WebSocket, PostgreSQL or Redis registry is implemented.
+Use the official browser authorization flow. There is no manual request-token
+or access-token copying, and no automated Zerodha credentials/TOTP entry,
+undocumented login endpoint, browser scraping or Selenium.
+
+One-time setup:
+
+1. In the Kite Connect developer console, register this exact redirect URL for
+   your API key: `http://localhost:8080/api/broker/kite/auth/callback`.
+2. In your ignored `.env`, set `KITE_REST_ENABLED=true`, `KITE_API_KEY`,
+   `KITE_API_SECRET`, and
+   `KITE_REDIRECT_URL=http://localhost:8080/api/broker/kite/auth/callback`.
+   Keep the existing local database settings. Leave `KITE_ACCESS_TOKEN` empty;
+   it is only for the optional legacy standalone diagnostics below.
+3. Generate the encryption key once, using the PowerShell commands below.
+   Retain the same key and PostgreSQL volume across application restarts.
+
+This creates a cryptographically random 32-byte key and writes its Base64 value
+to the ignored `.env` without printing it. Run from the repository root. It
+refuses to overwrite a populated key:
+
+```powershell
+$kiteEnvText = Get-Content -Raw -LiteralPath .env
+if ($kiteEnvText -match '(?m)^KITE_TOKEN_ENCRYPTION_KEY=[ \t]*\S') {
+    throw 'A token encryption key already exists; reuse it.'
+}
+$kiteKeyBytes = New-Object byte[] 32
+$kiteRandom = [System.Security.Cryptography.RandomNumberGenerator]::Create()
+try { $kiteRandom.GetBytes($kiteKeyBytes) } finally { $kiteRandom.Dispose() }
+$kiteKeySetting = 'KITE_TOKEN_ENCRYPTION_KEY=' + [Convert]::ToBase64String($kiteKeyBytes)
+if ($kiteEnvText -match '(?m)^KITE_TOKEN_ENCRYPTION_KEY=\s*$') {
+    $kiteEnvText = $kiteEnvText -replace '(?m)^KITE_TOKEN_ENCRYPTION_KEY=[ \t]*\r?$', $kiteKeySetting
+} else {
+    $kiteEnvText += "`r`n" + $kiteKeySetting + "`r`n"
+}
+Set-Content -LiteralPath .env -Value $kiteEnvText -Encoding UTF8
+[Array]::Clear($kiteKeyBytes, 0, $kiteKeyBytes.Length)
+Remove-Variable kiteEnvText, kiteKeyBytes, kiteKeySetting, kiteRandom
+```
+
+Protect `.env` and database backups. Encryption uses AES-256-GCM; the encryption
+key belongs outside PostgreSQL. Changing or losing it prevents reuse of existing
+encrypted tokens. Restore the original key or reset local authentication and
+authenticate again. Do not regenerate the key for every start.
+
+Daily workflow:
+
+1. Start the existing local infrastructure and application with an installed JDK
+   21 selected in this shell:
+
+   ```powershell
+   docker compose up -d --wait --wait-timeout 120
+   .\scripts\Use-DevelopmentInfrastructure.ps1
+   .\mvnw.cmd -pl apps/trading-core '-Dspring-boot.run.jvmArguments=-Duser.timezone=UTC' spring-boot:run
+   ```
+
+   The application JVM argument avoids PostgreSQL's rejection of the host's
+   legacy `Asia/Calcutta` timezone alias without changing global Java settings.
+   Authentication expiry still uses `Asia/Kolkata`.
+   If Windows blocks the helper script, run
+   `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` in this shell first;
+   this applies only to the current PowerShell process.
+2. Check `http://localhost:8080/api/broker/kite/auth/status`.
+3. If it reports `KITE_AUTH_REQUIRED`, open
+   `http://localhost:8080/api/broker/kite/auth/login` in your browser.
+4. Complete Zerodha's mandatory interactive login/authorization, including any
+   required second factor. Use the same browser and `localhost` host throughout
+   so the callback retains the dedicated `KITE_LOGIN_NONCE` cookie.
+5. Zerodha redirects to the configured callback. The backend checks the returned
+   state against that cookie and atomically consumes the unexpired PostgreSQL
+   login attempt. It then captures the
+   request token, exchanges it, validates the resulting session with a profile
+   call, and stores the access token encrypted in PostgreSQL.
+6. The existing `KiteSession` is updated immediately and instrument initialization
+   continues automatically. Broker reads can use that session; PAPER mode,
+   emergency stop and the absence of a live order adapter remain unchanged.
+7. Application restarts load and validate the stored token. No new interactive
+   login is needed while that token remains usable.
+
+Kite tokens expire at the next daily 06:00 Asia/Kolkata cutoff and can be
+invalidated earlier by the broker. The application persists issue/expiry metadata,
+rejects expired tokens and verifies restored sessions. Authentication being
+required does not crash startup. See the
+[official Kite authentication documentation](https://kite.trade/docs/connect/v3/user/).
+
+Status and callback responses never return access tokens or API secrets. Opening
+the login endpoint while already authenticated returns safe authenticated status.
+The callback must follow a login started by this application. A 256-bit random
+nonce travels as the documented `redirect_params=state%3D...` value and in a
+host-only, HttpOnly, SameSite=Lax cookie (Secure on HTTPS). PostgreSQL stores only
+its SHA-256 digest and creation/expiry timestamps, scoped to the configured API
+key's digest. An atomic delete consumes a matching attempt once, before token
+exchange. Attempts expire after ten minutes; cleanup deletes at most 100 expired
+rows per login. No password, TOTP, request token, API secret, access token or
+checksum is stored in the login-attempt table.
+
+Authentication no longer uses `HttpSession` or `JSESSIONID`. A restart can complete
+an outstanding attempt within its original lifetime if the same database, API
+key, callback origin and browser nonce cookie remain available. A consumed attempt
+cannot replay after a restart. Duplicate callbacks now return
+`KITE_CALLBACK_STATE_INVALID`; check `/api/broker/kite/auth/status` for the result
+of an already completed login. If exchange fails after consumption, start a fresh
+login. Run one application process for this local workflow; the shared active
+broker session and trading initialization remain process-local.
+
+The official Kite documentation supports returning `redirect_params` as callback
+query parameters, and our URL uses its single-encoded format. A real callback was
+observed without `state`; neither database persistence nor encoding unit tests
+establish why the broker omitted it. Missing state **still fails closed**, even
+with a valid nonce cookie. We deliberately do not substitute cookie-only
+acceptance: an unrelated request token could otherwise be injected into a pending
+login. No less-protected fallback is enabled. See the
+[callback troubleshooting procedure](docs/runbooks/kite-auth-callback.md) for safe
+checks and the distinction between a lost servlet session and missing broker state.
+
+If status reports `KITE_AUTH_UNAVAILABLE` or `KITE_INITIALIZATION_PENDING`, opening
+the same login endpoint retries stored-session validation or instrument
+initialization before requesting another interactive login.
+
+To forget the local session and encrypted token:
+
+```powershell
+Invoke-RestMethod -Method Post -Uri http://localhost:8080/api/broker/kite/auth/reset -Headers @{'X-Kite-Auth-Reset'='true'}
+```
+
+This is a local reset, not Zerodha account logout or broker-side token revocation.
+Open the login endpoint again when needed. Keep the application bound to loopback;
+these local control endpoints have no multi-user authorization layer.
+
+## Optional legacy read-only Kite diagnostics
+
+KITE_REST_ENABLED defaults to false. Enabling it opts into the authentication
+flow above and automatic profile/instrument initialization. The optional standalone
+diagnostic commands retain their legacy API-key/access-token environment input;
+they do not share the application's PostgreSQL token store. They are unnecessary
+for daily browser authentication. No order mutation or WebSocket is implemented.
 
 See [safe PowerShell credential/diagnostic instructions](docs/runbooks/kite-rest-diagnostic.md).
 After setting process-local environment variables as described there:

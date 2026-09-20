@@ -18,6 +18,9 @@ public final class KiteProfileAdapter implements BrokerProfileProvider {
         this.session = session;
     }
     @Override public BrokerProfile currentProfile() {
+        synchronized (session) { return validateCurrentSession(); }
+    }
+    private BrokerProfile validateCurrentSession() {
         String body = transport.get(KiteRestTransport.Endpoint.PROFILE);
         BrokerProfile profile = map(body);
         session.profileValidated();

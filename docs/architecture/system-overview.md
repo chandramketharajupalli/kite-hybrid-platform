@@ -2,8 +2,9 @@
 
 Phase 1 establishes boundaries, contracts and testable foundations. Arrows below
 describe the target trading architecture; no streaming transport or executable OMS exists.
-Phase 2 adds only read-only Kite REST profile/instrument access and an immutable
-registry. See [REST and instrument architecture](kite-rest-and-instruments.md).
+Kite integration adds official interactive authentication, encrypted PostgreSQL
+token persistence, read-only REST profile/instrument access and an immutable
+registry. See [authentication and REST architecture](kite-rest-and-instruments.md).
 
 ```mermaid
 flowchart LR
@@ -43,7 +44,7 @@ Future boundaries are documented here rather than represented by empty packages:
 | trade | trade/fill identity and accounting |
 | portfolio | aggregate exposure and P&L from authoritative positions |
 | reconciliation | broker comparison, explicit corrections, submission ambiguity |
-| account | broker account scope and Java-only authentication |
+| account | expanded broker account scope; Java-only Kite authentication is implemented |
 | audit | durable control decisions and actor attribution |
 | observability | metrics and structured operational events |
 
@@ -110,6 +111,9 @@ Queue sizing, ordering, reconnect/backfill and benchmarks are deferred.
 ## Persistence and recovery
 
 PostgreSQL will own orders/events/fills/trades/positions/reconciliation.
+It already stores encrypted Kite access tokens with issue/expiry metadata;
+the encryption key is supplied outside PostgreSQL. Authentication reuses the
+existing datasource/Flyway boundary and does not introduce trading-ledger tables.
 OrderRepository describes conditional creation and version-aware state update;
 no database implementation or in-memory production ledger exists.
 A future adapter must atomically commit state, event identity and relevant
@@ -126,6 +130,9 @@ Redis must not be a required source of truth for deduplication or risk.
 
 Phase 1 is local development only, bound to loopback. Authentication/authorization
 for future trading APIs and dashboards must be designed before exposure.
-Management exposes health/info/Prometheus only. Credentials are required only for
-explicit Phase 2 Kite REST reads; normal startup and tests do not need them.
+Management exposes health/info/Prometheus only. Local Kite login, callback, status
+and reset endpoints support official browser authentication when explicitly
+enabled. Credentials are required for that flow; disabled startup and automated
+tests do not need real Kite credentials. Browser state protects the callback,
+but the local API has no multi-user authorization layer and must remain on loopback.
 No production messaging technology has been selected.

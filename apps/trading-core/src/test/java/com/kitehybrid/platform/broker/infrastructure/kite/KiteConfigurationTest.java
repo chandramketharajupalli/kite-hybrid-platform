@@ -94,7 +94,7 @@ class KiteConfigurationTest {
     void malformedAccessTokenCannotBecomeAnAuthorizationHeader(String value) {
         KiteProperties properties = new KiteProperties(TEST_KEY, TEST_SECRET, value, true);
 
-        assertThat(new KiteSession(properties).state()).isEqualTo(KiteSession.State.NOT_CONFIGURED);
+        assertThat(new KiteSession(properties).state()).isEqualTo(KiteSession.State.AUTH_REQUIRED);
         BrokerReadException failure = assertThrows(BrokerReadException.class, properties::authorization);
         assertSafeConfigurationFailure(failure);
     }
@@ -120,7 +120,7 @@ class KiteConfigurationTest {
     void failedValidationCannotReviveAnInvalidatedSession() {
         KiteSession session = new KiteSession(new KiteProperties(TEST_KEY, TEST_SECRET, TEST_TOKEN, true));
         session.profileValidated();
-        assertThat(session.state()).isEqualTo(KiteSession.State.VALIDATED);
+        assertThat(session.state()).isEqualTo(KiteSession.State.AUTHENTICATED);
         session.invalidate();
         session.profileValidated();
 

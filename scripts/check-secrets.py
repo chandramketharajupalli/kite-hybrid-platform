@@ -9,7 +9,7 @@ EXCLUDED = {".git", ".gradle", ".venv", "build", "target", "__pycache__", ".pyte
 PATTERNS = [
     re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
     re.compile(r"\bAKIA[0-9A-Z]{16}\b"),
-    re.compile(r"""(?i)(?:kite_api_key|kite_api_secret|kite_access_token|db_password|postgres_password|redis_password|rediscli_auth)\s*[:=]\s*["']?([A-Za-z0-9/+_-]{12,})"""),
+    re.compile(r"""(?i)(?:kite_api_key|kite_api_secret|kite_access_token|kite_token_encryption_key|db_password|postgres_password|redis_password|rediscli_auth)\s*[:=]\s*["']?([A-Za-z0-9/+_-]{12,})"""),
 ]
 
 

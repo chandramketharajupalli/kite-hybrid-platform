@@ -20,6 +20,11 @@ spring:
         enabled: false
 server:
   address: ${SERVER_ADDRESS:127.0.0.1}
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        same-site: lax
 trading:
   mode: ${TRADING_MODE:PAPER}
   enable-live-trading: ${ENABLE_LIVE_TRADING:false}
@@ -29,6 +34,9 @@ kite:
   api-key: ${KITE_API_KEY:}
   api-secret: ${KITE_API_SECRET:}
   access-token: ${KITE_ACCESS_TOKEN:}
+  auth:
+    redirect-url: ${KITE_REDIRECT_URL:http://localhost:${server.port:8080}/api/broker/kite/auth/callback}
+    encryption-key: ${KITE_TOKEN_ENCRYPTION_KEY:}
 management:
   endpoints:
     web:

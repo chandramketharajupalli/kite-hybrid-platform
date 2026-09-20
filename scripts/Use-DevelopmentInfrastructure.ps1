@@ -13,24 +13,52 @@ if (-not (Get-Command docker -CommandType Application -ErrorAction SilentlyConti
     throw 'Docker CLI is unavailable. Install/configure Docker Desktop before using this helper.'
 }
 
+$kiteNames = @('KITE_REST_ENABLED', 'KITE_API_KEY', 'KITE_API_SECRET', 'KITE_REDIRECT_URL',
+    'KITE_TOKEN_ENCRYPTION_KEY')
+$sourceNames = @('DB_NAME', 'DB_USER', 'DB_PASSWORD', 'REDIS_PASSWORD') + $kiteNames
+$previousSourceValues = @{}
+foreach ($name in $sourceNames) {
+    $previousSourceValues[$name] = [Environment]::GetEnvironmentVariable($name, 'Process')
+}
+
 try {
     # Compose owns dotenv quoting/interpolation; never evaluate .env as PowerShell.
+    # Shell variables override --env-file in Compose. Hide this helper's managed
+    # source values while resolving .env so repeated loads cannot retain stale keys.
     # Capture stdout and suppress stderr because resolved configuration contains secrets.
     try {
+        foreach ($name in $sourceNames) { [Environment]::SetEnvironmentVariable($name, $null, 'Process') }
         # Windows PowerShell 5.1 treats native stderr as errors, including warnings.
         $ErrorActionPreference = 'Continue'
         $composeJson = & docker compose --project-directory $repositoryRoot `
             --file (Join-Path $repositoryRoot 'docker-compose.yml') `
             --env-file $environmentFile config --format json 2>$null
         $composeExit = $LASTEXITCODE
+        $composeEnvironment = & docker compose --project-directory $repositoryRoot `
+            --file (Join-Path $repositoryRoot 'docker-compose.yml') `
+            --env-file $environmentFile config --environment 2>$null
+        $environmentExit = $LASTEXITCODE
     } finally {
         $ErrorActionPreference = 'Stop'
+        foreach ($name in $sourceNames) {
+            [Environment]::SetEnvironmentVariable($name, $previousSourceValues[$name], 'Process')
+        }
     }
-    if ($composeExit -ne 0) { throw 'Compose configuration failed.' }
+    if ($composeExit -ne 0 -or $environmentExit -ne 0) { throw 'Compose configuration failed.' }
     $configuration = ($composeJson -join "`n") | ConvertFrom-Json
     $postgres = $configuration.services.postgres.environment
     $redisPassword = [string]$configuration.services.redis.environment.REDISCLI_AUTH
     $database = [string]$postgres.POSTGRES_DB
+    $kiteEnvironment = @{}
+    foreach ($entry in $composeEnvironment) {
+        if ($entry -match '^(KITE_REST_ENABLED|KITE_API_KEY|KITE_API_SECRET|KITE_REDIRECT_URL|KITE_TOKEN_ENCRYPTION_KEY)=(.*)$') {
+            $kiteEnvironment[$Matches[1]] = $Matches[2]
+        }
+    }
+    if ($kiteEnvironment.ContainsKey('KITE_REST_ENABLED') -and
+        $kiteEnvironment['KITE_REST_ENABLED'] -notin @('true', 'false')) {
+        throw 'Invalid Kite REST setting.'
+    }
     if ($database -notmatch '^[A-Za-z_][A-Za-z0-9_]{0,62}$' -or
         [string]::IsNullOrWhiteSpace([string]$postgres.POSTGRES_USER) -or
         [string]::IsNullOrEmpty([string]$postgres.POSTGRES_PASSWORD) -or
@@ -52,5 +80,10 @@ $env:SPRING_PROFILES_ACTIVE = 'development'
 $env:TRADING_MODE = 'PAPER'
 $env:ENABLE_LIVE_TRADING = 'false'
 $env:EMERGENCY_STOP = 'true'
-$env:KITE_REST_ENABLED = 'false'
-Write-Output 'Local infrastructure environment loaded for this PowerShell process; trading halted, Kite REST disabled.'
+foreach ($name in $kiteNames) {
+    # Missing and explicitly empty values both clear any previously loaded credential.
+    $value = if ($kiteEnvironment.ContainsKey($name)) { $kiteEnvironment[$name] } else { $null }
+    [Environment]::SetEnvironmentVariable($name, $value, 'Process')
+}
+if (-not $kiteEnvironment.ContainsKey('KITE_REST_ENABLED')) { $env:KITE_REST_ENABLED = 'false' }
+Write-Output 'Local infrastructure environment loaded for this PowerShell process; trading halted, Kite settings loaded.'

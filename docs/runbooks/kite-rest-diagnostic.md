@@ -1,5 +1,11 @@
 # Safe Kite REST diagnostic
 
+For normal use, follow [Kite Authentication](../../README.md#kite-authentication).
+The application handles the browser callback, exchange, encrypted storage and
+restart reuse automatically; manual token entry is unnecessary. This page
+documents only the retained standalone diagnostic path, which does not read the
+application's token store and is not part of daily authentication.
+
 Prerequisites: selected existing JDK 21, network access, and an externally obtained
 Kite access token for your API key. This command neither performs login nor refreshes
 tokens. API secret is not required for read-only profile/instrument GETs.
@@ -23,7 +29,8 @@ $env:EMERGENCY_STOP = 'true'
 
 Do not place tokens in command arguments, commit them, or paste diagnostic request
 headers into issues/logs. Spring Boot/this command do not automatically load .env.
-The API secret placeholder remains for a later controlled exchange flow.
+The API secret is used by the application's official callback exchange, but not
+by these standalone GET diagnostics.
 
 A successful profile command prints CONNECTED, without account identity.
 An instrument command prints retrieved/accepted/rejected counts, snapshot version
