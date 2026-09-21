@@ -17,6 +17,11 @@ import com.kitehybrid.platform.risk.infrastructure.PostgresRiskDecisionStore;
 import com.kitehybrid.platform.reconciliation.application.OrderReconciliationService;
 import com.kitehybrid.platform.reconciliation.infrastructure.PostgresReconciliationStore;
 import com.kitehybrid.platform.reconciliation.domain.ReconciliationOutcome;
+import com.kitehybrid.platform.strategy.application.*;
+import com.kitehybrid.platform.strategy.domain.*;
+import com.kitehybrid.platform.strategy.infrastructure.PostgresStrategyEvaluationStore;
+import com.kitehybrid.platform.config.TradingProperties;
+import com.kitehybrid.platform.shared.domain.TradingMode;
 import com.kitehybrid.platform.shared.domain.Identifiers.*;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
@@ -70,7 +75,7 @@ class LocalKiteOrderExecutionIntegrationTest {
                 .locations("classpath:db/migration").load().migrate();
         DataSource source = new DriverManagerDataSource(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword());
         jdbc = new JdbcTemplate(source);
-        jdbc.update("TRUNCATE trading.reconciliation_trades, trading.reconciliation_decisions, trading.risk_decisions, trading.orders, trading.order_idempotency");
+        jdbc.update("TRUNCATE trading.strategy_evaluations, trading.reconciliation_trades, trading.reconciliation_decisions, trading.risk_decisions, trading.orders, trading.order_idempotency");
         orders = new PostgresOrderRepository(jdbc);
         broker = new LocalFakeKiteServer();
         broker.start();
@@ -145,6 +150,19 @@ class LocalKiteOrderExecutionIntegrationTest {
         assertEquals(ReconciliationOutcome.ADVANCED, decision.outcome());
         assertEquals(OrderState.OPEN, orders.find(submitted.id()).orElseThrow().state());
         assertEquals(1, jdbc.queryForObject("SELECT COUNT(*) FROM trading.reconciliation_decisions", Integer.class));
+    }
+
+    @Test void strategyToRiskStopsBeforeGatewayAndFakeBroker() {
+        var marketHealth = new MarketDataHealth(MarketDataGateway.State.CONNECTED, MarketDataHealth.Status.FRESH,
+                MarketDataHealth.Reason.NONE, Optional.of(NOW), Optional.of(NOW), Optional.of(NOW), 1, 1, 0, 1, 1, 0, 0, 0, 0);
+        var strategy = new ReferenceThresholdStrategy(new StrategyDefinition(new StrategyId("reference"), "v1"), INSTRUMENT.id(), new BigDecimal("20"), 1);
+        var coordinator = new StrategyOrderCoordinator(new PostgresStrategyEvaluationStore(jdbc), application,
+                Optional.of(risk), Clock.fixed(NOW, ZoneOffset.UTC), new TradingProperties(TradingMode.PAPER, false, false), new SimpleMeterRegistry());
+        var result = coordinator.evaluate("strategy-event-1", strategy,
+                new StrategyInput(INSTRUMENT.id(), Optional.of(new Tick(INSTRUMENT.id(), new BigDecimal("10"), NOW)), marketHealth, NOW));
+        assertEquals(Optional.of(result.orderId().orElseThrow()), result.orderId());
+        assertEquals(OrderState.RISK_APPROVED, orders.find(result.orderId().orElseThrow()).orElseThrow().state());
+        assertEquals(0, broker.placeCount());
     }
 
     @Test void ambiguousAcceptedRequestRemainsSubmittingAndNeverRetries() {

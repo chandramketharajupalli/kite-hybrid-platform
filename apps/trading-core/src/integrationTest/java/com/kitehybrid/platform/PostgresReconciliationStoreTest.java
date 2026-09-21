@@ -36,7 +36,7 @@ class PostgresReconciliationStoreTest {
         Flyway.configure().dataSource(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword()).locations("classpath:db/migration").load().migrate();
         DataSource source = new DriverManagerDataSource(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword());
         jdbc = new JdbcTemplate(source); orders = new PostgresOrderRepository(jdbc); store = new PostgresReconciliationStore(jdbc);
-        jdbc.update("TRUNCATE trading.reconciliation_trades, trading.reconciliation_decisions, trading.risk_decisions, trading.orders, trading.order_idempotency");
+        jdbc.update("TRUNCATE trading.strategy_evaluations, trading.reconciliation_trades, trading.reconciliation_decisions, trading.risk_decisions, trading.orders, trading.order_idempotency");
     }
     @Test void auditAndLifecycleAreAtomicAndTradeObservationIsDeduplicated() {
         var record = create(); var next = record.transitionTo(OrderState.OPEN, NOW);

@@ -49,7 +49,7 @@ class PostgresRiskDecisionStoreTest {
         DataSource source = new DriverManagerDataSource(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword());
         jdbc = new JdbcTemplate(source); orders = new PostgresOrderRepository(jdbc);
         decisions = new PostgresRiskDecisionStore(jdbc, orders);
-        jdbc.update("TRUNCATE trading.reconciliation_trades, trading.reconciliation_decisions, trading.risk_decisions, trading.orders, trading.order_idempotency");
+        jdbc.update("TRUNCATE trading.strategy_evaluations, trading.reconciliation_trades, trading.reconciliation_decisions, trading.risk_decisions, trading.orders, trading.order_idempotency");
     }
 
     @Test void approvedAndRejectedDecisionsAtomicallyTransitionAndSurviveReload() {
