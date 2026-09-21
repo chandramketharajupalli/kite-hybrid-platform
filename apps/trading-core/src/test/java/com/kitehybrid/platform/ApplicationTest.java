@@ -3,6 +3,8 @@ package com.kitehybrid.platform;
 import com.kitehybrid.platform.bootstrap.TradingCoreApplication;
 import com.kitehybrid.platform.broker.application.BrokerAdapter;
 import com.kitehybrid.platform.health.TradingStatusEndpoint;
+import com.kitehybrid.platform.order.application.OrderExecutionGateway;
+import com.kitehybrid.platform.order.infrastructure.DisabledOrderExecutionGateway;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +25,8 @@ class ApplicationTest {
     @Autowired MockMvc http;
     @Test void contextStartsWithoutDockerAndHasNoExecutableBroker() {
         assertThat(context.getBeansOfType(BrokerAdapter.class)).isEmpty();
+        assertThat(context.getBeansOfType(OrderExecutionGateway.class).values())
+                .hasSize(1).allMatch(DisabledOrderExecutionGateway.class::isInstance);
         assertThat(tradingStatus.status()).containsEntry("ready", false).containsEntry("emergencyStop", true);
     }
     @Test void applicationCanBeHealthyWhileTradingIsUnavailable() throws Exception {

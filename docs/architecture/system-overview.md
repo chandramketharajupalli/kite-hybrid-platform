@@ -1,7 +1,8 @@
 # System overview
 
-Phase 1 establishes boundaries, contracts and testable foundations. Arrows below
-describe the target trading architecture; no executable OMS exists.
+Phase 1 established boundaries, contracts and testable foundations. Phase 5B.1
+adds a durable, execution-disabled order-command foundation; risk approval and
+real broker dispatch remain separately gated.
 Kite integration adds official interactive authentication, encrypted PostgreSQL
 token persistence, read-only REST profile/instrument access and an immutable
 registry. Phase 4 adds opt-in WebSocket ingestion, normalized market data and

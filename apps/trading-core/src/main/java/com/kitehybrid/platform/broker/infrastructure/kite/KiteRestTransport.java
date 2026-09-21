@@ -4,6 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kitehybrid.platform.broker.application.BrokerReadException;
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.nio.ByteBuffer;
 import java.nio.charset.*;
 import java.util.zip.GZIPInputStream;
@@ -53,6 +57,48 @@ final class KiteRestTransport {
     String get(Endpoint endpoint) {
         // A late response from an old token must never invalidate a newly installed session.
         synchronized (session) { return getWithSession(endpoint); }
+    }
+
+    String postRegularOrder(Map<String, String> form) { return orderRequest("POST", "/orders/regular", form); }
+    String putRegularOrder(String brokerOrderId, Map<String, String> form) {
+        if (brokerOrderId == null || !brokerOrderId.matches("[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}"))
+            throw new BrokerReadException(INVALID_RESPONSE);
+        return orderRequest("PUT", "/orders/regular/" + brokerOrderId, form);
+    }
+    String deleteRegularOrder(String brokerOrderId) {
+        if (brokerOrderId == null || !brokerOrderId.matches("[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}"))
+            throw new BrokerReadException(INVALID_RESPONSE);
+        return orderRequest("DELETE", "/orders/regular/" + brokerOrderId, Map.of());
+    }
+
+    private String orderRequest(String method, String path, Map<String, String> form) {
+        synchronized (session) {
+            try {
+                if (!session.authenticated()) throw new BrokerReadException(AUTHENTICATION);
+                String encoded = form.entrySet().stream().map(entry ->
+                        URLEncoder.encode(entry.getKey(), java.nio.charset.StandardCharsets.UTF_8)
+                                + "=" + URLEncoder.encode(entry.getValue(), java.nio.charset.StandardCharsets.UTF_8))
+                        .collect(Collectors.joining("&"));
+                return client.method(org.springframework.http.HttpMethod.valueOf(method)).uri(URI.create(path))
+                        .header("X-Kite-Version", "3").header("Authorization", session.authorization())
+                        .header("Content-Type", "application/x-www-form-urlencoded")
+                        .body(encoded).exchange((request, response) -> {
+                            int status = response.getStatusCode().value();
+                            byte[] body = readBounded(response.getBody(), 64 * 1024);
+                            String text = StandardCharsets.UTF_8.newDecoder()
+                                    .onMalformedInput(CodingErrorAction.REPORT)
+                                    .decode(ByteBuffer.wrap(body)).toString();
+                            if (status == 401 || status == 403) {
+                                session.invalidate(); throw new BrokerReadException(AUTHENTICATION, status);
+                            }
+                            if (status != 200) throw new BrokerReadException(BROKER_API, status);
+                            return text;
+                        });
+            } catch (BrokerReadException safe) { throw safe; }
+            catch (RuntimeException unexpected) {
+                throw new BrokerReadException(TRANSPORT);
+            }
+        }
     }
     private String getWithSession(Endpoint endpoint) {
         String authorization = session.authorization();

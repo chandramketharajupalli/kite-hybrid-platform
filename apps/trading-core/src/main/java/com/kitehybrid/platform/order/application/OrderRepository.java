@@ -1,11 +1,18 @@
 package com.kitehybrid.platform.order.application;
 
-import com.kitehybrid.platform.order.domain.OrderIntent;
+import com.kitehybrid.platform.order.domain.OrderRecord;
 import com.kitehybrid.platform.order.domain.OrderState;
 import com.kitehybrid.platform.shared.domain.Identifiers.OrderId;
+import java.util.Optional;
 
-/** Future PostgreSQL adapter: CAS state + event + dedup identity must commit atomically. */
+/** PostgreSQL-backed order and idempotency authority. */
 public interface OrderRepository {
-    boolean createIfAbsent(OrderId id, OrderIntent intent);
-    boolean compareAndSetState(OrderId id, OrderState expected, OrderState next, long expectedVersion);
+    enum IdempotencyClaim { CREATED, EXISTING, CONFLICT }
+    IdempotencyClaim claimIdempotency(String key, String fingerprint, OrderId orderId);
+    IdempotencyClaim createIfAbsent(OrderRecord record, String fingerprint);
+    void create(OrderRecord record);
+    Optional<OrderRecord> find(OrderId id);
+    Optional<OrderRecord> findByIdempotencyKey(String key);
+    boolean compareAndSet(OrderRecord expected, OrderRecord next);
+    boolean attachBrokerOrderId(OrderRecord expected, OrderRecord next);
 }

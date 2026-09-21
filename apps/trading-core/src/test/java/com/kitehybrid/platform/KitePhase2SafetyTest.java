@@ -3,6 +3,8 @@ package com.kitehybrid.platform;
 import com.kitehybrid.platform.broker.infrastructure.kite.KiteRestDiagnostic;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.core.importer.ImportOption;
+import com.tngtech.archunit.core.domain.JavaClass;
+import com.tngtech.archunit.base.DescribedPredicate;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
@@ -31,7 +33,15 @@ class KitePhase2SafetyTest {
         noClasses().that().resideInAnyPackage("..domain..", "..application..").should()
                 .dependOnClassesThat().resideInAnyPackage("..infrastructure..", "org.springframework.web.client..",
                         "java.net.http..", "com.zerodhatech..").check(classes);
-        noClasses().that().resideInAPackage("..broker.infrastructure.kite..").should()
+        // The Phase 5B gateway is the deliberate infrastructure bridge. Other Kite
+        // infrastructure remains unable to reach the order command/application layer.
+        noClasses().that(new DescribedPredicate<JavaClass>("Kite infrastructure outside the order bridge") {
+                    @Override public boolean test(JavaClass type) {
+                        return type.getPackageName().matches(".*broker\\.infrastructure\\.kite.*")
+                                && !type.getName().startsWith("com.kitehybrid.platform.broker.infrastructure.kite.KiteOrderAdapter")
+                                && !type.getName().startsWith("com.kitehybrid.platform.broker.infrastructure.kite.KiteOrderConfiguration");
+                    }
+                }).should()
                 .dependOnClassesThat().resideInAnyPackage("..order..", "..execution..", "..risk..", "..position..").check(classes);
     }
 }

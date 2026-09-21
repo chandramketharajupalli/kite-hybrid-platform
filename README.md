@@ -3,11 +3,14 @@
 Java Kite integration includes official interactive authentication, encrypted
 access-token persistence, read-only profile and instrument-master retrieval, and
 opt-in Kite WebSocket market data normalized behind broker-independent Java ports.
-Phase 5A adds opt-in, on-demand orders, trades, positions, holdings and account
+Phase 5A adds opt-in, on-demand order-book, trade, position, holding and account
 margin reads through the same authenticated session. See the
 [trading-read runbook](docs/runbooks/kite-trading-read.md).
+Phase 5B.1 adds broker-independent order commands and durable idempotency with
+real execution disabled by default; see the [local order-command runbook](docs/runbooks/order-command-local.md).
 The project has a modular Java control plane and lightweight Python strategy/quant plane.
-No strategies, broker execution, runtime messaging or frontend exist.
+No strategies, runtime messaging or frontend exist. Real broker execution remains
+disabled by default.
 Clearing emergency stop or changing live flags cannot enable orders.
 
 Java owns signal validation → risk → order intents → OMS → execution → broker →
