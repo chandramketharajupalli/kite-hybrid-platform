@@ -22,6 +22,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 
 /** Adapter tests use an in-process HTTP server and never contact Kite. */
 class KiteOrderAdapterTest {
+    private static final String LOCAL_BASE = "http://127.0.0.1";
     private static final String KEY = "syntheticKey";
     private static final String TOKEN = "syntheticToken";
     private static final Instant NOW = Instant.parse("2026-09-21T05:00:00Z");
@@ -29,7 +30,7 @@ class KiteOrderAdapterTest {
     @Test
     void placeUsesBrokerRepresentationAndParsesOnlyBoundedOrderId() {
         var fixture = fixture(true);
-        fixture.server.expect(requestTo("https://api.kite.trade/orders/regular"))
+        fixture.server.expect(requestTo(LOCAL_BASE + "/orders/regular"))
                 .andExpect(method(HttpMethod.POST))
                 .andExpect(header("Authorization", "token " + KEY + ":" + TOKEN))
                 .andExpect(content().string(org.hamcrest.Matchers.allOf(
@@ -50,14 +51,14 @@ class KiteOrderAdapterTest {
     @Test
     void brokerRejectionIsSafeAndMalformedSuccessIsRejected() {
         var rejected = fixture(true);
-        rejected.server.expect(requestTo("https://api.kite.trade/orders/regular"))
+        rejected.server.expect(requestTo(LOCAL_BASE + "/orders/regular"))
                 .andRespond(withBadRequest().body("sensitive broker detail"));
         var rejection = assertThrows(OrderExecutionException.class, () -> rejected.adapter.place(record(market())));
         assertThat(rejection.category()).isEqualTo(OrderExecutionException.Category.BROKER_REJECTED);
         assertThat(rejection.getMessage()).doesNotContain("sensitive");
 
         var malformed = fixture(true);
-        malformed.server.expect(requestTo("https://api.kite.trade/orders/regular"))
+        malformed.server.expect(requestTo(LOCAL_BASE + "/orders/regular"))
                 .andRespond(withSuccess("{\"status\":\"success\",\"data\":{}}", MediaType.APPLICATION_JSON));
         assertThat(assertThrows(OrderExecutionException.class, () -> malformed.adapter.place(record(market())))
                 .category()).isEqualTo(OrderExecutionException.Category.MALFORMED_RESPONSE);
@@ -66,13 +67,13 @@ class KiteOrderAdapterTest {
     @Test
     void serverFailureIsAmbiguousAndAuthenticationFailureIsSafe() {
         var serverFailure = fixture(true);
-        serverFailure.server.expect(requestTo("https://api.kite.trade/orders/regular"))
+        serverFailure.server.expect(requestTo(LOCAL_BASE + "/orders/regular"))
                 .andRespond(withServerError().body("sensitive"));
         assertThat(assertThrows(OrderExecutionException.class, () -> serverFailure.adapter.place(record(market())))
                 .category()).isEqualTo(OrderExecutionException.Category.AMBIGUOUS);
 
         var authFailure = fixture(true);
-        authFailure.server.expect(requestTo("https://api.kite.trade/orders/regular"))
+        authFailure.server.expect(requestTo(LOCAL_BASE + "/orders/regular"))
                 .andRespond(withUnauthorizedRequest().body("token secret"));
         assertThat(assertThrows(OrderExecutionException.class, () -> authFailure.adapter.place(record(market())))
                 .category()).isEqualTo(OrderExecutionException.Category.AUTHENTICATION);
@@ -81,9 +82,9 @@ class KiteOrderAdapterTest {
     @Test
     void modifyAndCancelUseOnlyInternalBrokerIdentity() {
         var fixture = fixture(true);
-        fixture.server.expect(requestTo("https://api.kite.trade/orders/regular/broker-1"))
+        fixture.server.expect(requestTo(LOCAL_BASE + "/orders/regular/broker-1"))
                 .andExpect(method(HttpMethod.PUT)).andRespond(withSuccess("{\"status\":\"success\",\"data\":{\"order_id\":\"broker-1\"}}", MediaType.APPLICATION_JSON));
-        fixture.server.expect(requestTo("https://api.kite.trade/orders/regular/broker-1"))
+        fixture.server.expect(requestTo(LOCAL_BASE + "/orders/regular/broker-1"))
                 .andExpect(method(HttpMethod.DELETE)).andRespond(withSuccess("{\"status\":\"success\",\"data\":{\"order_id\":\"broker-1\"}}", MediaType.APPLICATION_JSON));
         var modifyRecord = recordWithBroker(limit(), "broker-1");
         fixture.adapter.modify(modifyRecord, new ModifyOrder("modify", modifyRecord.id(), OrderType.LIMIT, 1,
@@ -117,7 +118,7 @@ class KiteOrderAdapterTest {
                 InstrumentType.CASH, Optional.empty(), Optional.empty(), new BigDecimal("0.05"), 1);
     }
     private static Fixture fixture(boolean enabled) {
-        var builder = RestClient.builder().baseUrl("https://api.kite.trade");
+        var builder = RestClient.builder().baseUrl(LOCAL_BASE);
         var server = MockRestServiceServer.bindTo(builder).build();
         var session = new KiteSession(new KiteProperties(KEY, "syntheticSecret", TOKEN, true));
         session.profileValidated();
