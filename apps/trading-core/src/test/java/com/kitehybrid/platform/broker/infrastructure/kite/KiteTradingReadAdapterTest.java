@@ -257,6 +257,31 @@ class KiteTradingReadAdapterTest {
     }
 
     @Test
+    void holdingsValidationLogsOnlyBoundedReasonAndField() {
+        Logger root = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+        var capture = new ListAppender<ILoggingEvent>();
+        capture.start();
+        root.addAppender(capture);
+        try (Fixture fixture = fixture()) {
+            expectGet(fixture, Read.HOLDINGS).andRespond(withSuccess(
+                    "{\"status\":\"success\",\"data\":[{\"instrument_token\":\"bad-token\","
+                            + "\"exchange\":\"NSE\",\"tradingsymbol\":\"INFY\","
+                            + "\"isin\":\"INE009A01021\",\"product\":\"CNC\","
+                            + "\"quantity\":1.25}]}", MediaType.APPLICATION_JSON));
+
+            assertSafe(assertThrows(BrokerReadException.class, fixture.adapter()::holdings), INVALID_RESPONSE);
+            assertThat(capture.list).anySatisfy(event -> assertThat(event.getFormattedMessage())
+                    .isEqualTo("Kite holdings normalization failed: reason=INVALID_NUMERIC_FIELD, field=instrument_token"));
+            capture.list.forEach(event -> assertThat(event.getFormattedMessage())
+                    .doesNotContain("1.25", "INE009A01021", "256265", "INFY"));
+            fixture.server().verify();
+        } finally {
+            root.detachAppender(capture);
+            capture.stop();
+        }
+    }
+
+    @Test
     void fixedReadOnlyRoutesHaveExplicitBoundedResponseBudgets() {
         for (Read read : Read.values()) {
             assertThat(read.endpoint.path).isEqualTo(read.path);

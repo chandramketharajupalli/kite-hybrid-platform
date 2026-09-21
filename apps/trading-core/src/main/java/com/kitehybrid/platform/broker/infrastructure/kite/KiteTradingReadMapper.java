@@ -28,11 +28,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import static com.kitehybrid.platform.broker.application.BrokerReadException.Category.*;
 import static com.kitehybrid.platform.broker.domain.read.TradingReadTypes.*;
+import static com.kitehybrid.platform.broker.infrastructure.kite.KiteBrokerIdentity.BROKER_ID;
 
 /** Strict bounded wire normalization. No broker payload, free text or cause escapes on failure. */
 public final class KiteTradingReadMapper {
+    private static final Logger LOG = LoggerFactory.getLogger(KiteTradingReadMapper.class);
     public static final int MAX_RESPONSE_CHARS = 8 * 1024 * 1024;
     public static final int MAX_ROWS = 10_000;
     private static final BigDecimal AMOUNT_LIMIT = new BigDecimal("1e18");
@@ -76,11 +80,17 @@ public final class KiteTradingReadMapper {
         });
     }
     public List<BrokerHolding> holdings(String body) {
-        return map(body, data -> {
-            var snapshot = instruments.snapshot();
-            return distinct(rows(data, row -> holding(row, snapshot)),
-                    row -> List.of(row.instrumentId(), row.product()));
-        });
+        try {
+            return map(body, data -> {
+                var snapshot = instruments.snapshot();
+                return distinct(rows(data, row -> holding(row, snapshot)),
+                        row -> List.of(row.instrumentId(), row.product()));
+            });
+        } catch (HoldingNormalizationFailure failure) {
+            LOG.warn("Kite holdings normalization failed: reason={}, field={}",
+                    failure.reason, failure.field);
+            throw invalid();
+        }
     }
     public BrokerMargins margins(String body) {
         return map(body, data -> {
@@ -129,19 +139,128 @@ public final class KiteTradingReadMapper {
     private BrokerHolding holding(JsonNode row, InstrumentSnapshot snapshot) {
         Optional<BrokerHolding.MarginFundedHolding> funded = Optional.empty();
         if (row.hasNonNull("mtf")) {
-            JsonNode mtf = object(row.get("mtf"));
-            funded = Optional.of(new BrokerHolding.MarginFundedHolding(quantity(mtf, "quantity", false),
-                    quantity(mtf, "used_quantity", false), price(mtf, "average_price"),
-                    decimal(mtf, "value"), decimal(mtf, "initial_margin")));
+            JsonNode mtf = holdingObject(row.get("mtf"), "mtf");
+            funded = Optional.of(new BrokerHolding.MarginFundedHolding(holdingQuantity(mtf, "quantity"),
+                    holdingQuantity(mtf, "used_quantity"), holdingPrice(mtf, "average_price"),
+                    holdingDecimal(mtf, "value"), holdingDecimal(mtf, "initial_margin")));
         }
-        return new BrokerHolding(instrument(row, snapshot), text(row, "isin", 128), product(row),
-                quantity(row, "quantity", false), quantity(row, "used_quantity", false),
-                quantity(row, "t1_quantity", false), quantity(row, "realised_quantity", false),
-                quantity(row, "authorised_quantity", false), quantity(row, "opening_quantity", false),
-                quantity(row, "collateral_quantity", false), price(row, "average_price"),
-                price(row, "last_price"), price(row, "close_price"), decimal(row, "pnl"),
-                decimal(row, "day_change"), decimal(row, "day_change_percentage"),
-                bool(row, "discrepancy"), funded);
+        return new BrokerHolding(holdingInstrument(row, snapshot), holdingText(row, "isin"), holdingProduct(row),
+                holdingQuantity(row, "quantity"), holdingQuantity(row, "used_quantity"),
+                holdingQuantity(row, "t1_quantity"), holdingQuantity(row, "realised_quantity"),
+                holdingQuantity(row, "authorised_quantity"), holdingQuantity(row, "opening_quantity"),
+                holdingQuantity(row, "collateral_quantity"), holdingPrice(row, "average_price"),
+                holdingPrice(row, "last_price"), holdingPrice(row, "close_price"), holdingDecimal(row, "pnl"),
+                holdingDecimal(row, "day_change"), holdingDecimal(row, "day_change_percentage"),
+                holdingBoolean(row, "discrepancy"), funded);
+    }
+
+    private InstrumentId holdingInstrument(JsonNode row, InstrumentSnapshot snapshot) {
+        JsonNode token = row.get("instrument_token");
+        boolean tokenPresent = token != null && !token.isNull();
+        boolean tokenValid = false;
+        long value;
+        try {
+            if (token.isIntegralNumber() && token.canConvertToLong()) value = token.longValue();
+            else if (token.isTextual() && token.textValue().matches("[0-9]{1,10}"))
+                value = Long.parseLong(token.textValue());
+            else throw new IllegalArgumentException();
+            if (value <= 0 || value > 0xffff_ffffL) throw new IllegalArgumentException();
+            tokenValid = true;
+        } catch (RuntimeException invalid) {
+            value = 0;
+        }
+        boolean exchangePresent = validHoldingText(row.get("exchange"), 32);
+        boolean symbolPresent = validHoldingText(row.get("tradingsymbol"), 128);
+        var instrument = tokenValid
+                ? snapshot.byBrokerId().get(new BrokerInstrumentId(BROKER_ID, Long.toString(value))) : null;
+        var bySymbol = exchangePresent && symbolPresent
+                ? snapshot.byExchangeAndSymbol().get(new ExchangeSymbol(row.get("exchange").textValue(),
+                row.get("tradingsymbol").textValue())) : null;
+        boolean brokerTokenMatch = instrument != null;
+        boolean exchangeSymbolMatch = bySymbol != null;
+        boolean identityConflict = brokerTokenMatch && (!exchangeSymbolMatch || !instrument.equals(bySymbol));
+        boolean registryVersionPresent = snapshot.version() > 0;
+        if (!tokenValid || !brokerTokenMatch || !exchangeSymbolMatch || identityConflict) {
+            LOG.warn("Kite holdings instrument resolution failed: tokenPresent={}, tokenValid={}, "
+                            + "exchangePresent={}, symbolPresent={}, brokerTokenMatch={}, "
+                            + "exchangeSymbolMatch={}, identityConflict={}, registryVersionPresent={}",
+                    tokenPresent, tokenValid, exchangePresent, symbolPresent, brokerTokenMatch,
+                    exchangeSymbolMatch, identityConflict, registryVersionPresent);
+        }
+        if (!tokenPresent) throw holdingFailure("MISSING_REQUIRED_FIELD", "instrument_token");
+        if (!tokenValid) throw holdingFailure("INVALID_NUMERIC_FIELD", "instrument_token");
+        if (!brokerTokenMatch) throw holdingFailure("UNRESOLVED_INSTRUMENT", "instrument_token");
+        if (!exchangeSymbolMatch || identityConflict) throw holdingFailure("CONFLICTING_INSTRUMENT", "exchange");
+        return instrument.id();
+    }
+
+    private static boolean validHoldingText(JsonNode node, int max) {
+        if (node == null || !node.isTextual()) return false;
+        String value = node.textValue();
+        return !value.isBlank() && value.length() <= max
+                && value.chars().noneMatch(Character::isISOControl);
+    }
+
+    private Product holdingProduct(JsonNode row) {
+        String value = holdingText(row, "product");
+        return switch (value) {
+            case "CNC" -> Product.DELIVERY; case "MIS" -> Product.INTRADAY;
+            case "NRML" -> Product.CARRY_FORWARD; case "CO" -> Product.COVER;
+            case "BO" -> Product.BRACKET; case "MTF" -> Product.MARGIN_FUNDING;
+            default -> Product.UNKNOWN;
+        };
+    }
+
+    private String holdingText(JsonNode row, String field) {
+        try { return text(row, field, 128); }
+        catch (BrokerReadException invalid) {
+            JsonNode node = row.get(field);
+            throw holdingFailure(node == null || node.isNull() ? "MISSING_REQUIRED_FIELD" : "INVALID_STRUCTURE", field);
+        }
+    }
+    private long holdingQuantity(JsonNode row, String field) {
+        try { return quantity(row, field, false); }
+        catch (BrokerReadException invalid) {
+            JsonNode node = row.get(field);
+            throw holdingFailure(node == null || node.isNull() ? "MISSING_REQUIRED_FIELD" : "INVALID_NUMERIC_FIELD", field);
+        }
+    }
+    private BigDecimal holdingDecimal(JsonNode row, String field) {
+        try { return decimal(row, field); }
+        catch (BrokerReadException invalid) {
+            JsonNode node = row.get(field);
+            throw holdingFailure(node == null || node.isNull() ? "MISSING_REQUIRED_FIELD" : "INVALID_NUMERIC_FIELD", field);
+        }
+    }
+    private BigDecimal holdingPrice(JsonNode row, String field) {
+        try { return price(row, field); }
+        catch (BrokerReadException invalid) {
+            JsonNode node = row.get(field);
+            throw holdingFailure(node == null || node.isNull() ? "MISSING_REQUIRED_FIELD" : "INVALID_NUMERIC_FIELD", field);
+        }
+    }
+    private boolean holdingBoolean(JsonNode row, String field) {
+        try { return bool(row, field); }
+        catch (BrokerReadException invalid) {
+            JsonNode node = row.get(field);
+            throw holdingFailure(node == null || node.isNull() ? "MISSING_REQUIRED_FIELD" : "INVALID_STRUCTURE", field);
+        }
+    }
+    private JsonNode holdingObject(JsonNode node, String field) {
+        try { return object(node); }
+        catch (BrokerReadException invalid) { throw holdingFailure("INVALID_STRUCTURE", field); }
+    }
+    private static HoldingNormalizationFailure holdingFailure(String reason, String field) {
+        return new HoldingNormalizationFailure(reason, field);
+    }
+    private static final class HoldingNormalizationFailure extends RuntimeException {
+        private final String reason;
+        private final String field;
+        private HoldingNormalizationFailure(String reason, String field) {
+            super(null, null, false, false);
+            this.reason = reason;
+            this.field = field;
+        }
     }
     private BrokerMargins.SegmentMargin margin(JsonNode row) {
         object(row);
@@ -167,7 +286,7 @@ public final class KiteTradingReadMapper {
             value = Long.parseLong(token.textValue());
         else throw invalid();
         if (value <= 0 || value > 0xffff_ffffL) throw invalid();
-        var instrument = snapshot.byBrokerId().get(new BrokerInstrumentId("KITE", Long.toString(value)));
+        var instrument = snapshot.byBrokerId().get(new BrokerInstrumentId(BROKER_ID, Long.toString(value)));
         var symbol = new ExchangeSymbol(text(row, "exchange", 32), text(row, "tradingsymbol", 128));
         if (instrument == null || !instrument.equals(snapshot.byExchangeAndSymbol().get(symbol))) throw invalid();
         return instrument.id();
@@ -183,6 +302,7 @@ public final class KiteTradingReadMapper {
             if (!status.equals("success")) throw invalid();
             return normalization.apply(required(root, "data"));
         } catch (BrokerReadException safe) { throw safe; }
+        catch (HoldingNormalizationFailure diagnostic) { throw diagnostic; }
         catch (IOException | RuntimeException malformed) { throw invalid(); }
     }
     private static void validateTree(JsonNode node, int[] count) {

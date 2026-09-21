@@ -7,6 +7,9 @@ import com.kitehybrid.platform.broker.domain.read.BrokerPositions;
 import com.kitehybrid.platform.instrument.application.InstrumentRegistry;
 import com.kitehybrid.platform.instrument.domain.*;
 import com.kitehybrid.platform.instrument.infrastructure.InMemoryInstrumentRegistry;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -20,6 +23,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.slf4j.LoggerFactory;
 import static com.kitehybrid.platform.broker.application.BrokerReadException.Category.*;
 import static com.kitehybrid.platform.broker.domain.read.TradingReadTypes.*;
 import static com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadFixtures.*;
@@ -28,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class KiteTradingReadMapperTest {
     private static final Instant NOW = Instant.parse("2026-09-18T04:00:00Z");
     private static final ObjectMapper JSON = new ObjectMapper();
-    private static final Instrument INFY = Instrument.create(new BrokerInstrumentId("KITE", "256265"),
+    private static final Instrument INFY = Instrument.create(new BrokerInstrumentId(KiteBrokerIdentity.BROKER_ID, "256265"),
             "INFY", "NSE", "CASH", InstrumentType.CASH, Optional.empty(), Optional.empty(),
             new BigDecimal("0.05"), 1);
     private final InMemoryInstrumentRegistry registry = registry();
@@ -135,6 +139,62 @@ class KiteTradingReadMapperTest {
                 """);
         assertEquals(2, mapper.holdings(one(holding)).getFirst().marginFunded().orElseThrow().quantity());
         invalid(() -> mapper.holdings(one(changed(HOLDING, "mtf", "{}"))));
+    }
+
+    @Test void acceptsDocumentedHoldingMetadataAndAdditionalFieldsUnderCurrentPolicy() throws Exception {
+        var node = row(HOLDING);
+        node.put("price", 0).put("authorised_date", "2026-09-18 00:00:00");
+        node.set("authorisation", JSON.createObjectNode());
+        node.put("short_quantity", 0).put("collateral_type", "").put("broker_added_field", "ignored");
+        assertEquals(INFY.id(), mapper.holdings(one(node.toString())).getFirst().instrumentId());
+    }
+
+    @Test void acceptsLegitimateZeroHoldingBucketsAndAbsentOptionalMtf() throws Exception {
+        var node = row(HOLDING);
+        for (String field : List.of("quantity", "used_quantity", "t1_quantity", "realised_quantity",
+                "authorised_quantity", "opening_quantity", "collateral_quantity")) node.put(field, 0);
+        node.put("average_price", 0).put("last_price", 0).put("close_price", 0)
+                .put("pnl", 0).put("day_change", 0).put("day_change_percentage", 0);
+        node.remove("mtf");
+        assertEquals(0, mapper.holdings(one(node.toString())).getFirst().quantity());
+    }
+
+    @Test void holdingsIdentifyValidationReasonWithoutChangingSafeFailureCategory() throws Exception {
+        invalid(() -> mapper.holdings(one(changed(HOLDING, "quantity", "1.25"))));
+        invalid(() -> mapper.holdings(one(changed(HOLDING, "instrument_token", "256266"))));
+        invalid(() -> mapper.holdings(one(changed(HOLDING, "exchange", "\"BSE\""))));
+    }
+
+    @Test void resolutionDiagnosticsDistinguishMissingMatchesAndEmptyRegistryWithoutWireValues() throws Exception {
+        Logger root = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+        var capture = new ListAppender<ILoggingEvent>();
+        capture.start();
+        root.addAppender(capture);
+        try {
+            invalid(() -> mapper.holdings(one(changed(HOLDING, "instrument_token", "null"))));
+            invalid(() -> mapper.holdings(one(changed(changed(changed(HOLDING, "instrument_token", "null"),
+                    "exchange", "null"), "tradingsymbol", "null"))));
+            invalid(() -> mapper.holdings(one(changed(HOLDING, "exchange", "\"BSE\""))));
+            invalid(() -> new KiteTradingReadMapper(new InMemoryInstrumentRegistry()).holdings(one(HOLDING)));
+            var messages = capture.list.stream().map(ILoggingEvent::getFormattedMessage).toList();
+            assertTrue(messages.stream().anyMatch(message -> message.contains(
+                    "tokenPresent=false, tokenValid=false, exchangePresent=true, symbolPresent=true, "
+                            + "brokerTokenMatch=false, exchangeSymbolMatch=true, identityConflict=false, registryVersionPresent=true")));
+            assertTrue(messages.stream().anyMatch(message -> message.contains(
+                    "tokenPresent=false, tokenValid=false, exchangePresent=false, symbolPresent=false, "
+                            + "brokerTokenMatch=false, exchangeSymbolMatch=false, identityConflict=false, registryVersionPresent=true")));
+            assertTrue(messages.stream().anyMatch(message -> message.contains(
+                    "tokenPresent=true, tokenValid=true, exchangePresent=true, symbolPresent=true, "
+                            + "brokerTokenMatch=false, exchangeSymbolMatch=false, identityConflict=false, registryVersionPresent=false")));
+            assertTrue(messages.stream().anyMatch(message -> message.contains(
+                    "tokenPresent=true, tokenValid=true, exchangePresent=true, symbolPresent=true, "
+                            + "brokerTokenMatch=true, exchangeSymbolMatch=false, identityConflict=true, registryVersionPresent=true")));
+            messages.forEach(message -> assertFalse(message.contains("256265") || message.contains("INFY")
+                    || message.contains("INE009A01021")));
+        } finally {
+            root.detachAppender(capture);
+            capture.stop();
+        }
     }
 
     @Test void marginsPreserveBothSegmentsEnabledFlagsAndExactReportedBreakdown() {
