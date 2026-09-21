@@ -34,7 +34,7 @@ class PostgresMigrationTest {
     @Test void baselineMigratesAndCanBeValidatedOnRestart() throws Exception {
         var flyway = Flyway.configure().dataSource(postgres.getJdbcUrl(), postgres.getUsername(),
                 postgres.getPassword()).locations("classpath:db/migration").load();
-        assertEquals(4, flyway.migrate().migrationsExecuted);
+        assertEquals(5, flyway.migrate().migrationsExecuted);
         flyway.validate();
         assertEquals(0, flyway.migrate().migrationsExecuted);
         try (var connection = DriverManager.getConnection(postgres.getJdbcUrl(), postgres.getUsername(),

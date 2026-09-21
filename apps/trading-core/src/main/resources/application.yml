@@ -29,6 +29,16 @@ trading:
   mode: ${TRADING_MODE:PAPER}
   enable-live-trading: ${ENABLE_LIVE_TRADING:false}
   emergency-stop: ${EMERGENCY_STOP:true}
+risk:
+  enabled: ${RISK_ENABLED:false}
+  max-order-quantity: ${RISK_MAX_ORDER_QUANTITY:0}
+  max-order-value: ${RISK_MAX_ORDER_VALUE:0}
+  max-position-quantity: ${RISK_MAX_POSITION_QUANTITY:0}
+  max-exposure: ${RISK_MAX_EXPOSURE:0}
+  market-data-max-age: ${RISK_MARKET_DATA_MAX_AGE:0s}
+  registry-max-age: ${RISK_REGISTRY_MAX_AGE:0s}
+  price-buffer: ${RISK_PRICE_BUFFER:1.0}
+  cash-reserve: ${RISK_CASH_RESERVE:0}
 kite:
   rest-enabled: ${KITE_REST_ENABLED:false}
   api-key: ${KITE_API_KEY:}

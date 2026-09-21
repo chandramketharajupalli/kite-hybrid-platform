@@ -7,6 +7,17 @@ import java.util.List;
 import java.util.Objects;
 
 public final class RiskEngine {
+    /** Persisted-order risk uses trusted observations; signal decisions cannot authorize an order. */
+    public RiskDecision evaluate(com.kitehybrid.platform.order.domain.OrderRecord order,
+                                 OrderRiskInput input, RiskLimits limits, boolean halted) {
+        Instant now = clock.instant();
+        RiskReason reason;
+        try { reason = CashOrderRiskRules.evaluate(order, input, limits, halted, now); }
+        catch (RuntimeException unavailable) { reason = RiskReason.RISK_EVALUATION_ERROR; }
+        return new RiskDecision(order.id(), order.version(),
+                reason == RiskReason.APPROVED ? RiskDecision.Outcome.APPROVED : RiskDecision.Outcome.REJECTED,
+                reason, now, limits.version());
+    }
     public record Decision(boolean approved, String reason, Instant evaluatedAt) {}
     private final List<RiskRule> rules;
     private final Clock clock;

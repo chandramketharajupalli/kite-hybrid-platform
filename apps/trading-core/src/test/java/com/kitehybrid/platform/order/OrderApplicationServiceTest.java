@@ -59,13 +59,17 @@ class OrderApplicationServiceTest {
                 OrderVariety.REGULAR)));
     }
 
-    @Test void defaultGatePerformsNoBrokerCallAndEnabledExplicitSubmissionUsesFakeOnly() {
+    @Test void validatedOrderCannotExecuteUntilRiskApprovalAndDisabledGateRemainsSafe() {
         var disabled = service(false); var record = disabled.place(place("disabled", OrderType.MARKET, Optional.empty(), Optional.empty()));
-        assertThrows(OrderExecutionException.class, () -> disabled.submitRiskApproved(record.id()));
+        assertThrows(OrderExecutionException.class, () -> disabled.executeRiskApproved(record.id()));
         assertEquals(0, gateway.placeCalls.get());
+        assertEquals(OrderState.VALIDATED, repository.find(record.id()).orElseThrow().state());
 
         var enabled = service(true); var accepted = enabled.place(place("enabled", OrderType.MARKET, Optional.empty(), Optional.empty()));
-        var submitted = enabled.submitRiskApproved(accepted.id());
+        assertThrows(OrderCommandValidationException.class, () -> enabled.executeRiskApproved(accepted.id()));
+        assertEquals(OrderState.VALIDATED, repository.find(accepted.id()).orElseThrow().state());
+        approve(accepted);
+        var submitted = enabled.executeRiskApproved(accepted.id());
         assertEquals(OrderState.SUBMITTED, submitted.state()); assertEquals(Optional.of("fake-1"), submitted.brokerOrderId());
         assertEquals(1, gateway.placeCalls.get());
     }
@@ -73,15 +77,17 @@ class OrderApplicationServiceTest {
     @Test void ambiguousSubmissionRemainsSubmittingAndCannotAutomaticallyResubmit() {
         gateway.failure = new OrderExecutionException(OrderExecutionException.Category.AMBIGUOUS);
         var service = service(true); var record = service.place(place("ambiguous", OrderType.MARKET, Optional.empty(), Optional.empty()));
-        assertThrows(OrderExecutionException.class, () -> service.submitRiskApproved(record.id()));
+        approve(record);
+        assertThrows(OrderExecutionException.class, () -> service.executeRiskApproved(record.id()));
         assertEquals(OrderState.SUBMITTING, repository.find(record.id()).orElseThrow().state());
-        assertThrows(OrderCommandValidationException.class, () -> service.submitRiskApproved(record.id()));
+        assertThrows(OrderCommandValidationException.class, () -> service.executeRiskApproved(record.id()));
         assertEquals(1, gateway.placeCalls.get());
     }
 
     @Test void cancelIsPlatformIdentityBasedAndRepeatedCancelIsIdempotent() {
         var service = service(true); var created = service.place(place("cancel", OrderType.MARKET, Optional.empty(), Optional.empty()));
-        var submitted = service.submitRiskApproved(created.id());
+        approve(created);
+        var submitted = service.executeRiskApproved(created.id());
         var open = submitted.transitionTo(OrderState.OPEN, NOW); repository.records.put(open.id(), open);
         var cancelled = service.cancel(new CancelOrder("cancel-command", open.id()));
         assertEquals(OrderState.CANCELLED, cancelled.state()); assertEquals(1, gateway.cancelCalls.get());
@@ -89,9 +95,29 @@ class OrderApplicationServiceTest {
         assertEquals(1, gateway.cancelCalls.get());
     }
 
+    @Test void executionRequiresKnownPlatformOrderIdentityAndCannotUseBrokerId() {
+        var service = service(true);
+        assertThrows(OrderCommandValidationException.class,
+                () -> service.executeRiskApproved(new OrderId(UUID.randomUUID())));
+        assertEquals(0, gateway.placeCalls.get());
+    }
+
+    @Test void rejectedRiskDecisionCannotBeExecuted() {
+        var service = service(true);
+        var validated = service.place(place("rejected-risk", OrderType.MARKET, Optional.empty(), Optional.empty()));
+        var rejected = validated.transitionTo(OrderState.REJECTED, NOW);
+        assertTrue(repository.compareAndSet(validated, rejected));
+        assertThrows(OrderCommandValidationException.class, () -> service.executeRiskApproved(validated.id()));
+        assertEquals(0, gateway.placeCalls.get());
+    }
+
     private OrderApplicationService service(boolean enabled) {
         return new OrderApplicationService(repository, new OrderCommandValidator(instruments), gateway,
                 new OrderExecutionProperties(enabled), clock, new SimpleMeterRegistry());
+    }
+    private void approve(OrderRecord validated) {
+        var approved = validated.transitionTo(OrderState.RISK_APPROVED, NOW);
+        assertTrue(repository.compareAndSet(validated, approved));
     }
     private PlaceOrder place(String key, OrderType type, Optional<BigDecimal> price, Optional<BigDecimal> trigger) {
         return new PlaceOrder(key, instrument.id(), OrderSide.BUY, 1, type,

@@ -45,14 +45,13 @@ public final class OrderApplicationService {
         transitionMetric("CREATED", "VALIDATED");
         return record;
     }
-    public OrderRecord submitRiskApproved(OrderId id) {
+    /** Executes an order only after the risk subsystem has durably persisted RISK_APPROVED. */
+    public OrderRecord executeRiskApproved(OrderId id) {
         if (!execution.enabled()) throw new OrderExecutionException(OrderExecutionException.Category.DISABLED);
         var current = require(id);
-        if (current.state() != OrderState.VALIDATED) throw new OrderCommandValidationException("ORDER_NOT_VALIDATED");
-        var approved = current.transitionTo(OrderState.RISK_APPROVED, clock.instant());
-        if (!repository.compareAndSet(current, approved)) throw new OrderExecutionException(OrderExecutionException.Category.TRANSPORT);
-        var submitting = approved.transitionTo(OrderState.SUBMITTING, clock.instant());
-        if (!repository.compareAndSet(approved, submitting)) throw new OrderExecutionException(OrderExecutionException.Category.TRANSPORT);
+        if (current.state() != OrderState.RISK_APPROVED) throw new OrderCommandValidationException("ORDER_NOT_RISK_APPROVED");
+        var submitting = current.transitionTo(OrderState.SUBMITTING, clock.instant());
+        if (!repository.compareAndSet(current, submitting)) throw new OrderExecutionException(OrderExecutionException.Category.TRANSPORT);
         try {
             String brokerId = gateway.place(submitting);
             var attached = submitting.withBrokerOrderId(brokerId, clock.instant());

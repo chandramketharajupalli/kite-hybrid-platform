@@ -9,6 +9,46 @@ for its own substitution. Spring Boot does NOT automatically load it. Export the
 required variables in PowerShell before Maven `spring-boot:run` (see root README).
 Python settings use STRATEGY_ prefix and do not receive Kite credentials.
 
+## Pre-trade risk
+
+Risk evaluation is disabled and unconfigured by default. `RISK_ENABLED` alone
+never permits approval: every limit and freshness duration must be explicitly
+configured with a positive value, and the global emergency stop must be clear.
+Risk reads the persisted validated order plus the broker-independent account
+read ports and latest market-data store. It writes a bounded decision audit to
+`trading.risk_decisions`; it never calls a Kite order endpoint.
+
+| Environment variable | Default | Purpose |
+| --- | --- | --- |
+| `RISK_ENABLED` | `false` | Enables the risk policy after all required settings are valid |
+| `RISK_MAX_ORDER_QUANTITY` | `0` | Hard per-order quantity cap |
+| `RISK_MAX_ORDER_VALUE` | `0` | Hard conservative per-order value cap |
+| `RISK_MAX_POSITION_QUANTITY` | `0` | Projected delivery position cap |
+| `RISK_MAX_EXPOSURE` | `0` | Conservative account exposure cap |
+| `RISK_MARKET_DATA_MAX_AGE` | `0s` | Maximum age of required ticks |
+| `RISK_REGISTRY_MAX_AGE` | `0s` | Maximum age of the instrument snapshot |
+| `RISK_PRICE_BUFFER` | `1.0` | Conservative valuation multiplier |
+| `RISK_CASH_RESERVE` | `0` | Required cash headroom above order value |
+
+Market orders use the latest fresh traded price; limit orders use the greater of
+that price and the limit price, then apply `RISK_PRICE_BUFFER`. This conservative
+reference avoids understating a buy order when the market has moved above its
+limit observation.
+
+Usable margin is the minimum of the equity segment's `available.cash`,
+`available.openingBalance`, `available.liveBalance`, and `net`, less positive
+`utilised.debits`, `utilised.payout`, and `utilised.holdingSales`. Collateral,
+leverage, sale proceeds, and the broker's total `net` by itself are not treated
+as spendable cash.
+
+The market-data, positions, holdings, margins, and open-order reads are separate
+observations rather than one atomic broker snapshot. The risk transaction
+serializes platform decisions and rejects detectable order/version changes, but
+it does not claim broker-side snapshot atomicity.
+
+Daily P&L protection is deferred because the current read model has no
+authoritative realized/unrealized daily P&L snapshot.
+
 KITE_REST_ENABLED defaults to false. Set it to true for official browser
 authentication and profile/instrument initialization. The application uses
 KITE_API_KEY, KITE_API_SECRET,
