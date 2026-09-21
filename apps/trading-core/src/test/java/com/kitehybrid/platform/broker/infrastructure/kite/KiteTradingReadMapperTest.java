@@ -7,6 +7,7 @@ import com.kitehybrid.platform.broker.domain.read.BrokerPositions;
 import com.kitehybrid.platform.instrument.application.InstrumentRegistry;
 import com.kitehybrid.platform.instrument.domain.*;
 import com.kitehybrid.platform.instrument.infrastructure.InMemoryInstrumentRegistry;
+import com.kitehybrid.platform.shared.domain.BrokerCorrelationId;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
@@ -54,6 +55,14 @@ class KiteTradingReadMapperTest {
         assertEquals(Instant.parse("2026-09-18T03:45:30Z"), order.orderedAt());
         assertEquals(Optional.of(Instant.parse("2026-09-18T03:45:31Z")), order.exchangeTimestamp());
         assertTrue(order.exchangeUpdatedAt().isEmpty());
+    }
+
+    @Test void mapsOptionalBoundedCorrelationTagAndIgnoresMalformedForeignTag() throws Exception {
+        var tagged = row(ORDER); tagged.put("tag", "0123456789abcdef0123");
+        assertEquals(Optional.of(new BrokerCorrelationId("0123456789abcdef0123")),
+                mapper.orders(envelope("[" + tagged + "]")).getFirst().correlationId());
+        var malformed = row(ORDER); malformed.put("tag", "not a valid tag");
+        assertTrue(mapper.orders(envelope("[" + malformed + "]")).getFirst().correlationId().isEmpty());
     }
 
     @ParameterizedTest

@@ -14,6 +14,9 @@ import com.kitehybrid.platform.order.infrastructure.PostgresOrderRepository;
 import com.kitehybrid.platform.risk.application.RiskService;
 import com.kitehybrid.platform.risk.domain.*;
 import com.kitehybrid.platform.risk.infrastructure.PostgresRiskDecisionStore;
+import com.kitehybrid.platform.reconciliation.application.OrderReconciliationService;
+import com.kitehybrid.platform.reconciliation.infrastructure.PostgresReconciliationStore;
+import com.kitehybrid.platform.reconciliation.domain.ReconciliationOutcome;
 import com.kitehybrid.platform.shared.domain.Identifiers.*;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
@@ -67,7 +70,7 @@ class LocalKiteOrderExecutionIntegrationTest {
                 .locations("classpath:db/migration").load().migrate();
         DataSource source = new DriverManagerDataSource(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword());
         jdbc = new JdbcTemplate(source);
-        jdbc.update("TRUNCATE trading.risk_decisions, trading.orders, trading.order_idempotency");
+        jdbc.update("TRUNCATE trading.reconciliation_trades, trading.reconciliation_decisions, trading.risk_decisions, trading.orders, trading.order_idempotency");
         orders = new PostgresOrderRepository(jdbc);
         broker = new LocalFakeKiteServer();
         broker.start();
@@ -104,6 +107,7 @@ class LocalKiteOrderExecutionIntegrationTest {
         assertTrue(broker.lastRequest().body().contains("product=CNC"));
         assertTrue(broker.lastRequest().body().contains("validity=DAY"));
         assertTrue(broker.lastRequest().body().contains("price=10.25"));
+        assertTrue(broker.lastRequest().body().contains("tag=" + placed.brokerCorrelationId().orElseThrow().value()));
         assertTrue(broker.lastRequest().authorization().startsWith("token syntheticKey:"));
 
         application.modify(new ModifyOrder("modify-e2e", submitted.id(), OrderType.LIMIT, 1,
@@ -126,6 +130,23 @@ class LocalKiteOrderExecutionIntegrationTest {
         assertFalse(body.contains("price="));
     }
 
+    @Test void acknowledgedLocalSubmissionCanBeReconciledFromBrokerReadObservation() {
+        var placed = application.place(place("reconcile-e2e", OrderType.LIMIT, Optional.of(new BigDecimal("10.25"))));
+        assertTrue(risk.evaluate(placed.id()).approved());
+        var submitted = application.executeRiskApproved(placed.id());
+        var observed = new BrokerOrder(submitted.brokerOrderId().orElseThrow(), Optional.empty(), Optional.empty(),
+                INSTRUMENT.id(), TradingReadTypes.Side.BUY, TradingReadTypes.OrderType.LIMIT,
+                TradingReadTypes.Product.DELIVERY, TradingReadTypes.Validity.DAY, TradingReadTypes.Variety.REGULAR,
+                TradingReadTypes.OrderStatus.OPEN, 1, 0, 1, 0, 0, new BigDecimal("10.25"), BigDecimal.ZERO,
+                BigDecimal.ZERO, NOW, Optional.of(NOW), Optional.of(NOW));
+        var reconciliation = new OrderReconciliationService(orders, () -> List.of(observed), List::of,
+                new PostgresReconciliationStore(jdbc), Clock.fixed(NOW, ZoneOffset.UTC), new SimpleMeterRegistry());
+        var decision = reconciliation.reconcile(submitted.id());
+        assertEquals(ReconciliationOutcome.ADVANCED, decision.outcome());
+        assertEquals(OrderState.OPEN, orders.find(submitted.id()).orElseThrow().state());
+        assertEquals(1, jdbc.queryForObject("SELECT COUNT(*) FROM trading.reconciliation_decisions", Integer.class));
+    }
+
     @Test void ambiguousAcceptedRequestRemainsSubmittingAndNeverRetries() {
         var placed = application.place(place("ambiguous-e2e", OrderType.MARKET, Optional.empty()));
         assertTrue(risk.evaluate(placed.id()).approved());
@@ -134,6 +155,19 @@ class LocalKiteOrderExecutionIntegrationTest {
         assertEquals(OrderState.SUBMITTING, orders.find(placed.id()).orElseThrow().state());
         assertEquals(1, broker.placeCount());
         assertThrows(OrderCommandValidationException.class, () -> application.executeRiskApproved(placed.id()));
+        assertEquals(1, broker.placeCount());
+        var local = orders.find(placed.id()).orElseThrow();
+        var observed = new BrokerOrder("synthetic-broker-1", Optional.empty(), Optional.empty(), INSTRUMENT.id(),
+                TradingReadTypes.Side.BUY, TradingReadTypes.OrderType.MARKET, TradingReadTypes.Product.DELIVERY,
+                TradingReadTypes.Validity.DAY, TradingReadTypes.Variety.REGULAR, TradingReadTypes.OrderStatus.OPEN,
+                1, 0, 1, 0, 0, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, NOW, Optional.of(NOW),
+                local.brokerCorrelationId(), Optional.of(NOW));
+        var reconciliation = new OrderReconciliationService(orders, () -> List.of(observed), List::of,
+                new PostgresReconciliationStore(jdbc), Clock.fixed(NOW, ZoneOffset.UTC), new SimpleMeterRegistry());
+        assertEquals(com.kitehybrid.platform.reconciliation.domain.ReconciliationReason.CORRELATION_RECOVERED,
+                reconciliation.reconcile(placed.id()).reason());
+        assertEquals(OrderState.SUBMITTED, orders.find(placed.id()).orElseThrow().state());
+        assertEquals(Optional.of("synthetic-broker-1"), orders.find(placed.id()).orElseThrow().brokerOrderId());
         assertEquals(1, broker.placeCount());
     }
 

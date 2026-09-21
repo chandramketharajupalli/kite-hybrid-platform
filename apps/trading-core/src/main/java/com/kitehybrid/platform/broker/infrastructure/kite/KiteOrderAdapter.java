@@ -29,6 +29,7 @@ final class KiteOrderAdapter implements OrderExecutionGateway {
         c.limitPrice().ifPresent(value -> form.put("price", value.toPlainString()));
         c.triggerPrice().ifPresent(value -> form.put("trigger_price", value.toPlainString()));
         if (c.disclosedQuantity() > 0) form.put("disclosed_quantity", Long.toString(c.disclosedQuantity()));
+        order.brokerCorrelationId().ifPresent(value -> form.put("tag", value.value()));
         try { return response(transport.postRegularOrder(form)); }
         catch (BrokerReadException failure) { throw map(failure); }
     }

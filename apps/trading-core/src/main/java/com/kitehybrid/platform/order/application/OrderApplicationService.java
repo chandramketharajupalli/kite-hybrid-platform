@@ -35,7 +35,8 @@ public final class OrderApplicationService {
     public OrderRecord place(PlaceOrder command) {
         validator.validate(command); Instant now = clock.instant();
         OrderId proposed = new OrderId(UUID.randomUUID());
-        var record = new OrderRecord(proposed, command, OrderState.CREATED, Optional.empty(), Optional.empty(), now, now, 0)
+        var record = new OrderRecord(proposed, command, OrderState.CREATED, Optional.empty(),
+                Optional.of(com.kitehybrid.platform.shared.domain.BrokerCorrelationId.generate()), Optional.empty(), now, now, 0)
                 .transitionTo(OrderState.VALIDATED, now);
         var claim = repository.createIfAbsent(record, fingerprint(command));
         if (claim == OrderRepository.IdempotencyClaim.CONFLICT) throw new OrderCommandValidationException("IDEMPOTENCY_CONFLICT");

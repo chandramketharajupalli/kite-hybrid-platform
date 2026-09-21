@@ -14,6 +14,7 @@ import com.kitehybrid.platform.instrument.domain.BrokerInstrumentId;
 import com.kitehybrid.platform.instrument.domain.ExchangeSymbol;
 import com.kitehybrid.platform.instrument.domain.InstrumentSnapshot;
 import com.kitehybrid.platform.shared.domain.Identifiers.InstrumentId;
+import com.kitehybrid.platform.shared.domain.BrokerCorrelationId;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -115,7 +116,14 @@ public final class KiteTradingReadMapper {
                 quantity(row, "pending_quantity", false), quantity(row, "cancelled_quantity", false),
                 quantity(row, "disclosed_quantity", false), price(row, "price"), price(row, "trigger_price"),
                 price(row, "average_price"), timestamp(required(row, "order_timestamp")),
-                optionalTimestamp(row, "exchange_timestamp"), optionalTimestamp(row, "exchange_update_timestamp"));
+                optionalTimestamp(row, "exchange_timestamp"), optionalCorrelation(row, "tag"),
+                optionalTimestamp(row, "exchange_update_timestamp"));
+    }
+    private static Optional<BrokerCorrelationId> optionalCorrelation(JsonNode row, String name) {
+        var value = optionalText(row, name);
+        if (value.isEmpty()) return Optional.empty();
+        try { return Optional.of(new BrokerCorrelationId(value.get())); }
+        catch (IllegalArgumentException invalid) { return Optional.empty(); }
     }
     private BrokerTrade trade(JsonNode row, InstrumentSnapshot snapshot) {
         // Kite also returns order_timestamp as a time-only value: never invent its calendar date.

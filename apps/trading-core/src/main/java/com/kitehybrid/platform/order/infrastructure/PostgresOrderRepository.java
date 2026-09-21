@@ -44,13 +44,13 @@ public final class PostgresOrderRepository implements OrderRepository {
         jdbc.update("""
                 INSERT INTO trading.orders(order_id, idempotency_key, instrument_id, side, quantity, order_type,
                     product, validity, limit_price, trigger_price, disclosed_quantity, variety, state,
-                    broker_order_id, failure_category, created_at, updated_at, version)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    broker_order_id, broker_correlation_id, failure_category, created_at, updated_at, version)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, r.id().value(), r.command().idempotencyKey(), r.command().instrumentId().value(),
                 r.command().side().name(), r.command().quantity(), r.command().orderType().name(),
                 r.command().product().name(), r.command().validity().name(), r.command().limitPrice().orElse(null),
                 r.command().triggerPrice().orElse(null), r.command().disclosedQuantity(), r.command().variety().name(),
-                r.state().name(), r.brokerOrderId().orElse(null), r.failureCategory().orElse(null),
+                r.state().name(), r.brokerOrderId().orElse(null), r.brokerCorrelationId().map(Object::toString).orElse(null), r.failureCategory().orElse(null),
                 Timestamp.from(r.createdAt()), Timestamp.from(r.updatedAt()), r.version());
     }
     @Override public Optional<OrderRecord> find(OrderId id) {
@@ -76,6 +76,7 @@ public final class PostgresOrderRepository implements OrderRepository {
                 OrderVariety.valueOf(rs.getString("variety")));
         return new OrderRecord(new OrderId(rs.getObject("order_id", java.util.UUID.class)), command,
                 OrderState.valueOf(rs.getString("state")), Optional.ofNullable(rs.getString("broker_order_id")),
+                Optional.ofNullable(rs.getString("broker_correlation_id")).map(com.kitehybrid.platform.shared.domain.BrokerCorrelationId::new),
                 Optional.ofNullable(rs.getString("failure_category")), rs.getTimestamp("created_at").toInstant(),
                 rs.getTimestamp("updated_at").toInstant(), rs.getLong("version"));
     }

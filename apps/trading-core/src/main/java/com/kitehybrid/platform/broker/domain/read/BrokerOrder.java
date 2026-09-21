@@ -1,6 +1,7 @@
 package com.kitehybrid.platform.broker.domain.read;
 
 import com.kitehybrid.platform.shared.domain.Identifiers.InstrumentId;
+import com.kitehybrid.platform.shared.domain.BrokerCorrelationId;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
@@ -16,6 +17,7 @@ public record BrokerOrder(String brokerOrderId, Optional<String> exchangeOrderId
                           long pendingQuantity, long cancelledQuantity, long disclosedQuantity,
                           BigDecimal price, BigDecimal triggerPrice, BigDecimal averagePrice,
                           Instant orderedAt, Optional<Instant> exchangeTimestamp,
+                          Optional<BrokerCorrelationId> correlationId,
                           Optional<Instant> exchangeUpdatedAt) {
     public BrokerOrder {
         identifier(brokerOrderId);
@@ -41,7 +43,17 @@ public record BrokerOrder(String brokerOrderId, Optional<String> exchangeOrderId
         ReadModelValidation.price(price); ReadModelValidation.price(triggerPrice);
         ReadModelValidation.price(averagePrice);
         Objects.requireNonNull(orderedAt);
-        Objects.requireNonNull(exchangeTimestamp);
+        Objects.requireNonNull(exchangeTimestamp); Objects.requireNonNull(correlationId);
         Objects.requireNonNull(exchangeUpdatedAt);
+    }
+    public BrokerOrder(String brokerOrderId, Optional<String> exchangeOrderId, Optional<String> parentOrderId,
+                       InstrumentId instrumentId, Side side, OrderType orderType, Product product, Validity validity,
+                       Variety variety, OrderStatus status, long quantity, long filledQuantity, long pendingQuantity,
+                       long cancelledQuantity, long disclosedQuantity, BigDecimal price, BigDecimal triggerPrice,
+                       BigDecimal averagePrice, Instant orderedAt, Optional<Instant> exchangeTimestamp,
+                       Optional<Instant> exchangeUpdatedAt) {
+        this(brokerOrderId, exchangeOrderId, parentOrderId, instrumentId, side, orderType, product, validity, variety,
+                status, quantity, filledQuantity, pendingQuantity, cancelledQuantity, disclosedQuantity, price,
+                triggerPrice, averagePrice, orderedAt, exchangeTimestamp, Optional.empty(), exchangeUpdatedAt);
     }
 }
