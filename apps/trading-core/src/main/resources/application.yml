@@ -69,6 +69,10 @@ kite:
   auth:
     redirect-url: ${KITE_REDIRECT_URL:http://localhost:${server.port:8080}/api/broker/kite/auth/callback}
     encryption-key: ${KITE_TOKEN_ENCRYPTION_KEY:}
+universe:
+    diagnostic:
+      enabled: ${UNIVERSE_DIAGNOSTIC_ENABLED:false}
+      path: ${UNIVERSE_DIAGNOSTIC_PATH:}
 management:
   endpoints:
     web:
