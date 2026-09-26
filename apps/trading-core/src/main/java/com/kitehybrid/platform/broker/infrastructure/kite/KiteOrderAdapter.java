@@ -12,14 +12,16 @@ import java.util.Map;
 
 /** Kite order protocol adapter. It is never wired unless the explicit execution flag is true. */
 final class KiteOrderAdapter implements OrderExecutionGateway {
-    private static final JsonMapper JSON = new JsonMapper();
+    private static final JsonMapper JSON = JsonMapper.builder()
+            .enable(com.fasterxml.jackson.core.JsonParser.Feature.STRICT_DUPLICATE_DETECTION)
+            .enable(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_TRAILING_TOKENS).build();
     private final KiteRestTransport transport;
     private final InstrumentRegistry instruments;
     private final OrderExecutionProperties properties;
     KiteOrderAdapter(KiteRestTransport transport, InstrumentRegistry instruments, OrderExecutionProperties properties) {
         this.transport = transport; this.instruments = instruments; this.properties = properties;
     }
-    @Override public String place(OrderRecord order) {
+    @Override public String place(OrderRecord order, Runnable dispatchValidation) {
         requireEnabled(); var instrument = instrument(order); var c = order.command();
         var form = new LinkedHashMap<String, String>();
         form.put("exchange", instrument.exchange()); form.put("tradingsymbol", instrument.tradingSymbol());
@@ -30,7 +32,7 @@ final class KiteOrderAdapter implements OrderExecutionGateway {
         c.triggerPrice().ifPresent(value -> form.put("trigger_price", value.toPlainString()));
         if (c.disclosedQuantity() > 0) form.put("disclosed_quantity", Long.toString(c.disclosedQuantity()));
         order.brokerCorrelationId().ifPresent(value -> form.put("tag", value.value()));
-        try { return response(transport.postRegularOrder(form)); }
+        try { return response(transport.postRegularOrder(form, java.util.Objects.requireNonNull(dispatchValidation))); }
         catch (BrokerReadException failure) { throw map(failure); }
     }
     @Override public void modify(OrderRecord order, ModifyOrder c) {
@@ -56,7 +58,7 @@ final class KiteOrderAdapter implements OrderExecutionGateway {
     private static OrderExecutionException map(BrokerReadException failure) {
         return switch (failure.category()) {
             case AUTHENTICATION -> new OrderExecutionException(OrderExecutionException.Category.AUTHENTICATION);
-            case BROKER_API -> failure.httpStatus() >= 400 && failure.httpStatus() < 500
+            case BROKER_API -> failure.httpStatus() == 400
                     ? new OrderExecutionException(OrderExecutionException.Category.BROKER_REJECTED)
                     : new OrderExecutionException(OrderExecutionException.Category.AMBIGUOUS);
             default -> new OrderExecutionException(OrderExecutionException.Category.AMBIGUOUS);

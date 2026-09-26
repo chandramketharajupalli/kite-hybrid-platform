@@ -15,10 +15,37 @@ import org.springframework.web.bind.annotation.*;
 
 /** Explicit local development tool only. No automatic live stream and no broker order actions. */
 @RestController
-@Profile("development")
+@Profile("development & !production")
 @ConditionalOnProperty(prefix = "kite.market-data", name = {"enabled", "diagnostic-enabled"}, havingValue = "true")
 @RequestMapping("/api/development/market-data")
 public final class KiteMarketDataDiagnosticController {
+    @ModelAttribute
+    public void requireLocalRequest(jakarta.servlet.http.HttpServletRequest request,
+                                    jakarta.servlet.http.HttpServletResponse response) {
+        response.setHeader("Cache-Control", "no-store");
+        if (!isLoopback(request.getRemoteAddr())
+                || !("localhost".equalsIgnoreCase(request.getServerName()) || isLoopback(request.getServerName()))
+                || request.getHeader("Origin") != null) throw new LocalAccessException();
+        var headers = request.getHeaderNames();
+        while (headers != null && headers.hasMoreElements()) {
+            var name = headers.nextElement();
+            if (name.equalsIgnoreCase("Forwarded") || name.regionMatches(true, 0, "X-Forwarded-", 0, 12))
+                throw new LocalAccessException();
+        }
+        var site = request.getHeader("Sec-Fetch-Site");
+        if (site != null && !site.equals("none") && !site.equals("same-origin")) throw new LocalAccessException();
+    }
+    private static boolean isLoopback(String address) {
+        if (address == null) return false;
+        if (address.equals("::1") || address.equals("[::1]") || address.matches("(?:0{1,4}:){7}0{0,3}1")) return true;
+        return address.matches("127(?:\\.(?:0|[1-9][0-9]{0,2})){3}")
+                && java.util.Arrays.stream(address.split("\\.")).skip(1).allMatch(s -> Integer.parseInt(s) <= 255);
+    }
+    @ExceptionHandler(LocalAccessException.class)
+    ResponseEntity<Map<String, String>> localAccessDenied() {
+        return ResponseEntity.status(403).header("Cache-Control", "no-store").body(Map.of("code", "LOCAL_ACCESS_REQUIRED"));
+    }
+    private static final class LocalAccessException extends RuntimeException {}
     private final MarketDataGateway gateway;
     private final InstrumentRegistry instruments;
     private final LatestMarketDataStore store;

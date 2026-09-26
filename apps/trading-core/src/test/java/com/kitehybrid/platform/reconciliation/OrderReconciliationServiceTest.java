@@ -89,6 +89,54 @@ class OrderReconciliationServiceTest {
         assertEquals(ReconciliationOutcome.CONFLICT, mismatch.reconcile(local.id()).outcome());
     }
 
+    @Test void completedOrderCanBeRecoveredFromSubmitting() {
+        var local = order(OrderState.SUBMITTING, Optional.of("broker-1"));
+        var service = new OrderReconciliationService(new Repo(local), () -> List.of(broker(OrderStatus.FILLED, 1)),
+                List::of, new Store(), Clock.fixed(NOW, ZoneOffset.UTC), new SimpleMeterRegistry());
+        assertEquals(ReconciliationOutcome.FILLED, service.reconcile(local.id()).outcome());
+    }
+
+    @Test void conflictingDuplicateFillsFailClosed() {
+        var local = order(OrderState.SUBMITTED, Optional.of("broker-1"));
+        var first = new BrokerTrade("t", "broker-1", Optional.empty(), INSTRUMENT, Side.BUY,
+                Product.DELIVERY, 1, BigDecimal.TEN, NOW, Optional.empty());
+        var other = new BrokerTrade("t", "broker-1", Optional.empty(), INSTRUMENT, Side.BUY,
+                Product.DELIVERY, 1, BigDecimal.ONE, NOW, Optional.empty());
+        var service = new OrderReconciliationService(new Repo(local), () -> List.of(broker(OrderStatus.FILLED, 1)),
+                () -> List.of(first, other), new Store(), Clock.fixed(NOW, ZoneOffset.UTC), new SimpleMeterRegistry());
+        assertEquals(ReconciliationOutcome.CONFLICT, service.reconcile(local.id()).outcome());
+    }
+
+    @Test void cancelledOrderWithPartialFillStaysCancelled() {
+        var base = order(OrderState.OPEN, Optional.of("broker-1"));
+        var c = base.command();
+        var local = new OrderRecord(base.id(), new PlaceOrder(c.idempotencyKey(), INSTRUMENT, c.side(), 2,
+                c.orderType(), c.product(), c.validity(), c.limitPrice(), c.triggerPrice(), 0, c.variety()),
+                base.state(), base.brokerOrderId(), base.failureCategory(), NOW, NOW, 1);
+        var observed = new BrokerOrder("broker-1", Optional.empty(), Optional.empty(), INSTRUMENT, Side.BUY,
+                TradingReadTypes.OrderType.MARKET, Product.DELIVERY, Validity.DAY, Variety.REGULAR, OrderStatus.CANCELLED,
+                2, 1, 0, 1, 0, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.TEN, NOW, Optional.empty(), Optional.empty());
+        var trade = new BrokerTrade("t", "broker-1", Optional.empty(), INSTRUMENT, Side.BUY,
+                Product.DELIVERY, 1, BigDecimal.TEN, NOW, Optional.empty());
+        var service = new OrderReconciliationService(new Repo(local), () -> List.of(observed), () -> List.of(trade),
+                new Store(), Clock.fixed(NOW, ZoneOffset.UTC), new SimpleMeterRegistry());
+        assertEquals(Optional.of(OrderState.CANCELLED), service.reconcile(local.id()).stateAfter());
+    }
+
+    @Test void fillAggregationCannotOverflowAndAdvanceAnOrder() {
+        var local = order(OrderState.SUBMITTED, Optional.of("broker-1"));
+        var first = new BrokerTrade("one", "broker-1", Optional.empty(), INSTRUMENT, Side.BUY,
+                Product.DELIVERY, Long.MAX_VALUE, BigDecimal.TEN, NOW, Optional.empty());
+        var second = new BrokerTrade("two", "broker-1", Optional.empty(), INSTRUMENT, Side.BUY,
+                Product.DELIVERY, Long.MAX_VALUE, BigDecimal.TEN, NOW, Optional.empty());
+        var store = new Store();
+        var service = new OrderReconciliationService(new Repo(local), () -> List.of(broker(OrderStatus.OPEN, 0)),
+                () -> List.of(first, second), store, Clock.fixed(NOW, ZoneOffset.UTC), new SimpleMeterRegistry());
+        assertEquals(ReconciliationReason.INVALID_FILL_QUANTITY, service.reconcile(local.id()).reason());
+        assertEquals(0, store.lastTrades);
+        assertEquals(0, store.stateChanges);
+    }
+
     private static BrokerOrder broker(OrderStatus status, long filled) {
         return new BrokerOrder("broker-1", Optional.empty(), Optional.empty(), INSTRUMENT, Side.BUY,
                 TradingReadTypes.OrderType.MARKET, Product.DELIVERY, Validity.DAY, Variety.REGULAR, status, 1, filled,

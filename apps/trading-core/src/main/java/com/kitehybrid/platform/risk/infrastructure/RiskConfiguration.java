@@ -8,7 +8,8 @@ import com.kitehybrid.platform.risk.application.*;
 import com.kitehybrid.platform.risk.domain.*;
 import io.micrometer.core.instrument.MeterRegistry;
 import java.time.Clock;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -20,14 +21,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class RiskConfiguration {
     @Bean RiskLimits riskLimits(RiskConfigurationProperties properties) { return properties.limits(); }
 
-    @Bean @ConditionalOnBean({JdbcTemplate.class, OrderRepository.class})
+    @Bean @Profile("!test")
     RiskDecisionStore riskDecisionStore(JdbcTemplate jdbc, OrderRepository orders) {
         return new PostgresRiskDecisionStore(jdbc, orders);
     }
 
-    @Bean @ConditionalOnBean({RiskDecisionStore.class, RiskLimits.class, InstrumentRegistry.class,
-            LatestMarketDataStore.class, MarketDataGateway.class, BrokerPositionsProvider.class,
-            BrokerHoldingsProvider.class, BrokerMarginsProvider.class, BrokerOrdersProvider.class})
+    @Bean @Profile("!test")
+    @ConditionalOnProperty(prefix = "kite.trading-read", name = "enabled", havingValue = "true")
     RiskService riskService(RiskDecisionStore decisions, RiskLimits limits, RiskEngine engine,
                             InstrumentRegistry instruments, LatestMarketDataStore market,
                             MarketDataGateway marketGateway, BrokerPositionsProvider positions,

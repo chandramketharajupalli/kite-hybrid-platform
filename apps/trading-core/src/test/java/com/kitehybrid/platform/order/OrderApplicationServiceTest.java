@@ -85,15 +85,29 @@ class OrderApplicationServiceTest {
         assertEquals(1, gateway.placeCalls.get());
     }
 
-    @Test void cancelIsPlatformIdentityBasedAndRepeatedCancelIsIdempotent() {
+    @Test void mutationsRemainDisabledUntilCommandSpecificSafetyExists() {
         var service = service(true); var created = service.place(place("cancel", OrderType.MARKET, Optional.empty(), Optional.empty()));
         approve(created);
         var submitted = service.executeRiskApproved(created.id());
         var open = submitted.transitionTo(OrderState.OPEN, NOW); repository.records.put(open.id(), open);
-        var cancelled = service.cancel(new CancelOrder("cancel-command", open.id()));
-        assertEquals(OrderState.CANCELLED, cancelled.state()); assertEquals(1, gateway.cancelCalls.get());
-        assertEquals(cancelled.id(), service.cancel(new CancelOrder("cancel-command", open.id())).id());
-        assertEquals(1, gateway.cancelCalls.get());
+        assertEquals(OrderExecutionException.Category.DISABLED, assertThrows(OrderExecutionException.class,
+                () -> service.cancel(new CancelOrder("cancel-command", open.id()))).category());
+        assertEquals(OrderExecutionException.Category.DISABLED, assertThrows(OrderExecutionException.class,
+                () -> service.modify(new ModifyOrder("modify-command", open.id(), OrderType.LIMIT, 100,
+                        Optional.of(BigDecimal.TEN), Optional.empty(), 0, OrderValidity.DAY))).category());
+        assertEquals(0, gateway.cancelCalls.get());
+        assertEquals(OrderState.OPEN, repository.find(open.id()).orElseThrow().state());
+    }
+
+    @Test void malformedAcknowledgementMustKeepExposureUncertain() {
+        gateway.failure = new OrderExecutionException(OrderExecutionException.Category.MALFORMED_RESPONSE);
+        var service = service(true);
+        var order = service.place(place("malformed", OrderType.MARKET, Optional.empty(), Optional.empty()));
+        approve(order);
+        assertThrows(OrderExecutionException.class, () -> service.executeRiskApproved(order.id()));
+        assertEquals(OrderState.SUBMITTING, repository.find(order.id()).orElseThrow().state());
+        assertThrows(OrderCommandValidationException.class, () -> service.executeRiskApproved(order.id()));
+        assertEquals(1, gateway.placeCalls.get());
     }
 
     @Test void executionRequiresKnownPlatformOrderIdentityAndCannotUseBrokerId() {
@@ -134,11 +148,13 @@ class OrderApplicationServiceTest {
     private static final class FakeGateway implements OrderExecutionGateway {
         final AtomicInteger placeCalls = new AtomicInteger(); final AtomicInteger cancelCalls = new AtomicInteger();
         OrderExecutionException failure;
-        public String place(OrderRecord order) { placeCalls.incrementAndGet(); if (failure != null) throw failure; return "fake-1"; }
+        public String place(OrderRecord order, Runnable validation) { validation.run(); placeCalls.incrementAndGet(); if (failure != null) throw failure; return "fake-1"; }
         public void modify(OrderRecord order, ModifyOrder command) {}
         public void cancel(OrderRecord order, CancelOrder command) { cancelCalls.incrementAndGet(); if (failure != null) throw failure; }
     }
     private static final class FakeRepository implements OrderRepository {
+        public void requireIndependentExecution() {}
+        public boolean beginSubmission(OrderRecord expected, OrderRecord next) { return compareAndSet(expected, next); }
         final Map<OrderId, OrderRecord> records = new HashMap<>(); final Map<String, String> keys = new HashMap<>();
         public synchronized IdempotencyClaim claimIdempotency(String key, String fingerprint, OrderId id) {
             var existing = keys.putIfAbsent(key, fingerprint + "|" + id.value());

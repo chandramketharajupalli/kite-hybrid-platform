@@ -1,6 +1,7 @@
 package com.kitehybrid.platform.marketdata.infrastructure;
 
 import com.kitehybrid.platform.marketdata.application.LatestMarketDataStore;
+import com.kitehybrid.platform.marketdata.application.PublicationPermit;
 import com.kitehybrid.platform.marketdata.domain.Tick;
 import com.kitehybrid.platform.shared.domain.Identifiers.InstrumentId;
 import java.util.HashMap;
@@ -12,30 +13,38 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /** Atomic per-instrument publication of immutable ticks. No hot-path external I/O. */
 public final class InMemoryLatestMarketDataStore implements LatestMarketDataStore {
-    private final ConcurrentHashMap<InstrumentId, Tick> latest = new ConcurrentHashMap<>();
+    private record Published(Tick tick, PublicationPermit permit) {}
+    private final ConcurrentHashMap<InstrumentId, Published> latest = new ConcurrentHashMap<>();
 
     @Override public boolean update(Tick tick) {
+        return update(tick, new PublicationPermit());
+    }
+
+    @Override public boolean update(Tick tick, PublicationPermit permit) {
         Objects.requireNonNull(tick);
+        Objects.requireNonNull(permit);
         boolean[] accepted = {false};
         latest.compute(tick.instrumentId(), (instrumentId, previous) -> {
-            if (previous == null || (!tick.equals(previous) && compare(tick, previous) >= 0)) {
+            if (!permit.valid()) return previous;
+            if (previous == null || !previous.permit().valid()
+                    || (!tick.equals(previous.tick()) && compare(tick, previous.tick()) >= 0)) {
                 accepted[0] = true;
-                return tick;
+                return new Published(tick, permit);
             }
             return previous;
         });
-        return accepted[0];
+        return accepted[0] && permit.valid();
     }
 
     @Override public Optional<Tick> latest(InstrumentId instrumentId) {
-        return Optional.ofNullable(latest.get(Objects.requireNonNull(instrumentId)));
+        return Optional.ofNullable(latest.get(Objects.requireNonNull(instrumentId)))
+                .filter(value -> value.permit().valid()).map(Published::tick);
     }
 
     @Override public Map<InstrumentId, Tick> snapshot(Set<InstrumentId> instruments) {
         Map<InstrumentId, Tick> result = new HashMap<>();
         for (InstrumentId instrumentId : Set.copyOf(instruments)) {
-            Tick tick = latest.get(instrumentId);
-            if (tick != null) result.put(instrumentId, tick);
+            latest(instrumentId).ifPresent(tick -> result.put(instrumentId, tick));
         }
         return Map.copyOf(result);
     }

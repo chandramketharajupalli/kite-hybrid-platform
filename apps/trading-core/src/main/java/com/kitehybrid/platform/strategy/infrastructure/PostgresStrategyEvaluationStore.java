@@ -8,14 +8,22 @@ import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 /** PostgreSQL authority for immutable strategy evaluation identity and replay. */
 public final class PostgresStrategyEvaluationStore implements StrategyEvaluationStore {
     private final JdbcTemplate jdbc;
-    public PostgresStrategyEvaluationStore(JdbcTemplate jdbc) { this.jdbc = jdbc; }
-    @Override @Transactional
+    private final TransactionTemplate transaction;
+    public PostgresStrategyEvaluationStore(JdbcTemplate jdbc) {
+        this.jdbc = jdbc;
+        this.transaction = new TransactionTemplate(new DataSourceTransactionManager(java.util.Objects.requireNonNull(jdbc.getDataSource())));
+    }
+    @Override
     public Claim claim(StrategyEvaluation evaluation) {
+        return transaction.execute(status -> claimInTransaction(evaluation));
+    }
+    private Claim claimInTransaction(StrategyEvaluation evaluation) {
         int inserted = jdbc.update("""
                 INSERT INTO trading.strategy_evaluations(strategy_id, strategy_version, event_key, signal_id,
                     instrument_id, action, quantity, reference_price, reason, evaluated_at, intent_id, order_id)
@@ -27,7 +35,12 @@ public final class PostgresStrategyEvaluationStore implements StrategyEvaluation
                 evaluation.orderId().map(OrderId::value).orElse(null));
         if (inserted == 1) return Claim.CREATED;
         var existing = find(evaluation.eventKey(), evaluation.strategyId().value(), evaluation.strategyVersion()).orElseThrow();
-        return existing.signal().id().equals(evaluation.signal().id()) ? Claim.EXISTING : Claim.CONFLICT;
+        var prior = existing.signal(); var candidate = evaluation.signal();
+        // Logical identity does not authorize changing the immutable signal's economic terms.
+        return prior.id().equals(candidate.id()) && prior.instrumentId().equals(candidate.instrumentId())
+                && prior.side() == candidate.side() && prior.quantity() == candidate.quantity()
+                && prior.referencePrice().compareTo(candidate.referencePrice()) == 0
+                && prior.reason() == candidate.reason() ? Claim.EXISTING : Claim.CONFLICT;
     }
     @Override public Optional<StrategyEvaluation> find(String eventKey, String strategyId, String strategyVersion) {
         return jdbc.query("SELECT * FROM trading.strategy_evaluations WHERE event_key=? AND strategy_id=? AND strategy_version=?",
@@ -40,8 +53,11 @@ public final class PostgresStrategyEvaluationStore implements StrategyEvaluation
                         Optional.ofNullable(rs.getObject("order_id", UUID.class)).map(OrderId::new), rs.getTimestamp("evaluated_at").toInstant()),
                 eventKey, strategyId, strategyVersion).stream().findFirst();
     }
-    @Override @Transactional
+    @Override
     public boolean attachOrder(StrategyEvaluation expected, StrategyEvaluation completed) {
+        return Boolean.TRUE.equals(transaction.execute(status -> attachInTransaction(expected, completed)));
+    }
+    private boolean attachInTransaction(StrategyEvaluation expected, StrategyEvaluation completed) {
         if (completed.orderId().isEmpty()) return false;
         int updated = jdbc.update("""
                 UPDATE trading.strategy_evaluations SET intent_id=?, order_id=?

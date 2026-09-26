@@ -7,6 +7,21 @@ import org.junit.jupiter.api.Test;
 
 class UniverseValidationServiceTest {
     @Test
+    void unrelatedAncestorFileCannotOverrideCanonicalRepository(@org.junit.jupiter.api.io.TempDir Path directory) throws Exception {
+        var repository = directory.resolve("repository");
+        var module = repository.resolve("apps/trading-core");
+        java.nio.file.Files.createDirectories(module);
+        java.nio.file.Files.writeString(repository.resolve("mvnw"), "wrapper marker");
+        java.nio.file.Files.writeString(repository.resolve("pom.xml"), "project marker");
+        java.nio.file.Files.writeString(repository.resolve("universe.csv"), "canonical");
+        java.nio.file.Files.writeString(directory.resolve("universe.csv"), "unrelated");
+        var previous = System.getProperty("user.dir");
+        try {
+            System.setProperty("user.dir", module.toString());
+            assertEquals(repository.resolve("universe.csv"), UniverseValidationService.resolveSource(""));
+        } finally { System.setProperty("user.dir", previous); }
+    }
+    @Test
     void blankConfiguredPathFindsRepositoryRootUniverse() {
         Path resolved = UniverseValidationService.resolveSource("");
         assertEquals("universe.csv", resolved.getFileName().toString());

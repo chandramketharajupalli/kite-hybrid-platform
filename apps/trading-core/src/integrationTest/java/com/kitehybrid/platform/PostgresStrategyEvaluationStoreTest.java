@@ -26,7 +26,9 @@ class PostgresStrategyEvaluationStoreTest {
             .withCommand("postgres", "-c", "fsync=off", "-c", "timezone=UTC");
     private static final Instant NOW = Instant.parse("2026-09-21T05:00:00Z");
     private JdbcTemplate jdbc; private PostgresStrategyEvaluationStore store;
-    @BeforeAll static void utc() { TimeZone.setDefault(TimeZone.getTimeZone("UTC")); }
+    private static TimeZone originalTimeZone;
+    @BeforeAll static void utc() { originalTimeZone = TimeZone.getDefault(); TimeZone.setDefault(TimeZone.getTimeZone("UTC")); }
+    @AfterAll static void restoreTimeZone() { TimeZone.setDefault(originalTimeZone); }
     @BeforeEach void setup() {
         Flyway.configure().dataSource(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword()).locations("classpath:db/migration").load().migrate();
         jdbc = new JdbcTemplate(new DriverManagerDataSource(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword()));
@@ -46,5 +48,22 @@ class PostgresStrategyEvaluationStoreTest {
         var order = orderRecord.id(); var completed = new StrategyEvaluation("event-1", strategy, "v1", signal, evaluation.intentId(), Optional.of(order), NOW);
         assertTrue(store.attachOrder(evaluation, completed)); assertTrue(store.attachOrder(evaluation, completed));
         assertEquals(Optional.of(order), store.find("event-1", "reference", "v1").orElseThrow().orderId());
+    }
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.ValueSource(strings = {"instrument", "side", "quantity", "price", "reason"})
+    void changedTermsForTheSameIdentityConflictAfterRestart(String change) {
+        var strategy = new StrategyId("reference"); var instrument = new InstrumentId(UUID.randomUUID());
+        var signal = new Signal(new SignalId(UUID.randomUUID()), strategy, instrument, Signal.Side.BUY, 1,
+                BigDecimal.TEN, NOW, "v1", Signal.Reason.BELOW_THRESHOLD);
+        var evaluation = new StrategyEvaluation("immutable", strategy, "v1", signal, Optional.empty(), Optional.empty(), NOW);
+        assertEquals(StrategyEvaluationStore.Claim.CREATED, store.claim(evaluation));
+        var changed = new Signal(signal.id(), strategy, change.equals("instrument") ? new InstrumentId(UUID.randomUUID()) : instrument,
+                change.equals("side") ? Signal.Side.SELL : signal.side(), change.equals("quantity") ? 2 : 1,
+                change.equals("price") ? BigDecimal.ONE : BigDecimal.TEN, NOW, "v1",
+                change.equals("reason") ? Signal.Reason.ABOVE_THRESHOLD : signal.reason());
+        var replay = new StrategyEvaluation("immutable", strategy, "v1", changed, Optional.empty(), Optional.empty(), NOW);
+        assertEquals(StrategyEvaluationStore.Claim.CONFLICT, new PostgresStrategyEvaluationStore(jdbc).claim(replay));
+        assertEquals(1, jdbc.queryForObject("SELECT count(*) FROM trading.strategy_evaluations", Integer.class));
+        assertEquals(1, store.find("immutable", "reference", "v1").orElseThrow().signal().quantity());
     }
 }

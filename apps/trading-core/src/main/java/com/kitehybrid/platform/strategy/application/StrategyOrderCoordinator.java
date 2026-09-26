@@ -42,23 +42,23 @@ public final class StrategyOrderCoordinator {
         if (claim == StrategyEvaluationStore.Claim.EXISTING && persisted.orderId().isPresent()) return persisted;
         if (claim == StrategyEvaluationStore.Claim.EXISTING) {
             deterministicSignal = persisted.signal();
-            actionable = deterministicSignal.side() != Signal.Side.HOLD && !halted && input.fresh();
+            actionable = persisted.intentId().isPresent() && deterministicSignal.side() != Signal.Side.HOLD && !halted && input.fresh();
             intentId = persisted.intentId().map(OrderIntentId::value).orElse(intentId);
         }
-        metrics.counter("strategy.evaluations", "strategy", definition.id().value()).increment();
+        metrics.counter("strategy.evaluations").increment();
         if (!actionable) {
             metrics.counter("strategy.no_action", "reason", halted ? "EMERGENCY_STOP" : deterministicSignal.reason().name()).increment();
-            return draft;
+            return persisted;
         }
-        var intent = new TradeIntent(new OrderIntentId(intentId), definition.id(), definition.version(), signal.instrumentId(),
-                signal.side(), signal.quantity(), OrderType.MARKET, Optional.empty(), signal.timestamp(), signal.id());
-        metrics.counter("strategy.signals", "action", signal.side().name()).increment();
-        metrics.counter("strategy.intents", "action", signal.side().name()).increment();
+        var intent = new TradeIntent(new OrderIntentId(intentId), definition.id(), definition.version(), deterministicSignal.instrumentId(),
+                deterministicSignal.side(), deterministicSignal.quantity(), OrderType.MARKET, Optional.empty(), deterministicSignal.timestamp(), deterministicSignal.id());
+        metrics.counter("strategy.signals", "action", deterministicSignal.side().name()).increment();
+        metrics.counter("strategy.intents", "action", deterministicSignal.side().name()).increment();
         var order = orders.place(new PlaceOrder(orderKey(definition, eventKey), intent.instrumentId(),
                 intent.side() == Signal.Side.BUY ? OrderSide.BUY : OrderSide.SELL, intent.quantity(), intent.orderType(),
                 OrderProduct.DELIVERY, OrderValidity.DAY, intent.limitPrice(), Optional.empty(), 0, OrderVariety.REGULAR));
         var completed = new StrategyEvaluation(eventKey, definition.id(), definition.version(), deterministicSignal,
-                Optional.of(intent.id()), Optional.of(order.id()), input.evaluatedAt());
+                Optional.of(intent.id()), Optional.of(order.id()), persisted.evaluatedAt());
         if (!evaluations.attachOrder(persisted, completed)) throw new IllegalStateException("STRATEGY_EVALUATION_VERSION_CONFLICT");
         metrics.counter("strategy.orders_proposed").increment();
         risk.ifPresent(r -> r.evaluate(order.id()));
@@ -67,7 +67,7 @@ public final class StrategyOrderCoordinator {
     private static String orderKey(StrategyDefinition definition, String eventKey) {
         var raw = "strategy:" + definition.id().value() + ":" + definition.version() + ":" + eventKey;
         if (raw.length() <= 128) return raw;
-        return "strategy:" + HexFormat.of().formatHex(sha256(raw.getBytes(StandardCharsets.UTF_8))).substring(0, 96);
+        return "strategy:" + HexFormat.of().formatHex(sha256(raw.getBytes(StandardCharsets.UTF_8)));
     }
     private static byte[] sha256(byte[] value) { try { return MessageDigest.getInstance("SHA-256").digest(value); } catch (Exception e) { throw new IllegalStateException(e); } }
     private static UUID deterministicId(String value) { return UUID.nameUUIDFromBytes(value.getBytes(StandardCharsets.UTF_8)); }

@@ -44,7 +44,7 @@ class KiteOrderAdapterTest {
                 .andRespond(withSuccess("{\"status\":\"success\",\"data\":{\"order_id\":\"broker-1\"}}",
                         MediaType.APPLICATION_JSON));
 
-        assertThat(fixture.adapter.place(record(limit()))).isEqualTo("broker-1");
+        assertThat(fixture.adapter.place(record(limit()), () -> {})).isEqualTo("broker-1");
         fixture.server.verify();
     }
 
@@ -53,14 +53,14 @@ class KiteOrderAdapterTest {
         var rejected = fixture(true);
         rejected.server.expect(requestTo(LOCAL_BASE + "/orders/regular"))
                 .andRespond(withBadRequest().body("sensitive broker detail"));
-        var rejection = assertThrows(OrderExecutionException.class, () -> rejected.adapter.place(record(market())));
+        var rejection = assertThrows(OrderExecutionException.class, () -> rejected.adapter.place(record(market()), () -> {}));
         assertThat(rejection.category()).isEqualTo(OrderExecutionException.Category.BROKER_REJECTED);
         assertThat(rejection.getMessage()).doesNotContain("sensitive");
 
         var malformed = fixture(true);
         malformed.server.expect(requestTo(LOCAL_BASE + "/orders/regular"))
                 .andRespond(withSuccess("{\"status\":\"success\",\"data\":{}}", MediaType.APPLICATION_JSON));
-        assertThat(assertThrows(OrderExecutionException.class, () -> malformed.adapter.place(record(market())))
+        assertThat(assertThrows(OrderExecutionException.class, () -> malformed.adapter.place(record(market()), () -> {}))
                 .category()).isEqualTo(OrderExecutionException.Category.MALFORMED_RESPONSE);
     }
 
@@ -69,13 +69,13 @@ class KiteOrderAdapterTest {
         var serverFailure = fixture(true);
         serverFailure.server.expect(requestTo(LOCAL_BASE + "/orders/regular"))
                 .andRespond(withServerError().body("sensitive"));
-        assertThat(assertThrows(OrderExecutionException.class, () -> serverFailure.adapter.place(record(market())))
+        assertThat(assertThrows(OrderExecutionException.class, () -> serverFailure.adapter.place(record(market()), () -> {}))
                 .category()).isEqualTo(OrderExecutionException.Category.AMBIGUOUS);
 
         var authFailure = fixture(true);
         authFailure.server.expect(requestTo(LOCAL_BASE + "/orders/regular"))
                 .andRespond(withUnauthorizedRequest().body("token secret"));
-        assertThat(assertThrows(OrderExecutionException.class, () -> authFailure.adapter.place(record(market())))
+        assertThat(assertThrows(OrderExecutionException.class, () -> authFailure.adapter.place(record(market()), () -> {}))
                 .category()).isEqualTo(OrderExecutionException.Category.AUTHENTICATION);
     }
 
@@ -97,12 +97,35 @@ class KiteOrderAdapterTest {
     @Test
     void disabledAdapterPerformsNoRequest() {
         var fixture = fixture(false);
-        assertThat(assertThrows(OrderExecutionException.class, () -> fixture.adapter.place(record(market())))
+        assertThat(assertThrows(OrderExecutionException.class, () -> fixture.adapter.place(record(market()), () -> {}))
                 .category()).isEqualTo(OrderExecutionException.Category.DISABLED);
         fixture.server.verify();
     }
 
     private static PlaceOrder market() { return command(OrderType.MARKET, Optional.empty()); }
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.ValueSource(ints = {408, 409, 429, 502, 504})
+    void uncertainHttpStatusNeverBecomesDefinitelyRejected(int status) {
+        var fixture = fixture(true);
+        fixture.server.expect(requestTo(LOCAL_BASE + "/orders/regular"))
+                .andRespond(withStatus(org.springframework.http.HttpStatus.valueOf(status)));
+        assertThat(assertThrows(OrderExecutionException.class,
+                () -> fixture.adapter.place(record(market()), () -> {})).category())
+                .isEqualTo(OrderExecutionException.Category.AMBIGUOUS);
+        fixture.server.verify();
+    }
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.ValueSource(strings = {
+            "{\"status\":\"success\",\"data\":{\"order_id\":\"one\",\"order_id\":\"two\"}}",
+            "{\"status\":\"success\",\"data\":{\"order_id\":\"one\"}} {}"})
+    void ambiguousJsonCannotAttachBrokerIdentity(String body) {
+        var fixture = fixture(true);
+        fixture.server.expect(requestTo(LOCAL_BASE + "/orders/regular")).andRespond(withSuccess(body, MediaType.APPLICATION_JSON));
+        assertThat(assertThrows(OrderExecutionException.class,
+                () -> fixture.adapter.place(record(market()), () -> {})).category())
+                .isEqualTo(OrderExecutionException.Category.MALFORMED_RESPONSE);
+        fixture.server.verify();
+    }
     private static PlaceOrder limit() { return command(OrderType.LIMIT, Optional.of(new BigDecimal("10.25"))); }
     private static PlaceOrder command(OrderType type, Optional<BigDecimal> price) {
         return new PlaceOrder("key-" + type, fixtureInstrument().id(), OrderSide.BUY, 1, type,

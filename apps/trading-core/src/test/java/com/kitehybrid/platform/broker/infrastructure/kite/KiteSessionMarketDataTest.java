@@ -87,9 +87,11 @@ class KiteSessionMarketDataTest {
             try {
                 assertThat(holdingMonitor.await(5, TimeUnit.SECONDS)).isTrue();
                 var io = threads.submit(() -> {
+                    assertThat(session.executionIdentity()).isPresent();
                     assertThat(session.marketDataStatus().authenticated()).isTrue();
                     assertThat(session.marketDataCredentials().accessToken()).isEqualTo("runtimeToken");
                     assertThat(session.rejectMarketData(generation)).isTrue();
+                    assertThat(session.executionIdentity()).isEmpty();
                     assertThat(session.marketDataStatus().authenticated()).isFalse();
                     assertThrows(BrokerReadException.class, session::marketDataCredentials);
                 });
@@ -125,6 +127,7 @@ class KiteSessionMarketDataTest {
                 assertThat(holdingMonitor.await(5, TimeUnit.SECONDS)).isTrue();
                 clock.now = NOW.plusSeconds(60);
                 threads.submit(() -> {
+                    assertThat(session.executionIdentity()).isEmpty();
                     assertThat(session.marketDataStatus().authenticated()).isFalse();
                     assertThat(session.marketDataStatus().expiresAt()).isEqualTo(clock.now);
                     assertThrows(BrokerReadException.class, session::marketDataCredentials);

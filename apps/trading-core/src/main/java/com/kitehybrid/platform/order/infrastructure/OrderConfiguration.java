@@ -4,7 +4,7 @@ import com.kitehybrid.platform.instrument.application.InstrumentRegistry;
 import com.kitehybrid.platform.order.application.*;
 import io.micrometer.core.instrument.MeterRegistry;
 import java.time.Clock;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -27,34 +27,33 @@ public class OrderConfiguration {
         return new OrderExecutionProperties(properties.isEnabled(), ids, properties.getMaxQuantity(), properties.getMaxNotional(), properties.getRiskDecisionMaxAge(), properties.getMarketDataMaxAge(), limits.getIfAvailable(() -> null) == null ? "" : limits.getIfAvailable().version(), "phase9");
     }
 
-    @Bean RuntimeExecutionArming runtimeExecutionArming(MeterRegistry metrics) { return new RuntimeExecutionArming(metrics); }
+    @Bean RuntimeExecutionArming runtimeExecutionArming(MeterRegistry metrics, KiteAuthenticationSession session) { return new RuntimeExecutionArming(metrics, session::executionIdentity); }
 
-    @Bean @ConditionalOnBean(JdbcTemplate.class)
+    @Bean @Profile("!test")
     ExecutionAuthorizationAuditStore executionAuthorizationAuditStore(JdbcTemplate jdbc) {
         return new PostgresExecutionAuthorizationAuditStore(jdbc);
     }
 
-    @Bean @ConditionalOnBean({OrderRepository.class, RiskDecisionStore.class, RiskLimits.class, InstrumentRegistry.class,
-            LatestMarketDataStore.class, MarketDataGateway.class, KiteAuthenticationSession.class})
+    @Bean @Profile("!test")
     ExecutionSafetyPolicy executionSafetyPolicy(OrderExecutionProperties properties, RuntimeExecutionArming arm,
             TradingProperties trading, KiteAuthenticationSession session, RiskDecisionStore risks, InstrumentRegistry instruments,
             LatestMarketDataStore market, MarketDataGateway gateway, OrderRepository orders, Clock clock, MeterRegistry metrics,
-            org.springframework.beans.factory.ObjectProvider<ExecutionAuthorizationAuditStore> audit) {
+            ExecutionAuthorizationAuditStore audit) {
         return new ExecutionSafetyPolicy(properties, arm, trading::emergencyStop, session, risks, instruments, market,
-                gateway::health, orders, clock, metrics, audit.getIfAvailable(() -> ExecutionAuthorizationAuditStore.NOOP));
+                gateway::health, orders, clock, metrics, audit);
     }
 
-    @Bean @ConditionalOnBean(JdbcTemplate.class)
+    @Bean @Profile("!test")
     OrderRepository orderRepository(JdbcTemplate jdbc) { return new PostgresOrderRepository(jdbc); }
 
     @Bean @ConditionalOnProperty(prefix = "kite.order-execution", name = "enabled", havingValue = "false", matchIfMissing = true)
     OrderExecutionGateway disabledOrderExecutionGateway() { return new DisabledOrderExecutionGateway(); }
 
-    @Bean @ConditionalOnBean({OrderRepository.class, OrderExecutionGateway.class})
+    @Bean @Profile("!test")
     OrderApplicationService orderApplicationService(OrderRepository repository, InstrumentRegistry instruments,
             OrderExecutionGateway gateway, OrderExecutionProperties properties, Clock clock, MeterRegistry metrics,
-            org.springframework.beans.factory.ObjectProvider<ExecutionSafetyPolicy> safety) {
+            ExecutionSafetyPolicy safety) {
         return new OrderApplicationService(repository, new OrderCommandValidator(instruments), gateway,
-                properties, clock, metrics, safety.getIfAvailable());
+                properties, clock, metrics, safety);
     }
 }

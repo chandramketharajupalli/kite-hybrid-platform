@@ -43,6 +43,7 @@ public final class KiteMarketDataAdapter implements MarketDataGateway {
     private final ArrayBlockingQueue<PendingTick> queue;
     private final AtomicBoolean draining = new AtomicBoolean();
     private final Map<InstrumentId, StreamMode> desired = new HashMap<>();
+    private final Map<InstrumentId, PublicationPermit> publicationPermits = new HashMap<>();
     private final Map<InstrumentId, Long> subscriptionRevisions = new HashMap<>();
     private final Map<InstrumentId, Tick> freshness = new HashMap<>();
     private Map<InstrumentId, StreamMode> active = Map.of();
@@ -123,6 +124,7 @@ public final class KiteMarketDataAdapter implements MarketDataGateway {
             if (desired.get(id) != mode) {
                 freshness.remove(id);
                 subscriptionRevisions.put(id, ++subscriptionSequence);
+                replacePermit(id);
             }
         });
         desired.clear(); desired.putAll(candidate);
@@ -135,6 +137,8 @@ public final class KiteMarketDataAdapter implements MarketDataGateway {
         boolean changed = false;
         for (var id : Set.copyOf(ids)) {
             changed |= desired.remove(id) != null; freshness.remove(id); subscriptionRevisions.remove(id);
+            var permit = publicationPermits.remove(id);
+            if (permit != null) permit.revoke();
         }
         if (!changed) return;
         LOG.info("Market data subscription action=unsubscribe desired={}", desired.size());
@@ -178,6 +182,8 @@ public final class KiteMarketDataAdapter implements MarketDataGateway {
             return;
         }
         sessionGeneration = sessionStatus.generation();
+        revokePublications();
+        desired.keySet().forEach(this::replacePermit);
         long attempt = ++epoch;
         LOG.info("Market data connect state={} attempt={}", state, reconnectAttempts);
         timeoutTask = schedule(() -> connectionFailed(attempt, KiteWebSocketTransport.Failure.CONNECTION),
@@ -301,7 +307,7 @@ public final class KiteMarketDataAdapter implements MarketDataGateway {
                     if (desired.get(tick.instrumentId()) != value.mode
                             || subscriptionRevisions.get(tick.instrumentId()) > receivedSubscriptionSequence) continue;
                     ticksReceived++; metrics.counter("marketdata.ticks.received").increment();
-                    if (!queue.offer(new PendingTick(attempt, subscriptionRevisions.get(tick.instrumentId()), tick))) {
+                    if (!queue.offer(new PendingTick(attempt, subscriptionRevisions.get(tick.instrumentId()), tick, publicationPermits.get(tick.instrumentId())))) {
                         eventsDropped++; metrics.counter("marketdata.events.dropped").increment();
                         latchQuality(BACKPRESSURE);
                     }
@@ -348,7 +354,7 @@ public final class KiteMarketDataAdapter implements MarketDataGateway {
                 }
                 // The store is in-process, but even a delayed consumer must never hold the I/O monitor.
                 try {
-                    boolean updated = store.update(event.tick);
+                    boolean updated = store.update(event.tick, event.permit);
                     synchronized (this) {
                         if (!accepts(event)) continue;
                         if (updated) {
@@ -445,6 +451,7 @@ public final class KiteMarketDataAdapter implements MarketDataGateway {
     }
 
     private void detach(boolean graceful) {
+        revokePublications();
         ++epoch;
         cancel(reconnectTask); reconnectTask = null;
         cancel(timeoutTask); timeoutTask = null;
@@ -490,7 +497,8 @@ public final class KiteMarketDataAdapter implements MarketDataGateway {
         Instant now = clock.instant();
         for (var id : desired.keySet()) {
             Tick tick = freshness.get(id);
-            if (Duration.between(tick.receivedAt(), now).compareTo(settings.staleAfter()) > 0
+            if (tick.receivedAt().isAfter(now) || tick.exchangeTimestamp().filter(at -> at.isAfter(now)).isPresent()
+                    || Duration.between(tick.receivedAt(), now).compareTo(settings.staleAfter()) > 0
                     || tick.exchangeTimestamp().filter(exchange ->
                         Duration.between(exchange, now).compareTo(settings.staleAfter()) > 0).isPresent())
                 return MarketDataHealth.Status.STALE;
@@ -546,6 +554,15 @@ public final class KiteMarketDataAdapter implements MarketDataGateway {
         scheduler.shutdownNow(); worker.shutdownNow();
     }
 
+    private void replacePermit(InstrumentId id) {
+        var old = publicationPermits.put(id, new PublicationPermit());
+        if (old != null) old.revoke();
+    }
+    private void revokePublications() {
+        publicationPermits.values().forEach(PublicationPermit::revoke);
+        publicationPermits.clear();
+    }
+
     private record Normalized(StreamMode mode, Tick tick) {}
-    private record PendingTick(long epoch, long revision, Tick tick) {}
+    private record PendingTick(long epoch, long revision, Tick tick, PublicationPermit permit) {}
 }

@@ -57,6 +57,23 @@ class PostgresReconciliationStoreTest {
         assertFalse(store.apply(record, next, decision, List.of()));
         assertEquals(0, jdbc.queryForObject("SELECT COUNT(*) FROM trading.reconciliation_decisions", Integer.class));
     }
+    @Test void conflictingHistoricalFillRollsBackTheWholeObservation() {
+        var before = create(); var open = before.transitionTo(OrderState.OPEN, NOW);
+        var trade = new BrokerTrade("history", "broker-1", Optional.empty(), before.command().instrumentId(),
+                Side.BUY, Product.DELIVERY, 1, BigDecimal.TEN, NOW, Optional.empty());
+        var first = new ReconciliationDecision(UUID.randomUUID(), before.id(), before.state(), Optional.of(open.state()),
+                ReconciliationOutcome.ADVANCED, ReconciliationReason.STATE_ADVANCED, NOW, before.version());
+        assertTrue(store.apply(before, open, first, List.of(trade)));
+        var filled = open.transitionTo(OrderState.FILLED, NOW);
+        var conflicting = new BrokerTrade("history", "broker-1", Optional.empty(), before.command().instrumentId(),
+                Side.BUY, Product.DELIVERY, 1, BigDecimal.ONE, NOW, Optional.empty());
+        var second = new ReconciliationDecision(UUID.randomUUID(), before.id(), open.state(), Optional.of(filled.state()),
+                ReconciliationOutcome.FILLED, ReconciliationReason.FILLS_OBSERVED, NOW, open.version());
+        assertFalse(store.apply(open, filled, second, List.of(conflicting)));
+        assertEquals(OrderState.OPEN, orders.find(before.id()).orElseThrow().state());
+        assertEquals(1, jdbc.queryForObject("SELECT count(*) FROM trading.reconciliation_decisions", Integer.class));
+        assertEquals(0, jdbc.queryForObject("SELECT count(*) FROM trading.reconciliation_trades WHERE price=1", Integer.class));
+    }
     @Test void brokerCorrelationIsUniqueAndHistoricalNullRemainsAllowed() {
         var correlation = new com.kitehybrid.platform.shared.domain.BrokerCorrelationId("0123456789abcdef0123");
         var first = createWithCorrelation(correlation);
@@ -65,6 +82,18 @@ class PostgresReconciliationStoreTest {
         var duplicate = new OrderRecord(new OrderId(UUID.randomUUID()), command, OrderState.SUBMITTED,
                 Optional.of("broker-2"), Optional.of(correlation), Optional.empty(), NOW, NOW, 1);
         assertThrows(RuntimeException.class, () -> orders.createIfAbsent(duplicate, "b".repeat(64)));
+    }
+    @Test void duplicateBrokerOrderIdentityRollsBackIdempotencyClaim() {
+        var first = create();
+        var command = new PlaceOrder("duplicate-broker-identity", first.command().instrumentId(), OrderSide.BUY, 1,
+                com.kitehybrid.platform.order.domain.command.OrderType.MARKET, OrderProduct.DELIVERY,
+                OrderValidity.DAY, Optional.empty(), Optional.empty(), 0, OrderVariety.REGULAR);
+        var duplicate = new OrderRecord(new OrderId(UUID.randomUUID()), command, OrderState.SUBMITTED,
+                first.brokerOrderId(), Optional.empty(), NOW, NOW, 1);
+        assertThrows(org.springframework.dao.DataIntegrityViolationException.class,
+                () -> orders.createIfAbsent(duplicate, "d".repeat(64)));
+        assertEquals(1, jdbc.queryForObject("SELECT count(*) FROM trading.orders", Integer.class));
+        assertEquals(1, jdbc.queryForObject("SELECT count(*) FROM trading.order_idempotency", Integer.class));
     }
     private OrderRecord create() {
         var command = new PlaceOrder("reconcile-" + UUID.randomUUID(), new InstrumentId(UUID.randomUUID()), OrderSide.BUY, 1,

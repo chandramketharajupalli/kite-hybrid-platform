@@ -57,12 +57,14 @@ public final class UniverseValidationService {
             return Path.of(configuredPath).toAbsolutePath().normalize();
         }
         Path current = Path.of(System.getProperty("user.dir")).toAbsolutePath().normalize();
-        Path found = null;
         for (int depth = 0; depth < 8 && current != null; depth++, current = current.getParent()) {
-            Path candidate = current.resolve("universe.csv");
-            if (Files.isRegularFile(candidate)) found = candidate;
+            if (Files.isRegularFile(current.resolve("mvnw"))
+                    && Files.isRegularFile(current.resolve("pom.xml"))
+                    && Files.isDirectory(current.resolve("apps/trading-core"))) {
+                return current.resolve("universe.csv");
+            }
         }
-        return found != null ? found : Path.of("universe.csv").toAbsolutePath().normalize();
+        throw new IllegalStateException("Repository root unavailable; configure UNIVERSE_DIAGNOSTIC_PATH");
     }
 
     private static String normalizeFragment(String fragment) {

@@ -16,6 +16,9 @@ public interface LatestMarketDataStore {
      */
     boolean update(Tick tick);
 
+    /** Must retain the permit with the value and hide revoked values on every read. */
+    boolean update(Tick tick, PublicationPermit permit);
+
     Optional<Tick> latest(InstrumentId instrumentId);
 
     /**

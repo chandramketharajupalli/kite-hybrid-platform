@@ -76,6 +76,22 @@ class PostgresOrderRepositoryTest {
         assertEquals(Optional.of("broker-1"), new PostgresOrderRepository(jdbc).find(original.id()).orElseThrow().brokerOrderId());
     }
 
+    @Test void failedOrderInsertRollsBackIdempotencyClaim() {
+        var original = record("rollback-original");
+        repository.create(original);
+        var candidate = new OrderRecord(original.id(), record("rollback-candidate").command(),
+                original.state(), original.brokerOrderId(), original.failureCategory(),
+                original.createdAt(), original.updatedAt(), original.version());
+        try {
+            assertThrows(org.springframework.dao.DataIntegrityViolationException.class,
+                    () -> repository.createIfAbsent(candidate, "b".repeat(64)));
+            assertEquals(0, jdbc.queryForObject("SELECT COUNT(*) FROM trading.order_idempotency WHERE idempotency_key=?",
+                    Integer.class, "rollback-candidate"));
+        } finally {
+            jdbc.update("DELETE FROM trading.orders WHERE order_id=?", original.id().value());
+        }
+    }
+
     private OrderRepositoryResult claim(CountDownLatch start, OrderRecord record) throws Exception {
         start.await(); return claimNow(record);
     }

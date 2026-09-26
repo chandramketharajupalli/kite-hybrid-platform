@@ -392,7 +392,9 @@ class KiteAuthenticationHttpTest {
 
     @Test void exchangeFailureIsSanitizedAndIsNotPersistedOrRetried(CapturedOutput output) throws Exception {
         Cookie browser = startLogin();
-        when(gateway.exchange(requestToken)).thenThrow(new IllegalStateException(SECRET + ACCESS_TOKEN + requestToken));
+        String privateContext = "Authorization: synthetic-auth checksum=synthetic-checksum "
+                + "nonce=synthetic-nonce Cookie=synthetic-session " + ENCRYPTION_KEY + state.get();
+        when(gateway.exchange(requestToken)).thenThrow(new IllegalStateException(SECRET + ACCESS_TOKEN + requestToken + privateContext));
 
         safe(http.perform(callback().cookie(browser).param("state", state.get())))
                 .andExpect(status().isBadGateway())
@@ -405,7 +407,8 @@ class KiteAuthenticationHttpTest {
         verify(gateway, times(1)).exchange(requestToken);
         verify(store, never()).save(any());
         assertThat(session.authenticated()).isFalse();
-        assertThat(output.getAll()).doesNotContain(SECRET, ACCESS_TOKEN, requestToken);
+        assertThat(output.getAll()).doesNotContain(SECRET, ACCESS_TOKEN, requestToken,
+                "synthetic-auth", "synthetic-checksum", "synthetic-nonce", "synthetic-session", ENCRYPTION_KEY, state.get());
     }
 
     @Test void actualKiteErrorIsLoggedButPublicCallbackKeepsGenericFailure(CapturedOutput output) throws Exception {

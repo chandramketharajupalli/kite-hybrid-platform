@@ -15,6 +15,7 @@ public final class KiteSession implements KiteAuthenticationSession {
     private final Clock clock;
     private State state;
     private KiteAccessToken token;
+    private java.util.UUID executionIdentity;
     private long marketDataGeneration;
     private final AtomicLong rejectedMarketDataGeneration = new AtomicLong(Long.MIN_VALUE);
     private volatile MarketDataView marketDataView;
@@ -86,6 +87,7 @@ public final class KiteSession implements KiteAuthenticationSession {
         if (!enabled() || !properties.apiKeyValid()) throw new BrokerReadException(CONFIGURATION);
         if (!candidate.isUsableAt(clock.instant())) throw new BrokerReadException(AUTHENTICATION);
         token = candidate;
+        executionIdentity = java.util.UUID.randomUUID();
         state = State.UNVERIFIED;
         marketDataGeneration++;
         publishMarketDataView();
@@ -96,6 +98,10 @@ public final class KiteSession implements KiteAuthenticationSession {
         state = !properties.restEnabled() ? State.DISABLED
                 : !properties.apiKeyValid() ? State.NOT_CONFIGURED : State.AUTH_REQUIRED;
         publishMarketDataView();
+    }
+    @Override public java.util.Optional<java.util.UUID> executionIdentity() {
+        var view = marketDataView;
+        return usable(view.status()) ? java.util.Optional.ofNullable(view.executionIdentity()) : java.util.Optional.empty();
     }
     public synchronized State state() { expire(); return state; }
     private void expire() {
@@ -114,11 +120,12 @@ public final class KiteSession implements KiteAuthenticationSession {
                 token == null ? Instant.EPOCH : token.expiresAt());
         var credentials = status.authenticated()
                 ? new MarketDataCredentials(properties.apiKey(), token.value(), marketDataGeneration) : null;
-        marketDataView = new MarketDataView(status, credentials);
+        marketDataView = new MarketDataView(status, credentials, executionIdentity);
     }
     @Override public String toString() { return "KiteSession[state=" + state() + ", credentials=REDACTED]"; }
     record MarketDataStatus(boolean authenticated, long generation, Instant expiresAt) {}
-    private record MarketDataView(MarketDataStatus status, MarketDataCredentials credentials) {}
+    private record MarketDataView(MarketDataStatus status, MarketDataCredentials credentials,
+                                  java.util.UUID executionIdentity) {}
     static final class MarketDataCredentials {
         private final String apiKey;
         private final String accessToken;

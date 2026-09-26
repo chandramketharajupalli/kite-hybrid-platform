@@ -16,11 +16,14 @@ public enum OrderState {
             case CREATED -> target == VALIDATED || target == REJECTED;
             case VALIDATED -> target == RISK_APPROVED || target == REJECTED;
             case RISK_APPROVED -> target == SUBMITTING;
-            case SUBMITTING -> target == SUBMITTED || target == REJECTED || target == FAILED;
+            // A read-only broker observation may recover an order already completed during a crash.
+            case SUBMITTING -> target == SUBMITTED || target == REJECTED || target == FAILED
+                    || target == PARTIALLY_FILLED || target == FILLED || target == CANCELLED
+                    || target == CANCEL_PENDING;
             case SUBMITTED -> target == ACKNOWLEDGED || target == OPEN || target == PARTIALLY_FILLED
-                    || target == FILLED || target == CANCEL_PENDING || target == REJECTED;
+                    || target == FILLED || target == CANCEL_PENDING || target == CANCELLED || target == REJECTED;
             case ACKNOWLEDGED -> target == OPEN || target == PARTIALLY_FILLED
-                    || target == FILLED || target == CANCEL_PENDING || target == REJECTED;
+                    || target == FILLED || target == CANCEL_PENDING || target == CANCELLED || target == REJECTED;
             case OPEN -> target == PARTIALLY_FILLED || target == FILLED
                     || target == CANCEL_PENDING || target == CANCELLED || target == REJECTED;
             case PARTIALLY_FILLED -> target == FILLED || target == CANCEL_PENDING || target == CANCELLED;

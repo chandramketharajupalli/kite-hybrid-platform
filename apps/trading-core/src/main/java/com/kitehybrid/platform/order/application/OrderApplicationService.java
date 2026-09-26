@@ -22,7 +22,6 @@ public final class OrderApplicationService {
     private final OrderRepository repository;
     private final OrderCommandValidator validator;
     private final OrderExecutionGateway gateway;
-    private final OrderExecutionProperties execution;
     private final Clock clock;
     private final MeterRegistry metrics;
     private final ExecutionSafetyPolicy safety;
@@ -30,7 +29,7 @@ public final class OrderApplicationService {
                                    OrderExecutionGateway gateway, OrderExecutionProperties execution,
                                    Clock clock, MeterRegistry metrics, ExecutionSafetyPolicy safety) {
         this.repository = Objects.requireNonNull(repository); this.validator = Objects.requireNonNull(validator);
-        this.gateway = Objects.requireNonNull(gateway); this.execution = Objects.requireNonNull(execution);
+        this.gateway = Objects.requireNonNull(gateway); Objects.requireNonNull(execution);
         this.clock = Objects.requireNonNull(clock); this.metrics = Objects.requireNonNull(metrics); this.safety = Objects.requireNonNull(safety);
     }
     public OrderRecord place(PlaceOrder command) {
@@ -49,69 +48,46 @@ public final class OrderApplicationService {
     }
     /** Executes an order only after the risk subsystem has durably persisted RISK_APPROVED. */
     public OrderRecord executeRiskApproved(OrderId id) {
+        repository.requireIndependentExecution();
         var current = require(id);
         var decision = safety.evaluate(current);
         if (!decision.allowed()) throw new OrderCommandValidationException(decision.reason().name());
         var submitting = current.transitionTo(OrderState.SUBMITTING, clock.instant());
-        if (!repository.compareAndSet(current, submitting)) throw new OrderExecutionException(OrderExecutionException.Category.TRANSPORT);
+        if (!repository.beginSubmission(current, submitting)) {
+            var reason = repository.find(id).filter(current::equals).isPresent()
+                    ? ExecutionDenialReason.RECONCILIATION_REQUIRED : ExecutionDenialReason.ORDER_VERSION_CHANGED;
+            safety.deny(current, reason);
+            throw new OrderExecutionException(OrderExecutionException.Category.TRANSPORT);
+        }
         try {
-            String brokerId = gateway.place(submitting);
+            safety.validateDispatch(current, submitting);
+            String brokerId = gateway.place(submitting, () -> safety.validateDispatch(current, submitting));
             var attached = submitting.withBrokerOrderId(brokerId, clock.instant());
             var submitted = attached.transitionTo(OrderState.SUBMITTED, clock.instant());
             if (!repository.attachBrokerOrderId(submitting, submitted))
                 throw new OrderExecutionException(OrderExecutionException.Category.TRANSPORT);
             metrics.counter("order.execution.attempts", "operation", "place", "result", "success").increment();
             return submitted;
+        } catch (OrderCommandValidationException denied) {
+            repository.compareAndSet(submitting, submitting.failed("PRE_DISPATCH_DENIED", clock.instant()));
+            throw denied;
         } catch (OrderExecutionException failure) {
             metrics.counter("order.execution.failures", "operation", "place", "category", failure.category().name()).increment();
             if (failure.category() == OrderExecutionException.Category.AMBIGUOUS
+                    || failure.category() == OrderExecutionException.Category.MALFORMED_RESPONSE
                     || failure.category() == OrderExecutionException.Category.TRANSPORT) throw failure;
             var failed = submitting.failed(failure.category().name(), clock.instant());
             repository.compareAndSet(submitting, failed);
             throw failure;
         }
     }
+    /** Command-specific risk, authorization and reconciliation are not implemented for mutations. */
     public OrderRecord modify(ModifyOrder command) {
-        var current = require(command.orderId());
-        var prior = repository.findByIdempotencyKey(command.idempotencyKey());
-        if (prior.isPresent()) {
-            if (!prior.get().id().equals(current.id())) throw new OrderCommandValidationException("IDEMPOTENCY_CONFLICT");
-            return current;
-        }
-        validator.validate(command, current);
-        if (claim(command, current.id()) == OrderRepository.IdempotencyClaim.EXISTING) return current;
-        ensureEnabled(); gateway.modify(current, command); return current;
+        throw new OrderExecutionException(OrderExecutionException.Category.DISABLED);
     }
     public OrderRecord cancel(CancelOrder command) {
-        var current = require(command.orderId());
-        var prior = repository.findByIdempotencyKey(command.idempotencyKey());
-        if (prior.isPresent()) {
-            if (!prior.get().id().equals(current.id())) throw new OrderCommandValidationException("IDEMPOTENCY_CONFLICT");
-            return current;
-        }
-        validator.validate(command, current);
-        var claim = claim(command, current.id());
-        if (claim == OrderRepository.IdempotencyClaim.EXISTING) return current;
-        ensureEnabled();
-        var pending = current.transitionTo(OrderState.CANCEL_PENDING, clock.instant());
-        if (!repository.compareAndSet(current, pending)) throw new OrderExecutionException(OrderExecutionException.Category.TRANSPORT);
-        try {
-            gateway.cancel(pending, command);
-            var cancelled = pending.transitionTo(OrderState.CANCELLED, clock.instant());
-            if (!repository.compareAndSet(pending, cancelled)) throw new OrderExecutionException(OrderExecutionException.Category.TRANSPORT);
-            return cancelled;
-        } catch (OrderExecutionException failure) {
-            if (failure.category() == OrderExecutionException.Category.AMBIGUOUS
-                    || failure.category() == OrderExecutionException.Category.TRANSPORT) throw failure;
-            throw failure;
-        }
+        throw new OrderExecutionException(OrderExecutionException.Category.DISABLED);
     }
-    private OrderRepository.IdempotencyClaim claim(OrderCommand command, OrderId orderId) {
-        var claim = repository.claimIdempotency(command.idempotencyKey(), fingerprint(command), orderId);
-        if (claim == OrderRepository.IdempotencyClaim.CONFLICT) throw new OrderCommandValidationException("IDEMPOTENCY_CONFLICT");
-        return claim;
-    }
-    private void ensureEnabled() { if (!execution.enabled()) throw new OrderExecutionException(OrderExecutionException.Category.DISABLED); }
     private OrderRecord require(OrderId id) { return repository.find(id).orElseThrow(() -> new OrderCommandValidationException("ORDER_NOT_FOUND")); }
     private void transitionMetric(String from, String to) {
         metrics.counter("order.transitions", "from", from, "to", to).increment();

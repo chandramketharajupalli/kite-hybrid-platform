@@ -12,15 +12,23 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Optional;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 /** Durable order records and idempotency claims. No broker transport is reachable from this class. */
 public final class PostgresOrderRepository implements OrderRepository {
     private final JdbcTemplate jdbc;
-    public PostgresOrderRepository(JdbcTemplate jdbc) { this.jdbc = jdbc; }
+    private final TransactionTemplate transaction;
+    public PostgresOrderRepository(JdbcTemplate jdbc) {
+        this.jdbc = jdbc;
+        this.transaction = new TransactionTemplate(new DataSourceTransactionManager(java.util.Objects.requireNonNull(jdbc.getDataSource())));
+    }
 
-    @Override @Transactional
+    @Override
     public IdempotencyClaim createIfAbsent(OrderRecord record, String fingerprint) {
+        return transaction.execute(status -> createInTransaction(record, fingerprint));
+    }
+    private IdempotencyClaim createInTransaction(OrderRecord record, String fingerprint) {
         int inserted = jdbc.update("""
                 INSERT INTO trading.order_idempotency(idempotency_key, command_fingerprint, order_id)
                 VALUES (?, ?, ?) ON CONFLICT (idempotency_key) DO NOTHING
@@ -60,6 +68,28 @@ public final class PostgresOrderRepository implements OrderRepository {
         return jdbc.query("SELECT o.* FROM trading.orders o JOIN trading.order_idempotency i ON i.order_id=o.order_id WHERE i.idempotency_key=?", this::map, key).stream().findFirst();
     }
     @Override public boolean compareAndSet(OrderRecord expected, OrderRecord next) { return update(expected, next); }
+    @Override public void requireIndependentExecution() {
+        if (org.springframework.transaction.support.TransactionSynchronizationManager.isActualTransactionActive())
+            throw new IllegalStateException("Execution cannot join a caller transaction");
+    }
+    @Override public boolean beginSubmission(OrderRecord expected, OrderRecord next) {
+        requireIndependentExecution();
+        if (expected.state() != OrderState.RISK_APPROVED || next.state() != OrderState.SUBMITTING
+                || !expected.id().equals(next.id()) || next.version() != expected.version() + 1)
+            throw new IllegalArgumentException("Invalid submission transition");
+        return Boolean.TRUE.equals(transaction.execute(status -> {
+            jdbc.execute("SET LOCAL lock_timeout = '5s'");
+            jdbc.execute("SELECT pg_advisory_xact_lock(606001)");
+            if (hasBlockingExposureExcept(expected.id())) return false;
+            return update(expected, next);
+        }));
+    }
+    @Override public boolean hasBlockingExposureExcept(OrderId id) {
+        return Boolean.TRUE.equals(jdbc.queryForObject("""
+                SELECT EXISTS(SELECT 1 FROM trading.orders WHERE order_id<>? AND state IN
+                ('SUBMITTING','SUBMITTED','ACKNOWLEDGED','OPEN','PARTIALLY_FILLED','FILLED','CANCEL_PENDING'))
+                """, Boolean.class, id.value()));
+    }
     @Override public boolean attachBrokerOrderId(OrderRecord expected, OrderRecord next) { return update(expected, next); }
     @Override public boolean hasDangerousUnresolvedOrders() { return Boolean.TRUE.equals(jdbc.queryForObject("SELECT EXISTS(SELECT 1 FROM trading.orders WHERE state='SUBMITTING')", Boolean.class)); }
     private boolean update(OrderRecord expected, OrderRecord next) {

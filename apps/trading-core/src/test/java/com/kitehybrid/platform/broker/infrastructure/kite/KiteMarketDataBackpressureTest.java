@@ -1,6 +1,7 @@
 package com.kitehybrid.platform.broker.infrastructure.kite;
 
 import com.kitehybrid.platform.marketdata.application.LatestMarketDataStore;
+import com.kitehybrid.platform.marketdata.application.PublicationPermit;
 import com.kitehybrid.platform.marketdata.domain.Tick;
 import com.kitehybrid.platform.marketdata.infrastructure.InMemoryLatestMarketDataStore;
 import com.kitehybrid.platform.shared.domain.Identifiers.InstrumentId;
@@ -18,6 +19,29 @@ import static com.kitehybrid.platform.marketdata.application.MarketDataHealth.St
 import static org.assertj.core.api.Assertions.*;
 
 class KiteMarketDataBackpressureTest {
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.ValueSource(strings = {"stop", "unsubscribe", "mode", "restart"})
+    void lifecycleChangeRevokesAnAlreadyDequeuedPublication(String change) throws Exception {
+        var blocked = new BlockingStore();
+        try (var rig = new TestRig(2, 2, blocked); var threads = Executors.newFixedThreadPool(2)) {
+            rig.connect();
+            rig.frame(frame(ltpPacket(408065, 100)));
+            var processing = threads.submit(rig.worker::runAll);
+            try {
+                assertThat(blocked.entered.await(1, TimeUnit.SECONDS)).isTrue();
+                threads.submit(() -> {
+                    switch (change) {
+                        case "stop" -> rig.gateway.stop();
+                        case "unsubscribe" -> rig.gateway.unsubscribe(Set.of(A.id()));
+                        case "mode" -> rig.gateway.subscribe(Set.of(A.id()), com.kitehybrid.platform.marketdata.domain.StreamMode.FULL);
+                        case "restart" -> { rig.gateway.stop(); rig.gateway.start(); }
+                    }
+                }).get(1, TimeUnit.SECONDS);
+            } finally { blocked.release.countDown(); }
+            processing.get(1, TimeUnit.SECONDS);
+            assertThat(blocked.latest(A.id())).isEmpty();
+        }
+    }
     @Test void boundedQueueRejectsNewestExcessAndCountsEveryDroppedTick() {
         try (var rig = new TestRig(2, 2, null)) {
             rig.connect();
@@ -65,9 +89,10 @@ class KiteMarketDataBackpressureTest {
         var store = new InMemoryLatestMarketDataStore();
         LatestMarketDataStore onceFailing = new LatestMarketDataStore() {
             boolean first = true;
-            @Override public boolean update(Tick tick) {
+            @Override public boolean update(Tick tick) { return update(tick, new PublicationPermit()); }
+        @Override public boolean update(Tick tick, PublicationPermit permit) {
                 if (first) { first = false; throw new IllegalStateException("simulated processing failure"); }
-                return store.update(tick);
+                return store.update(tick, permit);
             }
             @Override public Optional<Tick> latest(InstrumentId id) { return store.latest(id); }
             @Override public Map<InstrumentId, Tick> snapshot(Set<InstrumentId> ids) { return store.snapshot(ids); }
@@ -90,7 +115,8 @@ class KiteMarketDataBackpressureTest {
         final CountDownLatch entered = new CountDownLatch(1);
         final CountDownLatch release = new CountDownLatch(1);
         final InMemoryLatestMarketDataStore delegate = new InMemoryLatestMarketDataStore();
-        @Override public boolean update(Tick tick) {
+        @Override public boolean update(Tick tick) { return update(tick, new PublicationPermit()); }
+        @Override public boolean update(Tick tick, PublicationPermit permit) {
             entered.countDown();
             try {
                 if (!release.await(5, TimeUnit.SECONDS)) throw new IllegalStateException("Test consumer timed out");
@@ -98,7 +124,7 @@ class KiteMarketDataBackpressureTest {
                 Thread.currentThread().interrupt();
                 throw new IllegalStateException("Test consumer interrupted");
             }
-            return delegate.update(tick);
+            return delegate.update(tick, permit);
         }
         @Override public Optional<Tick> latest(InstrumentId id) { return delegate.latest(id); }
         @Override public Map<InstrumentId, Tick> snapshot(Set<InstrumentId> ids) { return delegate.snapshot(ids); }

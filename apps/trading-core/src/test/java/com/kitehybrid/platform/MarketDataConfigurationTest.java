@@ -39,6 +39,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 class MarketDataConfigurationTest {
+    @Test void diagnosticRejectsRemoteAndBrowserMutationBeforeGateway() {
+        diagnosticContext("development").withPropertyValues("kite.market-data.enabled=true", "kite.market-data.diagnostic-enabled=true")
+                .run(context -> {
+                    var http = MockMvcBuilders.webAppContextSetup(context).build();
+                    http.perform(post("/api/development/market-data/stop").with(request -> {
+                        request.setRemoteAddr("192.0.2.1"); return request;
+                    })).andExpect(status().isForbidden());
+                    http.perform(post("/api/development/market-data/stop").header("Origin", "https://example.invalid"))
+                            .andExpect(status().isForbidden());
+                    http.perform(post("/api/development/market-data/stop").header("Forwarded", "for=127.0.0.1"))
+                            .andExpect(status().isForbidden());
+                    org.mockito.Mockito.verifyNoInteractions(context.getBean(MarketDataGateway.class));
+                });
+    }
+
+    @Test void simultaneousProductionProfileDisablesDiagnostic() {
+        diagnosticContext("development").withInitializer(context ->
+                        context.getEnvironment().setActiveProfiles("development", "production"))
+                .withPropertyValues("kite.market-data.enabled=true", "kite.market-data.diagnostic-enabled=true")
+                .run(context -> assertThat(context).doesNotHaveBean(KiteMarketDataDiagnosticController.class));
+    }
     @Test void defaultsAreDisabledAndBoundedWithoutAnyCredentials() {
         var properties = bind(Map.of());
         assertThat(properties.enabled()).isFalse();

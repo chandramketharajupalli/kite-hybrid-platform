@@ -68,12 +68,23 @@ public final class OrderReconciliationService {
         brokerId = matches.getFirst().brokerOrderId();
         final var matchedBrokerId = brokerId;
         var fills = observedTrades.stream().filter(t -> matchedBrokerId.equals(t.brokerOrderId())).toList();
-        var uniqueFills = fills.stream().collect(java.util.stream.Collectors.toMap(
-                t -> t.brokerTradeId() + "\u0000" + t.brokerOrderId(), t -> t, (first, ignored) -> first)).values().stream().toList();
-        var fillQuantity = uniqueFills.stream().mapToLong(BrokerTrade::quantity).sum();
-        if (fillQuantity > local.command().quantity()) {
-            return record(local, local, ReconciliationOutcome.CONFLICT,
-                    ReconciliationReason.INVALID_FILL_QUANTITY, observedAt, fills);
+        var uniqueFills = new HashMap<String, BrokerTrade>();
+        long fillQuantity = 0;
+        for (var fill : fills) {
+            var previous = uniqueFills.putIfAbsent(fill.brokerTradeId(), fill);
+            if (!fill.instrumentId().equals(local.command().instrumentId())
+                    || fill.side() != side(local.command().side()) || fill.product() != product(local.command().product())
+                    || (previous != null && !previous.equals(fill))) {
+                return record(local, local, ReconciliationOutcome.CONFLICT,
+                        ReconciliationReason.ORDER_IDENTITY_CONFLICT, observedAt, List.of());
+            }
+            if (previous == null) {
+                // Subtraction avoids overflow even when upstream quantities approach Long.MAX_VALUE.
+                if (fill.quantity() > local.command().quantity() - fillQuantity)
+                    return record(local, local, ReconciliationOutcome.CONFLICT,
+                            ReconciliationReason.INVALID_FILL_QUANTITY, observedAt, List.of());
+                fillQuantity += fill.quantity();
+            }
         }
         var target = targetState(local, broker, fillQuantity);
         if (target.isEmpty()) {
@@ -135,6 +146,8 @@ public final class OrderReconciliationService {
     private static Optional<OrderState> targetState(OrderRecord local, BrokerOrder broker, long fillQuantity) {
         if (fillQuantity == local.command().quantity() || broker.status() == TradingReadTypes.OrderStatus.FILLED)
             return Optional.of(OrderState.FILLED);
+        if (broker.status() == TradingReadTypes.OrderStatus.CANCELLED)
+            return Optional.of(OrderState.CANCELLED);
         if (fillQuantity > 0 || broker.status() == TradingReadTypes.OrderStatus.PARTIALLY_FILLED)
             return Optional.of(OrderState.PARTIALLY_FILLED);
         return switch (broker.status()) {
@@ -161,6 +174,9 @@ public final class OrderReconciliationService {
                 && broker.side() == side(c.side()) && broker.quantity() == c.quantity()
                 && broker.orderType() == orderType(c.orderType()) && broker.product() == product(c.product())
                 && broker.validity() == validity(c.validity())
+                && broker.variety() == TradingReadTypes.Variety.REGULAR
+                && broker.disclosedQuantity() == c.disclosedQuantity()
+                && broker.triggerPrice().compareTo(c.triggerPrice().orElse(BigDecimal.ZERO)) == 0
                 && (c.limitPrice().isEmpty() || broker.price().compareTo(c.limitPrice().get()) == 0);
     }
     private static TradingReadTypes.Side side(OrderSide s) { return s == OrderSide.BUY ? TradingReadTypes.Side.BUY : TradingReadTypes.Side.SELL; }

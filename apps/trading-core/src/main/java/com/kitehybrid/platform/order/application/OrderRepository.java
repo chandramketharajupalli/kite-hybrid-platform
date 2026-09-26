@@ -15,5 +15,10 @@ public interface OrderRepository {
     Optional<OrderRecord> findByIdempotencyKey(String key);
     boolean compareAndSet(OrderRecord expected, OrderRecord next);
     boolean attachBrokerOrderId(OrderRecord expected, OrderRecord next);
-    default boolean hasDangerousUnresolvedOrders() { return false; }
+    default boolean hasDangerousUnresolvedOrders() { return true; }
+    /** Must commit account-scoped admission before returning; false leaves the expected order unchanged. */
+    default boolean beginSubmission(OrderRecord expected, OrderRecord submitting) { return false; }
+    /** Reject ambient transactions before any execution side effect. */
+    default void requireIndependentExecution() { throw new IllegalStateException("Execution coordination unavailable"); }
+    default boolean hasBlockingExposureExcept(OrderId id) { return true; }
 }

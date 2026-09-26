@@ -154,10 +154,12 @@ final class KiteAuthenticationAdapter implements KiteAuthenticationGateway {
                     || lower.contains(URLEncoder.encode(credential, StandardCharsets.UTF_8).toLowerCase(Locale.ROOT))))
                 return "[REDACTED]";
         }
-        // Retain useful messages such as "Invalid checksum."; redact credential values and headers.
-        if (CREDENTIAL_ASSIGNMENT.matcher(text).find() || OPAQUE_CREDENTIAL.matcher(text).find())
-            return "[REDACTED]";
-        return text;
+        // Only fixed diagnostic vocabulary may reach logs. Unknown text is never echoed.
+        return switch (text) {
+            case "Invalid checksum." -> "Invalid checksum.";
+            case "TokenException" -> "TokenException";
+            default -> "[REDACTED]";
+        };
     }
 
     private static void logUnparseable(int status) {

@@ -9,8 +9,8 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 class UniverseValidationArchitectureTest {
     @Test void validationHasNoTradingOrMarketSideEffects() {
         var classes = new ClassFileImporter().withImportOption(new ImportOption.DoNotIncludeTests())
-                .importClasses(UniverseValidationService.class);
-        noClasses().that().areAssignableTo(UniverseValidationService.class)
+                .importPackages("com.kitehybrid.platform.instrument");
+        noClasses().that().haveSimpleNameContaining("Universe")
                 .should().dependOnClassesThat().resideInAnyPackage(
                         "..marketdata..", "..strategy..", "..risk..", "..order..", "..broker.infrastructure..")
                 .check(classes);

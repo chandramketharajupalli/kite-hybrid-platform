@@ -211,7 +211,8 @@ class KiteAuthenticationAdapterTest {
         Fixture fixture = fixture();
         expectExchange(fixture).andRespond(request -> new MockClientHttpResponse(new InputStream() {
             @Override public int read() throws IOException {
-                throw new IOException(API_SECRET + REQUEST_TOKEN + ACCESS_TOKEN + CHECKSUM);
+                throw new IOException(API_SECRET + REQUEST_TOKEN + ACCESS_TOKEN + CHECKSUM + ENCRYPTION_KEY
+                        + " Authorization: synthetic-header state=synthetic-state nonce=synthetic-nonce Cookie=synthetic-session");
             }
         }, HttpStatus.BAD_GATEWAY));
 
@@ -232,6 +233,7 @@ class KiteAuthenticationAdapterTest {
                 ACCESS_TOKEN, RETURNED_ACCESS_TOKEN, "Authorization: token " + API_KEY + ":" + ACCESS_TOKEN,
                 "Authorization: Bearer unknownHeaderCredential", "Authorization Basic dGVzdA==",
                 "access_token is shortValue", "request_token=shortValue", "api_secret: shortValue",
+                "state=synthetic-state", "nonce=synthetic-nonce", "Cookie: session=synthetic-cookie",
                 java.net.URLEncoder.encode(ENCRYPTION_KEY, java.nio.charset.StandardCharsets.UTF_8)}) {
             Fixture fixture = fixture(new KiteProperties(API_KEY, API_SECRET, ACCESS_TOKEN, true), authProperties());
             String echoed = "Rejected value: " + credential;
@@ -282,6 +284,18 @@ class KiteAuthenticationAdapterTest {
         assertSafe(assertThrows(KiteAuthenticationException.class,
                 () -> fixture.adapter().exchange(REQUEST_TOKEN)), EXCHANGE_FAILED);
 
+        fixture.server().verify();
+    }
+
+    @Test void arbitraryUpstreamPrivateTextNeverEntersLogs() {
+        Fixture fixture = fixture();
+        expectExchange(fixture).andRespond(withStatus(HttpStatus.BAD_REQUEST).body(
+                "{\"status\":\"error\",\"error_type\":\"TokenException\",\"message\":\"customer private memo\"}"));
+        try (var logs = new ExchangeLogs()) {
+            assertSafe(assertThrows(KiteAuthenticationException.class,
+                    () -> fixture.adapter().exchange(REQUEST_TOKEN)), EXCHANGE_FAILED);
+            assertThat(logs.onlyMessage()).doesNotContain("customer private memo");
+        }
         fixture.server().verify();
     }
 

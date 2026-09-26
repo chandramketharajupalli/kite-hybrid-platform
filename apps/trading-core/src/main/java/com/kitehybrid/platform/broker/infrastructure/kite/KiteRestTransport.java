@@ -59,7 +59,7 @@ final class KiteRestTransport {
         synchronized (session) { return getWithSession(endpoint); }
     }
 
-    String postRegularOrder(Map<String, String> form) { return orderRequest("POST", "/orders/regular", form); }
+    String postRegularOrder(Map<String, String> form, Runnable dispatchValidation) { return orderRequest("POST", "/orders/regular", form, dispatchValidation); }
     String putRegularOrder(String brokerOrderId, Map<String, String> form) {
         if (brokerOrderId == null || !brokerOrderId.matches("[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}"))
             throw new BrokerReadException(INVALID_RESPONSE);
@@ -72,6 +72,9 @@ final class KiteRestTransport {
     }
 
     private String orderRequest(String method, String path, Map<String, String> form) {
+        return orderRequest(method, path, form, () -> { });
+    }
+    private String orderRequest(String method, String path, Map<String, String> form, Runnable dispatchValidation) {
         synchronized (session) {
             try {
                 if (!session.authenticated()) throw new BrokerReadException(AUTHENTICATION);
@@ -79,6 +82,7 @@ final class KiteRestTransport {
                         URLEncoder.encode(entry.getKey(), java.nio.charset.StandardCharsets.UTF_8)
                                 + "=" + URLEncoder.encode(entry.getValue(), java.nio.charset.StandardCharsets.UTF_8))
                         .collect(Collectors.joining("&"));
+                dispatchValidation.run();
                 return client.method(org.springframework.http.HttpMethod.valueOf(method)).uri(URI.create(path))
                         .header("X-Kite-Version", "3").header("Authorization", session.authorization())
                         .header("Content-Type", "application/x-www-form-urlencoded")
@@ -94,7 +98,8 @@ final class KiteRestTransport {
                             if (status != 200) throw new BrokerReadException(BROKER_API, status);
                             return text;
                         });
-            } catch (BrokerReadException safe) { throw safe; }
+            } catch (com.kitehybrid.platform.order.domain.command.OrderCommandValidationException denied) { throw denied; }
+            catch (BrokerReadException safe) { throw safe; }
             catch (RuntimeException unexpected) {
                 throw new BrokerReadException(TRANSPORT);
             }
