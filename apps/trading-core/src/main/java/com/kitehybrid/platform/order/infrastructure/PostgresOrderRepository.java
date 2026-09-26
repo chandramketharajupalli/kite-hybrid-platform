@@ -61,6 +61,7 @@ public final class PostgresOrderRepository implements OrderRepository {
     }
     @Override public boolean compareAndSet(OrderRecord expected, OrderRecord next) { return update(expected, next); }
     @Override public boolean attachBrokerOrderId(OrderRecord expected, OrderRecord next) { return update(expected, next); }
+    @Override public boolean hasDangerousUnresolvedOrders() { return Boolean.TRUE.equals(jdbc.queryForObject("SELECT EXISTS(SELECT 1 FROM trading.orders WHERE state='SUBMITTING')", Boolean.class)); }
     private boolean update(OrderRecord expected, OrderRecord next) {
         return jdbc.update("""
                 UPDATE trading.orders SET state=?, broker_order_id=?, failure_category=?, updated_at=?, version=?

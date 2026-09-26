@@ -30,7 +30,7 @@ class PostgresStrategyEvaluationStoreTest {
     @BeforeEach void setup() {
         Flyway.configure().dataSource(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword()).locations("classpath:db/migration").load().migrate();
         jdbc = new JdbcTemplate(new DriverManagerDataSource(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword()));
-        jdbc.update("TRUNCATE trading.strategy_evaluations, trading.reconciliation_trades, trading.reconciliation_decisions, trading.risk_decisions, trading.orders, trading.order_idempotency");
+        jdbc.update("TRUNCATE trading.execution_authorizations, trading.strategy_evaluations, trading.reconciliation_trades, trading.reconciliation_decisions, trading.risk_decisions, trading.orders, trading.order_idempotency");
         store = new PostgresStrategyEvaluationStore(jdbc);
     }
     @Test void claimIsReplaySafeAndOrderAttachmentIsIdempotent() {

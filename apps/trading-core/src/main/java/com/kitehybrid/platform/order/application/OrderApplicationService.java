@@ -25,12 +25,13 @@ public final class OrderApplicationService {
     private final OrderExecutionProperties execution;
     private final Clock clock;
     private final MeterRegistry metrics;
+    private final ExecutionSafetyPolicy safety;
     public OrderApplicationService(OrderRepository repository, OrderCommandValidator validator,
                                    OrderExecutionGateway gateway, OrderExecutionProperties execution,
-                                   Clock clock, MeterRegistry metrics) {
+                                   Clock clock, MeterRegistry metrics, ExecutionSafetyPolicy safety) {
         this.repository = Objects.requireNonNull(repository); this.validator = Objects.requireNonNull(validator);
         this.gateway = Objects.requireNonNull(gateway); this.execution = Objects.requireNonNull(execution);
-        this.clock = Objects.requireNonNull(clock); this.metrics = Objects.requireNonNull(metrics);
+        this.clock = Objects.requireNonNull(clock); this.metrics = Objects.requireNonNull(metrics); this.safety = Objects.requireNonNull(safety);
     }
     public OrderRecord place(PlaceOrder command) {
         validator.validate(command); Instant now = clock.instant();
@@ -48,9 +49,9 @@ public final class OrderApplicationService {
     }
     /** Executes an order only after the risk subsystem has durably persisted RISK_APPROVED. */
     public OrderRecord executeRiskApproved(OrderId id) {
-        if (!execution.enabled()) throw new OrderExecutionException(OrderExecutionException.Category.DISABLED);
         var current = require(id);
-        if (current.state() != OrderState.RISK_APPROVED) throw new OrderCommandValidationException("ORDER_NOT_RISK_APPROVED");
+        var decision = safety.evaluate(current);
+        if (!decision.allowed()) throw new OrderCommandValidationException(decision.reason().name());
         var submitting = current.transitionTo(OrderState.SUBMITTING, clock.instant());
         if (!repository.compareAndSet(current, submitting)) throw new OrderExecutionException(OrderExecutionException.Category.TRANSPORT);
         try {

@@ -15,4 +15,5 @@ public interface OrderRepository {
     Optional<OrderRecord> findByIdempotencyKey(String key);
     boolean compareAndSet(OrderRecord expected, OrderRecord next);
     boolean attachBrokerOrderId(OrderRecord expected, OrderRecord next);
+    default boolean hasDangerousUnresolvedOrders() { return false; }
 }

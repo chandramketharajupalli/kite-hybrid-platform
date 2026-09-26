@@ -61,6 +61,11 @@ kite:
       max-attempts: ${KITE_MARKET_DATA_RECONNECT_MAX_ATTEMPTS:8}
   order-execution:
     enabled: ${KITE_ORDER_EXECUTION_ENABLED:false}
+    allowed-instruments: ${KITE_ORDER_EXECUTION_ALLOWED_INSTRUMENTS:}
+    max-quantity: ${KITE_ORDER_EXECUTION_MAX_QUANTITY:0}
+    max-notional: ${KITE_ORDER_EXECUTION_MAX_NOTIONAL:0}
+    risk-decision-max-age: ${KITE_ORDER_EXECUTION_RISK_DECISION_MAX_AGE:0s}
+    market-data-max-age: ${KITE_ORDER_EXECUTION_MARKET_DATA_MAX_AGE:0s}
   auth:
     redirect-url: ${KITE_REDIRECT_URL:http://localhost:${server.port:8080}/api/broker/kite/auth/callback}
     encryption-key: ${KITE_TOKEN_ENCRYPTION_KEY:}

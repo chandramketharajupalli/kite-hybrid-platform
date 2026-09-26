@@ -15,6 +15,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class OrderApplicationServiceTest {
     private static final Instant NOW = Instant.parse("2026-09-21T05:00:00Z");
@@ -61,7 +62,7 @@ class OrderApplicationServiceTest {
 
     @Test void validatedOrderCannotExecuteUntilRiskApprovalAndDisabledGateRemainsSafe() {
         var disabled = service(false); var record = disabled.place(place("disabled", OrderType.MARKET, Optional.empty(), Optional.empty()));
-        assertThrows(OrderExecutionException.class, () -> disabled.executeRiskApproved(record.id()));
+        assertThrows(OrderCommandValidationException.class, () -> disabled.executeRiskApproved(record.id()));
         assertEquals(0, gateway.placeCalls.get());
         assertEquals(OrderState.VALIDATED, repository.find(record.id()).orElseThrow().state());
 
@@ -112,8 +113,15 @@ class OrderApplicationServiceTest {
     }
 
     private OrderApplicationService service(boolean enabled) {
+        var safety = mock(ExecutionSafetyPolicy.class);
+        when(safety.evaluate(any())).thenAnswer(invocation -> {
+            var order = invocation.getArgument(0, OrderRecord.class);
+            if (!enabled) return new ExecutionAuthorizationDecision(false, ExecutionDenialReason.EXECUTION_DISABLED, NOW, order.id(), order.version(), "test");
+            if (order.state() != OrderState.RISK_APPROVED) return new ExecutionAuthorizationDecision(false, ExecutionDenialReason.INVALID_ORDER_STATE, NOW, order.id(), order.version(), "test");
+            return new ExecutionAuthorizationDecision(true, ExecutionDenialReason.NONE, NOW, order.id(), order.version(), "test");
+        });
         return new OrderApplicationService(repository, new OrderCommandValidator(instruments), gateway,
-                new OrderExecutionProperties(enabled), clock, new SimpleMeterRegistry());
+                new OrderExecutionProperties(enabled), clock, new SimpleMeterRegistry(), safety);
     }
     private void approve(OrderRecord validated) {
         var approved = validated.transitionTo(OrderState.RISK_APPROVED, NOW);

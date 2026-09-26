@@ -11,7 +11,9 @@ import com.kitehybrid.platform.order.application.*;
 import com.kitehybrid.platform.order.domain.*;
 import com.kitehybrid.platform.order.domain.command.*;
 import com.kitehybrid.platform.order.infrastructure.PostgresOrderRepository;
+import com.kitehybrid.platform.order.infrastructure.PostgresExecutionAuthorizationAuditStore;
 import com.kitehybrid.platform.risk.application.RiskService;
+import com.kitehybrid.platform.risk.application.RiskDecisionStore;
 import com.kitehybrid.platform.risk.domain.*;
 import com.kitehybrid.platform.risk.infrastructure.PostgresRiskDecisionStore;
 import com.kitehybrid.platform.reconciliation.application.OrderReconciliationService;
@@ -33,6 +35,9 @@ import java.nio.charset.StandardCharsets;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.*;
+import java.util.function.BooleanSupplier;
 import javax.sql.DataSource;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.*;
@@ -62,6 +67,16 @@ class LocalKiteOrderExecutionIntegrationTest {
     private PostgresOrderRepository orders;
     private OrderApplicationService application;
     private RiskService risk;
+    private InMemoryInstrumentRegistry registry;
+    private InMemoryLatestMarketDataStore market;
+    private MarketDataHealth marketHealth;
+    private KiteSession session;
+    private RuntimeExecutionArming arming;
+    private RiskDecisionStore riskDecisions;
+    private OrderExecutionProperties executionProperties;
+    private SimpleMeterRegistry metrics;
+    private AtomicBoolean emergencyStop;
+    private KiteRestTransport transport;
 
     @BeforeAll static void utcJdbc() {
         originalTimeZone = TimeZone.getDefault();
@@ -75,22 +90,169 @@ class LocalKiteOrderExecutionIntegrationTest {
                 .locations("classpath:db/migration").load().migrate();
         DataSource source = new DriverManagerDataSource(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword());
         jdbc = new JdbcTemplate(source);
-        jdbc.update("TRUNCATE trading.strategy_evaluations, trading.reconciliation_trades, trading.reconciliation_decisions, trading.risk_decisions, trading.orders, trading.order_idempotency");
+        jdbc.update("TRUNCATE trading.execution_authorizations, trading.strategy_evaluations, trading.reconciliation_trades, trading.reconciliation_decisions, trading.risk_decisions, trading.orders, trading.order_idempotency");
         orders = new PostgresOrderRepository(jdbc);
         broker = new LocalFakeKiteServer();
         broker.start();
-        var registry = new InMemoryInstrumentRegistry();
+        registry = new InMemoryInstrumentRegistry();
         registry.replace(List.of(INSTRUMENT), NOW);
-        var session = new KiteSession(new KiteProperties("syntheticKey", "syntheticSecret", "syntheticToken", true));
+        session = new KiteSession(new KiteProperties("syntheticKey", "syntheticSecret", "syntheticToken", true));
         session.profileValidated();
         assertTrue(session.authenticated(), "synthetic local session must be authenticated");
-        var transport = new KiteRestTransport(RestClient.builder().baseUrl(broker.baseUrl()).build(), session);
-        var gateway = new KiteOrderAdapter(transport, registry, new OrderExecutionProperties(true));
+        transport = new KiteRestTransport(RestClient.builder().baseUrl(broker.baseUrl()).build(), session);
+        metrics = new SimpleMeterRegistry();
+        market = new InMemoryLatestMarketDataStore();
+        market.update(new Tick(INSTRUMENT.id(), new BigDecimal("10.00"), NOW));
+        marketHealth = new MarketDataHealth(MarketDataGateway.State.CONNECTED, MarketDataHealth.Status.FRESH,
+                MarketDataHealth.Reason.NONE, Optional.of(NOW), Optional.of(NOW), Optional.of(NOW), 1, 1, 0, 1, 1, 0, 0, 0, 0);
+        var limits = new RiskLimits(true, 100, new BigDecimal("10000"), 100, new BigDecimal("10000"),
+                Duration.ofMinutes(1), Duration.ofMinutes(1), BigDecimal.ONE, BigDecimal.ONE);
+        riskDecisions = new PostgresRiskDecisionStore(jdbc, orders);
+        risk = riskService(orders, registry, riskDecisions, market, limits);
+        executionProperties = new OrderExecutionProperties(true, Set.of(INSTRUMENT.id()), 1,
+                new BigDecimal("1000"), Duration.ofMinutes(1), Duration.ofMinutes(1), limits.version(), "phase9-test");
+        emergencyStop = new AtomicBoolean(false);
+        arming = new RuntimeExecutionArming(metrics);
+        arming.arm(Duration.ofHours(1), NOW);
+        var policy = new ExecutionSafetyPolicy(executionProperties, arming, emergencyStop::get, session, riskDecisions,
+                registry, market, () -> marketHealth, orders, Clock.fixed(NOW, ZoneOffset.UTC), metrics,
+                new PostgresExecutionAuthorizationAuditStore(jdbc));
+        var gateway = new KiteOrderAdapter(transport, registry, executionProperties);
         application = new OrderApplicationService(orders, new com.kitehybrid.platform.order.application.OrderCommandValidator(registry),
-                gateway, new OrderExecutionProperties(true), Clock.fixed(NOW, ZoneOffset.UTC), new SimpleMeterRegistry());
-        risk = riskService(orders, registry);
+                gateway, executionProperties, Clock.fixed(NOW, ZoneOffset.UTC), metrics, policy);
     }
     @AfterEach void tearDown() { if (broker != null) broker.close(); }
+
+    private void rebuild(OrderExecutionProperties properties) {
+        rebuild(properties, Clock.fixed(NOW, ZoneOffset.UTC));
+    }
+
+    private void rebuild(OrderExecutionProperties properties, Clock clock) {
+        executionProperties = properties;
+        var policy = new ExecutionSafetyPolicy(properties, arming, emergencyStop::get, session, riskDecisions,
+                registry, market, () -> marketHealth, orders, clock, metrics,
+                new PostgresExecutionAuthorizationAuditStore(jdbc));
+        application = new OrderApplicationService(orders, new OrderCommandValidator(registry),
+                new KiteOrderAdapter(transport, registry, properties), properties,
+                clock, metrics, policy);
+    }
+
+    private OrderRecord approved(String key) {
+        var order = application.place(place(key, OrderType.MARKET, Optional.empty()));
+        jdbc.update("UPDATE trading.orders SET state='RISK_APPROVED', version=2, updated_at=? WHERE order_id=?",
+                java.sql.Timestamp.from(NOW), order.id().value());
+        jdbc.update("INSERT INTO trading.risk_decisions(order_id, order_version, outcome, reason, evaluated_at, policy_version) VALUES (?,?,?,?,?,?)",
+                order.id().value(), 1, "APPROVED", "APPROVED", java.sql.Timestamp.from(NOW), executionProperties.riskPolicyVersion());
+        return orders.find(order.id()).orElseThrow();
+    }
+
+    private void assertDenied(String key, ExecutionDenialReason reason) {
+        var order = approved(key);
+        assertThrows(OrderCommandValidationException.class, () -> application.executeRiskApproved(order.id()));
+        assertEquals(OrderState.RISK_APPROVED, orders.find(order.id()).orElseThrow().state());
+        assertEquals(0, broker.placeCount());
+        var auditReason = jdbc.queryForObject("SELECT reason FROM trading.execution_authorizations WHERE order_id=?", String.class, order.id().value());
+        assertEquals(reason.name(), auditReason);
+    }
+
+    @Test void policyEnabledApplicationDenialMatrixNeverReachesLoopbackBroker() {
+        rebuild(new OrderExecutionProperties(false, Set.of(INSTRUMENT.id()), 1, new BigDecimal("1000"), Duration.ofMinutes(1), Duration.ofMinutes(1), executionProperties.riskPolicyVersion(), "disabled"));
+        assertDenied("disabled", ExecutionDenialReason.EXECUTION_DISABLED);
+
+        executionProperties = new OrderExecutionProperties(true, Set.of(INSTRUMENT.id()), 1, new BigDecimal("1000"), Duration.ofMinutes(1), Duration.ofMinutes(1), executionProperties.riskPolicyVersion(), "enabled");
+        arming.disarm(); rebuild(executionProperties); assertDenied("disarmed", ExecutionDenialReason.DISARMED);
+        arming.arm(Duration.ofHours(1), NOW); emergencyStop.set(true); rebuild(executionProperties); assertDenied("stop", ExecutionDenialReason.EMERGENCY_STOP);
+        emergencyStop.set(false); session.clear(); rebuild(executionProperties); assertDenied("auth", ExecutionDenialReason.AUTHENTICATION_UNAVAILABLE);
+        var sessionNow = Instant.now();
+        session.install(new com.kitehybrid.platform.broker.application.auth.KiteAccessToken("syntheticToken", sessionNow.minusSeconds(1), sessionNow.plusSeconds(3600))); session.profileValidated();
+
+        var missing = approved("missing-risk"); jdbc.update("DELETE FROM trading.risk_decisions WHERE order_id=?", missing.id().value()); assertDeniedExisting(missing, ExecutionDenialReason.RISK_APPROVAL_MISSING);
+        var rejected = approved("rejected-risk"); jdbc.update("UPDATE trading.risk_decisions SET outcome='REJECTED', reason='RISK_DISABLED' WHERE order_id=?", rejected.id().value()); assertDeniedExisting(rejected, ExecutionDenialReason.RISK_APPROVAL_MISSING);
+        var expired = approved("expired-risk"); jdbc.update("UPDATE trading.risk_decisions SET evaluated_at=? WHERE order_id=?", java.sql.Timestamp.from(NOW.minus(Duration.ofHours(1))), expired.id().value()); assertDeniedExisting(expired, ExecutionDenialReason.RISK_APPROVAL_EXPIRED);
+        var mismatch = approved("version-risk"); jdbc.update("UPDATE trading.risk_decisions SET order_version=0 WHERE order_id=?", mismatch.id().value()); assertDeniedExisting(mismatch, ExecutionDenialReason.ORDER_VERSION_CHANGED);
+        rebuild(new OrderExecutionProperties(true, Set.of(), 1, new BigDecimal("1000"), Duration.ofMinutes(1), Duration.ofMinutes(1), executionProperties.riskPolicyVersion(), "allowlist")); assertDenied("allowlist", ExecutionDenialReason.INSTRUMENT_NOT_ALLOWED);
+        rebuild(new OrderExecutionProperties(true, Set.of(INSTRUMENT.id()), 0, new BigDecimal("1000"), Duration.ofMinutes(1), Duration.ofMinutes(1), executionProperties.riskPolicyVersion(), "quantity")); assertDenied("quantity", ExecutionDenialReason.QUANTITY_CAP_EXCEEDED);
+        rebuild(new OrderExecutionProperties(true, Set.of(INSTRUMENT.id()), 1, BigDecimal.ZERO, Duration.ofMinutes(1), Duration.ofMinutes(1), executionProperties.riskPolicyVersion(), "notional")); assertDenied("notional", ExecutionDenialReason.NOTIONAL_CAP_EXCEEDED);
+        market = new InMemoryLatestMarketDataStore(); rebuild(new OrderExecutionProperties(true, Set.of(INSTRUMENT.id()), 1, new BigDecimal("1000"), Duration.ofMinutes(1), Duration.ofMinutes(1), executionProperties.riskPolicyVersion(), "missing-md")); assertDenied("missing-md", ExecutionDenialReason.MARKET_DATA_UNAVAILABLE);
+        market.update(new Tick(INSTRUMENT.id(), new BigDecimal("10"), NOW.minus(Duration.ofHours(1)))); rebuild(executionProperties); assertDenied("stale-md", ExecutionDenialReason.MARKET_DATA_STALE);
+        market.update(new Tick(INSTRUMENT.id(), new BigDecimal("10"), NOW)); marketHealth = new MarketDataHealth(MarketDataGateway.State.DEGRADED, MarketDataHealth.Status.DEGRADED, MarketDataHealth.Reason.BROKER_ERROR, Optional.empty(), Optional.empty(), Optional.empty(), 1, 0, 1, 0, 0, 0, 0, 0, 0); rebuild(executionProperties); assertDenied("degraded-md", ExecutionDenialReason.MARKET_DATA_UNAVAILABLE);
+        marketHealth = new MarketDataHealth(MarketDataGateway.State.CONNECTED, MarketDataHealth.Status.FRESH, MarketDataHealth.Reason.NONE, Optional.of(NOW), Optional.of(NOW), Optional.of(NOW), 1, 1, 0, 1, 1, 0, 0, 0, 0);
+        var noCorrelation = approved("correlation"); jdbc.update("UPDATE trading.orders SET broker_correlation_id=NULL WHERE order_id=?", noCorrelation.id().value()); assertDeniedExisting(noCorrelation, ExecutionDenialReason.CORRELATION_MISSING);
+        var wrongState = approved("wrong-state"); jdbc.update("UPDATE trading.orders SET state='VALIDATED' WHERE order_id=?", wrongState.id().value()); assertDeniedExisting(wrongState, ExecutionDenialReason.INVALID_ORDER_STATE);
+        var blocked = approved("blocked"); var dangerous = application.place(place("dangerous", OrderType.MARKET, Optional.empty())); jdbc.update("UPDATE trading.orders SET state='SUBMITTING' WHERE order_id=?", dangerous.id().value()); assertDeniedExisting(blocked, ExecutionDenialReason.RECONCILIATION_REQUIRED);
+        arming.arm(Duration.ofSeconds(1), NOW.minusSeconds(2)); rebuild(executionProperties); assertDenied("arm-expired", ExecutionDenialReason.DISARMED);
+    }
+
+    @Test void restartRecreatesServiceDisarmedAndCannotExecutePersistedApproval() {
+        var order = approved("restart-disarm");
+        arming = new RuntimeExecutionArming(metrics);
+        rebuild(executionProperties);
+        assertThrows(OrderCommandValidationException.class, () -> application.executeRiskApproved(order.id()));
+        assertEquals(OrderState.RISK_APPROVED, orders.find(order.id()).orElseThrow().state());
+        assertEquals(0, broker.placeCount());
+        assertEquals(ExecutionDenialReason.DISARMED.name(), jdbc.queryForObject("SELECT reason FROM trading.execution_authorizations WHERE order_id=?", String.class, order.id().value()));
+    }
+
+    @Test void armBoundaryUsesDeterministicClockAndDoesNotReachBrokerAfterExpiry() {
+        var beforeExpiry = approved("arm-before-expiry");
+        arming.arm(Duration.ofSeconds(1), NOW);
+        rebuild(executionProperties, Clock.fixed(NOW.plusMillis(999), ZoneOffset.UTC));
+        assertEquals(OrderState.SUBMITTED, application.executeRiskApproved(beforeExpiry.id()).state());
+        assertEquals(1, broker.placeCount());
+
+        rebuild(executionProperties);
+        var atExpiry = approved("arm-at-expiry");
+        arming.arm(Duration.ofSeconds(1), NOW);
+        rebuild(executionProperties, Clock.fixed(NOW.plusSeconds(1), ZoneOffset.UTC));
+        assertThrows(OrderCommandValidationException.class, () -> application.executeRiskApproved(atExpiry.id()));
+        assertEquals(OrderState.RISK_APPROVED, orders.find(atExpiry.id()).orElseThrow().state());
+        assertEquals(1, broker.placeCount());
+    }
+
+    @Test void postgresCasStopsPolicyAllowedOrderWhenVersionChangesBeforeSubmit() {
+        var order = approved("toctou");
+        var delegate = orders;
+        var mutating = new OrderRepository() {
+            boolean changed;
+            public IdempotencyClaim claimIdempotency(String k,String f,OrderId id){return delegate.claimIdempotency(k,f,id);}
+            public IdempotencyClaim createIfAbsent(OrderRecord r,String f){return delegate.createIfAbsent(r,f);}
+            public void create(OrderRecord r){delegate.create(r);}
+            public Optional<OrderRecord> find(OrderId id){return delegate.find(id);}
+            public Optional<OrderRecord> findByIdempotencyKey(String k){return delegate.findByIdempotencyKey(k);}
+            public boolean compareAndSet(OrderRecord expected,OrderRecord next){
+                if(!changed){changed=true; jdbc.update("UPDATE trading.orders SET state='VALIDATED', version=version+1 WHERE order_id=? AND version=?", expected.id().value(), expected.version());}
+                return delegate.compareAndSet(expected,next);
+            }
+            public boolean attachBrokerOrderId(OrderRecord e,OrderRecord n){return delegate.attachBrokerOrderId(e,n);}
+            public boolean hasDangerousUnresolvedOrders(){return delegate.hasDangerousUnresolvedOrders();}
+        };
+        application = new OrderApplicationService(mutating, new OrderCommandValidator(registry), new KiteOrderAdapter(transport, registry, executionProperties), executionProperties, Clock.fixed(NOW, ZoneOffset.UTC), metrics,
+                new ExecutionSafetyPolicy(executionProperties, arming, emergencyStop::get, session, riskDecisions, registry, market, () -> marketHealth, orders, Clock.fixed(NOW, ZoneOffset.UTC), metrics, new PostgresExecutionAuthorizationAuditStore(jdbc)));
+        assertThrows(OrderExecutionException.class, () -> application.executeRiskApproved(order.id()));
+        assertEquals(0, broker.placeCount());
+        assertEquals(OrderState.VALIDATED, orders.find(order.id()).orElseThrow().state());
+    }
+
+    @Test void concurrentExplicitExecutionUsesPostgresCasAndOneHttpRequest() throws Exception {
+        var order = approved("concurrent");
+        var pool = Executors.newFixedThreadPool(2);
+        try {
+            var first = pool.submit(() -> attempt(order.id()));
+            var second = pool.submit(() -> attempt(order.id()));
+            first.get(10, TimeUnit.SECONDS); second.get(10, TimeUnit.SECONDS);
+        } finally { pool.shutdownNow(); }
+        assertEquals(1, broker.placeCount());
+        assertEquals(OrderState.SUBMITTED, orders.find(order.id()).orElseThrow().state());
+    }
+
+    private void attempt(OrderId id) { try { application.executeRiskApproved(id); } catch (RuntimeException ignored) { } }
+
+    private void assertDeniedExisting(OrderRecord order, ExecutionDenialReason reason) {
+        assertThrows(RuntimeException.class, () -> application.executeRiskApproved(order.id()));
+        assertNotEquals(OrderState.SUBMITTING, orders.find(order.id()).orElseThrow().state());
+        assertEquals(0, broker.placeCount());
+        assertEquals(reason.name(), jdbc.queryForObject("SELECT reason FROM trading.execution_authorizations WHERE order_id=? ORDER BY evaluated_at DESC LIMIT 1", String.class, order.id().value()));
+    }
 
     @Test void placeRiskApproveThenExplicitExecuteModifyAndCancel() {
         var placed = application.place(place("e2e-place", OrderType.LIMIT, Optional.of(new BigDecimal("10.25"))));
@@ -99,11 +261,14 @@ class LocalKiteOrderExecutionIntegrationTest {
         assertTrue(decision.approved());
         assertEquals(OrderState.RISK_APPROVED, orders.find(placed.id()).orElseThrow().state());
         assertEquals(0, broker.placeCount());
+        broker.assertBeforeRequest(() -> orders.find(placed.id()).orElseThrow().state() == OrderState.SUBMITTING);
 
         var submitted = application.executeRiskApproved(placed.id());
         assertEquals(OrderState.SUBMITTED, submitted.state());
         assertEquals(Optional.of("synthetic-broker-1"), submitted.brokerOrderId());
         assertEquals(1, broker.placeCount());
+        assertTrue(broker.submittingObserved());
+        assertEquals(1, jdbc.queryForObject("SELECT COUNT(*) FROM trading.execution_authorizations WHERE order_id=? AND allowed", Integer.class, placed.id().value()));
         assertTrue(broker.lastRequest().body().contains("tradingsymbol=ABC"));
         assertTrue(broker.lastRequest().body().contains("exchange=NSE"));
         assertTrue(broker.lastRequest().body().contains("transaction_type=BUY"));
@@ -114,6 +279,8 @@ class LocalKiteOrderExecutionIntegrationTest {
         assertTrue(broker.lastRequest().body().contains("price=10.25"));
         assertTrue(broker.lastRequest().body().contains("tag=" + placed.brokerCorrelationId().orElseThrow().value()));
         assertTrue(broker.lastRequest().authorization().startsWith("token syntheticKey:"));
+        assertThrows(OrderCommandValidationException.class, () -> application.executeRiskApproved(placed.id()));
+        assertEquals(1, broker.placeCount());
 
         application.modify(new ModifyOrder("modify-e2e", submitted.id(), OrderType.LIMIT, 1,
                 Optional.of(new BigDecimal("11.00")), Optional.empty(), 0, OrderValidity.DAY));
@@ -220,9 +387,8 @@ class LocalKiteOrderExecutionIntegrationTest {
         assertThrows(IllegalArgumentException.class, () -> requireLoopback(URI.create("http://kite.zerodha.com")));
     }
 
-    private RiskService riskService(PostgresOrderRepository repository, InMemoryInstrumentRegistry registry) {
-        var market = new InMemoryLatestMarketDataStore();
-        market.update(new Tick(INSTRUMENT.id(), new BigDecimal("10.00"), NOW));
+    private RiskService riskService(PostgresOrderRepository repository, InMemoryInstrumentRegistry registry,
+                                    RiskDecisionStore decisions, InMemoryLatestMarketDataStore market, RiskLimits limits) {
         var zero = BigDecimal.ZERO;
         var available = new BrokerMargins.AvailableMargin(zero, new BigDecimal("1000"), new BigDecimal("1000"),
                 new BigDecimal("1000"), zero, zero);
@@ -232,13 +398,9 @@ class LocalKiteOrderExecutionIntegrationTest {
                 new BrokerMargins.AvailableMargin(zero, zero, zero, zero, zero, zero),
                 new BrokerMargins.UtilisedMargin(zero, zero, zero, zero, zero, zero, zero, zero, zero, zero, zero, zero));
         var margins = new BrokerMargins(Map.of(MarginSegment.EQUITY, enabled, MarginSegment.COMMODITY, disabled));
-        var health = new MarketDataHealth(MarketDataGateway.State.CONNECTED, MarketDataHealth.Status.FRESH,
-                MarketDataHealth.Reason.NONE, Optional.of(NOW), Optional.of(NOW), Optional.of(NOW), 1, 1, 0, 1, 1, 0, 0, 0, 0);
-        var limits = new RiskLimits(true, 100, new BigDecimal("10000"), 100, new BigDecimal("10000"),
-                Duration.ofMinutes(1), Duration.ofMinutes(1), BigDecimal.ONE, BigDecimal.ONE);
-        return new RiskService(new PostgresRiskDecisionStore(jdbc, repository),
+        return new RiskService(decisions,
                 new RiskEngine(List.of(new EmergencyStopRiskRule(() -> false), new PositiveReferencePriceRiskRule()), Clock.fixed(NOW, ZoneOffset.UTC)),
-                limits, () -> false, registry, market, () -> health,
+                limits, () -> false, registry, market, () -> marketHealth,
                 () -> new BrokerPositions(List.of(), List.of()), List::of, () -> margins, List::of,
                 Clock.fixed(NOW, ZoneOffset.UTC), new SimpleMeterRegistry());
     }
@@ -268,6 +430,8 @@ class LocalKiteOrderExecutionIntegrationTest {
         private final HttpServer server;
         private final List<Request> requests = new CopyOnWriteArrayList<>();
         private volatile Mode mode = Mode.SUCCESS;
+        private volatile BooleanSupplier beforeRequest = () -> true;
+        private volatile boolean submittingObserved;
         LocalFakeKiteServer() throws IOException {
             server = HttpServer.create(new InetSocketAddress(InetAddress.getLoopbackAddress(), 0), 0);
             server.createContext("/orders/regular", this::handle);
@@ -277,10 +441,13 @@ class LocalKiteOrderExecutionIntegrationTest {
         String baseUrl() { return "http://127.0.0.1:" + server.getAddress().getPort(); }
         List<Request> requests() { return List.copyOf(requests); }
         int placeCount() { return (int) requests.stream().filter(r -> r.method().equals("POST")).count(); }
+        void assertBeforeRequest(BooleanSupplier check) { beforeRequest = check; }
+        boolean submittingObserved() { return submittingObserved; }
         Request lastRequest() { return requests.get(requests.size() - 1); }
         private void handle(HttpExchange exchange) throws IOException {
             var bytes = exchange.getRequestBody().readAllBytes();
             var auth = Optional.ofNullable(exchange.getRequestHeaders().getFirst("Authorization")).orElse("");
+            if (exchange.getRequestMethod().equals("POST")) submittingObserved = beforeRequest.getAsBoolean();
             requests.add(new Request(exchange.getRequestMethod(), exchange.getRequestURI().getPath(),
                     new String(bytes, StandardCharsets.UTF_8), auth));
             if (mode == Mode.CLOSE_AFTER_CAPTURE) { exchange.close(); return; }
