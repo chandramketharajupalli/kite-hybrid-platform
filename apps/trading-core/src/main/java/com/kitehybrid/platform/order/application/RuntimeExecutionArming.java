@@ -10,6 +10,7 @@ import io.micrometer.core.instrument.MeterRegistry;
 
 /** Ephemeral, session-bound operator permission. Never persisted or enabled by configuration. */
 public final class RuntimeExecutionArming {
+    public record Status(boolean armed, Instant armedAt, Instant expiresAt) {}
     private record Arm(Instant from, Instant until, UUID session) {}
     private final AtomicReference<Arm> current = new AtomicReference<>();
     private final MeterRegistry metrics;
@@ -38,4 +39,9 @@ public final class RuntimeExecutionArming {
         metrics.counter("execution.armed").increment();
     }
     public void disarm() { if (current.getAndSet(null) != null) metrics.counter("execution.disarmed").increment(); }
+    public Status status(Instant now) {
+        if (!armed(now)) return new Status(false, null, null);
+        var arm = current.get();
+        return arm == null ? new Status(false, null, null) : new Status(true, arm.from(), arm.until());
+    }
 }

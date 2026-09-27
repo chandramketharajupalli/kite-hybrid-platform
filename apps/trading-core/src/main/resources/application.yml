@@ -59,6 +59,14 @@ kite:
       initial-delay: ${KITE_MARKET_DATA_RECONNECT_INITIAL_DELAY:1s}
       max-delay: ${KITE_MARKET_DATA_RECONNECT_MAX_DELAY:30s}
       max-attempts: ${KITE_MARKET_DATA_RECONNECT_MAX_ATTEMPTS:8}
+  operator-control:
+    enabled: ${KITE_OPERATOR_CONTROL_ENABLED:false}
+  live-test:
+    enabled: ${KITE_LIVE_TEST_ENABLED:false}
+    allowed-instruments: ${KITE_LIVE_TEST_ALLOWED_INSTRUMENTS:}
+    max-quantity: ${KITE_LIVE_TEST_MAX_QUANTITY:0}
+    max-notional: ${KITE_LIVE_TEST_MAX_NOTIONAL:0}
+    arm-max-duration: ${KITE_LIVE_TEST_ARM_MAX_DURATION:0s}
   order-execution:
     enabled: ${KITE_ORDER_EXECUTION_ENABLED:false}
     allowed-instruments: ${KITE_ORDER_EXECUTION_ALLOWED_INSTRUMENTS:}

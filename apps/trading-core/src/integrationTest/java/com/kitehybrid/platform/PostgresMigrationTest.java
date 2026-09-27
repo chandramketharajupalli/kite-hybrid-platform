@@ -60,6 +60,71 @@ class PostgresMigrationTest {
         assertNull(jdbc.queryForObject("SELECT to_regclass('trading.orders_broker_order_id_unique')", String.class));
     }
 
+    private org.testcontainers.containers.Container.ExecResult preflight(String database) throws Exception {
+        var script = java.nio.file.Path.of("../../scripts/v10-preflight.sql").toAbsolutePath().normalize();
+        assertTrue(java.nio.file.Files.isRegularFile(script));
+        postgres.copyFileToContainer(org.testcontainers.utility.MountableFile.forHostPath(script), "/tmp/v10-preflight.sql");
+        return postgres.execInContainer("psql", "-X", "-U", postgres.getUsername(), "-d", database,
+                "-v", "ON_ERROR_STOP=1", "-f", "/tmp/v10-preflight.sql");
+    }
+
+    @Test void readOnlyPreflightAllowsCleanV9AndValidatedV10() throws Exception {
+        var jdbc = migrationDatabase("operator_preflight_clean");
+        seedOrder(jdbc,"null-a",null); seedOrder(jdbc,"null-b",null);
+        var before=jdbc.queryForList("SELECT * FROM trading.orders ORDER BY idempotency_key");
+        var result=preflight("operator_preflight_clean");
+        assertEquals(0,result.getExitCode(),result.getStdout()+result.getStderr());
+        assertTrue(result.getStdout().contains("V10_PREFLIGHT=READY"));
+        assertEquals(before,jdbc.queryForList("SELECT * FROM trading.orders ORDER BY idempotency_key"));
+        assertEquals("9",jdbc.queryForObject("SELECT version FROM public.flyway_schema_history ORDER BY installed_rank DESC LIMIT 1",String.class));
+        Flyway.configure().dataSource(jdbc.getDataSource()).locations("classpath:db/migration").load().migrate();
+        assertEquals(0,preflight("operator_preflight_clean").getExitCode());
+    }
+
+    @Test void readOnlyPreflightStopsOnDuplicateHistoryWithoutRepair() throws Exception {
+        var jdbc=migrationDatabase("operator_preflight_duplicates");
+        seedOrder(jdbc,"one","duplicate"); seedOrder(jdbc,"two","duplicate");
+        var before=jdbc.queryForList("SELECT * FROM trading.orders ORDER BY idempotency_key");
+        assertEquals(3,preflight("operator_preflight_duplicates").getExitCode());
+        assertEquals(before,jdbc.queryForList("SELECT * FROM trading.orders ORDER BY idempotency_key"));
+    }
+
+    @Test void readOnlyPreflightStopsOnConflictingIndexName() throws Exception {
+        var jdbc=migrationDatabase("operator_preflight_conflict");
+        jdbc.execute("CREATE INDEX orders_broker_order_id_unique ON trading.orders(quantity)");
+        assertEquals(3,preflight("operator_preflight_conflict").getExitCode());
+    }
+
+    @Test void readOnlyPreflightRejectsInvalidConstraintAndWrongV10Index() throws Exception {
+        var jdbc=migrationDatabase("operator_preflight_constraint");
+        jdbc.execute("ALTER TABLE trading.orders ADD CONSTRAINT unsafe_history CHECK(quantity>0) NOT VALID");
+        assertEquals(3,preflight("operator_preflight_constraint").getExitCode());
+        jdbc.execute("ALTER TABLE trading.orders VALIDATE CONSTRAINT unsafe_history");
+        Flyway.configure().dataSource(jdbc.getDataSource()).locations("classpath:db/migration").load().migrate();
+        jdbc.execute("DROP INDEX trading.orders_broker_order_id_unique");
+        jdbc.execute("CREATE UNIQUE INDEX orders_broker_order_id_unique ON trading.orders(order_id)");
+        assertEquals(3,preflight("operator_preflight_constraint").getExitCode());
+        var operational = new com.kitehybrid.platform.operator.infrastructure.PostgresOperationalReadiness(jdbc,()->true);
+        assertFalse(operational.inspect().databaseReady());
+    }
+
+    @Test void customBackupCanBeListedRestoredAndValidatedInAnIsolatedDatabase() throws Exception {
+        var jdbc=migrationDatabase("operator_backup_source");
+        seedOrder(jdbc,"backup-proof",null);
+        assertEquals(0,postgres.execInContainer("pg_dump","-U",postgres.getUsername(),"-d","operator_backup_source",
+                "--format=custom","--file=/tmp/operator-backup.dump").getExitCode());
+        assertEquals(0,postgres.execInContainer("pg_restore","--list","/tmp/operator-backup.dump").getExitCode());
+        assertEquals(0,postgres.execInContainer("createdb","-U",postgres.getUsername(),"operator_backup_restore").getExitCode());
+        var restore=postgres.execInContainer("pg_restore","-U",postgres.getUsername(),"--dbname=operator_backup_restore",
+                "--exit-on-error","--single-transaction","/tmp/operator-backup.dump");
+        assertEquals(0,restore.getExitCode(),restore.getStderr());
+        assertEquals(0,preflight("operator_backup_restore").getExitCode());
+        var restored=new org.springframework.jdbc.core.JdbcTemplate(new org.springframework.jdbc.datasource.DriverManagerDataSource(
+                postgres.getJdbcUrl().replace("/"+postgres.getDatabaseName(),"/operator_backup_restore"),postgres.getUsername(),postgres.getPassword()));
+        assertEquals(jdbc.queryForList("SELECT * FROM trading.orders"),restored.queryForList("SELECT * FROM trading.orders"));
+        Flyway.configure().dataSource(restored.getDataSource()).locations("classpath:db/migration").target("9").load().validate();
+    }
+
     private org.springframework.jdbc.core.JdbcTemplate migrationDatabase(String name) throws Exception {
         // Separate disposable database per scenario; never clean or alter the developer's ledger.
         try (var connection = DriverManager.getConnection(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword());
@@ -110,6 +175,10 @@ class PostgresMigrationTest {
                         "--kite.market-data.enabled=false", "--kite.trading-read.enabled=true")) {
             assertNotNull(context.getBean(com.kitehybrid.platform.order.application.OrderApplicationService.class));
             assertNotNull(context.getBean(com.kitehybrid.platform.order.application.ExecutionSafetyPolicy.class));
+            assertEquals(com.kitehybrid.platform.order.application.ExecutionDenialReason.OPERATOR_CONTROL_DISABLED,
+                    context.getBean(com.kitehybrid.platform.operator.application.OperatorExecutionService.class)
+                            .arm(java.time.Duration.ofSeconds(1)).reason());
+            assertFalse(context.getBean(com.kitehybrid.platform.operator.application.LiveTestProperties.class).configured());
             assertNotNull(context.getBean(com.kitehybrid.platform.order.application.ExecutionAuthorizationAuditStore.class));
             assertNotNull(context.getBean(com.kitehybrid.platform.strategy.application.StrategyOrderCoordinator.class));
             assertNotNull(context.getBean(com.kitehybrid.platform.reconciliation.application.ReconciliationStore.class));

@@ -38,9 +38,9 @@ public class OrderConfiguration {
     ExecutionSafetyPolicy executionSafetyPolicy(OrderExecutionProperties properties, RuntimeExecutionArming arm,
             TradingProperties trading, KiteAuthenticationSession session, RiskDecisionStore risks, InstrumentRegistry instruments,
             LatestMarketDataStore market, MarketDataGateway gateway, OrderRepository orders, Clock clock, MeterRegistry metrics,
-            ExecutionAuthorizationAuditStore audit) {
+            ExecutionAuthorizationAuditStore audit, AdditionalExecutionChecks additional) {
         return new ExecutionSafetyPolicy(properties, arm, trading::emergencyStop, session, risks, instruments, market,
-                gateway::health, orders, clock, metrics, audit);
+                gateway::health, orders, clock, metrics, audit, additional);
     }
 
     @Bean @Profile("!test")

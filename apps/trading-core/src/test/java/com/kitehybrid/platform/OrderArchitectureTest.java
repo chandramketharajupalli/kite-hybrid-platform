@@ -24,10 +24,12 @@ class OrderArchitectureTest {
                     assertEquals(OrderApplicationService.class.getName(), type.getName(), call.toString());
                     assertEquals("executeRiskApproved", call.getOrigin().getName(), call.toString());
                 }
-                assertTrue(!(call.getTargetOwner().getName().equals("com.kitehybrid.platform.order.application.RuntimeExecutionArming")
-                        && call.getTarget().getName().equals("arm")), call.toString());
-                assertTrue(!(call.getTargetOwner().isEquivalentTo(OrderApplicationService.class)
-                        && call.getTarget().getName().equals("executeRiskApproved")), call.toString());
+                if ((call.getTargetOwner().getName().equals("com.kitehybrid.platform.order.application.RuntimeExecutionArming")
+                        && call.getTarget().getName().equals("arm")) || (call.getTargetOwner().isEquivalentTo(OrderApplicationService.class)
+                        && call.getTarget().getName().equals("executeRiskApproved"))) {
+                    assertEquals(com.kitehybrid.platform.operator.application.OperatorExecutionService.class.getName(), type.getName(), call.toString());
+                    assertEquals(call.getTarget().getName().equals("arm") ? "arm" : "execute", call.getOrigin().getName());
+                }
             }
         }
         noClasses().that().resideInAnyPackage("..strategy..", "..risk..", "..reconciliation..", "..bootstrap..")

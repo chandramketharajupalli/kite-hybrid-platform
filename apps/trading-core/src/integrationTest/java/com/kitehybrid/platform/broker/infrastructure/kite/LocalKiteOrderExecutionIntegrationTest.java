@@ -78,6 +78,7 @@ class LocalKiteOrderExecutionIntegrationTest {
     private AtomicBoolean emergencyStop;
     private KiteRestTransport transport;
     private KiteOrderAdapter executionGateway;
+    private final java.util.concurrent.atomic.AtomicReference<Instant> operatorNow = new java.util.concurrent.atomic.AtomicReference<>(NOW);
 
     @BeforeAll static void utcJdbc() {
         originalTimeZone = TimeZone.getDefault();
@@ -95,6 +96,7 @@ class LocalKiteOrderExecutionIntegrationTest {
         orders = new PostgresOrderRepository(jdbc);
         broker = new LocalFakeKiteServer();
         broker.start();
+        requireLoopback(URI.create(broker.baseUrl()));
         registry = new InMemoryInstrumentRegistry();
         registry.replace(List.of(INSTRUMENT), NOW);
         session = new KiteSession(new KiteProperties("syntheticKey", "syntheticSecret", "", true), Clock.fixed(NOW, ZoneOffset.UTC));
@@ -125,6 +127,187 @@ class LocalKiteOrderExecutionIntegrationTest {
                 gateway, executionProperties, Clock.fixed(NOW, ZoneOffset.UTC), metrics, policy);
     }
     @AfterEach void tearDown() { if (broker != null) broker.close(); }
+
+    private org.springframework.context.annotation.AnnotationConfigApplicationContext operatorContext(String... overrides) {
+        var context = new org.springframework.context.annotation.AnnotationConfigApplicationContext();
+        org.springframework.boot.test.util.TestPropertyValues.of(
+                "kite.order-execution.enabled=true", "kite.order-execution.allowed-instruments=" + INSTRUMENT.id().value(),
+                "kite.order-execution.max-quantity=1", "kite.order-execution.max-notional=1000",
+                "kite.order-execution.risk-decision-max-age=1m", "kite.order-execution.market-data-max-age=5s",
+                "kite.operator-control.enabled=true", "kite.live-test.enabled=true",
+                "kite.live-test.allowed-instruments=" + INSTRUMENT.id().value(),
+                "kite.live-test.max-quantity=1", "kite.live-test.max-notional=20", "kite.live-test.arm-max-duration=30s")
+                .applyTo(context);
+        org.springframework.boot.test.util.TestPropertyValues.of(overrides).applyTo(context);
+        context.registerBean(JdbcTemplate.class, () -> jdbc);
+        context.registerBean(Clock.class, () -> {
+            var clock = org.mockito.Mockito.mock(Clock.class);
+            org.mockito.Mockito.when(clock.instant()).thenAnswer(call -> operatorNow.get());
+            return clock;
+        });
+        context.registerBean(io.micrometer.core.instrument.MeterRegistry.class, () -> metrics);
+        context.registerBean(com.kitehybrid.platform.broker.application.auth.KiteAuthenticationSession.class, () -> session);
+        context.registerBean(com.kitehybrid.platform.instrument.application.InstrumentRegistry.class, () -> registry);
+        context.registerBean(LatestMarketDataStore.class, () -> market);
+        context.registerBean(MarketDataGateway.class, () -> {
+            var gateway = org.mockito.Mockito.mock(MarketDataGateway.class);
+            org.mockito.Mockito.when(gateway.health()).thenAnswer(call -> marketHealth);
+            return gateway;
+        });
+        context.registerBean(RiskDecisionStore.class, () -> riskDecisions);
+        context.registerBean(RiskLimits.class, () -> new RiskLimits(true, 100, new BigDecimal("10000"), 100,
+                new BigDecimal("10000"), Duration.ofMinutes(1), Duration.ofMinutes(1), BigDecimal.ONE, BigDecimal.ONE));
+        context.registerBean(TradingProperties.class, () -> {
+            var trading = org.mockito.Mockito.mock(TradingProperties.class);
+            org.mockito.Mockito.when(trading.emergencyStop()).thenAnswer(call -> emergencyStop.get());
+            return trading;
+        });
+        if (context.getEnvironment().getProperty("kite.order-execution.enabled", Boolean.class, false))
+            context.registerBean(OrderExecutionGateway.class, () -> executionGateway);
+        var reads = new KiteTradingReadAdapter(transport, session, new KiteTradingReadMapper(registry), metrics);
+        context.registerBean(KiteTradingReadAdapter.class, () -> reads);
+        context.register(com.kitehybrid.platform.order.infrastructure.OrderConfiguration.class,
+                com.kitehybrid.platform.operator.infrastructure.OperatorControlConfiguration.class);
+        context.refresh();
+        application = context.getBean(OrderApplicationService.class);
+        executionProperties = context.getBean(OrderExecutionProperties.class);
+        return context;
+    }
+
+    @Test void operatorSpringPostgresPreflightArmExecuteDisarmAndReconcile() {
+        try (var context = operatorContext()) {
+            var operator = context.getBean(com.kitehybrid.platform.operator.application.OperatorExecutionService.class);
+            var placed = application.place(place("operator-e2e", OrderType.MARKET, Optional.empty()));
+            assertTrue(risk.evaluate(placed.id()).approved());
+            var before = orders.find(placed.id()).orElseThrow();
+            var prearm = operator.preflight(placed.id());
+            assertFalse(prearm.ready());
+            assertEquals(ExecutionDenialReason.DISARMED, prearm.reason());
+            assertEquals(24, prearm.gates().size());
+            assertEquals(before, orders.find(placed.id()).orElseThrow());
+            assertEquals(0, broker.requests().size());
+            assertTrue(operator.arm(Duration.ofSeconds(20)).armed());
+            assertTrue(operator.preflight(placed.id()).ready(), operator.preflight(placed.id()).toString());
+            assertEquals(0, broker.requests().size());
+            assertEquals(0, jdbc.queryForObject("SELECT count(*) FROM trading.execution_authorizations", Integer.class));
+            broker.assertBeforeRequest(() -> orders.find(placed.id()).orElseThrow().state() == OrderState.SUBMITTING);
+            var submitted = operator.execute(placed.id());
+            assertEquals(OrderState.SUBMITTED, submitted.state());
+            assertTrue(broker.submittingObserved());
+            assertEquals(1, broker.placeCount());
+            assertFalse(operator.disarm().armed());
+            broker.ordersResponse = """
+                    {"status":"success","data":[{"order_id":"synthetic-broker-1","instrument_token":123,
+                    "exchange":"NSE","tradingsymbol":"ABC","transaction_type":"BUY","order_type":"MARKET",
+                    "product":"CNC","validity":"DAY","variety":"regular","status":"OPEN","quantity":1,
+                    "filled_quantity":0,"pending_quantity":1,"cancelled_quantity":0,"disclosed_quantity":0,
+                    "price":0,"trigger_price":0,"average_price":0,"order_timestamp":"2026-09-21 10:30:00",
+                    "tag":"%s"}]}
+                    """.formatted(submitted.brokerCorrelationId().orElseThrow().value());
+            var reconcile = new OrderReconciliationService(orders, context.getBean(BrokerOrdersProvider.class),
+                    context.getBean(BrokerTradesProvider.class), new PostgresReconciliationStore(jdbc),
+                    Clock.fixed(NOW, ZoneOffset.UTC), metrics);
+            assertEquals(ReconciliationOutcome.ADVANCED, reconcile.reconcile(placed.id()).outcome());
+            assertEquals(OrderState.OPEN, orders.find(placed.id()).orElseThrow().state());
+            assertEquals(1, broker.placeCount());
+        }
+    }
+
+    @Test void operatorContextRestartLeavesPersistedApprovalStopped() {
+        OrderId id;
+        try (var first = operatorContext()) {
+            id = approved("operator-restart").id();
+            var operator = first.getBean(com.kitehybrid.platform.operator.application.OperatorExecutionService.class);
+            assertTrue(operator.arm(Duration.ofSeconds(20)).armed());
+            assertTrue(operator.preflight(id).ready());
+        }
+        try (var second = operatorContext()) {
+            var operator = second.getBean(com.kitehybrid.platform.operator.application.OperatorExecutionService.class);
+            assertEquals(ExecutionDenialReason.DISARMED, operator.preflight(id).reason());
+            assertThrows(OrderCommandValidationException.class, () -> operator.execute(id));
+            assertEquals(OrderState.RISK_APPROVED, orders.find(id).orElseThrow().state());
+            assertEquals(0, broker.requests().size());
+        }
+    }
+
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.ValueSource(strings={"kite.operator-control.enabled=false", "kite.live-test.enabled=false",
+            "kite.live-test.allowed-instruments=", "kite.live-test.max-quantity=0", "kite.live-test.max-notional=9",
+            "kite.order-execution.enabled=false"})
+    void operatorConfigurationDenialsNeverSendHttp(String override) {
+        try (var context = operatorContext(override)) {
+            var order = approved("operator-denied");
+            var operator = context.getBean(com.kitehybrid.platform.operator.application.OperatorExecutionService.class);
+            operator.arm(Duration.ofSeconds(20));
+            assertFalse(operator.preflight(order.id()).ready());
+            assertThrows(OrderCommandValidationException.class, () -> operator.execute(order.id()));
+            // Even a direct lower-level caller cannot bypass first-live restrictions in production wiring.
+            context.getBean(RuntimeExecutionArming.class).arm(Duration.ofSeconds(20), NOW);
+            assertThrows(OrderCommandValidationException.class, () -> application.executeRiskApproved(order.id()));
+            assertEquals(OrderState.RISK_APPROVED, orders.find(order.id()).orElseThrow().state());
+            assertEquals(0, broker.requests().size());
+        }
+    }
+
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.ValueSource(strings={"expiry", "session", "stop", "risk", "market", "health",
+            "submitting", "conflict", "store", "database", "livePrice", "fence"})
+    void operatorChangedEvidenceAfterArmNeverSendsHttp(String change) {
+        try (var context = operatorContext()) {
+            var order = approved("operator-changing");
+            var operator = context.getBean(com.kitehybrid.platform.operator.application.OperatorExecutionService.class);
+            assertTrue(operator.arm(Duration.ofSeconds(20)).armed());
+            assertTrue(operator.preflight(order.id()).ready());
+            switch (change) {
+                case "expiry" -> operatorNow.set(NOW.plusSeconds(20));
+                case "session" -> {
+                    session.install(new com.kitehybrid.platform.broker.application.auth.KiteAccessToken("replacementSynthetic", NOW, NOW.plusSeconds(3600)));
+                    session.profileValidated();
+                }
+                case "stop" -> emergencyStop.set(true);
+                case "risk" -> jdbc.update("UPDATE trading.risk_decisions SET evaluated_at=? WHERE order_id=?", java.sql.Timestamp.from(NOW.minusSeconds(60)), order.id().value());
+                case "market" -> operatorNow.set(NOW.plusSeconds(5));
+                case "health" -> marketHealth = null;
+                case "submitting" -> {
+                    var other = application.place(place("other", OrderType.MARKET, Optional.empty()));
+                    jdbc.update("UPDATE trading.orders SET state='SUBMITTING' WHERE order_id=?", other.id().value());
+                }
+                case "conflict" -> jdbc.update("INSERT INTO trading.reconciliation_decisions VALUES (gen_random_uuid(),?,'RISK_APPROVED',NULL,'CONFLICT','ORDER_IDENTITY_CONFLICT',?,2)", order.id().value(), java.sql.Timestamp.from(NOW));
+                case "store" -> jdbc.execute("ALTER TABLE trading.reconciliation_trades RENAME TO reconciliation_trades_unavailable");
+                case "database" -> jdbc.execute("ALTER INDEX trading.orders_broker_order_id_unique RENAME TO unavailable_identity_index");
+                case "livePrice" -> market.update(new Tick(INSTRUMENT.id(), new BigDecimal("21"), NOW));
+                case "fence" -> {
+                    var permit = new PublicationPermit();
+                    assertTrue(market.update(new Tick(INSTRUMENT.id(), new BigDecimal("11"), NOW), permit));
+                    permit.revoke();
+                }
+                default -> fail();
+            }
+            try {
+                assertFalse(operator.preflight(order.id()).ready(), change);
+                assertThrows(OrderCommandValidationException.class, () -> operator.execute(order.id()), change);
+                assertEquals(OrderState.RISK_APPROVED, orders.find(order.id()).orElseThrow().state());
+                assertEquals(0, broker.requests().size(), change);
+            } finally {
+                if (change.equals("store")) jdbc.execute("ALTER TABLE trading.reconciliation_trades_unavailable RENAME TO reconciliation_trades");
+                if (change.equals("database")) jdbc.execute("ALTER INDEX trading.unavailable_identity_index RENAME TO orders_broker_order_id_unique");
+            }
+        }
+    }
+
+    @Test void positiveFirstLiveQuantityCapIsIndependentOfNormalRiskAndExecutionCaps() {
+        try (var context = operatorContext("kite.order-execution.max-quantity=2")) {
+            var order = application.place(new PlaceOrder("live-quantity", INSTRUMENT.id(), OrderSide.BUY, 2,
+                    OrderType.MARKET, OrderProduct.DELIVERY, OrderValidity.DAY, Optional.empty(), Optional.empty(), 0, OrderVariety.REGULAR));
+            assertTrue(risk.evaluate(order.id()).approved());
+            var operator = context.getBean(com.kitehybrid.platform.operator.application.OperatorExecutionService.class);
+            assertTrue(operator.arm(Duration.ofSeconds(20)).armed());
+            assertEquals(ExecutionDenialReason.LIVE_TEST_QUANTITY_CAP, operator.preflight(order.id()).reason());
+            assertThrows(OrderCommandValidationException.class, () -> operator.execute(order.id()));
+            assertThrows(OrderCommandValidationException.class, () -> application.executeRiskApproved(order.id()));
+            assertEquals(0, broker.requests().size());
+        }
+    }
 
     private void rebuild(OrderExecutionProperties properties) {
         rebuild(properties, Clock.fixed(NOW, ZoneOffset.UTC));
@@ -568,7 +751,8 @@ class LocalKiteOrderExecutionIntegrationTest {
                 Optional.empty(), Optional.empty(), NOW, NOW, 1);
     }
     private static void requireLoopback(URI uri) {
-        if (uri == null || !List.of("http", "https").contains(uri.getScheme()) || uri.getHost() == null) {
+        if (uri == null || !List.of("http", "https").contains(uri.getScheme()) || uri.getHost() == null
+                || !Set.of("127.0.0.1", "localhost", "::1", "[::1]").contains(uri.getHost()) || uri.getUserInfo() != null) {
             throw new IllegalArgumentException("Execution test target must be loopback");
         }
         try {
