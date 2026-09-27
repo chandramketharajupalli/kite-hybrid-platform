@@ -60,7 +60,7 @@ docker compose exec -T postgres pg_restore --list /tmp/kite-pre-v10.dump
 Assert-Exit
 ```
 
-Listing is insufficient: restore into an isolated PostgreSQL container with no ports or network. Use a fresh container name. Never point verification at production.
+Listing is insufficient: restore into an isolated PostgreSQL container with no ports or network. Use a fresh container name. Never point verification at production. These commands reproduce the reported history in `trading`; the restore administrator needs an explicitly matched search path because its `$user` would otherwise select a different schema. For a deployment whose reviewed authoritative history is elsewhere, match that source schema instead. Never change the source search path merely to obtain READY.
 
 ```powershell
 docker run -d --name kite-v10-restore-check --network none -e POSTGRES_HOST_AUTH_METHOD=trust postgres:17.6
@@ -76,10 +76,18 @@ docker exec kite-v10-restore-check pg_restore -U postgres --dbname=restore_check
 Assert-Exit
 docker cp scripts/v10-preflight.sql kite-v10-restore-check:/tmp/v10-preflight.sql
 Assert-Exit
-docker exec kite-v10-restore-check psql -X -U postgres -d restore_check -v ON_ERROR_STOP=1 -f /tmp/v10-preflight.sql
+docker exec -e 'PGOPTIONS=-c search_path=trading,public' kite-v10-restore-check psql -X -U postgres -d restore_check -v ON_ERROR_STOP=1 -v expected_history_schema=trading -f /tmp/v10-preflight.sql
 Assert-Exit
-$inventory = 'SELECT version,success FROM public.flyway_schema_history ORDER BY installed_rank; SELECT count(*) FROM trading.orders; SELECT count(*) FROM trading.risk_decisions; SELECT count(*) FROM trading.reconciliation_decisions; SELECT count(*) FROM trading.reconciliation_trades;'
-$inventory | docker exec -i kite-v10-restore-check psql -X -U postgres -d restore_check -v ON_ERROR_STOP=1 -f -
+$inventory = @'
+SELECT current_schema() AS history_schema \gset
+SELECT :'history_schema' AS authoritative_history_schema;
+SELECT version,success FROM :"history_schema".flyway_schema_history ORDER BY installed_rank;
+SELECT count(*) FROM trading.orders;
+SELECT count(*) FROM trading.risk_decisions;
+SELECT count(*) FROM trading.reconciliation_decisions;
+SELECT count(*) FROM trading.reconciliation_trades;
+'@
+$inventory | docker exec -i -e 'PGOPTIONS=-c search_path=trading,public' kite-v10-restore-check psql -X -U postgres -d restore_check -v ON_ERROR_STOP=1 -f -
 Assert-Exit
 $inventory | docker compose exec -T postgres sh -c 'psql -X -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1 -f -'
 Assert-Exit
@@ -96,13 +104,53 @@ Run before application startup, which automatically invokes Flyway:
 ```powershell
 docker compose cp scripts/v10-preflight.sql postgres:/tmp/v10-preflight.sql
 Assert-Exit
-docker compose exec -T postgres sh -c 'psql -X -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1 -f /tmp/v10-preflight.sql'
+docker compose exec -T postgres sh -c 'psql -X -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1 -v expected_history_schema=trading -f /tmp/v10-preflight.sql'
 Assert-Exit
 ```
 
-Remote deployments can use `psql -X -h <target> -U <operator> -d <database> -v ON_ERROR_STOP=1 -f scripts/v10-preflight.sql` with a protected password file or approved credential mechanism. The script explicitly targets `public.flyway_schema_history` and `trading.orders`; other layouts require review.
+### Authoritative history contract
 
-The repeatable-read READ ONLY transaction has a statement timeout and ends with ROLLBACK. Output includes current Flyway version, duplicate non-null broker-ID group count, constraint and index metadata. It requires complete successful V1–V9 history, no failed history, no duplicate identities, validated constraints, and either V9 with the V10 index name free or V10 with the exact valid unique partial index. Exit 0 means READY; nonzero means STOP. PostgreSQL 17 does not support an exit-code argument to `\quit`, so the denial branch deliberately raises a non-mutating SQL error under ON_ERROR_STOP. No historical data is repaired or deleted and broker IDs are not printed. Check Flyway checksums separately. Keep writers stopped to prevent races before migration; V10 remains final uniqueness enforcement.
+Application configuration leaves `spring.flyway.default-schema`, `spring.flyway.schemas` and the history table name unset. The datasource uses `DB_URL`/`DB_USER`; V1 only runs `CREATE SCHEMA IF NOT EXISTS trading`. It does **not** declare where Flyway keeps history. Without an explicit Flyway schema, the installed PostgreSQL driver resolves the default from `SELECT current_schema`. PostgreSQL selects the first existing, accessible schema in `search_path`.
+
+For the reported role `trading`, existing schema `trading`, JDBC URL without `currentSchema`, and default `"$user", public` search path, `current_schema()` is `trading`. Thus **`trading.flyway_schema_history` is authoritative**. Public V1 must neither override it nor cause failure merely because another history exists. Other roles/search paths can legitimately use `public`; substituting a different hard-coded schema would break those deployments.
+
+The script resolves the schema once in its read-only transaction and fully qualifies the selected history. It never chooses the highest version, merges histories or uses an unqualified lookup that could fall through to another table. Diagnostics show connection user/database/search path/current schema, selected history, and discovered history-table locations with an authoritative flag. Non-authoritative histories are never deleted or repaired.
+
+Use the **same application login, database and effective search path**, not a convenient administrator login. The local command assumes Compose `POSTGRES_USER` equals application `DB_USER=trading`; otherwise use the actual application role. First check these read-only diagnostics:
+
+```sql
+SELECT current_database(), current_user, current_setting('search_path'), current_schema();
+SELECT n.nspname AS history_schema, c.relname AS history_table
+FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
+WHERE c.relname='flyway_schema_history' ORDER BY n.nspname;
+```
+
+Remote example for the reported deployment:
+
+```powershell
+psql -X -h <target> -U trading -d trading -v ON_ERROR_STOP=1 -v expected_history_schema=trading -f scripts/v10-preflight.sql
+Assert-Exit
+```
+
+Use a protected password file or approved credential mechanism. Mirror JDBC `currentSchema`, connection initialization SQL and role/database search-path settings in psql. `expected_history_schema` is an assertion: mismatch fails; it never changes selection. Keep it set for deployment checks so a wrong connection cannot accidentally validate a different complete history.
+
+If the application already has a Flyway override, pass `-v flyway_schema=<effective-schema>` (default-schema, otherwise the **first** schemas entry) and, if applicable, `-v flyway_table=<configured-table>`. These must reflect deployed settings; they are not repair switches. Runtime readiness reads these overrides from the application's Flyway configuration and denies if Flyway and the application's JdbcTemplate use different datasource instances. Separate credentials, pools or wrappers require review; independently configured connections are not assumed equivalent. Unknown effective connection/schema settings mean STOP, not a version-based guess.
+
+### Why two histories may exist
+
+The origin of the real public V1 row is **not proven**. Disposable tests demonstrate one plausible sequence without moving history: the `trading` role initially connects before its schema exists, so Flyway records V1 in `public`; V1 creates `trading`; a later connection resolves `$user` to `trading`, and a subsequent Flyway run creates history there and applies V1–V9. This reproduces the reported shape but does not establish the real deployment's history. Preserve both tables and investigate deployment records if provenance is needed.
+
+### READY / NOT_READY
+
+The repeatable-read READ ONLY transaction has a statement timeout and ends with ROLLBACK. V9 requires exactly one successful entry for each V1–V9, no failed/duplicate/unexpected version, latest installed version exactly 9, zero duplicate non-null broker IDs, validated order constraints and a free V10 index name.
+
+Already-V10 requires successful V1–V10 without duplicate/failed/missing baseline entries, latest version exactly 10, the expected SQL migration record (`V10__unique_broker_order_identity.sql`, expected description), and the exact unique partial broker-ID index. The index must be valid and ready, with the expected single column, no expression/extra included column, and the non-null predicate. Duplicate broker IDs and unvalidated constraints still deny. Flyway schema-creation metadata rows are permitted; unrelated unversioned migrations are not.
+
+Only `V10_PREFLIGHT=READY` **and exit 0** means prerequisites passed. NOT_READY, any SQL/connection error, missing output or nonzero exit means STOP. Missing authoritative history, missing/unusable schema, expected-schema mismatch and unsupported history relations never fall back to another table. PostgreSQL 17 does not support an exit-code argument to `\quit`, so deliberate denials raise a non-mutating SQL error under ON_ERROR_STOP (exit 3). No historical rows are repaired/deleted and broker-ID values are not printed. This check does not replace Flyway checksum validation. Keep writers stopped to prevent races before migration.
+
+### Spring configuration decision
+
+Production configuration remains unchanged. Globally pinning Flyway to `trading` would redirect installations with authoritative history in `public`, potentially treating a populated schema as unmigrated. That requires a separate deployment inventory and migration plan. Tests cover public-history clean install/upgrade, the discovered dual-history V9 preflight, and production Spring startup/restart upgrading **only trading history** to V10 inside a disposable database. Nothing here authorizes Spring startup or V10 migration against the real database.
 
 ## Eventual operator sequence
 

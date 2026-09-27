@@ -17,8 +17,23 @@ public class OperatorControlConfiguration {
     @Bean LiveTestProperties liveTestProperties(LiveTestConfigurationProperties properties) { return properties.domain(); }
     @Bean @Profile("!test")
     OperationalReadiness operationalReadiness(JdbcTemplate jdbc, ObjectProvider<BrokerOrdersProvider> orders,
-            ObjectProvider<BrokerTradesProvider> trades) {
-        return new PostgresOperationalReadiness(jdbc, () -> orders.getIfAvailable() != null && trades.getIfAvailable() != null);
+            ObjectProvider<BrokerTradesProvider> trades, ObjectProvider<org.flywaydb.core.Flyway> flyways) {
+        var flyway = flyways.getIfAvailable();
+        String schema = null;
+        String table = "flyway_schema_history";
+        if (flyway != null) {
+            var configuration = flyway.getConfiguration();
+            // Separate Flyway credentials/datasources can resolve a different $user/search_path.
+            // Do not certify the application's schema using evidence from an unverified connection.
+            if (configuration.getDataSource() != jdbc.getDataSource())
+                return () -> new OperationalReadiness.Evidence(false, false, false, false);
+            schema = configuration.getDefaultSchema();
+            if ((schema == null || schema.isBlank()) && configuration.getSchemas().length > 0)
+                schema = configuration.getSchemas()[0];
+            table = configuration.getTable();
+        }
+        return new PostgresOperationalReadiness(jdbc, () -> orders.getIfAvailable() != null && trades.getIfAvailable() != null,
+                schema, table);
     }
     @Bean @Profile("!test")
     AdditionalExecutionChecks liveTestExecutionChecks(OperatorControlConfigurationProperties operator, LiveTestProperties live,
