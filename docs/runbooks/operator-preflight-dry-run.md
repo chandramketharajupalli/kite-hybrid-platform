@@ -63,7 +63,7 @@ ExecutionReadiness report = operator.preflight(orderId);
 
 Before arm, all gates except `RUNTIME_ARMED` and `SESSION_BOUND` pass. Overall
 reason is `DISARMED`. The test then calls the real
-`operator.arm(Duration.ofSeconds(30))` with synthetic identity and limits.
+`operator.arm(orderId, Duration.ofSeconds(30))` with synthetic identity and limits.
 Fully READY preflight leaves the order `RISK_APPROVED`, without a broker ID.
 **The test ends without execution.** Zero, negative, and over-maximum durations
 deny; the exact expiry instant disarms; repeated disarm is harmless. An emergency

@@ -52,14 +52,14 @@ class OperatorControlArchitectureTest {
         var classes = new ClassFileImporter().withImportOption(new ImportOption.DoNotIncludeTests())
                 .importPackages("com.kitehybrid.platform");
         for (var type : new Class<?>[]{RuntimeExecutionArming.class, OrderExecutionGateway.class, OperatorExecutionService.class}) {
-            noClasses().that().resideInAnyPackage("..strategy..", "..risk..", "..reconciliation..")
+            noClasses().that().resideInAnyPackage("..strategy..", "..risk..", "..reconciliation..", "..marketdata..")
                     .should().dependOnClassesThat().areAssignableTo(type).check(classes);
         }
-        noClasses().that().resideInAnyPackage("..strategy..", "..risk..", "..reconciliation..")
+        noClasses().that().resideInAnyPackage("..strategy..", "..risk..", "..reconciliation..", "..marketdata..")
                 .should().dependOnClassesThat().resideInAnyPackage("..operator..").check(classes);
-        noClasses().that().resideInAnyPackage("..strategy..", "..risk..", "..reconciliation..")
+        noClasses().that().resideInAnyPackage("..strategy..", "..risk..", "..reconciliation..", "..marketdata..")
                 .should().dependOnClassesThat().haveSimpleName("KiteOrderAdapter").check(classes);
-        noClasses().that().resideInAnyPackage("..strategy..", "..risk..", "..reconciliation..")
+        noClasses().that().resideInAnyPackage("..strategy..", "..risk..", "..reconciliation..", "..marketdata..")
                 .should().callMethod(OrderApplicationService.class, "executeRiskApproved", com.kitehybrid.platform.shared.domain.Identifiers.OrderId.class)
                 .check(classes);
     }
@@ -75,7 +75,8 @@ class OperatorControlArchitectureTest {
             for (var call : type.getMethodCallsFromSelf()) {
                 if (call.getTargetOwner().isEquivalentTo(OperatorExecutionService.class)
                         && java.util.Set.of("arm", "execute").contains(call.getTarget().getName())) {
-                    org.junit.jupiter.api.Assertions.fail("No automatic operator mutation caller is allowed: " + call);
+                    org.junit.jupiter.api.Assertions.assertEquals("com.kitehybrid.platform.operator.console.TrustedOperatorConsole",
+                            type.getName(), "Only the reviewed interactive host may invoke operator mutation: " + call);
                 }
             }
             for (var call : type.getConstructorCallsFromSelf()) {
@@ -86,5 +87,30 @@ class OperatorControlArchitectureTest {
                 }
             }
         }
+    }
+
+    @Test void onlyReviewedExecutionEdgesAndExactOrderApiExist() {
+        var classes = new ClassFileImporter().withImportOption(new ImportOption.DoNotIncludeTests()).importPackages("com.kitehybrid.platform");
+        for (var type : classes) for (var call : type.getMethodCallsFromSelf()) {
+            String target=call.getTarget().getName();
+            if (call.getTargetOwner().isEquivalentTo(OrderApplicationService.class) && target.equals("executeRiskApproved"))
+                org.junit.jupiter.api.Assertions.assertTrue(type.isEquivalentTo(OperatorExecutionService.class),call.toString());
+            if (call.getTargetOwner().isEquivalentTo(OrderExecutionGateway.class) && java.util.Set.of("place","modify","cancel").contains(target))
+                org.junit.jupiter.api.Assertions.assertTrue(type.isEquivalentTo(OrderApplicationService.class),call.toString());
+            if (call.getTargetOwner().getSimpleName().equals("TrustedOperatorConsole") && target.equals("run"))
+                org.junit.jupiter.api.Assertions.assertEquals("com.kitehybrid.platform.bootstrap.OperatorConsoleApplication",type.getName(),call.toString());
+            if (call.getTargetOwner().isEquivalentTo(RuntimeExecutionArming.class) && java.util.Set.of("arm","claim","complete").contains(target))
+                org.junit.jupiter.api.Assertions.assertTrue(type.isEquivalentTo(OperatorExecutionService.class),call.toString());
+        }
+        noClasses().that().resideInAnyPackage("..operator.console..").should().dependOnClassesThat()
+                .resideInAnyPackage("..broker.infrastructure..", "..order.infrastructure..", "org.springframework.web..", "org.springframework.context.event..").check(classes);
+        for (var runner : new Class<?>[]{org.springframework.boot.ApplicationRunner.class,org.springframework.boot.CommandLineRunner.class})
+            noClasses().that().resideInAnyPackage("..operator..").should().dependOnClassesThat().areAssignableTo(runner).check(classes);
+        var execute = java.util.Arrays.stream(OperatorExecutionService.class.getDeclaredMethods()).filter(m -> m.getName().equals("execute")).toList();
+        org.junit.jupiter.api.Assertions.assertEquals(1,execute.size());
+        org.junit.jupiter.api.Assertions.assertArrayEquals(new Class<?>[]{com.kitehybrid.platform.shared.domain.Identifiers.OrderId.class},execute.getFirst().getParameterTypes());
+        for (var method : classes.get(OperatorExecutionService.class).getMethods())
+            org.junit.jupiter.api.Assertions.assertFalse(method.isAnnotatedWith(org.springframework.context.event.EventListener.class)
+                    || method.isAnnotatedWith(org.springframework.scheduling.annotation.Scheduled.class));
     }
 }

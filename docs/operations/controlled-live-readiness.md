@@ -11,9 +11,9 @@ Its synthetic READY result does not authorize live trading or invoke execution.
 Strategy → signal → trade intent → VALIDATED → RiskService → RISK_APPROVED → **STOP**.
 Only an explicit trusted in-process `OperatorExecutionService.execute(OrderId)` requests submission. It reloads the persisted order, checks readiness and delegates to `OrderApplicationService.executeRiskApproved`. The application repeats `ExecutionSafetyPolicy`, obtains account admission, persists SUBMITTING and validates again immediately before transport. The persisted command and correlation are authoritative; execute accepts no broker ID, symbol, instrument, quantity or price override.
 
-There are no operator HTTP endpoints, browser mutation controls, batch operations, listeners, pending-order scans or execution schedulers. A deployment needs a separately reviewed operator host invoking this application service in the **same running JVM**. Starting another JVM cannot arm the running instance. Do not improvise an unauthenticated HTTP bridge. HTTP method, Host, Origin, forwarded-header and CSRF rules do not apply to this service-only boundary; they require separate review if an HTTP transport is introduced.
+There are no operator HTTP endpoints, browser mutation controls, batch operations, listeners, pending-order scans or execution schedulers. The explicit terminal host and its deployment prerequisites are documented in the [controlled one-order procedure](../runbooks/controlled-one-order-live-test.md). It invokes this service in the **same running JVM** and does not authorize live use by itself. Starting another JVM cannot arm the running instance. Do not improvise an unauthenticated HTTP bridge. HTTP method, Host, Origin, forwarded-header and CSRF rules do not apply to this service-only boundary; they require separate review if an HTTP transport is introduced.
 
-`arm(Duration)` requires operator opt-in, execution capability, a usable authenticated session, emergency stop OFF, configured first-live limits and a positive bounded duration. Denial revokes an existing arm. Its response contains only armed, armedAt, expiresAt and an enum reason. It executes nothing. `disarm()` is idempotent. Arming is memory-only, expires at its boundary instant and invalidates on session replacement. Emergency stop always denies execution, including after arming. Restart creates a disarmed bean; persisted approvals stay stopped.
+`arm(OrderId, Duration)` requires operator opt-in, execution capability, a usable authenticated session, emergency stop OFF, configured first-live limits and a positive bounded duration. Denial revokes an existing arm. Its response contains only armed, armedAt, expiresAt and an enum reason. It executes nothing. `disarm()` is idempotent. Arming is memory-only, bound to exact OrderId/approved version and session, expires at its boundary instant and invalidates on session replacement. Arm requires all non-arm readiness gates to pass; every execute invocation disarms and an owning attempt consumes its one-use permit. Emergency stop always denies execution, including after arming. Restart creates a disarmed bean; persisted approvals stay stopped.
 
 ## Independent first-live configuration
 
@@ -38,7 +38,7 @@ Preflight performs local reads and bounded logging only. It never calls the brok
 
 Unavailable evidence fails closed. Historical AMBIGUOUS, CONFLICT, BROKER_ORDER_MISSING and BROKER_STATE_UNAVAILABLE reconciliation outcomes conservatively block account-wide, even after later observations. No automatic conflict-clear workflow is added; investigate and obtain a separately reviewed resolution. Account admission remains authoritative if exposure changes after a READY report.
 
-Bounded structured logs record ARM, DISARM, READINESS_DENIED and EXECUTE_REQUEST with enum reasons. Existing durable authorization auditing and bounded execution metrics remain in use. No credentials, tokens, account bodies or session identities are returned/logged by operator control. No high-cardinality metric labels are added.
+Bounded structured logs record ARM_REQUEST, ARM_SUCCESS/ARM_DENIED, DISARM, PREFLIGHT_DENIED, EXECUTE_REQUEST, EXECUTE_DENIED, EXECUTE_ATTEMPT and explicit RECONCILE_REQUEST with enum reasons. Existing durable authorization auditing and bounded execution metrics remain in use. No credentials, tokens, account bodies or session identities are returned/logged by operator control. No high-cardinality metric labels are added.
 
 ## Backup is mandatory before V10 deployment
 
@@ -167,9 +167,9 @@ Production configuration remains unchanged. Globally pinning Flyway to `trading`
 7. Verify fresh generation-fenced market data and healthy subscriptions.
 8. Create/identify one persisted RISK_APPROVED OrderId with correlation.
 9. Run readiness; require all prerequisites except arm/session binding to pass. Overall is NOT_READY before arm.
-10. Explicitly arm for a bounded duration in the same JVM.
+10. Explicitly arm the exact OrderId for a bounded duration in the same JVM; confirm exact selection.
 11. Run readiness again; require READY on every gate.
-12. Explicitly execute that one OrderId; never retry an ambiguous request.
+12. Separately confirm and explicitly execute that one OrderId once; never retry an ambiguous request.
 13. Immediately disarm, including on error.
 14. Explicitly reconcile.
 15. Verify broker orders/trades and local state agree.

@@ -23,11 +23,25 @@ class OperatorControlTest {
     private final RuntimeExecutionArming arm = new RuntimeExecutionArming(new SimpleMeterRegistry(), session::executionIdentity);
     private final OrderApplicationService application = mock(OrderApplicationService.class);
     private final OrderRepository orders = mock(OrderRepository.class);
+    private final com.kitehybrid.platform.shared.domain.Identifiers.OrderId id = new com.kitehybrid.platform.shared.domain.Identifiers.OrderId(new UUID(0,42));
     private final InstrumentId instrument = new InstrumentId(UUID.randomUUID());
     private OperatorExecutionService service(boolean enabled, boolean capability, boolean stop) {
+        var record = mock(com.kitehybrid.platform.order.domain.OrderRecord.class);
+        when(record.id()).thenReturn(id); when(record.version()).thenReturn(2L);
+        when(orders.find(id)).thenReturn(Optional.of(record));
+        var policy = mock(ExecutionSafetyPolicy.class);
+        when(policy.inspect(record)).thenAnswer(call -> {
+            var gates = new EnumMap<ExecutionReadiness.Gate, ExecutionDenialReason>(ExecutionReadiness.Gate.class);
+            for (var gate : ExecutionReadiness.Gate.values()) gates.put(gate, ExecutionDenialReason.NONE);
+            if (!arm.armed(now)) {
+                gates.put(ExecutionReadiness.Gate.RUNTIME_ARMED,ExecutionDenialReason.DISARMED);
+                gates.put(ExecutionReadiness.Gate.SESSION_BOUND,ExecutionDenialReason.DISARMED);
+            }
+            return new ExecutionReadiness(gates);
+        });
         return new OperatorExecutionService(enabled, new OrderExecutionProperties(capability),
                 new LiveTestProperties(true, Set.of(instrument), 1, BigDecimal.TEN, Duration.ofSeconds(30)),
-                arm, session, () -> stop, orders, mock(ExecutionSafetyPolicy.class), application, clock);
+                arm, session, () -> stop, orders, policy, application, clock);
     }
     private void authenticate() {
         when(session.enabled()).thenReturn(true);
@@ -36,33 +50,33 @@ class OperatorControlTest {
     @Test void armingOnlyReturnsSafeMetadataAndDisarmIsIdempotent() {
         authenticate();
         var operator = service(true, true, false);
-        var result = operator.arm(Duration.ofSeconds(20));
+        var result = operator.arm(id, Duration.ofSeconds(20));
         assertTrue(result.armed());
         assertEquals(now, result.armedAt());
         assertEquals(now.plusSeconds(20), result.expiresAt());
         assertEquals(ExecutionDenialReason.NONE, result.reason());
         assertEquals(operator.disarm(), operator.disarm());
         assertFalse(arm.armed(now));
-        verifyNoInteractions(application, orders);
+        verifyNoInteractions(application);
     }
     @Test void durationBoundariesFailClosedAndRevokeExistingArm() {
         authenticate(); var operator=service(true,true,false);
         for (var duration : List.of(Duration.ZERO, Duration.ofSeconds(-1), Duration.ofSeconds(31), Duration.ofDays(1))) {
-            assertTrue(operator.arm(Duration.ofSeconds(30)).armed());
-            assertFalse(operator.arm(duration).armed());
+            assertTrue(operator.arm(id, Duration.ofSeconds(30)).armed());
+            assertFalse(operator.arm(id, duration).armed());
             assertFalse(arm.armed(now));
         }
-        assertFalse(operator.arm(null).armed());
-        verifyNoInteractions(application, orders);
+        assertFalse(operator.arm(id, null).armed());
+        verifyNoInteractions(application);
     }
     @Test void independentEnablementCapabilityAuthenticationAndStopRequired() {
         authenticate();
-        assertEquals(ExecutionDenialReason.OPERATOR_CONTROL_DISABLED, service(false,true,false).arm(Duration.ofSeconds(1)).reason());
-        assertEquals(ExecutionDenialReason.EXECUTION_DISABLED, service(true,false,false).arm(Duration.ofSeconds(1)).reason());
-        assertEquals(ExecutionDenialReason.EMERGENCY_STOP, service(true,true,true).arm(Duration.ofSeconds(1)).reason());
+        assertEquals(ExecutionDenialReason.OPERATOR_CONTROL_DISABLED, service(false,true,false).arm(id, Duration.ofSeconds(1)).reason());
+        assertEquals(ExecutionDenialReason.EXECUTION_DISABLED, service(true,false,false).arm(id, Duration.ofSeconds(1)).reason());
+        assertEquals(ExecutionDenialReason.EMERGENCY_STOP, service(true,true,true).arm(id, Duration.ofSeconds(1)).reason());
         when(session.executionIdentity()).thenReturn(Optional.empty());
-        assertEquals(ExecutionDenialReason.AUTHENTICATION_UNAVAILABLE, service(true,true,false).arm(Duration.ofSeconds(1)).reason());
-        verifyNoInteractions(application, orders);
+        assertEquals(ExecutionDenialReason.AUTHENTICATION_UNAVAILABLE, service(true,true,false).arm(id, Duration.ofSeconds(1)).reason());
+        verifyNoInteractions(application);
     }
     @Test void typedDefaultsDenyWithoutSelectingAnInstrument() {
         new ApplicationContextRunner().withUserConfiguration(OperatorControlConfiguration.class)

@@ -31,15 +31,29 @@ public final class OperatorExecutionService {
         this.enabled=enabled; this.execution=execution; this.live=live; this.arm=arm; this.session=session;
         this.stop=stop; this.orders=orders; this.policy=policy; this.application=application; this.clock=clock;
     }
-    public synchronized ArmResult arm(Duration duration) {
+    public synchronized ArmResult arm(OrderId id, Duration duration) {
+        audit("ARM_REQUEST", NONE);
+        arm.disarm();
         var reason = !enabled ? OPERATOR_CONTROL_DISABLED : !execution.enabled() ? EXECUTION_DISABLED
                 : !session.enabled() || session.executionIdentity().isEmpty() ? AUTHENTICATION_UNAVAILABLE
                 : stop.getAsBoolean() ? EMERGENCY_STOP : !live.enabled() ? LIVE_TEST_DISABLED
                 : !live.configured() || duration == null || duration.isNegative() || duration.isZero()
                     || duration.compareTo(live.armMaxDuration()) > 0 ? ARM_DURATION_INVALID : NONE;
         if (reason == NONE) {
-            try { arm.arm(duration, clock.instant()); }
-            catch (RuntimeException denied) { reason = AUTHENTICATION_UNAVAILABLE; }
+            try {
+                var candidate = orders.find(id).orElse(null);
+                var before = preflight(id);
+                if (candidate == null) reason = ORDER_NOT_FOUND;
+                else if (!canArm(before)) reason = before.gates().entrySet().stream()
+                        .filter(e -> e.getValue() != NONE && !(e.getValue() == DISARMED
+                                && (e.getKey() == ExecutionReadiness.Gate.RUNTIME_ARMED || e.getKey() == ExecutionReadiness.Gate.SESSION_BOUND)))
+                        .map(java.util.Map.Entry::getValue).findFirst().orElse(EVIDENCE_UNAVAILABLE);
+                else {
+                    arm.arm(candidate, duration, clock.instant());
+                    var after = preflight(id);
+                    if (!after.ready()) reason = after.reason();
+                }
+            } catch (RuntimeException denied) { reason = EVIDENCE_UNAVAILABLE; }
         }
         if (reason != NONE || stop.getAsBoolean()) {
             arm.disarm();
@@ -47,8 +61,15 @@ public final class OperatorExecutionService {
         }
         var status = arm.status(clock.instant());
         if (reason == NONE && !status.armed()) reason = DISARMED;
-        audit("ARM", reason);
+        audit(reason == NONE ? "ARM_SUCCESS" : "ARM_DENIED", reason);
         return new ArmResult(status.armed(), status.armedAt(), status.expiresAt(), reason);
+    }
+    public RuntimeExecutionArming.Status status() { return arm.status(clock.instant()); }
+    public static boolean canArm(ExecutionReadiness report) {
+        if (!report.gates().keySet().equals(java.util.EnumSet.allOf(ExecutionReadiness.Gate.class))) return false;
+        return report.gates().entrySet().stream().allMatch(e ->
+                e.getKey() == ExecutionReadiness.Gate.RUNTIME_ARMED || e.getKey() == ExecutionReadiness.Gate.SESSION_BOUND
+                        ? e.getValue() == DISARMED : e.getValue() == NONE);
     }
     public synchronized ArmResult disarm() {
         arm.disarm(); audit("DISARM", NONE);
@@ -60,15 +81,27 @@ public final class OperatorExecutionService {
             result = orders.find(id).map(policy::inspect).orElseGet(() -> denied(ORDER_NOT_FOUND));
             if (!enabled) result = denied(OPERATOR_CONTROL_DISABLED);
         } catch (RuntimeException unavailable) { result = denied(EVIDENCE_UNAVAILABLE); }
-        if (!result.ready()) audit("READINESS_DENIED", result.reason());
+        if (!result.ready()) audit("PREFLIGHT_DENIED", result.reason());
         return result;
     }
     public OrderRecord execute(OrderId id) {
         audit("EXECUTE_REQUEST", NONE);
-        var report = preflight(id);
-        if (!report.ready()) throw new OrderCommandValidationException(report.reason().name());
-        // Persisted order is authoritative. The application repeats authorization and account admission.
-        return application.executeRiskApproved(id);
+        RuntimeExecutionArming.Attempt attempt = null;
+        try {
+            var report = preflight(id);
+            if (!report.ready()) throw new OrderCommandValidationException(report.reason().name());
+            attempt = arm.claim(id, clock.instant());
+            audit("EXECUTE_ATTEMPT", NONE);
+            // Persisted order is authoritative. The application repeats authorization and account admission.
+            return application.executeRiskApproved(id);
+        } catch (RuntimeException denied) {
+            audit("EXECUTE_DENIED", EVIDENCE_UNAVAILABLE);
+            throw denied;
+        } finally {
+            arm.disarm();
+            arm.complete(attempt);
+            audit("DISARM", NONE);
+        }
     }
     private static ExecutionReadiness denied(ExecutionDenialReason reason) {
         var gates = new java.util.EnumMap<ExecutionReadiness.Gate, ExecutionDenialReason>(ExecutionReadiness.Gate.class);

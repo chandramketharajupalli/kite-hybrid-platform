@@ -27,6 +27,7 @@ public final class LiveTestExecutionChecks implements AdditionalExecutionChecks 
     private Map<ExecutionReadiness.Gate, ExecutionDenialReason> evaluate(OrderRecord order, BigDecimal price, OperationalReadiness.Evidence evidence) {
         var result = new LinkedHashMap<ExecutionReadiness.Gate, ExecutionDenialReason>();
         var armed = arm.status(clock.instant());
+        result.put(SESSION_BOUND, arm.bindingReason(order, clock.instant()));
         result.put(OPERATOR_CONTROL_ENABLED, operatorEnabled ? NONE : OPERATOR_CONTROL_DISABLED);
         result.put(LIVE_TEST_MODE_ENABLED, p.enabled() ? NONE : LIVE_TEST_DISABLED);
         result.put(LIVE_TEST_INSTRUMENT_ALLOWED, p.allowedInstruments().contains(order.command().instrumentId()) ? NONE : LIVE_TEST_INSTRUMENT_DENIED);

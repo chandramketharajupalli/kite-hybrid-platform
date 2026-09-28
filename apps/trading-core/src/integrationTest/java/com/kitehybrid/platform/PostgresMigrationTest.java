@@ -177,7 +177,7 @@ class PostgresMigrationTest {
             assertNotNull(context.getBean(com.kitehybrid.platform.order.application.ExecutionSafetyPolicy.class));
             assertEquals(com.kitehybrid.platform.order.application.ExecutionDenialReason.OPERATOR_CONTROL_DISABLED,
                     context.getBean(com.kitehybrid.platform.operator.application.OperatorExecutionService.class)
-                            .arm(java.time.Duration.ofSeconds(1)).reason());
+                            .arm(new com.kitehybrid.platform.shared.domain.Identifiers.OrderId(java.util.UUID.randomUUID()), java.time.Duration.ofSeconds(1)).reason());
             assertFalse(context.getBean(com.kitehybrid.platform.operator.application.LiveTestProperties.class).configured());
             assertNotNull(context.getBean(com.kitehybrid.platform.order.application.ExecutionAuthorizationAuditStore.class));
             assertNotNull(context.getBean(com.kitehybrid.platform.strategy.application.StrategyOrderCoordinator.class));

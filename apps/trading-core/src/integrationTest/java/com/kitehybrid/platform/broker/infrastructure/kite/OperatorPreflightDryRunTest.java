@@ -202,7 +202,7 @@ class OperatorPreflightDryRunTest {
             assertTrue(orders.find(id).orElseThrow().brokerCorrelationId().isPresent());
             assertZeroMutation();
         }
-        void arm() { assertTrue(operator.arm(Duration.ofSeconds(30)).armed()); assertZeroMutation(); }
+        void arm() { assertTrue(operator.arm(id, Duration.ofSeconds(30)).armed()); assertZeroMutation(); }
         void tick(String price, Instant received, Optional<Instant> exchange) {
             permit.revoke(); permit = new PublicationPermit();
             assertTrue(market.update(new Tick(INSTRUMENT.id(), new BigDecimal(price), received, exchange, Optional.empty(), Optional.empty()), permit));
@@ -334,7 +334,7 @@ class OperatorPreflightDryRunTest {
         try (var h = new Harness(property)) {
             h.approve(2, null);
             // Configuration denials can make arming impossible; assertions target the specific gate.
-            h.operator.arm(Duration.ofSeconds(30));
+            h.operator.arm(h.id, Duration.ofSeconds(30));
             ExecutionDenialReason reason = switch (gate) {
                 case EXECUTION_CAPABILITY_CONFIGURED -> EXECUTION_DISABLED;
                 case OPERATOR_CONTROL_ENABLED -> OPERATOR_CONTROL_DISABLED;
@@ -395,7 +395,7 @@ class OperatorPreflightDryRunTest {
         try (var h = new Harness()) {
             h.approve(2,null); var before = h.snapshot();
             for (var duration : List.of(Duration.ZERO,Duration.ofNanos(-1),Duration.ofSeconds(30).plusNanos(1))) {
-                h.arm(); var result = h.operator.arm(duration);
+                h.arm(); var result = h.operator.arm(h.id, duration);
                 assertFalse(result.armed()); assertEquals(ARM_DURATION_INVALID,result.reason());
                 assertEquals(before,h.snapshot()); h.assertZeroMutation();
             }
@@ -404,7 +404,7 @@ class OperatorPreflightDryRunTest {
             h.now.set(NOW.plusSeconds(30)); h.denied(RUNTIME_ARMED,DISARMED);
             assertEquals(h.operator.disarm(),h.operator.disarm());
             h.now.set(NOW); h.stop.set(true);
-            assertEquals(EMERGENCY_STOP,h.operator.arm(Duration.ofSeconds(1)).reason());
+            assertEquals(EMERGENCY_STOP,h.operator.arm(h.id, Duration.ofSeconds(1)).reason());
             assertEquals(before,h.snapshot()); h.assertZeroMutation();
         }
     }
@@ -465,7 +465,7 @@ class OperatorPreflightDryRunTest {
     void quantityCapsAreInclusive(String cap, long quantity, boolean ready) throws Exception {
         try (var h = new Harness("kite.order-execution.max-notional=100", "kite.live-test.max-notional=100",
                 cap.equals("normal") ? "kite.live-test.max-quantity=100" : "kite.order-execution.max-quantity=100")) {
-            h.approve(quantity,null); h.arm();
+            h.approve(quantity,null); h.operator.arm(h.id, Duration.ofSeconds(30));
             if (ready) assertTrue(h.observe().ready()); else h.denied(cap.equals("normal") ? QUANTITY_WITHIN_CAP : LIVE_TEST_QUANTITY_WITHIN_CAP,
                     cap.equals("normal") ? QUANTITY_CAP_EXCEEDED : LIVE_TEST_QUANTITY_CAP);
         }
@@ -483,7 +483,7 @@ class OperatorPreflightDryRunTest {
     @ParameterizedTest @CsvSource({"20,10,true", "20.05,10,false", "10,20,true", "10,20.05,false"})
     void limitValuationUsesMaximumOfPersistedLimitAndAcceptedMarket(String limit, String market, boolean ready) throws Exception {
         try (var h = new Harness()) {
-            h.approve(1,limit); h.arm(); h.tick(market,NOW,Optional.empty());
+            h.approve(1,limit); h.operator.arm(h.id, Duration.ofSeconds(30)); h.tick(market,NOW,Optional.empty());
             if (ready) assertTrue(h.observe().ready()); else {
                 var report = h.observe(); assertFalse(report.ready());
                 assertEquals(NOTIONAL_CAP_EXCEEDED,report.gates().get(NOTIONAL_WITHIN_CAP));
@@ -541,7 +541,7 @@ class OperatorPreflightDryRunTest {
             appender.start(); logger.addAppender(appender); logger.setLevel(ch.qos.logback.classic.Level.INFO);
             try {
                 assertEquals(DISARMED,h.observe().reason());
-                assertEquals(List.of("Operator control action=READINESS_DENIED reason=DISARMED"),
+                assertEquals(List.of("Operator control action=PREFLIGHT_DENIED reason=DISARMED"),
                         appender.list.stream().map(ch.qos.logback.classic.spi.ILoggingEvent::getFormattedMessage).toList());
                 h.arm(); appender.list.clear(); assertTrue(h.observe().ready()); assertTrue(appender.list.isEmpty());
             } finally { logger.detachAppender(appender); logger.setLevel(oldLevel); appender.stop(); }

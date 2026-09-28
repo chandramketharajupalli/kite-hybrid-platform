@@ -186,7 +186,7 @@ class LocalKiteOrderExecutionIntegrationTest {
             assertEquals(24, prearm.gates().size());
             assertEquals(before, orders.find(placed.id()).orElseThrow());
             assertEquals(0, broker.requests().size());
-            assertTrue(operator.arm(Duration.ofSeconds(20)).armed());
+            assertTrue(operator.arm(placed.id(), Duration.ofSeconds(20)).armed());
             assertTrue(operator.preflight(placed.id()).ready(), operator.preflight(placed.id()).toString());
             assertEquals(0, broker.requests().size());
             assertEquals(0, jdbc.queryForObject("SELECT count(*) FROM trading.execution_authorizations", Integer.class));
@@ -218,7 +218,7 @@ class LocalKiteOrderExecutionIntegrationTest {
         try (var first = operatorContext()) {
             id = approved("operator-restart").id();
             var operator = first.getBean(com.kitehybrid.platform.operator.application.OperatorExecutionService.class);
-            assertTrue(operator.arm(Duration.ofSeconds(20)).armed());
+            assertTrue(operator.arm(id, Duration.ofSeconds(20)).armed());
             assertTrue(operator.preflight(id).ready());
         }
         try (var second = operatorContext()) {
@@ -238,7 +238,7 @@ class LocalKiteOrderExecutionIntegrationTest {
         try (var context = operatorContext(override)) {
             var order = approved("operator-denied");
             var operator = context.getBean(com.kitehybrid.platform.operator.application.OperatorExecutionService.class);
-            operator.arm(Duration.ofSeconds(20));
+            operator.arm(order.id(), Duration.ofSeconds(20));
             assertFalse(operator.preflight(order.id()).ready());
             assertThrows(OrderCommandValidationException.class, () -> operator.execute(order.id()));
             // Even a direct lower-level caller cannot bypass first-live restrictions in production wiring.
@@ -256,7 +256,7 @@ class LocalKiteOrderExecutionIntegrationTest {
         try (var context = operatorContext()) {
             var order = approved("operator-changing");
             var operator = context.getBean(com.kitehybrid.platform.operator.application.OperatorExecutionService.class);
-            assertTrue(operator.arm(Duration.ofSeconds(20)).armed());
+            assertTrue(operator.arm(order.id(), Duration.ofSeconds(20)).armed());
             assertTrue(operator.preflight(order.id()).ready());
             switch (change) {
                 case "expiry" -> operatorNow.set(NOW.plusSeconds(20));
@@ -301,8 +301,8 @@ class LocalKiteOrderExecutionIntegrationTest {
                     OrderType.MARKET, OrderProduct.DELIVERY, OrderValidity.DAY, Optional.empty(), Optional.empty(), 0, OrderVariety.REGULAR));
             assertTrue(risk.evaluate(order.id()).approved());
             var operator = context.getBean(com.kitehybrid.platform.operator.application.OperatorExecutionService.class);
-            assertTrue(operator.arm(Duration.ofSeconds(20)).armed());
-            assertEquals(ExecutionDenialReason.LIVE_TEST_QUANTITY_CAP, operator.preflight(order.id()).reason());
+            assertFalse(operator.arm(order.id(), Duration.ofSeconds(20)).armed());
+            assertEquals(ExecutionDenialReason.LIVE_TEST_QUANTITY_CAP, operator.preflight(order.id()).gates().get(ExecutionReadiness.Gate.LIVE_TEST_QUANTITY_WITHIN_CAP));
             assertThrows(OrderCommandValidationException.class, () -> operator.execute(order.id()));
             assertThrows(OrderCommandValidationException.class, () -> application.executeRiskApproved(order.id()));
             assertEquals(0, broker.requests().size());
