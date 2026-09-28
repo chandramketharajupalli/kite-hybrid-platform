@@ -66,6 +66,9 @@ class OneOrderOperatorIntegrationTest {
     final class Fixture implements AutoCloseable {
         final AtomicReference<Instant> now=new AtomicReference<>(NOW);
         final AtomicBoolean stop=new AtomicBoolean();
+        final AtomicInteger gatewayCalls=new AtomicInteger();
+        volatile MarketDataHealth health=OperatorPreflightDryRunTest.healthy();
+        final List<String> trace=new CopyOnWriteArrayList<>();
         final List<String> methods=new CopyOnWriteArrayList<>();
         final AtomicReference<String> form=new AtomicReference<>();
         final AtomicBoolean submittingObserved=new AtomicBoolean();
@@ -103,7 +106,7 @@ class OneOrderOperatorIntegrationTest {
             flyway=Flyway.configure().dataSource(source).defaultSchema("public").locations("classpath:db/migration").load(); flyway.migrate();
             server=HttpServer.create(new InetSocketAddress("127.0.0.1",0),0);
             server.createContext("/orders/regular",exchange->{
-                methods.add(exchange.getRequestMethod());
+                methods.add(exchange.getRequestMethod()); trace.add("HTTP_"+exchange.getRequestMethod());
                 form.set(new String(exchange.getRequestBody().readAllBytes(),StandardCharsets.UTF_8));
                 submittingObserved.set(jdbc.queryForObject("SELECT state FROM trading.orders WHERE order_id=?",String.class,id.value()).equals("SUBMITTING"));
                 received.countDown();
@@ -125,6 +128,7 @@ class OneOrderOperatorIntegrationTest {
         }
         AnnotationConfigApplicationContext boot(KiteSession currentSession, String... overrides) {
             var c=new AnnotationConfigApplicationContext();
+            c.setEnvironment(RehearsalIsolation.environment());
             TestPropertyValues.of("kite.order-execution.enabled=true", "kite.order-execution.allowed-instruments="+INSTRUMENT.id().value(),
                     "kite.order-execution.max-quantity=1", "kite.order-execution.max-notional=20", "kite.order-execution.risk-decision-max-age=60s",
                     "kite.order-execution.market-data-max-age=5s", "kite.operator-control.enabled=true", "kite.live-test.enabled=true",
@@ -137,24 +141,38 @@ class OneOrderOperatorIntegrationTest {
             c.registerBean(Clock.class,()->clock); c.registerBean(MeterRegistry.class,SimpleMeterRegistry::new);
             c.registerBean(KiteAuthenticationSession.class,()->currentSession); c.registerBean(InstrumentRegistry.class,()->registry);
             c.registerBean(LatestMarketDataStore.class,()->market); c.registerBean(KiteTradingReadAdapter.class,()->reads);
-            c.registerBean(MarketDataGateway.class,()->{ var gateway=mock(MarketDataGateway.class); when(gateway.health()).thenReturn(OperatorPreflightDryRunTest.healthy()); return gateway; });
+            c.registerBean(MarketDataGateway.class,()->{ var gateway=mock(MarketDataGateway.class); when(gateway.health()).thenAnswer(call->health); return gateway; });
             c.registerBean(TradingProperties.class,()->{ var trading=mock(TradingProperties.class); when(trading.emergencyStop()).thenAnswer(call->stop.get()); return trading; });
             c.registerBean(RiskEngine.class,()->new RiskEngine(List.of(new PositiveReferencePriceRiskRule()),clock));
             c.registerBean(OrderExecutionGateway.class,()->{
-                var factory=new SimpleClientHttpRequestFactory(); factory.setConnectTimeout(1000); factory.setReadTimeout(250);
-                var client=RestClient.builder().baseUrl("http://127.0.0.1:"+server.getAddress().getPort()).requestFactory(factory).build();
+                var client=RehearsalIsolation.client("http://127.0.0.1:"+server.getAddress().getPort());
                 var adapter=new KiteOrderAdapter(new KiteRestTransport(client,currentSession),registry,c.getBean(OrderExecutionProperties.class));
                 return new OrderExecutionGateway() {
                     @Override public String place(OrderRecord order, Runnable validation) {
+                        gatewayCalls.incrementAndGet(); trace.add("GATEWAY_CLAIMED");
                         assertEquals(RuntimeExecutionArming.PermitState.CLAIMED,c.getBean(RuntimeExecutionArming.class).status(clock.instant()).permitState());
-                        beforeGateway.run(); return adapter.place(order,()->{ beforeDispatch.run(); validation.run(); });
+                        beforeGateway.run(); return adapter.place(order,()->{ beforeDispatch.run(); validation.run(); trace.add("FINAL_DISPATCH_VALIDATED"); });
                     }
                     @Override public void modify(OrderRecord order, ModifyOrder command) { throw new AssertionError("No modify in one-order test"); }
                     @Override public void cancel(OrderRecord order, CancelOrder command) { throw new AssertionError("No cancel in one-order test"); }
                 };
             });
             c.getBeanFactory().addBeanPostProcessor(new BeanPostProcessor() {
-                @Override public Object postProcessAfterInitialization(Object bean,String name) { return bean instanceof OrderRepository ? spy(bean) : bean; }
+                @Override public Object postProcessAfterInitialization(Object bean,String name) {
+                    if (bean instanceof OrderRepository repository) {
+                        var observed=spy(repository);
+                        doAnswer(call->{ trace.add("ADMISSION_ATTEMPT"); boolean admitted=(boolean)call.callRealMethod();
+                            if (admitted) trace.add("SUBMITTING_COMMITTED"); return admitted; }).when(observed).beginSubmission(any(),any());
+                        return observed;
+                    }
+                    if (bean instanceof ExecutionSafetyPolicy policy) {
+                        var observed=spy(policy);
+                        doAnswer(call->{ trace.add("POLICY_EVALUATE"); return call.callRealMethod(); }).when(observed).evaluate(any());
+                        doAnswer(call->{ trace.add("PREFLIGHT_INSPECT"); return call.callRealMethod(); }).when(observed).inspect(any());
+                        return observed;
+                    }
+                    return bean;
+                }
             });
             c.register(OrderConfiguration.class,OperatorControlConfiguration.class,RiskConfiguration.class,ReconciliationConfiguration.class);
             c.refresh(); contexts.add(c); assertFalse(c.getBean(OperatorExecutionService.class).status().armed()); return c;
@@ -357,10 +375,11 @@ class OneOrderOperatorIntegrationTest {
         }
     }
 
-    @ParameterizedTest @ValueSource(strings={"unused","claimed","authorized","admitted","before-http","after-http","acknowledged"})
+    @ParameterizedTest @ValueSource(strings={"unused","claimed","authorized","admitted","before-http","after-http","persisted","http-in-flight","acknowledged"})
     void actualChildJvmCrashPreservesDurableAdmissionAndNeverRestoresPermission(String checkpoint) throws Exception {
         try(var f=new Fixture()) {
             f.approve();
+            if (checkpoint.equals("http-in-flight")) f.mode=Mode.TIMEOUT;
             String classpath=java.nio.file.Path.of("target/integration-test-classes").toAbsolutePath()+java.io.File.pathSeparator
                     +System.getProperty("surefire.test.class.path",System.getProperty("java.class.path"));
             var log=java.nio.file.Files.createTempFile(java.nio.file.Path.of("target"),"operator-crash-",".log");
@@ -369,16 +388,23 @@ class OneOrderOperatorIntegrationTest {
                     "http://127.0.0.1:"+f.server.getAddress().getPort(),f.id.value().toString(),checkpoint)
                     .redirectErrorStream(true).redirectOutput(log.toFile()).start();
             try {
-                assertTrue(process.waitFor(30,TimeUnit.SECONDS),"Crash probe must terminate");
-                assertEquals(73,process.exitValue(),"Child did not reach checkpoint; inspect "+log.getFileName());
+                if (checkpoint.equals("http-in-flight")) {
+                    assertTrue(f.received.await(20,TimeUnit.SECONDS),"Wait for actual HTTP receipt before abrupt process termination");
+                    assertTrue(process.isAlive()); process.destroyForcibly();
+                    assertTrue(process.waitFor(10,TimeUnit.SECONDS)); assertNotEquals(0,process.exitValue());
+                } else {
+                    assertTrue(process.waitFor(30,TimeUnit.SECONDS),"Crash probe must terminate");
+                    assertEquals(73,process.exitValue(),"Child did not reach checkpoint; inspect "+log.getFileName());
+                }
             } finally { if (process.isAlive()) process.destroyForcibly().waitFor(10,TimeUnit.SECONDS); }
-            int posts=Set.of("after-http","acknowledged").contains(checkpoint) ? 1 : 0;
+            int posts=Set.of("after-http","persisted","http-in-flight","acknowledged").contains(checkpoint) ? 1 : 0;
             f.assertCounts(posts);
             var state=f.orders.find(f.id).orElseThrow().state();
             assertEquals(Set.of("unused","claimed","authorized").contains(checkpoint) ? OrderState.RISK_APPROVED
-                    : checkpoint.equals("acknowledged") ? OrderState.SUBMITTED : OrderState.SUBMITTING,state);
+                    : Set.of("acknowledged","persisted").contains(checkpoint) ? OrderState.SUBMITTED : OrderState.SUBMITTING,state);
             var restarted=f.boot(f.authenticated()); var operator=restarted.getBean(OperatorExecutionService.class);
             assertFalse(operator.status().armed()); assertFalse(operator.preflight(f.id).ready());
+            assertEquals(RuntimeExecutionArming.PermitState.NONE,operator.status().permitState());
             assertThrows(RuntimeException.class,()->operator.execute(f.id)); f.assertCounts(posts);
             if (state != OrderState.RISK_APPROVED) assertFalse(operator.arm(f.id,Duration.ofSeconds(30)).armed());
         }

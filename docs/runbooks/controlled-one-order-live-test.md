@@ -5,6 +5,8 @@
 This procedure is for a future separately human-authorized exercise. Phase 10.2
 validation uses disposable PostgreSQL and loopback HTTP only. Never use the real
 development database, account, stored token or running application for these tests.
+The [Phase 10.3 operational rehearsal](pre-live-operational-rehearsal.md) captures
+bounded evidence and validates abort, recovery, launcher shutdown and crash behavior.
 The [design comparison and baseline call graph](../operations/one-order-operator-design.md)
 explain why a terminal host was selected instead of an execution HTTP endpoint.
 
@@ -235,8 +237,8 @@ and uses synthetic account snapshots/session/market evidence. The real Kite orde
 adapter/transport points only to `127.0.0.1`. It counts POST/PUT/DELETE and observes
 committed SUBMITTING before accepting POST. No real broker route is contacted.
 
-Crash tests spawn an integration-test-only child JVM and use `Runtime.halt` at
-seven checkpoints. The child accepts only a loopback JDBC URL with the generated
+Crash tests spawn an integration-test-only child JVM and exercise nine checkpoints,
+using `Runtime.halt` or controlled forced termination after HTTP receipt. The child accepts only a loopback JDBC URL with the generated
 `one_order_...` database name and a loopback broker URL. Parent tests verify the
 exit checkpoint, durable state, HTTP counts, and restart denial. These are actual
 abrupt child-process exits, in addition to context restart tests. Crash helper

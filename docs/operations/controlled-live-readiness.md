@@ -5,6 +5,8 @@
 For disposable test-only verification that stops at `preflight(OrderId)`, use the
 [operator preflight dry-run harness](../runbooks/operator-preflight-dry-run.md).
 Its synthetic READY result does not authorize live trading or invoke execution.
+For the later confirmed one-order **loopback-only** operational rehearsal and
+bounded recovery/abort evidence, see [Phase 10.3](../runbooks/pre-live-operational-rehearsal.md).
 
 ## Hard stop and operator boundary
 

@@ -7,6 +7,21 @@ import org.junit.jupiter.api.Test;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 class OperatorControlArchitectureTest {
+    @Test void normalBootstrapCannotStartConsoleAndLauncherCannotBypassOperator() {
+        var classes = new ClassFileImporter().withImportOption(new ImportOption.DoNotIncludeTests())
+                .importPackages("com.kitehybrid.platform");
+        noClasses().that().haveSimpleName("TradingCoreApplication").should().dependOnClassesThat()
+                .resideInAnyPackage("..operator..", "..order.application..").check(classes);
+        noClasses().that().haveSimpleName("OperatorConsoleApplication").should().dependOnClassesThat()
+                .resideInAnyPackage("..broker.infrastructure..", "..order.infrastructure..", "..order.application..").check(classes);
+        for (var type : classes) for (var call : type.getConstructorCallsFromSelf()) {
+            if (call.getTargetOwner().getSimpleName().equals("TrustedOperatorConsole"))
+                org.junit.jupiter.api.Assertions.assertEquals("com.kitehybrid.platform.bootstrap.OperatorConsoleApplication",type.getName());
+        }
+        var launcher=classes.get("com.kitehybrid.platform.bootstrap.OperatorConsoleApplication");
+        org.junit.jupiter.api.Assertions.assertFalse(launcher.isAnnotatedWith(org.springframework.stereotype.Component.class));
+        org.junit.jupiter.api.Assertions.assertFalse(launcher.isAnnotatedWith(org.springframework.context.annotation.Configuration.class));
+    }
     @Test void preflightCallGraphCannotReachAuthorizationSubmissionOrBrokerTransport() {
         var classes = new ClassFileImporter().withImportOption(new ImportOption.DoNotIncludeTests())
                 .importPackages("com.kitehybrid.platform");

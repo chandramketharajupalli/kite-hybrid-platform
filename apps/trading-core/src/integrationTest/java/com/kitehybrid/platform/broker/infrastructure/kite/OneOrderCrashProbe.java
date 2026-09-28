@@ -26,14 +26,21 @@ public final class OneOrderCrashProbe {
     public static void main(String[] args) {
         if (args.length != 6 || !args[0].matches("jdbc:postgresql://localhost:[0-9]+/one_order_[a-f0-9]+\\?loggerLevel=OFF")
                 || !args[3].matches("http://127\\.0\\.0\\.1:[0-9]+")
-                || !Set.of("unused","claimed","authorized","admitted","before-http","after-http","acknowledged").contains(args[5]))
+                || !Set.of("unused","claimed","authorized","admitted","before-http","after-http","persisted","http-in-flight","acknowledged").contains(args[5]))
             throw new IllegalArgumentException("Disposable crash fixture required");
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
         var now=OneOrderOperatorIntegrationTest.NOW;
         var clock=Clock.fixed(now,ZoneOffset.UTC);
         var instrument=OneOrderOperatorIntegrationTest.INSTRUMENT;
         var jdbc=new JdbcTemplate(new DriverManagerDataSource(args[0],args[1],args[2]));
-        var orders=new PostgresOrderRepository(jdbc); var risks=new PostgresRiskDecisionStore(jdbc,orders);
+        var repository=new PostgresOrderRepository(jdbc);
+        var orders=(OrderRepository)java.lang.reflect.Proxy.newProxyInstance(OrderRepository.class.getClassLoader(),new Class<?>[]{OrderRepository.class},
+                (proxy,method,arguments)->{
+                    Object result=method.invoke(repository,arguments);
+                    if (method.getName().equals("attachBrokerOrderId") && Boolean.TRUE.equals(result)) halt(args[5],"persisted");
+                    return result;
+                });
+        var risks=new PostgresRiskDecisionStore(jdbc,orders);
         var id=new OrderId(UUID.fromString(args[4]));
         var registry=new InMemoryInstrumentRegistry(); registry.replace(List.of(instrument),now);
         var market=new InMemoryLatestMarketDataStore(); market.update(new Tick(instrument.id(),BigDecimal.TEN,now));
@@ -47,7 +54,7 @@ public final class OneOrderCrashProbe {
         var audit=new PostgresExecutionAuthorizationAuditStore(jdbc);
         var policy=new ExecutionSafetyPolicy(properties,arm,()->false,session,risks,registry,market,OperatorPreflightDryRunTest::healthy,orders,clock,metrics,
                 decision->{ audit.record(decision); halt(args[5],"authorized"); },checks);
-        var adapter=new KiteOrderAdapter(new KiteRestTransport(RestClient.builder().baseUrl(args[3]).build(),session),registry,properties);
+        var adapter=new KiteOrderAdapter(new KiteRestTransport(RehearsalIsolation.client(args[3],args[5].equals("http-in-flight") ? 30000 : 1000),session),registry,properties);
         var gateway=new OrderExecutionGateway() {
             @Override public String place(OrderRecord order,Runnable validation) {
                 halt(args[5],"admitted");

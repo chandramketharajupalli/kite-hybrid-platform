@@ -17,10 +17,18 @@ public final class OperatorConsoleApplication {
         var console=System.console();
         if (!permitted(args,console != null)) throw new IllegalStateException("Explicit interactive operator terminal required");
         // No execution configuration override: all normal fail-closed defaults still apply.
-        try (var context=SpringApplication.run(TradingCoreApplication.class)) {
-            var host=new TrustedOperatorConsole(context.getBean(OperatorExecutionService.class),
-                    Optional.ofNullable(context.getBeanProvider(OrderReconciliationService.class).getIfAvailable()));
-            host.run(console::readLine, message -> console.printf("%s%n",message));
+        try {
+            var context=SpringApplication.run(TradingCoreApplication.class);
+            try {
+                var host=new TrustedOperatorConsole(context.getBean(OperatorExecutionService.class),
+                        Optional.ofNullable(context.getBeanProvider(OrderReconciliationService.class).getIfAvailable()));
+                host.run(console::readLine, message -> console.printf("%s%n",message));
+            } finally {
+                // Spring's interruptible shutdown lock otherwise returns without closing the context.
+                boolean interrupted=Thread.interrupted();
+                try { context.close(); }
+                finally { if (interrupted) Thread.currentThread().interrupt(); }
+            }
         } catch (RuntimeException unavailable) {
             // Never expose provider exception text (which can contain credentials or raw responses).
             console.printf("%s%n","OPERATOR_HOST_FAILED_DISARMED");
