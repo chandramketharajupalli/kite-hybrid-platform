@@ -4,9 +4,9 @@ import com.kitehybrid.platform.order.application.*;
 import com.kitehybrid.platform.order.domain.OrderRecord;
 import com.kitehybrid.platform.order.domain.command.OrderCommandValidationException;
 import com.kitehybrid.platform.shared.application.ExecutionSession;
+import com.kitehybrid.platform.shared.application.RuntimeTradingHalt;
 import com.kitehybrid.platform.shared.domain.Identifiers.OrderId;
 import java.time.*;
-import java.util.function.BooleanSupplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static com.kitehybrid.platform.order.application.ExecutionDenialReason.*;
@@ -20,23 +20,25 @@ public final class OperatorExecutionService {
     private final LiveTestProperties live;
     private final RuntimeExecutionArming arm;
     private final ExecutionSession session;
-    private final BooleanSupplier stop;
+    private final RuntimeTradingHalt stop;
     private final OrderRepository orders;
     private final ExecutionSafetyPolicy policy;
     private final OrderApplicationService application;
     private final Clock clock;
     public OperatorExecutionService(boolean enabled, OrderExecutionProperties execution, LiveTestProperties live,
-            RuntimeExecutionArming arm, ExecutionSession session, BooleanSupplier stop, OrderRepository orders,
+            RuntimeExecutionArming arm, ExecutionSession session, RuntimeTradingHalt stop, OrderRepository orders,
             ExecutionSafetyPolicy policy, OrderApplicationService application, Clock clock) {
         this.enabled=enabled; this.execution=execution; this.live=live; this.arm=arm; this.session=session;
         this.stop=stop; this.orders=orders; this.policy=policy; this.application=application; this.clock=clock;
     }
     public synchronized ArmResult arm(OrderId id, Duration duration) {
+        var haltEpoch = stop.epoch();
         audit("ARM_REQUEST", NONE);
         arm.disarm();
         var reason = !enabled ? OPERATOR_CONTROL_DISABLED : !execution.enabled() ? EXECUTION_DISABLED
+                : stop.getAsBoolean() ? EMERGENCY_STOP
                 : !session.enabled() || session.executionIdentity().isEmpty() ? AUTHENTICATION_UNAVAILABLE
-                : stop.getAsBoolean() ? EMERGENCY_STOP : !live.enabled() ? LIVE_TEST_DISABLED
+                : !live.enabled() ? LIVE_TEST_DISABLED
                 : !live.configured() || duration == null || duration.isNegative() || duration.isZero()
                     || duration.compareTo(live.armMaxDuration()) > 0 ? ARM_DURATION_INVALID : NONE;
         if (reason == NONE) {
@@ -49,7 +51,7 @@ public final class OperatorExecutionService {
                                 && (e.getKey() == ExecutionReadiness.Gate.RUNTIME_ARMED || e.getKey() == ExecutionReadiness.Gate.SESSION_BOUND)))
                         .map(java.util.Map.Entry::getValue).findFirst().orElse(EVIDENCE_UNAVAILABLE);
                 else {
-                    arm.arm(candidate, duration, clock.instant());
+                    arm.arm(candidate, duration, clock.instant(), haltEpoch);
                     var after = preflight(id);
                     if (!after.ready()) reason = after.reason();
                 }
@@ -65,13 +67,33 @@ public final class OperatorExecutionService {
         return new ArmResult(status.armed(), status.armedAt(), status.expiresAt(), reason);
     }
     public RuntimeExecutionArming.Status status() { return arm.status(clock.instant()); }
+    public RuntimeTradingHalt.Status haltStatus() { return stop.status(); }
+    /** Safety action first. Never waits for the arm/preflight monitor, database or session. */
+    public String halt() {
+        boolean changed = stop.halt();
+        try { arm.disarm(); } catch (RuntimeException unavailable) { /* The halt epoch already revokes every grant. */ }
+        finally { safeAudit(changed ? "RUNTIME_HALT_ACTIVATED" : "RUNTIME_HALT_ALREADY_ACTIVE"); }
+        return changed ? "HALT_ACTIVE" : "HALT_ALREADY_ACTIVE";
+    }
+    public RuntimeTradingHalt.Epoch prepareResume() {
+        safeAudit("RUNTIME_RESUME_REQUEST");
+        return stop.epoch();
+    }
+    /** Release only the runtime latch. A confirmation predating any HALT cannot release it. */
+    public String resume(RuntimeTradingHalt.Epoch confirmation) {
+        arm.disarm();
+        boolean resumed = enabled && arm.status(clock.instant()).permitState() != RuntimeExecutionArming.PermitState.CLAIMED
+                && stop.resume(confirmation);
+        safeAudit(resumed ? "RUNTIME_RESUME_SUCCESS" : "RUNTIME_RESUME_DENIED");
+        return resumed ? "RESUME_SUCCESS DISARMED" : "RESUME_DENIED";
+    }
     public static boolean canArm(ExecutionReadiness report) {
         if (!report.gates().keySet().equals(java.util.EnumSet.allOf(ExecutionReadiness.Gate.class))) return false;
         return report.gates().entrySet().stream().allMatch(e ->
                 e.getKey() == ExecutionReadiness.Gate.RUNTIME_ARMED || e.getKey() == ExecutionReadiness.Gate.SESSION_BOUND
                         ? e.getValue() == DISARMED : e.getValue() == NONE);
     }
-    public synchronized ArmResult disarm() {
+    public ArmResult disarm() {
         arm.disarm(); audit("DISARM", NONE);
         return new ArmResult(false, null, null, NONE);
     }
@@ -110,5 +132,8 @@ public final class OperatorExecutionService {
     }
     private static void audit(String action, ExecutionDenialReason reason) {
         LOG.info("Operator control action={} reason={}", action, reason);
+    }
+    private static void safeAudit(String action) {
+        try { audit(action, NONE); } catch (RuntimeException unavailable) { /* Safety never depends on logging. */ }
     }
 }

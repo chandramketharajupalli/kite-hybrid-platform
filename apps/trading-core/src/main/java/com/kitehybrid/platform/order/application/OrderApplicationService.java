@@ -53,7 +53,20 @@ public final class OrderApplicationService {
         var decision = safety.evaluate(current);
         if (!decision.allowed()) throw new OrderCommandValidationException(decision.reason().name());
         var submitting = current.transitionTo(OrderState.SUBMITTING, clock.instant());
-        if (!repository.beginSubmission(current, submitting)) {
+        boolean admitted;
+        try { admitted = repository.beginSubmission(current, submitting, safety::validateAdmission); }
+        catch (OrderCommandValidationException denied) {
+            // Record only after the admission transaction has rolled back; halt itself never writes audit.
+            var reason = switch (denied.getMessage()) {
+                case "EMERGENCY_STOP" -> ExecutionDenialReason.EMERGENCY_STOP;
+                case "DISARMED" -> ExecutionDenialReason.DISARMED;
+                case "AUTHENTICATION_UNAVAILABLE" -> ExecutionDenialReason.AUTHENTICATION_UNAVAILABLE;
+                default -> ExecutionDenialReason.EVIDENCE_UNAVAILABLE;
+            };
+            safety.deny(current, reason);
+            throw denied;
+        }
+        if (!admitted) {
             var reason = repository.find(id).filter(current::equals).isPresent()
                     ? ExecutionDenialReason.RECONCILIATION_REQUIRED : ExecutionDenialReason.ORDER_VERSION_CHANGED;
             safety.deny(current, reason);
@@ -69,7 +82,10 @@ public final class OrderApplicationService {
             metrics.counter("order.execution.attempts", "operation", "place", "result", "success").increment();
             return submitted;
         } catch (OrderCommandValidationException denied) {
-            repository.compareAndSet(submitting, submitting.failed("PRE_DISPATCH_DENIED", clock.instant()));
+            // HALT never repairs a committed submission or makes it eligible for another attempt.
+            // Keep the durable checkpoint for explicit inspection/reconciliation.
+            if (!ExecutionDenialReason.EMERGENCY_STOP.name().equals(denied.getMessage()))
+                repository.compareAndSet(submitting, submitting.failed("PRE_DISPATCH_DENIED", clock.instant()));
             throw denied;
         } catch (OrderExecutionException failure) {
             metrics.counter("order.execution.failures", "operation", "place", "category", failure.category().name()).increment();

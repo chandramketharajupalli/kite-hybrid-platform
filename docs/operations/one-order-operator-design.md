@@ -5,6 +5,11 @@ THIS PHASE DOES NOT AUTHORIZE OR PERFORM REAL TRADING.
 Baseline: clean develop at 4fb2b2b, also verified against the remote develop ref.
 The following graph and decisions were recorded before implementation.
 
+Phase 10.5 extends the terminal with runtime halt and confirmed resume; see
+[ADR-018](../adr/ADR-018-runtime-emergency-stop.md). An input-only reader accepts
+halt during a blocked foreground command; it has no resume/execution capability.
+The historical baseline graph below is retained as the Phase 10.2 design record.
+
 ## Existing production call graph
 
 | Operation | Current production callers |

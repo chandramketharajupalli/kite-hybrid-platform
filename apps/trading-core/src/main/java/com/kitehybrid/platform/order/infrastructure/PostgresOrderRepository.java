@@ -72,8 +72,9 @@ public final class PostgresOrderRepository implements OrderRepository {
         if (org.springframework.transaction.support.TransactionSynchronizationManager.isActualTransactionActive())
             throw new IllegalStateException("Execution cannot join a caller transaction");
     }
-    @Override public boolean beginSubmission(OrderRecord expected, OrderRecord next) {
+    @Override public boolean beginSubmission(OrderRecord expected, OrderRecord next, Runnable admissionValidation) {
         requireIndependentExecution();
+        java.util.Objects.requireNonNull(admissionValidation).run();
         if (expected.state() != OrderState.RISK_APPROVED || next.state() != OrderState.SUBMITTING
                 || !expected.id().equals(next.id()) || next.version() != expected.version() + 1)
             throw new IllegalArgumentException("Invalid submission transition");
@@ -81,6 +82,11 @@ public final class PostgresOrderRepository implements OrderRepository {
             jdbc.execute("SET LOCAL lock_timeout = '5s'");
             jdbc.execute("SELECT pg_advisory_xact_lock(606001)");
             if (hasBlockingExposureExcept(expected.id())) return false;
+            admissionValidation.run();
+            org.springframework.transaction.support.TransactionSynchronizationManager.registerSynchronization(
+                    new org.springframework.transaction.support.TransactionSynchronization() {
+                        @Override public void beforeCommit(boolean readOnly) { admissionValidation.run(); }
+                    });
             return update(expected, next);
         }));
     }

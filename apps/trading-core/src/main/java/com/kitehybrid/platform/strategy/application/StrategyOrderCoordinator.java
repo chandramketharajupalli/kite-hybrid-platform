@@ -1,6 +1,6 @@
 package com.kitehybrid.platform.strategy.application;
 
-import com.kitehybrid.platform.config.TradingProperties;
+import java.util.function.BooleanSupplier;
 import com.kitehybrid.platform.order.application.OrderApplicationService;
 import com.kitehybrid.platform.order.domain.Signal;
 import com.kitehybrid.platform.order.domain.command.*;
@@ -16,14 +16,14 @@ import java.util.*;
 /** Strategy-to-order proposal boundary. It deliberately stops after optional risk evaluation. */
 public final class StrategyOrderCoordinator {
     private final StrategyEvaluationStore evaluations; private final OrderApplicationService orders;
-    private final Optional<RiskService> risk; private final Clock clock; private final boolean halted;
+    private final Optional<RiskService> risk; private final Clock clock; private final BooleanSupplier halted;
     private final MeterRegistry metrics;
     public StrategyOrderCoordinator(StrategyEvaluationStore evaluations, OrderApplicationService orders,
-                                    Optional<RiskService> risk, Clock clock, TradingProperties trading,
+                                    Optional<RiskService> risk, Clock clock, BooleanSupplier halted,
                                     MeterRegistry metrics) {
         this.evaluations = Objects.requireNonNull(evaluations); this.orders = Objects.requireNonNull(orders);
         this.risk = Objects.requireNonNull(risk); this.clock = Objects.requireNonNull(clock);
-        this.halted = trading.emergencyStop(); this.metrics = Objects.requireNonNull(metrics);
+        this.halted = Objects.requireNonNull(halted); this.metrics = Objects.requireNonNull(metrics);
     }
     public StrategyEvaluation evaluate(String eventKey, Strategy strategy, StrategyInput input) {
         Objects.requireNonNull(strategy); Objects.requireNonNull(input);
@@ -32,7 +32,7 @@ public final class StrategyOrderCoordinator {
                 definition.id(), signal.instrumentId(), signal.side(), signal.quantity(), signal.referencePrice(), signal.timestamp(),
                 definition.version(), signal.reason());
         var intentId = deterministicId(definition.id().value() + ":" + definition.version() + ":" + eventKey + ":intent");
-        var actionable = deterministicSignal.side() != Signal.Side.HOLD && !halted && input.fresh();
+        var actionable = deterministicSignal.side() != Signal.Side.HOLD && !halted.getAsBoolean() && input.fresh();
         var draft = new StrategyEvaluation(eventKey, definition.id(), definition.version(), deterministicSignal,
                 actionable ? Optional.of(new OrderIntentId(intentId)) : Optional.empty(), Optional.empty(), input.evaluatedAt());
         var claim = evaluations.claim(draft);
@@ -42,18 +42,19 @@ public final class StrategyOrderCoordinator {
         if (claim == StrategyEvaluationStore.Claim.EXISTING && persisted.orderId().isPresent()) return persisted;
         if (claim == StrategyEvaluationStore.Claim.EXISTING) {
             deterministicSignal = persisted.signal();
-            actionable = persisted.intentId().isPresent() && deterministicSignal.side() != Signal.Side.HOLD && !halted && input.fresh();
+            actionable = persisted.intentId().isPresent() && deterministicSignal.side() != Signal.Side.HOLD && !halted.getAsBoolean() && input.fresh();
             intentId = persisted.intentId().map(OrderIntentId::value).orElse(intentId);
         }
         metrics.counter("strategy.evaluations").increment();
         if (!actionable) {
-            metrics.counter("strategy.no_action", "reason", halted ? "EMERGENCY_STOP" : deterministicSignal.reason().name()).increment();
+            metrics.counter("strategy.no_action", "reason", halted.getAsBoolean() ? "EMERGENCY_STOP" : deterministicSignal.reason().name()).increment();
             return persisted;
         }
         var intent = new TradeIntent(new OrderIntentId(intentId), definition.id(), definition.version(), deterministicSignal.instrumentId(),
                 deterministicSignal.side(), deterministicSignal.quantity(), OrderType.MARKET, Optional.empty(), deterministicSignal.timestamp(), deterministicSignal.id());
         metrics.counter("strategy.signals", "action", deterministicSignal.side().name()).increment();
         metrics.counter("strategy.intents", "action", deterministicSignal.side().name()).increment();
+        if (halted.getAsBoolean()) return persisted;
         var order = orders.place(new PlaceOrder(orderKey(definition, eventKey), intent.instrumentId(),
                 intent.side() == Signal.Side.BUY ? OrderSide.BUY : OrderSide.SELL, intent.quantity(), intent.orderType(),
                 OrderProduct.DELIVERY, OrderValidity.DAY, intent.limitPrice(), Optional.empty(), 0, OrderVariety.REGULAR));

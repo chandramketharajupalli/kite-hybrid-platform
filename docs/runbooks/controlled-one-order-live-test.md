@@ -10,6 +10,10 @@ bounded evidence and validates abort, recovery, launcher shutdown and crash beha
 The [design comparison and baseline call graph](../operations/one-order-operator-design.md)
 explain why a terminal host was selected instead of an execution HTTP endpoint.
 
+The [runtime emergency-stop runbook](runtime-emergency-stop.md) now supplies
+`halt`, `halt-status` and separately confirmed `resume` through this same console.
+Each context starts HALTED/DISARMED. These additions do not authorize a live test.
+
 ## Trust and launch boundary
 
 `OperatorConsoleApplication` is an alternate entrypoint. It requires a real
@@ -35,7 +39,8 @@ java -cp <REVIEWED_RUNTIME_CLASSPATH> com.kitehybrid.platform.bootstrap.Operator
 resolved runtime dependencies. The executable Boot jar still launches the normal
 application. No credentials or command batch belong on this command line.
 Do not improvise a remote console bridge, scheduled invocation, shell pipe or
-HTTP wrapper. Console input is read one command at a time; there is no history
+HTTP wrapper. Foreground commands execute one at a time; halt input remains
+available through the input-only reader. There is no history
 file, autocomplete, wildcard, file input, implicit selection or batch mode.
 
 Trust comes from controlled access to the application's controlling terminal and
@@ -106,6 +111,9 @@ such as `<SECONDS>s`, additionally bounded by configuration. There are no symbol
 broker-ID, strategy-ID, quantity or price inputs to execution.
 
 ```text
+halt-status
+resume
+CONFIRM resume
 status
 preflight <ORDER_ID>
 arm <ORDER_ID> <SECONDS>s
@@ -122,7 +130,7 @@ is a separate interactive reply to a prompt. EOF ends the console and disarms.
 `disarm` is accepted explicitly and is idempotent. A declined confirmation or
 malformed command revokes the arm. Never feed these lines through redirected stdin.
 
-Before arm, all 24 current readiness gates must pass except RUNTIME_ARMED and
+After explicit runtime resume, all 24 current readiness gates must pass except RUNTIME_ARMED and
 SESSION_BOUND, which must report DISARMED. Any other denial blocks arm. The console
 requires this explicit preflight, and service arm independently rereads it. The
 service binds the selected ID, approved order version, session identity, creation
@@ -168,7 +176,7 @@ There is no durable arm/permit restoration or new migration.
 | Pre-arm evidence/confirmation denied | RISK_APPROVED (or existing state) | Disarmed; no usable grant | No | Correct evidence; separate human preflight/authorization only |
 | Execute denied before claim | unchanged | Disarmed; prior UNUSED grant consumed | No | Old grant cannot be reused |
 | Claimed; authorization/admission denied | usually RISK_APPROVED | Disarmed / consumed | No | Inspect audit; new explicit authorization only if no submission and all evidence valid |
-| SUBMITTING committed; final validation denies | FAILED when existing CAS can mark pre-dispatch denial; otherwise SUBMITTING | Disarmed / consumed | No in deterministic tests | Inspect state/audit; no reset or automatic retry |
+| SUBMITTING committed; final validation denies | Emergency-stop denial retains SUBMITTING; other denials retain existing FAILED/CAS handling | Disarmed / consumed | No when the final fence observes denial | Inspect state/audit; explicit reconciliation for SUBMITTING; no reset or automatic retry |
 | Broker 400/401 rejection | FAILED under existing mapping | Disarmed / consumed | One request sent | No retry under grant; inspect explicit broker reads |
 | Accepted + valid acknowledgement persisted | SUBMITTED with broker ID | Disarmed / consumed | One | Explicit reconciliation |
 | Accepted + response lost/reset/timeout | SUBMITTING, no safe acknowledgement | Disarmed / consumed | May have accepted one | NO RETRY; reconcile by exact persisted correlation |
@@ -191,15 +199,27 @@ correlation second, validates terms, deduplicates trades and atomically applies
 permitted lifecycle changes. No heuristic matching, automatic conflict clearing,
 reconciliation side effect in preflight, or automatic execution is added.
 
-For abort: activate emergency stop through an already reviewed boundary **if one
-is available**, disarm, and do not retry. This codebase's TradingProperties snapshot
-is immutable; editing an environment variable does not toggle the running JVM.
-No new stop HTTP endpoint is introduced here. Inspect durable order state and
+For abort: type `halt`, verify effective halt using `halt-status`, disarm, and do
+not retry. The startup TradingProperties snapshot remains immutable; editing an
+environment variable does not toggle the running JVM. The runtime latch acts
+independently and cannot override startup halt. No stop HTTP endpoint is introduced.
+Inspect durable order state and
 authorization audit, perform explicit broker reads and reconcile. Stop the
 application if evidence is inconsistent. If a request is currently blocking the
-single command thread, terminal/process shutdown loses the arm but does not undo
-the request. **Stopping the JVM is NOT cancellation of an accepted broker order.**
+command thread, the input-only reader can activate halt but cannot undo the
+request. **Stopping the JVM is NOT cancellation of an accepted broker order.**
 This host has no modify/cancel capability.
+
+Emergency-stop denial after committed SUBMITTING retains that state for explicit
+recovery. Other pre-dispatch denials retain their existing FAILED/CAS handling.
+Admission checks volatile safety before CAS and before commit. The memory latch
+cannot atomically undo a database commit or network send already underway; see
+[ADR-018](../adr/ADR-018-runtime-emergency-stop.md) for the precise boundary and
+outstanding acceptance of the commit-race interpretation.
+
+Commands still execute one at a time on the foreground thread. The input-only
+reader handles halt/status during blocked work, rejects other busy input and never
+saves it for later execution. It cannot resume, arm, execute or reconcile.
 
 ## Audit and limitations
 

@@ -1,5 +1,7 @@
 package com.kitehybrid.platform.strategy.infrastructure;
 
+import com.kitehybrid.platform.shared.application.RuntimeTradingHalt;
+
 import com.kitehybrid.platform.order.application.OrderApplicationService;
 import com.kitehybrid.platform.risk.application.RiskService;
 import com.kitehybrid.platform.strategy.application.*;
@@ -18,7 +20,7 @@ public class StrategyConfiguration {
     StrategyEvaluationStore strategyEvaluationStore(JdbcTemplate jdbc) { return new PostgresStrategyEvaluationStore(jdbc); }
     @Bean @Profile("!test")
     StrategyOrderCoordinator strategyOrderCoordinator(StrategyEvaluationStore store, OrderApplicationService orders,
-            Optional<RiskService> risk, Clock clock, TradingProperties trading, MeterRegistry metrics) {
-        return new StrategyOrderCoordinator(store, orders, risk, clock, trading, metrics);
+            Optional<RiskService> risk, Clock clock, RuntimeTradingHalt halt, MeterRegistry metrics) {
+        return new StrategyOrderCoordinator(store, orders, risk, clock, halt, metrics);
     }
 }

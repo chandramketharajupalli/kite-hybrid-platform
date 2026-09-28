@@ -7,6 +7,31 @@ import org.junit.jupiter.api.Test;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 class OperatorControlArchitectureTest {
+    @Test void haltIsBrokerIndependentAndOnlyTrustedOperatorCanChangeIt() {
+        var classes = new ClassFileImporter().withImportOption(new ImportOption.DoNotIncludeTests()).importPackages("com.kitehybrid.platform");
+        noClasses().that().haveSimpleName("RuntimeTradingHalt").should().dependOnClassesThat()
+                .resideInAnyPackage("..broker..", "..order..", "..risk..", "..reconciliation..", "..strategy..", "org.springframework..").check(classes);
+        for (var type : classes) {
+            for (var call : type.getMethodCallsFromSelf()) {
+                if (call.getTargetOwner().getSimpleName().equals("RuntimeTradingHalt")
+                        && java.util.Set.of("halt", "resume").contains(call.getTarget().getName()))
+                    org.junit.jupiter.api.Assertions.assertTrue(type.isEquivalentTo(OperatorExecutionService.class), call.toString());
+                if (call.getTargetOwner().isEquivalentTo(OperatorExecutionService.class)
+                        && java.util.Set.of("halt", "prepareResume", "resume").contains(call.getTarget().getName())) {
+                    boolean console = type.getSimpleName().equals("TrustedOperatorConsole");
+                    boolean inputHalt = type.getSimpleName().equals("HaltAwareConsoleInput") && call.getTarget().getName().equals("halt");
+                    org.junit.jupiter.api.Assertions.assertTrue(console || inputHalt, call.toString());
+                }
+                if (type.getSimpleName().equals("HaltAwareConsoleInput") && call.getTargetOwner().isEquivalentTo(OperatorExecutionService.class))
+                    org.junit.jupiter.api.Assertions.assertTrue(java.util.Set.of("halt", "haltStatus", "disarm").contains(call.getTarget().getName()), call.toString());
+            }
+            for (var call : type.getConstructorCallsFromSelf()) {
+                if (call.getTargetOwner().isEquivalentTo(RuntimeExecutionArming.class) && !type.isEquivalentTo(RuntimeExecutionArming.class))
+                    org.junit.jupiter.api.Assertions.assertTrue(call.getTarget().getRawParameterTypes().stream()
+                            .anyMatch(p -> p.getSimpleName().equals("RuntimeTradingHalt")), call.toString());
+            }
+        }
+    }
     @Test void normalBootstrapCannotStartConsoleAndLauncherCannotBypassOperator() {
         var classes = new ClassFileImporter().withImportOption(new ImportOption.DoNotIncludeTests())
                 .importPackages("com.kitehybrid.platform");
@@ -112,8 +137,8 @@ class OperatorControlArchitectureTest {
                 org.junit.jupiter.api.Assertions.assertTrue(type.isEquivalentTo(OperatorExecutionService.class),call.toString());
             if (call.getTargetOwner().isEquivalentTo(OrderExecutionGateway.class) && java.util.Set.of("place","modify","cancel").contains(target))
                 org.junit.jupiter.api.Assertions.assertTrue(type.isEquivalentTo(OrderApplicationService.class),call.toString());
-            if (call.getTargetOwner().getSimpleName().equals("TrustedOperatorConsole") && target.equals("run"))
-                org.junit.jupiter.api.Assertions.assertEquals("com.kitehybrid.platform.bootstrap.OperatorConsoleApplication",type.getName(),call.toString());
+            if (call.getTargetOwner().getSimpleName().equals("TrustedOperatorConsole") && java.util.Set.of("run","runInteractive").contains(target))
+                org.junit.jupiter.api.Assertions.assertTrue(java.util.Set.of("com.kitehybrid.platform.bootstrap.OperatorConsoleApplication","com.kitehybrid.platform.operator.console.TrustedOperatorConsole").contains(type.getName()),call.toString());
             if (call.getTargetOwner().isEquivalentTo(RuntimeExecutionArming.class) && java.util.Set.of("arm","claim","complete").contains(target))
                 org.junit.jupiter.api.Assertions.assertTrue(type.isEquivalentTo(OperatorExecutionService.class),call.toString());
         }

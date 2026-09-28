@@ -20,6 +20,26 @@ import static org.mockito.Mockito.*;
 
 class StrategyReplayAuditTest {
     @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.ValueSource(booleans={true,false})
+    void runtimeHaltIsRereadAndSignalsCanBeRecordedWithoutProposingOrders(boolean atClaim) {
+        var now=Instant.parse("2026-09-28T06:00:00Z");
+        var halt=new com.kitehybrid.platform.shared.application.RuntimeTradingHalt(()->false);
+        if(atClaim) assertTrue(halt.resume(halt.epoch()));
+        var store=mock(StrategyEvaluationStore.class);
+        when(store.claim(any())).thenAnswer(call->{if(atClaim) halt.halt(); return StrategyEvaluationStore.Claim.CREATED;});
+        var orders=mock(OrderApplicationService.class);
+        var risk=mock(com.kitehybrid.platform.risk.application.RiskService.class);
+        var instrument=new InstrumentId(UUID.randomUUID());
+        var definition=new StrategyDefinition(new StrategyId("halt-test"),"v1");
+        var health=new MarketDataHealth(MarketDataGateway.State.CONNECTED,MarketDataHealth.Status.FRESH,
+                MarketDataHealth.Reason.NONE,Optional.of(now),Optional.of(now),Optional.of(now),1,1,0,1,1,0,0,0,0);
+        var coordinator=new StrategyOrderCoordinator(store,orders,Optional.of(risk),Clock.fixed(now,ZoneOffset.UTC),halt,new SimpleMeterRegistry());
+        var result=coordinator.evaluate("halted-signal",new ReferenceThresholdStrategy(definition,instrument,new BigDecimal("20"),1),
+                new StrategyInput(instrument,Optional.of(new Tick(instrument,BigDecimal.TEN,now)),health,now));
+        verify(store).claim(any()); assertEquals(Signal.Side.BUY,result.signal().side());
+        assertTrue(result.orderId().isEmpty()); verifyNoInteractions(orders,risk);
+    }
+    @org.junit.jupiter.params.ParameterizedTest
     @org.junit.jupiter.params.provider.ValueSource(ints = {5, 128})
     void replayAfterClaimUsesPersistedSignalTerms(int length) {
         var eventKey = "e".repeat(length);
@@ -46,7 +66,7 @@ class StrategyReplayAuditTest {
                 MarketDataHealth.Reason.NONE, Optional.of(now), Optional.of(now), Optional.of(now),
                 1, 1, 0, 1, 1, 0, 0, 0, 0);
         var coordinator = new StrategyOrderCoordinator(store, orders, Optional.empty(), Clock.fixed(now, ZoneOffset.UTC),
-                new TradingProperties(TradingMode.PAPER, false, false), new SimpleMeterRegistry());
+                () -> false, new SimpleMeterRegistry());
         var completed = coordinator.evaluate(eventKey, new ReferenceThresholdStrategy(definition, instrument, new BigDecimal("20"), 1),
                 new StrategyInput(instrument, Optional.of(new Tick(instrument, BigDecimal.TEN, now)), health, now.plusSeconds(1)));
         assertEquals(persisted.evaluatedAt(), completed.evaluatedAt());

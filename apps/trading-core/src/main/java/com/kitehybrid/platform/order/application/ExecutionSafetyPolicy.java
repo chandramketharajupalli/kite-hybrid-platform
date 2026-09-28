@@ -47,6 +47,13 @@ public final class ExecutionSafetyPolicy {
         var reason=check(order, false);
         return record(order, reason, clock.instant());
     }
+    /** Volatile safety fence before CAS and before transaction commit, including after admission-lock waits. */
+    public void validateAdmission() {
+        if (stop.getAsBoolean()) throw new OrderCommandValidationException(EMERGENCY_STOP.name());
+        if (!session.enabled() || session.executionIdentity().isEmpty())
+            throw new OrderCommandValidationException(AUTHENTICATION_UNAVAILABLE.name());
+        if (!arm.armed(clock.instant())) throw new OrderCommandValidationException(DISARMED.name());
+    }
     /** Called after durable admission and again immediately before transport dispatch. */
     public void validateDispatch(OrderRecord approved, OrderRecord submitting) {
         var current=orders.find(submitting.id()).orElse(null);
@@ -72,9 +79,9 @@ public final class ExecutionSafetyPolicy {
 
     private ExecutionDenialReason check(OrderRecord order, boolean dispatch) {
         if (!p.enabled()) return EXECUTION_DISABLED;
+        if (stop.getAsBoolean()) return EMERGENCY_STOP;
         if (!session.enabled() || session.executionIdentity().isEmpty()) return AUTHENTICATION_UNAVAILABLE;
         if (!arm.armed(clock.instant())) return DISARMED;
-        if (stop.getAsBoolean()) return EMERGENCY_STOP;
         return inspect(order, dispatch).reason();
     }
     private ExecutionReadiness inspect(OrderRecord o, boolean dispatch) {

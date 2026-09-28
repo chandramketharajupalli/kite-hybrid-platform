@@ -92,6 +92,7 @@ class OperatorRehearsalIntegrationTest {
                             "--spring.flyway.default-schema=public","--spring.main.banner-mode=off","--logging.level.root=ERROR")) {
                 normal=c;
                 assertFalse(c.getBean(RuntimeExecutionArming.class).status(NOW).armed());
+                assertTrue(c.getBean(com.kitehybrid.platform.shared.application.RuntimeTradingHalt.class).getAsBoolean());
                 assertFalse(c.getBean(OrderExecutionProperties.class).enabled());
                 assertFalse(c.getBean(OperatorControlConfigurationProperties.class).enabled());
                 var live=c.getBean(LiveTestProperties.class); assertFalse(live.enabled()); assertFalse(live.configured());
@@ -199,10 +200,11 @@ class OperatorRehearsalIntegrationTest {
             if (boundary.equals("after-arm-disarm")) commands.add("disarm");
             var output=new ArrayList<String>();
             try {
+                var owner=Thread.currentThread();
                 RehearsalTerminal.run(()->f.context,()->{
                     if (commands.isEmpty() && boundary.equals("input-failure")) throw new IllegalStateException("private-exception-payload");
                     if (commands.isEmpty() && boundary.equals("interrupt")) {
-                        Thread.currentThread().interrupt(); throw new IllegalStateException("private-exception-payload");
+                        owner.interrupt(); throw new IllegalStateException("private-exception-payload");
                     }
                     return commands.poll();
                 },output::add,true,"--interactive-operator");
@@ -266,6 +268,8 @@ class OperatorRehearsalIntegrationTest {
     @Test void secondCandidateCannotObtainRiskApprovalOrReplaceFirstOrderAuthorizationAcrossInstances() throws Exception {
         try(var f=fixture()) {
             f.approve(); f.arm(); var other=f.boot(f.authenticated());
+            var resumed=other.getBean(OperatorExecutionService.class);
+            assertEquals("RESUME_SUCCESS DISARMED",resumed.resume(resumed.prepareResume()));
             var b=other.getBean(OrderApplicationService.class).place(command("second-candidate"));
             var risk=other.getBean(RiskService.class).evaluate(b.id());
             assertFalse(risk.approved()); assertEquals(RiskReason.CONCURRENT_EXPOSURE_UNAVAILABLE,risk.reason());
@@ -426,15 +430,15 @@ class OperatorRehearsalIntegrationTest {
             assertThrows(RuntimeException.class,()->f.operator.execute(f.id));
             f.assertCounts(0); assertEquals(1,f.gatewayCalls.get()); f.consumed();
             assertTrue(count(f,"execution_authorizations")>=2);
-            assertEquals(OrderState.FAILED,f.orders.find(f.id).orElseThrow().state());
+            assertEquals(fault.equals("stop") ? OrderState.SUBMITTING : OrderState.FAILED,f.orders.find(f.id).orElseThrow().state());
             evidence.scenario("dispatch_"+fault,snapshot(f));
         }
     }
-    @ParameterizedTest @ValueSource(strings={"unused","claimed","authorized","admitted","before-http","http-in-flight","after-http","persisted","acknowledged"})
+    @ParameterizedTest @ValueSource(strings={"running","unused","claimed","authorized","admitted","before-http","http-in-flight","after-http","persisted","acknowledged"})
     void abruptChildJvmCrashRehearsal(String checkpoint) throws Exception {
         // Reuse the existing real-process probe, including its durable-state/restart/no-retry assertions.
         new OneOrderOperatorIntegrationTest().actualChildJvmCrashPreservesDurableAdmissionAndNeverRestoresPermission(checkpoint);
-        String state=Set.of("unused","claimed","authorized").contains(checkpoint) ? "RISK_APPROVED"
+        String state=Set.of("running","unused","claimed","authorized").contains(checkpoint) ? "RISK_APPROVED"
                 : Set.of("persisted","acknowledged").contains(checkpoint) ? "SUBMITTED" : "SUBMITTING";
         evidence.scenario("crash_"+checkpoint,Map.of("durableState",state,"restartArmed",false,"restartPermit","NONE",
                 "POST",Set.of("http-in-flight","after-http","persisted","acknowledged").contains(checkpoint) ? 1 : 0,

@@ -154,7 +154,7 @@ class OrderApplicationServiceTest {
     }
     private static final class FakeRepository implements OrderRepository {
         public void requireIndependentExecution() {}
-        public boolean beginSubmission(OrderRecord expected, OrderRecord next) { return compareAndSet(expected, next); }
+        public boolean beginSubmission(OrderRecord expected, OrderRecord next, Runnable validation) { validation.run(); return compareAndSet(expected, next); }
         final Map<OrderId, OrderRecord> records = new HashMap<>(); final Map<String, String> keys = new HashMap<>();
         public synchronized IdempotencyClaim claimIdempotency(String key, String fingerprint, OrderId id) {
             var existing = keys.putIfAbsent(key, fingerprint + "|" + id.value());

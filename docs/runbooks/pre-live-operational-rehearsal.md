@@ -11,13 +11,31 @@ Starting baseline: clean `develop`, HEAD and `origin/develop` both
 the Phase 10.2 design's call graph describes its earlier baseline, not the current
 callers. No new execution route, transport, migration or configuration is needed.
 
+## Phase 10.5 changes to the current rehearsal
+
+The [runtime halt procedure](runtime-emergency-stop.md) adds a default-HALTED latch
+and explicit synthetic resume to these fixtures. Production uses
+`TrustedOperatorConsole.runInteractive`: an input-only reader handles halt while
+the foreground thread performs manual commands. The test terminal supplies input
+only when prompted; separate tests inject halt during blocked execution. No input
+is queued for later execution. The child-JVM matrix also covers RUNNING before
+arm, and recreated contexts assert HALTED/DISARMED. The historical Phase 10.3
+validation record below describes its original baseline and counts.
+
+Emergency-stop denial after committed SUBMITTING retains that state for explicit
+recovery. Admission checks volatile safety before CAS and before commit. An
+already-started commit/send cannot be atomically undone; ADR-018 records the
+remaining boundary and its outstanding acceptance.
+
 ## Actual production call graph
 
 ```text
 Explicit OperatorConsoleApplication.main --interactive-operator
   System.console + exact argument check (before Spring)
   SpringApplication.run(TradingCoreApplication.class), no execution overrides
-  TrustedOperatorConsole.run, one command at a time
+  TrustedOperatorConsole.runInteractive, one command at a time
+    input-only reader -> halt / halt-status (also while foreground command blocks)
+    resume + CONFIRM resume -> release only runtime latch; stay DISARMED
     status -> OperatorExecutionService.status
     preflight OrderId -> OperatorExecutionService.preflight
       OrderRepository.find -> ExecutionSafetyPolicy.inspect (observation only)
@@ -227,9 +245,9 @@ Spring bytecode instead. The temporary debugger logpoint was removed.
 
 ## Abort procedure and limitations
 
-Remain disarmed after any attempt. If an already reviewed emergency-stop boundary
-is available, activate it; do not assume editing environment variables changes the
-immutable running configuration. Disarm, retain evidence, inspect local order and
+Remain disarmed after any attempt. Use `halt` and verify `halt-status`; do not
+assume editing environment variables changes immutable startup configuration.
+Disarm, retain evidence, inspect local order and
 authorization state, perform explicit broker reads and reconcile. Stop the process
 if evidence is inconsistent. **Stopping the JVM is not cancellation of an accepted
 order.** Never reset SUBMITTING, erase audit/history, clear conflicts automatically

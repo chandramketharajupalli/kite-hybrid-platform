@@ -1,5 +1,7 @@
 package com.kitehybrid.platform.order.infrastructure;
 
+import com.kitehybrid.platform.shared.application.RuntimeTradingHalt;
+
 import com.kitehybrid.platform.instrument.application.InstrumentRegistry;
 import com.kitehybrid.platform.order.application.*;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -18,6 +20,7 @@ import com.kitehybrid.platform.risk.domain.RiskLimits;
 import java.util.UUID;
 
 @Configuration(proxyBeanMethods = false)
+@org.springframework.context.annotation.Import(com.kitehybrid.platform.config.RuntimeTradingHaltConfiguration.class)
 @EnableConfigurationProperties(OrderExecutionConfigurationProperties.class)
 public class OrderConfiguration {
     @Bean
@@ -27,7 +30,7 @@ public class OrderConfiguration {
         return new OrderExecutionProperties(properties.isEnabled(), ids, properties.getMaxQuantity(), properties.getMaxNotional(), properties.getRiskDecisionMaxAge(), properties.getMarketDataMaxAge(), limits.getIfAvailable(() -> null) == null ? "" : limits.getIfAvailable().version(), "phase9");
     }
 
-    @Bean RuntimeExecutionArming runtimeExecutionArming(MeterRegistry metrics, KiteAuthenticationSession session) { return new RuntimeExecutionArming(metrics, session::executionIdentity); }
+    @Bean RuntimeExecutionArming runtimeExecutionArming(MeterRegistry metrics, KiteAuthenticationSession session, RuntimeTradingHalt halt) { return new RuntimeExecutionArming(metrics, session::executionIdentity, halt); }
 
     @Bean @Profile("!test")
     ExecutionAuthorizationAuditStore executionAuthorizationAuditStore(JdbcTemplate jdbc) {
@@ -36,10 +39,10 @@ public class OrderConfiguration {
 
     @Bean @Profile("!test")
     ExecutionSafetyPolicy executionSafetyPolicy(OrderExecutionProperties properties, RuntimeExecutionArming arm,
-            TradingProperties trading, KiteAuthenticationSession session, RiskDecisionStore risks, InstrumentRegistry instruments,
+            RuntimeTradingHalt halt, KiteAuthenticationSession session, RiskDecisionStore risks, InstrumentRegistry instruments,
             LatestMarketDataStore market, MarketDataGateway gateway, OrderRepository orders, Clock clock, MeterRegistry metrics,
             ExecutionAuthorizationAuditStore audit, AdditionalExecutionChecks additional) {
-        return new ExecutionSafetyPolicy(properties, arm, trading::emergencyStop, session, risks, instruments, market,
+        return new ExecutionSafetyPolicy(properties, arm, halt, session, risks, instruments, market,
                 gateway::health, orders, clock, metrics, audit, additional);
     }
 

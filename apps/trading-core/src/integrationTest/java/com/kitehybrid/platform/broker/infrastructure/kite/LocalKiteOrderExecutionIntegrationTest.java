@@ -177,6 +177,8 @@ class LocalKiteOrderExecutionIntegrationTest {
     @Test void operatorSpringPostgresPreflightArmExecuteDisarmAndReconcile() {
         try (var context = operatorContext()) {
             var operator = context.getBean(com.kitehybrid.platform.operator.application.OperatorExecutionService.class);
+            var runtime=context.getBean(com.kitehybrid.platform.shared.application.RuntimeTradingHalt.class);
+            assertTrue(runtime.getAsBoolean()); assertTrue(runtime.resume(runtime.epoch()));
             var placed = application.place(place("operator-e2e", OrderType.MARKET, Optional.empty()));
             assertTrue(risk.evaluate(placed.id()).approved());
             var before = orders.find(placed.id()).orElseThrow();
@@ -218,11 +220,13 @@ class LocalKiteOrderExecutionIntegrationTest {
         try (var first = operatorContext()) {
             id = approved("operator-restart").id();
             var operator = first.getBean(com.kitehybrid.platform.operator.application.OperatorExecutionService.class);
+            assertEquals("RESUME_SUCCESS DISARMED",operator.resume(operator.prepareResume()));
             assertTrue(operator.arm(id, Duration.ofSeconds(20)).armed());
             assertTrue(operator.preflight(id).ready());
         }
         try (var second = operatorContext()) {
             var operator = second.getBean(com.kitehybrid.platform.operator.application.OperatorExecutionService.class);
+            assertTrue(operator.haltStatus().effectiveHalted());
             assertEquals(ExecutionDenialReason.DISARMED, operator.preflight(id).reason());
             assertThrows(OrderCommandValidationException.class, () -> operator.execute(id));
             assertEquals(OrderState.RISK_APPROVED, orders.find(id).orElseThrow().state());
@@ -238,6 +242,8 @@ class LocalKiteOrderExecutionIntegrationTest {
         try (var context = operatorContext(override)) {
             var order = approved("operator-denied");
             var operator = context.getBean(com.kitehybrid.platform.operator.application.OperatorExecutionService.class);
+            var runtime=context.getBean(com.kitehybrid.platform.shared.application.RuntimeTradingHalt.class);
+            assertTrue(runtime.getAsBoolean()); assertTrue(runtime.resume(runtime.epoch()));
             operator.arm(order.id(), Duration.ofSeconds(20));
             assertFalse(operator.preflight(order.id()).ready());
             assertThrows(OrderCommandValidationException.class, () -> operator.execute(order.id()));
@@ -256,6 +262,8 @@ class LocalKiteOrderExecutionIntegrationTest {
         try (var context = operatorContext()) {
             var order = approved("operator-changing");
             var operator = context.getBean(com.kitehybrid.platform.operator.application.OperatorExecutionService.class);
+            var runtime=context.getBean(com.kitehybrid.platform.shared.application.RuntimeTradingHalt.class);
+            assertTrue(runtime.getAsBoolean()); assertTrue(runtime.resume(runtime.epoch()));
             assertTrue(operator.arm(order.id(), Duration.ofSeconds(20)).armed());
             assertTrue(operator.preflight(order.id()).ready());
             switch (change) {
@@ -301,6 +309,8 @@ class LocalKiteOrderExecutionIntegrationTest {
                     OrderType.MARKET, OrderProduct.DELIVERY, OrderValidity.DAY, Optional.empty(), Optional.empty(), 0, OrderVariety.REGULAR));
             assertTrue(risk.evaluate(order.id()).approved());
             var operator = context.getBean(com.kitehybrid.platform.operator.application.OperatorExecutionService.class);
+            var runtime=context.getBean(com.kitehybrid.platform.shared.application.RuntimeTradingHalt.class);
+            assertTrue(runtime.getAsBoolean()); assertTrue(runtime.resume(runtime.epoch()));
             assertFalse(operator.arm(order.id(), Duration.ofSeconds(20)).armed());
             assertEquals(ExecutionDenialReason.LIVE_TEST_QUANTITY_CAP, operator.preflight(order.id()).gates().get(ExecutionReadiness.Gate.LIVE_TEST_QUANTITY_WITHIN_CAP));
             assertThrows(OrderCommandValidationException.class, () -> operator.execute(order.id()));
@@ -413,9 +423,9 @@ class LocalKiteOrderExecutionIntegrationTest {
             public void requireIndependentExecution(){delegate.requireIndependentExecution();}
             public boolean hasBlockingExposureExcept(OrderId id){return delegate.hasBlockingExposureExcept(id);}
             public boolean compareAndSet(OrderRecord expected,OrderRecord next){return delegate.compareAndSet(expected,next);}
-            public boolean beginSubmission(OrderRecord expected,OrderRecord next){
+            public boolean beginSubmission(OrderRecord expected,OrderRecord next,Runnable validation){
                 if(!changed){changed=true; jdbc.update("UPDATE trading.orders SET state='VALIDATED', version=version+1 WHERE order_id=? AND version=?", expected.id().value(), expected.version());}
-                return delegate.beginSubmission(expected,next);
+                return delegate.beginSubmission(expected,next,validation);
             }
             public boolean attachBrokerOrderId(OrderRecord e,OrderRecord n){return delegate.attachBrokerOrderId(e,n);}
             public boolean hasDangerousUnresolvedOrders(){return delegate.hasDangerousUnresolvedOrders();}
@@ -519,8 +529,8 @@ class LocalKiteOrderExecutionIntegrationTest {
                 .when(executionGateway).place(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.any());
         assertThrows(OrderCommandValidationException.class, () -> application.executeRiskApproved(order.id()));
         assertEquals(0, broker.requests().size());
-        assertEquals(OrderState.FAILED, orders.find(order.id()).orElseThrow().state());
-        assertEquals(Optional.of("PRE_DISPATCH_DENIED"), orders.find(order.id()).orElseThrow().failureCategory());
+        assertEquals(OrderState.SUBMITTING, orders.find(order.id()).orElseThrow().state());
+        assertEquals(Optional.empty(), orders.find(order.id()).orElseThrow().failureCategory());
         assertThrows(RuntimeException.class, () -> application.executeRiskApproved(order.id()));
         assertEquals(0, broker.requests().size());
     }
@@ -648,7 +658,7 @@ class LocalKiteOrderExecutionIntegrationTest {
                 MarketDataHealth.Reason.NONE, Optional.of(NOW), Optional.of(NOW), Optional.of(NOW), 1, 1, 0, 1, 1, 0, 0, 0, 0);
         var strategy = new ReferenceThresholdStrategy(new StrategyDefinition(new StrategyId("reference"), "v1"), INSTRUMENT.id(), new BigDecimal("20"), 1);
         var coordinator = new StrategyOrderCoordinator(new PostgresStrategyEvaluationStore(jdbc), application,
-                Optional.of(risk), Clock.fixed(NOW, ZoneOffset.UTC), new TradingProperties(TradingMode.PAPER, false, false), new SimpleMeterRegistry());
+                Optional.of(risk), Clock.fixed(NOW, ZoneOffset.UTC), () -> false, new SimpleMeterRegistry());
         var result = coordinator.evaluate("strategy-event-1", strategy,
                 new StrategyInput(INSTRUMENT.id(), Optional.of(new Tick(INSTRUMENT.id(), new BigDecimal("10"), NOW)), marketHealth, NOW));
         assertEquals(Optional.of(result.orderId().orElseThrow()), result.orderId());

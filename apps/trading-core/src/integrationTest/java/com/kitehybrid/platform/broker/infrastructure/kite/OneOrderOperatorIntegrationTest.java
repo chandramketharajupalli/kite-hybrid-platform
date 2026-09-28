@@ -89,7 +89,7 @@ class OneOrderOperatorIntegrationTest {
         final OrderApplicationService application;
         final OperatorExecutionService operator;
         volatile Mode mode=Mode.SUCCESS;
-        volatile Runnable beforeDispatch=()->{}, beforeGateway=()->{};
+        volatile Runnable beforeDispatch=()->{}, beforeGateway=()->{}, afterReceipt=()->{};
         OrderId id;
 
         Fixture(String... overrides) throws Exception {
@@ -110,6 +110,7 @@ class OneOrderOperatorIntegrationTest {
                 form.set(new String(exchange.getRequestBody().readAllBytes(),StandardCharsets.UTF_8));
                 submittingObserved.set(jdbc.queryForObject("SELECT state FROM trading.orders WHERE order_id=?",String.class,id.value()).equals("SUBMITTING"));
                 received.countDown();
+                afterReceipt.run();
                 if (mode == Mode.RESET || mode == Mode.RESPONSE_LOST) { exchange.close(); return; }
                 if (mode == Mode.TIMEOUT) { try { release.await(5,TimeUnit.SECONDS); } catch (InterruptedException interrupted) { Thread.currentThread().interrupt(); } exchange.close(); return; }
                 int status=mode == Mode.REJECT ? 400 : mode == Mode.AUTH ? 401 : 200;
@@ -144,7 +145,7 @@ class OneOrderOperatorIntegrationTest {
             c.registerBean(MarketDataGateway.class,()->{ var gateway=mock(MarketDataGateway.class); when(gateway.health()).thenAnswer(call->health); return gateway; });
             c.registerBean(TradingProperties.class,()->{ var trading=mock(TradingProperties.class); when(trading.emergencyStop()).thenAnswer(call->stop.get()); return trading; });
             c.registerBean(RiskEngine.class,()->new RiskEngine(List.of(new PositiveReferencePriceRiskRule()),clock));
-            c.registerBean(OrderExecutionGateway.class,()->{
+            if (c.getEnvironment().getProperty("kite.order-execution.enabled",Boolean.class,false)) c.registerBean(OrderExecutionGateway.class,()->{
                 var client=RehearsalIsolation.client("http://127.0.0.1:"+server.getAddress().getPort());
                 var adapter=new KiteOrderAdapter(new KiteRestTransport(client,currentSession),registry,c.getBean(OrderExecutionProperties.class));
                 return new OrderExecutionGateway() {
@@ -162,7 +163,7 @@ class OneOrderOperatorIntegrationTest {
                     if (bean instanceof OrderRepository repository) {
                         var observed=spy(repository);
                         doAnswer(call->{ trace.add("ADMISSION_ATTEMPT"); boolean admitted=(boolean)call.callRealMethod();
-                            if (admitted) trace.add("SUBMITTING_COMMITTED"); return admitted; }).when(observed).beginSubmission(any(),any());
+                            if (admitted) trace.add("SUBMITTING_COMMITTED"); return admitted; }).when(observed).beginSubmission(any(),any(),any());
                         return observed;
                     }
                     if (bean instanceof ExecutionSafetyPolicy policy) {
@@ -175,9 +176,11 @@ class OneOrderOperatorIntegrationTest {
                 }
             });
             c.register(OrderConfiguration.class,OperatorControlConfiguration.class,RiskConfiguration.class,ReconciliationConfiguration.class);
-            c.refresh(); contexts.add(c); assertFalse(c.getBean(OperatorExecutionService.class).status().armed()); return c;
+            c.refresh(); contexts.add(c); assertFalse(c.getBean(OperatorExecutionService.class).status().armed());
+            assertTrue(c.getBean(com.kitehybrid.platform.shared.application.RuntimeTradingHalt.class).getAsBoolean()); return c;
         }
         void approve() {
+            if (operator.haltStatus().effectiveHalted()) assertEquals("RESUME_SUCCESS DISARMED",operator.resume(operator.prepareResume()));
             var placed=application.place(command("one-candidate")); id=placed.id();
             assertEquals(OrderState.VALIDATED,placed.state());
             assertTrue(context.getBean(RiskService.class).evaluate(id).approved());
@@ -292,7 +295,7 @@ class OneOrderOperatorIntegrationTest {
         try(var f=new Fixture()) {
             f.approve(); f.arm();
             switch(failure) {
-                case "cas" -> doReturn(false).when(f.orders).beginSubmission(any(),any());
+                case "cas" -> doReturn(false).when(f.orders).beginSubmission(any(),any(),any());
                 case "authorization-store" -> f.jdbc.execute("ALTER TABLE trading.execution_authorizations ADD CONSTRAINT deny_authorization CHECK (false)");
                 case "ack-store" -> f.jdbc.execute("ALTER TABLE trading.orders ADD CONSTRAINT deny_ack CHECK (broker_order_id IS NULL)");
                 case "unexpected" -> f.beforeGateway=()->{ throw new IllegalStateException("synthetic unexpected"); };
@@ -308,6 +311,7 @@ class OneOrderOperatorIntegrationTest {
         try(var f=new Fixture()) {
             f.approve(); f.arm();
             var other=f.boot(f.authenticated()); var second=other.getBean(OperatorExecutionService.class);
+            assertEquals("RESUME_SUCCESS DISARMED",second.resume(second.prepareResume()));
             assertTrue(second.arm(f.id,Duration.ofSeconds(30)).armed()); assertTrue(second.preflight(f.id).ready());
             var start=new CountDownLatch(1);
             try(var pool=Executors.newFixedThreadPool(2)) {
@@ -351,7 +355,7 @@ class OneOrderOperatorIntegrationTest {
             if (checkpoint.equals("claimed")) f.context.getBean(RuntimeExecutionArming.class).claim(f.id,NOW);
             if (checkpoint.equals("admitted")) {
                 var before=f.orders.find(f.id).orElseThrow();
-                assertTrue(f.orders.beginSubmission(before,before.transitionTo(OrderState.SUBMITTING,NOW)));
+                assertTrue(f.orders.beginSubmission(before,before.transitionTo(OrderState.SUBMITTING,NOW),()->{}));
             }
             if (checkpoint.equals("acknowledged")) f.operator.execute(f.id);
             f.context.close(); var restarted=f.boot(f.authenticated()); var operator=restarted.getBean(OperatorExecutionService.class);
@@ -375,7 +379,7 @@ class OneOrderOperatorIntegrationTest {
         }
     }
 
-    @ParameterizedTest @ValueSource(strings={"unused","claimed","authorized","admitted","before-http","after-http","persisted","http-in-flight","acknowledged"})
+    @ParameterizedTest @ValueSource(strings={"running","unused","claimed","authorized","admitted","before-http","after-http","persisted","http-in-flight","acknowledged"})
     void actualChildJvmCrashPreservesDurableAdmissionAndNeverRestoresPermission(String checkpoint) throws Exception {
         try(var f=new Fixture()) {
             f.approve();
@@ -400,7 +404,7 @@ class OneOrderOperatorIntegrationTest {
             int posts=Set.of("after-http","persisted","http-in-flight","acknowledged").contains(checkpoint) ? 1 : 0;
             f.assertCounts(posts);
             var state=f.orders.find(f.id).orElseThrow().state();
-            assertEquals(Set.of("unused","claimed","authorized").contains(checkpoint) ? OrderState.RISK_APPROVED
+            assertEquals(Set.of("running","unused","claimed","authorized").contains(checkpoint) ? OrderState.RISK_APPROVED
                     : Set.of("acknowledged","persisted").contains(checkpoint) ? OrderState.SUBMITTED : OrderState.SUBMITTING,state);
             var restarted=f.boot(f.authenticated()); var operator=restarted.getBean(OperatorExecutionService.class);
             assertFalse(operator.status().armed()); assertFalse(operator.preflight(f.id).ready());

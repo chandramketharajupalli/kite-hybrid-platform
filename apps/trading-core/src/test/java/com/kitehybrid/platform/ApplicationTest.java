@@ -28,6 +28,7 @@ class ApplicationTest {
         assertThat(context.getBeansOfType(OrderExecutionGateway.class).values())
                 .hasSize(1).allMatch(DisabledOrderExecutionGateway.class::isInstance);
         assertThat(tradingStatus.status()).containsEntry("ready", false).containsEntry("emergencyStop", true);
+        assertThat(tradingStatus.status()).containsEntry("runtimeHalt", "HALTED");
     }
     @Test void applicationCanBeHealthyWhileTradingIsUnavailable() throws Exception {
         http.perform(get("/actuator/health/liveness")).andExpect(status().isOk())

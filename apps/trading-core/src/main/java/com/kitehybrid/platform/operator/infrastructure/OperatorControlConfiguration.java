@@ -1,5 +1,7 @@
 package com.kitehybrid.platform.operator.infrastructure;
 
+import com.kitehybrid.platform.shared.application.RuntimeTradingHalt;
+
 import com.kitehybrid.platform.broker.application.auth.KiteAuthenticationSession;
 import com.kitehybrid.platform.broker.application.read.*;
 import com.kitehybrid.platform.config.TradingProperties;
@@ -42,9 +44,9 @@ public class OperatorControlConfiguration {
     }
     @Bean @Profile("!test")
     OperatorExecutionService operatorExecutionService(OperatorControlConfigurationProperties operator, OrderExecutionProperties execution,
-            LiveTestProperties live, RuntimeExecutionArming arm, KiteAuthenticationSession session, TradingProperties trading,
+            LiveTestProperties live, RuntimeExecutionArming arm, KiteAuthenticationSession session, RuntimeTradingHalt halt,
             OrderRepository orders, ExecutionSafetyPolicy policy, OrderApplicationService application, Clock clock) {
-        return new OperatorExecutionService(operator.enabled(), execution, live, arm, session, trading::emergencyStop,
+        return new OperatorExecutionService(operator.enabled(), execution, live, arm, session, halt,
                 orders, policy, application, clock);
     }
 }

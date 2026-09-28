@@ -26,7 +26,7 @@ public final class OneOrderCrashProbe {
     public static void main(String[] args) {
         if (args.length != 6 || !args[0].matches("jdbc:postgresql://localhost:[0-9]+/one_order_[a-f0-9]+\\?loggerLevel=OFF")
                 || !args[3].matches("http://127\\.0\\.0\\.1:[0-9]+")
-                || !Set.of("unused","claimed","authorized","admitted","before-http","after-http","persisted","http-in-flight","acknowledged").contains(args[5]))
+                || !Set.of("running","unused","claimed","authorized","admitted","before-http","after-http","persisted","http-in-flight","acknowledged").contains(args[5]))
             throw new IllegalArgumentException("Disposable crash fixture required");
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
         var now=OneOrderOperatorIntegrationTest.NOW;
@@ -46,13 +46,15 @@ public final class OneOrderCrashProbe {
         var market=new InMemoryLatestMarketDataStore(); market.update(new Tick(instrument.id(),BigDecimal.TEN,now));
         var session=new KiteSession(new KiteProperties("syntheticKey","syntheticSecret","",true),clock);
         session.install(new KiteAccessToken("syntheticToken",now.minusSeconds(1),now.plusSeconds(3600))); session.profileValidated();
-        var metrics=new SimpleMeterRegistry(); var arm=new RuntimeExecutionArming(metrics,session::executionIdentity);
+        var metrics=new SimpleMeterRegistry();
+        var runtimeHalt=new com.kitehybrid.platform.shared.application.RuntimeTradingHalt(() -> false);
+        var arm=new RuntimeExecutionArming(metrics,session::executionIdentity,runtimeHalt);
         var properties=new OrderExecutionProperties(true,Set.of(instrument.id()),1,new BigDecimal("20"),Duration.ofSeconds(60),Duration.ofSeconds(5),
                 risks.find(id).orElseThrow().policyVersion(),"crash-probe");
         var live=new LiveTestProperties(true,Set.of(instrument.id()),1,new BigDecimal("20"),Duration.ofSeconds(30));
         var checks=new LiveTestExecutionChecks(true,live,arm,new PostgresOperationalReadiness(jdbc,()->true,"public","flyway_schema_history"),clock);
         var audit=new PostgresExecutionAuthorizationAuditStore(jdbc);
-        var policy=new ExecutionSafetyPolicy(properties,arm,()->false,session,risks,registry,market,OperatorPreflightDryRunTest::healthy,orders,clock,metrics,
+        var policy=new ExecutionSafetyPolicy(properties,arm,runtimeHalt,session,risks,registry,market,OperatorPreflightDryRunTest::healthy,orders,clock,metrics,
                 decision->{ audit.record(decision); halt(args[5],"authorized"); },checks);
         var adapter=new KiteOrderAdapter(new KiteRestTransport(RehearsalIsolation.client(args[3],args[5].equals("http-in-flight") ? 30000 : 1000),session),registry,properties);
         var gateway=new OrderExecutionGateway() {
@@ -65,7 +67,9 @@ public final class OneOrderCrashProbe {
             @Override public void cancel(OrderRecord order,CancelOrder command) { throw new AssertionError(); }
         };
         var application=new OrderApplicationService(orders,new OrderCommandValidator(registry),gateway,properties,clock,metrics,policy);
-        var operator=new OperatorExecutionService(true,properties,live,arm,session,()->false,orders,policy,application,clock);
+        var operator=new OperatorExecutionService(true,properties,live,arm,session,runtimeHalt,orders,policy,application,clock);
+        if (!operator.resume(operator.prepareResume()).startsWith("RESUME_SUCCESS")) throw new IllegalStateException("Crash probe could not resume");
+        halt(args[5],"running");
         if (!operator.arm(id,Duration.ofSeconds(30)).armed()) throw new IllegalStateException("Crash probe could not arm");
         halt(args[5],"unused");
         if (args[5].equals("claimed")) { arm.claim(id,now); halt(args[5],"claimed"); }

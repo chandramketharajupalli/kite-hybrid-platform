@@ -41,7 +41,12 @@ class OperatorControlTest {
         });
         return new OperatorExecutionService(enabled, new OrderExecutionProperties(capability),
                 new LiveTestProperties(true, Set.of(instrument), 1, BigDecimal.TEN, Duration.ofSeconds(30)),
-                arm, session, () -> stop, orders, policy, application, clock);
+                arm, session, resumedHalt(stop), orders, policy, application, clock);
+    }
+    private static com.kitehybrid.platform.shared.application.RuntimeTradingHalt resumedHalt(boolean startup) {
+        var halt=new com.kitehybrid.platform.shared.application.RuntimeTradingHalt(() -> startup);
+        if (!startup) assertTrue(halt.resume(halt.epoch()));
+        return halt;
     }
     private void authenticate() {
         when(session.enabled()).thenReturn(true);

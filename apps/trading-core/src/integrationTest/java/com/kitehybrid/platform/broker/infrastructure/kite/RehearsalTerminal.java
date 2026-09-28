@@ -21,8 +21,13 @@ public final class RehearsalTerminal {
     static void run(Supplier<ConfigurableApplicationContext> boot, Supplier<String> input,
                     Consumer<String> output, boolean terminalPresent, String... args) throws Exception {
         var console=mock(Console.class);
-        when(console.readLine()).thenAnswer(call->input.get());
-        doAnswer(call->{ output.accept(((Object[])call.getRawArguments()[1])[0].toString()); return console; })
+        var demand=new java.util.concurrent.Semaphore(0);
+        when(console.readLine()).thenAnswer(call->{
+            if (!demand.tryAcquire(20,java.util.concurrent.TimeUnit.SECONDS)) throw new IllegalStateException("Scripted terminal demand timeout");
+            return input.get();
+        });
+        doAnswer(call->{ String text=((Object[])call.getRawArguments()[1])[0].toString(); output.accept(text);
+            if (text.startsWith("operator>") || text.startsWith("Type CONFIRM")) demand.release(); return console; })
                 .when(console).printf(eq("%s%n"),any(Object[].class));
         if (terminalPresent) TERMINAL.set(console);
         // A child loader leaves the real production class and controlling-terminal guard untouched.

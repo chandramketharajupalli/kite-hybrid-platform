@@ -191,7 +191,12 @@ class OperatorPreflightDryRunTest {
             assertFalse(context.getBean(RuntimeExecutionArming.class).armed(now.get()));
         }
 
+        void resumeSyntheticFixture() {
+            var halt=context.getBean(com.kitehybrid.platform.shared.application.RuntimeTradingHalt.class);
+            assertTrue(halt.resume(halt.epoch()));
+        }
         void approve(long quantity, String limit) {
+            resumeSyntheticFixture();
             assertNull(id, "Exactly one primary synthetic order per fixture");
             var placed = application.place(command("dry-run", quantity, limit));
             id = placed.id();
@@ -310,6 +315,8 @@ class OperatorPreflightDryRunTest {
             h.arm(); assertTrue(h.observe().ready());
             assertEquals(OrderState.RISK_APPROVED, h.orders.find(h.id).orElseThrow().state());
             h.context.close(); h.boot();
+            assertTrue(h.context.getBean(com.kitehybrid.platform.shared.application.RuntimeTradingHalt.class).getAsBoolean());
+            h.resumeSyntheticFixture();
             assertEquals(OrderState.RISK_APPROVED, h.orders.find(h.id).orElseThrow().state());
             assertEquals(DISARMED, h.observe().reason());
         }

@@ -22,7 +22,7 @@ public final class OperatorConsoleApplication {
             try {
                 var host=new TrustedOperatorConsole(context.getBean(OperatorExecutionService.class),
                         Optional.ofNullable(context.getBeanProvider(OrderReconciliationService.class).getIfAvailable()));
-                host.run(console::readLine, message -> console.printf("%s%n",message));
+                host.runInteractive(console::readLine, message -> console.printf("%s%n",message));
             } finally {
                 // Spring's interruptible shutdown lock otherwise returns without closing the context.
                 boolean interrupted=Thread.interrupted();

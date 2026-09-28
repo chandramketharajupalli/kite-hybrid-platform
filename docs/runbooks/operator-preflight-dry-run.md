@@ -28,6 +28,11 @@ execution tests. Those tests are separate from this harness. The dry-run harness
 never invokes `execute`, `executeRiskApproved`, or any gateway mutation method.
 No test requires production Kite mutation.
 
+Current Phase 10.5 fixtures start HALTED and explicitly release the runtime latch
+in synthetic setup before constructing otherwise-valid risk evidence. This
+test-only setup never resumes a real environment. See the
+[runtime halt runbook](runtime-emergency-stop.md).
+
 ## Construction and invocation
 
 The real Spring configuration supplies `OperatorExecutionService`,

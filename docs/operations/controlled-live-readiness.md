@@ -8,6 +8,12 @@ Its synthetic READY result does not authorize live trading or invoke execution.
 For the later confirmed one-order **loopback-only** operational rehearsal and
 bounded recovery/abort evidence, see [Phase 10.3](../runbooks/pre-live-operational-rehearsal.md).
 
+Phase 10.5 adds the [runtime emergency-stop procedure](../runbooks/runtime-emergency-stop.md).
+Every JVM starts HALTED as well as DISARMED. Startup emergency stop OR runtime halt
+feeds the existing emergency-stop gate; a separately confirmed runtime resume is
+required before otherwise-valid pre-arm readiness. No runtime command overrides
+startup halt. Read the commit/dispatch limitations in [ADR-018](../adr/ADR-018-runtime-emergency-stop.md).
+
 ## Hard stop and operator boundary
 
 Strategy → signal → trade intent → VALIDATED → RiskService → RISK_APPROVED → **STOP**.
@@ -32,7 +38,7 @@ All normal `KITE_ORDER_EXECUTION_*` gates still apply. Effective instrument perm
 
 ## Readiness and auditing
 
-`preflight(OrderId)` returns READY/NOT_READY and bounded per-gate reasons. Before arm, overall status is NOT_READY/DISARMED even when all other prerequisites pass. After arm, every gate must pass. Readiness is an observation, not a reservation or permission to bypass later checks.
+`preflight(OrderId)` returns READY/NOT_READY and bounded per-gate reasons. After explicit runtime resume, before arm, overall status is NOT_READY/DISARMED even when all other prerequisites pass. After arm, every gate must pass. Readiness is an observation, not a reservation or permission to bypass later checks.
 
 The 24 gates cover capability, usable authentication, runtime arm, session binding, emergency stop, RISK_APPROVED state, current approved/version-matched/policy-matched risk, normal instrument permission, quantity, correlation, account-wide blocking exposure, connected/fully subscribed/healthy market data, tick receipt/exchange freshness, normal notional, operator opt-in, live-test mode, first-live instrument/quantity/notional/arm-duration limits, V10 database readiness, readable reconciliation tables, absence of recorded reconciliation conflicts and configured order/trade read ports.
 

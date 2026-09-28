@@ -18,7 +18,7 @@ class TrustedOperatorConsoleTest {
         var operator=mock(OperatorExecutionService.class); var output=new ArrayList<String>();
         var lines=new ArrayDeque<>(List.of(command));
         new TrustedOperatorConsole(operator,Optional.empty()).run(lines::poll,output::add);
-        assertTrue(mockingDetails(operator).getInvocations().stream().allMatch(i->i.getMethod().getName().equals("disarm")));
+        assertTrue(mockingDetails(operator).getInvocations().stream().allMatch(i->Set.of("disarm","halt").contains(i.getMethod().getName())));
         assertTrue(output.contains("DENIED INVALID_COMMAND_OR_EVIDENCE"));
         assertTrue(output.stream().noneMatch(s->s.contains("secret")));
     }

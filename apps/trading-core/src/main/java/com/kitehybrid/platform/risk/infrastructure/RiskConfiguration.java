@@ -1,5 +1,7 @@
 package com.kitehybrid.platform.risk.infrastructure;
 
+import com.kitehybrid.platform.shared.application.RuntimeTradingHalt;
+
 import com.kitehybrid.platform.broker.application.read.*;
 import com.kitehybrid.platform.instrument.application.InstrumentRegistry;
 import com.kitehybrid.platform.marketdata.application.*;
@@ -32,9 +34,9 @@ public class RiskConfiguration {
                             InstrumentRegistry instruments, LatestMarketDataStore market,
                             MarketDataGateway marketGateway, BrokerPositionsProvider positions,
                             BrokerHoldingsProvider holdings, BrokerMarginsProvider margins,
-                            BrokerOrdersProvider orders, com.kitehybrid.platform.config.TradingProperties trading,
+                            BrokerOrdersProvider orders, RuntimeTradingHalt halt,
                             Clock clock, MeterRegistry metrics) {
-        return new RiskService(decisions, engine, limits, trading::emergencyStop, instruments, market,
+        return new RiskService(decisions, engine, limits, halt, instruments, market,
                 marketGateway::health, positions, holdings, margins, orders, clock, metrics);
     }
 }
