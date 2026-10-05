@@ -21,5 +21,11 @@ class HistoricalArchitectureTest {
         var transport=classes.get("com.kitehybrid.platform.broker.infrastructure.kite.KiteRestTransport");
         for(var method:transport.getMethods()) if(java.util.Set.of("historicalMinute","readWithSession").contains(method.getName()))
             for(var call:method.getMethodCallsFromSelf()) assertFalse(java.util.Set.of("orderRequest","postRegularOrder","putRegularOrder","deleteRegularOrder").contains(call.getTarget().getName()));
+        var exporter=classes.get("com.kitehybrid.platform.historical.infrastructure.HistoricalResearchExporter");
+        for(var call:exporter.getMethodCallsFromSelf()) {
+            assertNotEquals("HistoricalMarketDataProvider",call.getTargetOwner().getSimpleName(),call.toString());
+            if(call.getTargetOwner().getSimpleName().equals("HistoricalBarRepository"))
+                assertTrue(java.util.Set.of("replay","evidence").contains(call.getTarget().getName()),call.toString());
+        }
     }
 }

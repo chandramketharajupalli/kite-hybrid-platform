@@ -3,6 +3,7 @@ package com.kitehybrid.platform;
 import com.kitehybrid.platform.historical.domain.*;
 import com.kitehybrid.platform.historical.application.*;
 import com.kitehybrid.platform.historical.infrastructure.PostgresHistoricalBarRepository;
+import com.kitehybrid.platform.historical.infrastructure.HistoricalResearchExporter;
 import com.kitehybrid.platform.instrument.application.InstrumentRegistry;
 import com.kitehybrid.platform.instrument.domain.*;
 import java.math.BigDecimal;
@@ -78,6 +79,33 @@ class PostgresHistoricalBarRepositoryTest {
         assertEquals(window(),repo.evidence(first.chunkId()).orElseThrow().request());
         assertEquals(query(NOW,NOW),repo.replay(query(NOW,NOW)));
         assertEquals(2,jdbc.queryForObject("SELECT count(*) FROM trading.historical_ingestion_chunks",Integer.class));
+    }
+    @Test void researchExportReplaysPinnedPostgresDataInReadOnlyTransaction() throws Exception {
+        var calendar=new TradingCalendar("synthetic-v1","Synthetic export fixture",
+                Map.of(LocalDate.of(2026,10,1),new TradingCalendar.Day(TradingCalendar.Status.EXPECTED_SESSION,
+                        List.of(new TradingCalendar.Session(LocalTime.of(9,15),LocalTime.of(9,18))))));
+        var bars=List.of(bar(START,"100.5"),bar(START.plusSeconds(60),"100.6"),bar(START.plusSeconds(120),"100.7"));
+        repo.append(new HistoricalBarRepository.Chunk(UUID.randomUUID(),window(),window(),bars,"SYNTHETIC","fixture-v1",
+                NOW,NOW,NOW,"a".repeat(64),calendar.fingerprint()));
+        var pinned=query(NOW,NOW);
+        var before=jdbc.queryForList("SELECT * FROM trading.historical_bars ORDER BY start_time");
+        var evidenceBefore=jdbc.queryForList("SELECT * FROM trading.historical_ingestion_chunks");
+        var transaction=new org.springframework.transaction.support.TransactionTemplate(
+                new org.springframework.jdbc.datasource.DataSourceTransactionManager(jdbc.getDataSource()));
+        transaction.setReadOnly(true);
+        var exported=transaction.execute(status->{
+            assertEquals("on",jdbc.queryForObject("SHOW transaction_read_only",String.class));
+            return new HistoricalResearchExporter(repo).export(pinned,calendar,SBIN);
+        });
+        assertEquals(exported,new HistoricalResearchExporter(new PostgresHistoricalBarRepository(jdbc)).export(pinned,calendar,SBIN));
+        var json=new com.fasterxml.jackson.databind.ObjectMapper().readTree(exported);
+        assertEquals(pinned.contentHash(),json.get("content_fingerprint").asText());
+        assertEquals("100.5",json.get("bars").get(0).get("close").asText());
+        assertEquals(3,json.get("bars").size());
+        assertEquals(before,jdbc.queryForList("SELECT * FROM trading.historical_bars ORDER BY start_time"));
+        assertEquals(evidenceBefore,jdbc.queryForList("SELECT * FROM trading.historical_ingestion_chunks"));
+        assertEquals(0,jdbc.queryForObject("SELECT count(*) FROM trading.orders",Integer.class));
+        assertEquals(0,jdbc.queryForObject("SELECT count(*) FROM trading.kite_access_tokens",Integer.class));
     }
     @Test void pinnedManifestDetectsLateBackfillEvenWithTheSameObservationTimestamp() {
         repo.append(chunk(List.of(bar(START,"100.5")),NOW));

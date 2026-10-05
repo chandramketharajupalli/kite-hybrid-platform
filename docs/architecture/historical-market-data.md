@@ -149,3 +149,11 @@ or execution wiring is introduced here. A closed candle is not necessarily
 vendor-final or proven available at its historical decision time. Future
 point-in-time research needs an explicit availability/revision policy in
 addition to the existing dataset cutoff, decision cutoff and pinned manifest.
+
+Phase 11.2 now provides the [offline backtest consumer](intraday-backtesting.md).
+`HistoricalResearchExporter` replays a pinned repository dataset and reads its
+provenance; it does not fetch data or write the repository. Exported decimals
+remain strings and content hashes match the Java canonical fingerprint. Python
+checks the pinned bar/calendar hashes and requires complete confirmed sessions
+before simulation. An export is an integrity artifact, not independent proof of
+vendor publication time or historical adjustment/identity correctness.

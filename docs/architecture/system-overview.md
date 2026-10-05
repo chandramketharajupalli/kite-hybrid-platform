@@ -4,6 +4,11 @@ Phase 11.0 adds an isolated [historical data foundation](historical-market-data.
 one-minute canonical bars, explicit calendar evidence, idempotent PostgreSQL
 ingestion and closed-bar research queries. It has no execution/strategy wiring.
 
+Phase 11.2 adds [offline deterministic intraday backtesting](intraday-backtesting.md).
+Java exports pinned historical bars and provenance through a versioned research
+contract; Python simulates its own non-authoritative cash/position ledger.
+Research callbacks cannot obtain live execution capabilities from the engine.
+
 Current product direction is NSE cash-equity INTRADAY/MIS with
 historical-data-driven intraday strategies. See the
 [intraday-first funding and strategy contract](intraday-first-funding-contract.md)

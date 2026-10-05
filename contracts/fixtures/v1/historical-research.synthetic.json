@@ -1,0 +1,88 @@
+{
+  "schema_version": "HistoricalResearchDataset.v1",
+  "instrument_id": "050f94dd-e639-364f-97a6-595594de6543",
+  "exchange": "NSE",
+  "symbol": "SBIN",
+  "segment": "CASH",
+  "lot_size": 1,
+  "interval": "MINUTE",
+  "timestamp_semantics": "INTERVAL_START",
+  "adjustment_policy": "UNSPECIFIED_NO_LOCAL_ADJUSTMENTS",
+  "from_inclusive": "2026-07-30T03:45:00Z",
+  "to_exclusive": "2026-07-30T03:50:00Z",
+  "decision_cutoff": "2026-07-30T03:50:00Z",
+  "dataset_cutoff": "2026-08-01T00:00:00Z",
+  "content_fingerprint": "27e07b4a936f8bb4374a160692997498982e0055ae3a213d71d775188022a2aa",
+  "calendar": {
+    "version": "synthetic-v1",
+    "source": "Synthetic five-minute session; not exchange evidence",
+    "fingerprint": "6b131c1d82d6a54ac5d46f68f1674040ee8e9e68b0e4dd6acb05f3414206e80a",
+    "days": [
+      {
+        "date": "2026-07-30",
+        "status": "EXPECTED_SESSION",
+        "sessions": [
+          {
+            "open": "09:15",
+            "close": "09:20"
+          }
+        ]
+      }
+    ]
+  },
+  "provenance": [
+    {
+      "source": "SYNTHETIC",
+      "source_version": "fixture-v1",
+      "reference_fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "calendar_fingerprint": "6b131c1d82d6a54ac5d46f68f1674040ee8e9e68b0e4dd6acb05f3414206e80a"
+    }
+  ],
+  "bars": [
+    {
+      "start": "2026-07-30T03:45:00Z",
+      "open": "100",
+      "high": "102",
+      "low": "99",
+      "close": "101",
+      "volume": 1000,
+      "open_interest": null
+    },
+    {
+      "start": "2026-07-30T03:46:00Z",
+      "open": "102",
+      "high": "104",
+      "low": "101",
+      "close": "103",
+      "volume": 1001,
+      "open_interest": null
+    },
+    {
+      "start": "2026-07-30T03:47:00Z",
+      "open": "104",
+      "high": "106",
+      "low": "103",
+      "close": "105",
+      "volume": 1002,
+      "open_interest": null
+    },
+    {
+      "start": "2026-07-30T03:48:00Z",
+      "open": "106",
+      "high": "108",
+      "low": "105",
+      "close": "107",
+      "volume": 1003,
+      "open_interest": null
+    },
+    {
+      "start": "2026-07-30T03:49:00Z",
+      "open": "108",
+      "high": "110",
+      "low": "107",
+      "close": "109",
+      "volume": 1004,
+      "open_interest": null
+    }
+  ]
+}

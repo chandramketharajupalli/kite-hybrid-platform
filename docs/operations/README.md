@@ -44,3 +44,5 @@ See [Phase 11.0 validation](phase-11.0-validation.md) for isolated historical-da
 storage and synthetic validation. [Phase 11.1](phase-11.1-validation.md) records
 minute-start timestamp certification, the canonical broker-namespace correction,
 and the bounded real acquisition/persistence/replay proof in disposable PostgreSQL.
+See [Phase 11.2 validation](phase-11.2-validation.md) for offline deterministic
+backtesting, cross-language historical exports and synthetic/disposable tests.

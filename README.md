@@ -7,6 +7,12 @@ records empirically certified minute-start timestamps and a bounded real SBIN
 session acquisition/replay proof in disposable PostgreSQL. This is not a retained
 research corpus or permission to trade.
 
+The [Phase 11.2 backtesting engine](docs/architecture/intraday-backtesting.md)
+consumes pinned historical research exports offline in Python. It simulates
+one-minute, single-instrument, long-only intraday trades with next-open fills,
+explicit costs/slippage and mandatory intraday liquidation. It has no live
+broker or execution connection. See the [validation report](docs/operations/phase-11.2-validation.md).
+
 Java Kite integration includes official interactive authentication, encrypted
 access-token persistence, read-only profile and instrument-master retrieval, and
 opt-in Kite WebSocket market data normalized behind broker-independent Java ports.
