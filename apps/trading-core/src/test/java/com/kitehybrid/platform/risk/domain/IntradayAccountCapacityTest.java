@@ -119,6 +119,35 @@ class IntradayAccountCapacityTest {
                 TradingReadTypes.MarginSegment.EQUITY,e,TradingReadTypes.MarginSegment.COMMODITY,e)),quote("2000",true),"800")));
     }
 
+    @ParameterizedTest @ValueSource(strings={"0","1000000"})
+    void cashOnlyFundingIncludesChargesAndReserveWithoutNeedingCollateralTerms(String collateral) {
+        var base=quote("2000",false);
+        var q=new OrderMarginQuote(base.request(),base.requiredMargin(),d("1.25"),Optional.empty(),NOW);
+        assertEquals(APPROVED,evaluate(OrderProduct.INTRADAY,input(margins("2002.25",collateral,true),q,"800")));
+        assertEquals(collateral.equals("0")?MIS_MARGIN_INSUFFICIENT:COLLATERAL_UNSUPPORTED,
+                evaluate(OrderProduct.INTRADAY,input(margins("2002.24",collateral,true),q,"800")));
+    }
+
+    @Test void aggregateCollateralAndSuccessfulCalculationDoNotSupplyMissingTerms() {
+        var m=margins("100","2000",true);
+        var q=quote("2000",false);
+        assertTrue(m.segments().get(TradingReadTypes.MarginSegment.EQUITY).net()
+                .compareTo(q.requiredMargin().add(limits.cashReserve()))>0);
+        assertEquals(COLLATERAL_UNSUPPORTED,evaluate(OrderProduct.INTRADAY,input(m,q,"800")));
+    }
+
+    @Test void netCanOnlyTightenTheCashAndCollateralBound() {
+        var base=margins("500","5000",true);
+        var e=base.segments().get(TradingReadTypes.MarginSegment.EQUITY);
+        var m=new BrokerMargins(Map.of(TradingReadTypes.MarginSegment.EQUITY,
+                new BrokerMargins.SegmentMargin(true,d("1000"),e.available(),e.utilised()),
+                TradingReadTypes.MarginSegment.COMMODITY,base.segments().get(TradingReadTypes.MarginSegment.COMMODITY)));
+        var q=quote("3000",true);var in=input(m,q,"800");
+        var funding=IntradayAccountCapacity.funding(CashAccountCapacity.inspectIntraday(in,limits,SBIN.id(),NOW),m,q);
+        assertEquals(0,d("1000").compareTo(funding.effectiveCapacity()));
+        assertEquals(MIS_MARGIN_INSUFFICIENT,evaluate(OrderProduct.INTRADAY,in));
+    }
+
     @Test void netAlreadyIncludingCollateralCannotFundASecondCopy() {
         var m=margins("100","2000",true); // net = 2100, not 4100
         var q=quote("3000",true);

@@ -1,5 +1,11 @@
 # System overview
 
+Current product direction is NSE cash-equity INTRADAY/MIS with
+historical-data-driven intraday strategies. See the
+[intraday-first funding and strategy contract](intraday-first-funding-contract.md)
+for the current safety boundary and the future research-to-execution handoff.
+The foundation history below is not a claim that live MIS strategy routing is enabled.
+
 Phase 1 established boundaries, contracts and testable foundations. Phase 5B.1
 adds a durable, execution-disabled order-command foundation; risk approval and
 real broker dispatch remain separately gated.

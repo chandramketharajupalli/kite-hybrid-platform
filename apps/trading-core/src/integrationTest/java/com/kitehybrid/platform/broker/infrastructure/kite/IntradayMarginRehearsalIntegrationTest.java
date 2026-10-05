@@ -50,6 +50,28 @@ class IntradayMarginRehearsalIntegrationTest {
                 OrderProduct.INTRADAY,OrderValidity.DAY,Optional.empty(),Optional.empty(),0,OrderVariety.REGULAR)).id();
         assertTrue(f.context.getBean(RiskService.class).evaluate(f.id).approved());f.arm();
     }
+    @ParameterizedTest @ValueSource(strings={"unchanged","cash","required-margin"})
+    void cashOnlyMisEqualityMustSurviveFinalRefreshIncludingChargesAndReserve(String change) throws Exception {
+        try(var f=fixture()) {
+            when(f.reads.margins()).thenReturn(margins("2002.25","0"));
+            f.marginEstimator.set(r->new OrderMarginQuote(r,d("2000"),d("1.25"),Optional.empty(),NOW));
+            approve(f);assertTrue(f.operator.preflight(f.id).ready());
+            var historicalRisk=f.jdbc.queryForList("SELECT * FROM trading.risk_decisions");
+            f.beforeDispatch=()->{
+                if(change.equals("cash")) when(f.reads.margins()).thenReturn(margins("2002.24","0"));
+                if(change.equals("required-margin")) f.marginEstimator.set(r->
+                        new OrderMarginQuote(r,d("2000.01"),d("1.25"),Optional.empty(),NOW));
+            };
+            if(change.equals("unchanged")) {f.operator.execute(f.id);f.assertCounts(1);}
+            else {
+                var denied=assertThrows(RuntimeException.class,()->f.operator.execute(f.id));
+                assertEquals("MIS_MARGIN_INSUFFICIENT",denied.getMessage());f.assertCounts(0);
+                assertEquals(OrderState.FAILED,f.orders.find(f.id).orElseThrow().state());
+            }
+            f.consumed();assertEquals(historicalRisk,f.jdbc.queryForList("SELECT * FROM trading.risk_decisions"));
+        }
+    }
+
     @Test void collateralAssistedSyntheticMisKeepsFullNotionalAndBoundedReadCount() throws Exception {
         try(var f=fixture()) {
             approve(f);var calls=new AtomicInteger();f.marginEstimator.set(r->{calls.incrementAndGet();return quote(r,"2000",true);});
