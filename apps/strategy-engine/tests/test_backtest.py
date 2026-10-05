@@ -13,6 +13,7 @@ from pydantic import ValidationError
 from strategy_engine.backtest.dataset import Bar, Dataset, bar_fingerprint, digest
 from strategy_engine.backtest.engine import (
     Config,
+    ConfiguredCosts,
     Decision,
     Intent,
     StrategySpec,
@@ -322,7 +323,8 @@ def test_session_policy_outside_confirmed_session_denied() -> None:
 
 def test_research_dependency_and_clock_boundaries() -> None:
     allowed = {"__future__", "datetime", "decimal", "typing", "uuid", "zoneinfo", "hashlib",
-               "json", "re", "pydantic", "strategy_engine.backtest.dataset"}
+               "json", "re", "pydantic", "strategy_engine.backtest.dataset",
+               "strategy_engine.backtest.costs"}
     for source in (ROOT / "apps/strategy-engine/src/strategy_engine/backtest").glob("*.py"):
         tree = ast.parse(source.read_text(encoding="utf-8"))
         for node in ast.walk(tree):
@@ -454,6 +456,7 @@ def test_scaled_prices_and_input_precision_do_not_change_results() -> None:
 def test_pure_cost_and_slippage_models_ignore_ambient_precision_and_deny_invalid_inputs() -> None:
     models = config(slippage={"bps": "10"},
                     costs={"fixed_per_fill": "1", "notional_bps": "2"})
+    assert isinstance(models.costs, ConfiguredCosts)
     with localcontext() as context:
         context.prec = 2
         assert models.slippage.price("BUY", Decimal("102")) == Decimal("102.102")

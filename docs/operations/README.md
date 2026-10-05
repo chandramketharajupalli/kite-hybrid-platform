@@ -46,3 +46,5 @@ minute-start timestamp certification, the canonical broker-namespace correction,
 and the bounded real acquisition/persistence/replay proof in disposable PostgreSQL.
 See [Phase 11.2 validation](phase-11.2-validation.md) for offline deterministic
 backtesting, cross-language historical exports and synthetic/disposable tests.
+See [Phase 11.3 validation](phase-11.3-validation.md) for offline features,
+baseline strategies, partition isolation and versioned cost calibration.

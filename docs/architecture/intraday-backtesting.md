@@ -130,3 +130,9 @@ Forex and commodity are outside this engine.
 Live signals must still pass order intent -> Java RiskService -> authorization
 boundary -> ExecutionSafetyPolicy -> broker adapter. Backtest results confer no
 authorization and do not alter the Phase 10 ₹10,000 first-live ceiling.
+
+Phase 11.3 extends this foundation with [research features/experiments](intraday-strategy-research.md)
+and a side/date-aware cost schedule. Legacy `ConfiguredCosts` and the Phase 11.2
+golden result are preserved. Engine-produced decisions now also contain confirmed
+UTC session bounds; research views require them. Calibrated fees have a distinct
+engine version and retain their complete date/basis/rate configuration in results.

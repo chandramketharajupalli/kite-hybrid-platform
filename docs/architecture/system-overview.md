@@ -9,6 +9,11 @@ Java exports pinned historical bars and provenance through a versioned research
 contract; Python simulates its own non-authoritative cash/position ledger.
 Research callbacks cannot obtain live execution capabilities from the engine.
 
+Phase 11.3 adds [strategy research](intraday-strategy-research.md): completed-session
+features, immutable baseline specifications and separate development/final-test
+evaluation. Dated fee schedules remain pure Python research inputs, never broker
+account/margin reads. No Python research signal is routed to the Java trading plane.
+
 Current product direction is NSE cash-equity INTRADAY/MIS with
 historical-data-driven intraday strategies. See the
 [intraday-first funding and strategy contract](intraday-first-funding-contract.md)

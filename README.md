@@ -13,6 +13,12 @@ one-minute, single-instrument, long-only intraday trades with next-open fills,
 explicit costs/slippage and mandatory intraday liquidation. It has no live
 broker or execution connection. See the [validation report](docs/operations/phase-11.2-validation.md).
 
+The [Phase 11.3 research framework](docs/architecture/intraday-strategy-research.md)
+adds session-aware Decimal indicators, four transparent baseline strategies,
+chronological experiment partitions and an explicitly dated NSE intraday
+[cost calibration](docs/operations/phase-11.3-cost-calibration.md). It neither
+optimizes nor selects strategies for live trading.
+
 Java Kite integration includes official interactive authentication, encrypted
 access-token persistence, read-only profile and instrument-master retrieval, and
 opt-in Kite WebSocket market data normalized behind broker-independent Java ports.

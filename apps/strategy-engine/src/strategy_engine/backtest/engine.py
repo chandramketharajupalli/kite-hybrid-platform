@@ -1,6 +1,6 @@
 """Deterministic next-open, full-cash, flat/long/flat research engine v1."""
 import json
-from datetime import datetime
+from datetime import UTC, datetime
 from decimal import (
     ROUND_HALF_EVEN,
     Context,
@@ -16,6 +16,7 @@ from typing import Annotated, Any, Literal, Protocol
 
 from pydantic import Field, model_validator
 
+from strategy_engine.backtest.costs import IntradayCostSchedule
 from strategy_engine.backtest.dataset import (
     NSE,
     Bar,
@@ -87,7 +88,7 @@ class Config(Frozen):
     last_entry_time: LocalMinute
     forced_exit_time: LocalMinute
     slippage: AdverseBps
-    costs: ConfiguredCosts
+    costs: ConfiguredCosts | IntradayCostSchedule
 
     @model_validator(mode="after")
     def valid(self) -> "Config":
@@ -139,6 +140,8 @@ class Decision(Frozen):
     cash: Decimal
     realized_net: Decimal
     parameters: tuple[Parameter, ...]
+    session_open: Instant | None = None
+    session_close: Instant | None = None
 
 
 class BacktestStrategy(Protocol):
@@ -262,6 +265,9 @@ def run(dataset: Dataset, config: Config, spec: StrategySpec, strategy: Backtest
             if not (session.open <= config.entry_start <= config.last_entry_time
                     < config.forced_exit_time < session.close):
                 raise ValueError("SESSION_POLICY_OUTSIDE_SESSION")
+    if isinstance(config.costs, IntradayCostSchedule):
+        for bar in dataset.bars:
+            config.costs.check_date(config.costs.as_of or bar.start.astimezone(NSE).date())
     try:
         with localcontext(ARITHMETIC):
             return _simulate(dataset, config, spec, strategy)
@@ -315,7 +321,13 @@ def _simulate(dataset: Dataset, config: Config, spec: StrategySpec,
                 rejection = "PARTIAL_EXIT_UNSUPPORTED"
             price = config.slippage.price(intent.side, bar.open)
             notional = price * intent.quantity
-            fee = config.costs.costs(notional)
+            if isinstance(config.costs, IntradayCostSchedule):
+                # Invalid sells have no entry basis; reject without requesting a quote.
+                fee = (ZERO if rejection is not None else config.costs.quote(
+                    intent.side, notional, bar.start,
+                    None if entry is None else entry.gross_notional).total)
+            else:
+                fee = config.costs.costs(notional)
             if rejection is None and (
                 (intent.side == "BUY" and cash < notional + fee)
                 or (intent.side == "SELL" and cash + notional < fee)
@@ -357,11 +369,17 @@ def _simulate(dataset: Dataset, config: Config, spec: StrategySpec,
         curve.append(EquityPoint(decision_time=bar.end, cash=cash, position_quantity=quantity,
                                  mark_price=bar.close, unrealized_gross=unrealized,
                                  realized_net=realized, equity=equity))
+        day = next(d for d in dataset.calendar.days if d.date == local.date())
+        session = day.sessions[0]  # Dataset validation requires one confirmed complete session.
         context = Decision(instrument_id=dataset.instrument_id, decision_time=bar.end,
                            completed_bars=dataset.bars[:index + 1],
                            position=Position(quantity=quantity, entry_price=entry_price,
                                              entry_costs=entry_fee, unrealized_gross=unrealized),
-                           cash=cash, realized_net=realized, parameters=spec.parameters)
+                           cash=cash, realized_net=realized, parameters=spec.parameters,
+                           session_open=datetime.combine(day.date, session.open, NSE)
+                           .astimezone(UTC),
+                           session_close=datetime.combine(day.date, session.close, NSE)
+                           .astimezone(UTC))
         try:
             # A callback cannot change the engine's Decimal precision or traps.
             with localcontext(ARITHMETIC):
@@ -401,7 +419,9 @@ def _simulate(dataset: Dataset, config: Config, spec: StrategySpec,
                       net_pnl=realized, return_percent=percent(realized, config.initial_cash),
                       win_rate_percent=percent(Decimal(wins), Decimal(len(trades))),
                       max_drawdown=drawdown, max_drawdown_percent=drawdown_percent)
-    return Result(engine_version=ENGINE_VERSION, dataset_fingerprint=dataset.content_fingerprint,
+    return Result(engine_version=(ENGINE_VERSION if isinstance(config.costs, ConfiguredCosts)
+                                  else "intraday-next-open-v2-costs"),
+                  dataset_fingerprint=dataset.content_fingerprint,
                   dataset_artifact_fingerprint=digest(canonical_json(dataset)),
                   instrument_id=dataset.instrument_id, interval=dataset.interval,
                   from_inclusive=dataset.from_inclusive, to_exclusive=dataset.to_exclusive,
