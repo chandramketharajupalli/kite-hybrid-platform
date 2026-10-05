@@ -24,11 +24,18 @@ outside this NSE cash scope. The example includes its `to` candle: the adapter
 requests through the boundary and filters to the internal half-open window.
 
 The page does not explicitly define timestamp start/end convention or current
-per-interval maximum request ranges. Neither is guessed. A one-day application
-chunk is conservative, not a claim about the broker's maximum. Real normalization
-is blocked with TIMESTAMP_SEMANTICS_UNVERIFIED until authoritative confirmation;
-the package-private synthetic adapter seam tests an explicit start convention.
-There is no public override or environment toggle for that gate.
+per-interval maximum request ranges. A one-day application chunk is conservative,
+not a claim about the broker's maximum. Phase 11.1 certifies NSE cash minute
+timestamps as interval starts using a bounded completed-session probe and
+independent session/calendar evidence. The evidence is EMPIRICALLY_VERIFIED,
+not an explicit primary-API prose guarantee. See the
+[certification report](../operations/phase-11.1-validation.md) for its scope,
+source limitations and the completed disposable real persistence/replay proof.
+The production factory now accepts that certified convention; there is no
+public override or environment toggle. Other intervals remain unsupported.
+Source version `v3-minute-start-20261005-no-local-adjustments` records the
+normalization contract. Instrument mappings use the shared ZERODHA namespace;
+KITE remains the public provider/authentication label, not a mapping namespace.
 
 [Kite rate limits](https://kite.trade/docs/connect/v3/exceptions/#api-rate-limit)
 state three historical requests/second. A shared process-local limiter permits
@@ -136,5 +143,9 @@ that exact instant. Unknown/failed quality evidence must be resolved before a
 dataset is certified for backtesting. A caller must not equate retrieval success
 with a complete, corporate-action-safe, point-in-time dataset.
 
-Phase 11.1 may consume pinned canonical datasets for features/backtests. No
-strategy, optimization, paper trading or execution wiring is introduced here.
+Phase 11.1 certifies provider semantics and the controlled acquisition boundary.
+Features/backtesting remain Phase 11.2+; no strategy, optimization, paper trading
+or execution wiring is introduced here. A closed candle is not necessarily
+vendor-final or proven available at its historical decision time. Future
+point-in-time research needs an explicit availability/revision policy in
+addition to the existing dataset cutoff, decision cutoff and pinned manifest.

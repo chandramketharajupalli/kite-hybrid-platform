@@ -41,4 +41,6 @@ development-infrastructure reports retain historical commands and results.
 ## Historical research
 
 See [Phase 11.0 validation](phase-11.0-validation.md) for isolated historical-data
-storage, synthetic validation and the unresolved real-provider timestamp gate.
+storage and synthetic validation. [Phase 11.1](phase-11.1-validation.md) records
+minute-start timestamp certification, the canonical broker-namespace correction,
+and the bounded real acquisition/persistence/replay proof in disposable PostgreSQL.

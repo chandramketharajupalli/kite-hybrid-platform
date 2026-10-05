@@ -1,10 +1,11 @@
 # kite-hybrid-platform
 
-Phase 11.0 adds the [historical research foundation](docs/architecture/historical-market-data.md)
-and [validation report](docs/operations/phase-11.0-validation.md). It uses an
+The [historical research foundation](docs/architecture/historical-market-data.md) uses an
 isolated research database and explicit ingestion calls; no execution wiring or
-automatic historical downloads. Real Kite normalization remains gated pending
-authoritative candle timestamp semantics.
+automatic historical downloads. [Phase 11.1 validation](docs/operations/phase-11.1-validation.md)
+records empirically certified minute-start timestamps and a bounded real SBIN
+session acquisition/replay proof in disposable PostgreSQL. This is not a retained
+research corpus or permission to trade.
 
 Java Kite integration includes official interactive authentication, encrypted
 access-token persistence, read-only profile and instrument-master retrieval, and

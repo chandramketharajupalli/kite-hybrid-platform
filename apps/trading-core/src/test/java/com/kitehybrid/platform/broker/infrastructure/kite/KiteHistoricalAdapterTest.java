@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 class KiteHistoricalAdapterTest {
     final Instant start=Instant.parse("2026-10-05T03:45:00Z"), now=start.plusSeconds(600);
     final Clock clock=Clock.fixed(now,ZoneOffset.UTC);
-    final Instrument instrument=Instrument.create(new BrokerInstrumentId("KITE","123"),"SBIN","NSE","CASH",InstrumentType.CASH,
+    final Instrument instrument=Instrument.create(new BrokerInstrumentId(KiteBrokerIdentity.BROKER_ID,"123"),"SBIN","NSE","CASH",InstrumentType.CASH,
             Optional.empty(),Optional.empty(),new BigDecimal("0.05"),1);
     final HistoricalWindow window=new HistoricalWindow(instrument.id(),BarInterval.MINUTE,start,start.plusSeconds(60));
     final KiteSession session=new KiteSession(new KiteProperties("syntheticHistoricalKey","","",true),clock);
@@ -54,12 +54,43 @@ class KiteHistoricalAdapterTest {
         assertEquals(List.of("/instruments/historical/123/minute"),paths);server.verify();
         assertTrue(halt.getAsBoolean());assertSame(epoch,halt.epoch());
     }
-    @Test void productionSemanticsGateHasZeroHttpAndNoSessionMutation() {
+    @Test void unverifiedSemanticsGateHasZeroHttpAndNoSessionMutation() {
         adapter();var identity=session.executionIdentity();
-        var safe=KiteHistoricalAdapter.production(session,registry,clock);
+        var safe=new KiteHistoricalAdapter(new KiteRestTransport(builder.build(),session),registry,clock,false,()->{});
         assertEquals(HistoricalDataException.Reason.TIMESTAMP_SEMANTICS_UNVERIFIED,
                 assertThrows(HistoricalDataException.class,()->safe.fetch(window)).reason());
         assertTrue(paths.isEmpty());assertEquals(identity,session.executionIdentity());
+    }
+    @Test void certifiedProductionFactoryStillRequiresAuthenticationBeforeHttp() {
+        adapter();session.clear();
+        var safe=KiteHistoricalAdapter.production(session,registry,clock);
+        assertEquals(HistoricalDataException.Reason.AUTHENTICATION,
+                assertThrows(HistoricalDataException.class,()->safe.fetch(window)).reason());
+        assertFalse(session.tokenAvailable());assertTrue(paths.isEmpty());
+    }
+    @Test void authenticationLabelIsNotAcceptedAsInstrumentMappingNamespace() {
+        var adapter=adapter();
+        var other=Instrument.create(new BrokerInstrumentId("KITE","123"),"SBIN","NSE","CASH",InstrumentType.CASH,
+                Optional.empty(),Optional.empty(),new BigDecimal("0.05"),1);
+        when(registry.snapshot()).thenReturn(InstrumentSnapshot.validated(List.of(other),1,now));
+        assertEquals(HistoricalDataException.Reason.REFERENCE_UNAVAILABLE,
+                assertThrows(HistoricalDataException.class,()->adapter.fetch(window)).reason());
+        assertTrue(paths.isEmpty());
+    }
+    @Test void historicalReadsAcceptTheProductionInstrumentMappingNamespace() {
+        var adapter=adapter();
+        var mapped=new KiteInstrumentCsvMapper().map("""
+                instrument_token,tradingsymbol,exchange,segment,instrument_type,expiry,strike,tick_size,lot_size
+                123,SBIN,NSE,NSE,EQ,,0,0.05,1
+                """).getFirst();
+        assertEquals(KiteBrokerIdentity.BROKER_ID,mapped.brokerId().broker());
+        when(registry.snapshot()).thenReturn(InstrumentSnapshot.validated(List.of(mapped),1,now));
+        when(registry.findById(mapped.id())).thenReturn(Optional.of(mapped));
+        server.expect(anything()).andExpect(method(HttpMethod.GET)).andRespond(withSuccess(BODY,MediaType.APPLICATION_JSON));
+        var batch=adapter.fetch(new HistoricalWindow(mapped.id(),BarInterval.MINUTE,start,start.plusSeconds(60)));
+        assertEquals(1,batch.bars().size());assertEquals(mapped.id(),batch.bars().getFirst().instrumentId());
+        assertEquals(KiteHistoricalAdapter.SOURCE_VERSION,batch.sourceVersion());
+        assertEquals(List.of("/instruments/historical/123/minute"),paths);server.verify();
     }
     @ParameterizedTest @ValueSource(strings={"auth","rate","timeout","server","malformed","duplicate-field","negative","volume","redirect"})
     void boundedFailuresNeverRetryOrMutateOrdersOrToken(String mode) {
@@ -88,6 +119,37 @@ class KiteHistoricalAdapterTest {
         var adapter=adapter();session.clear();
         assertEquals(HistoricalDataException.Reason.AUTHENTICATION,assertThrows(HistoricalDataException.class,()->adapter.fetch(window)).reason());
         assertTrue(paths.isEmpty());
+    }
+    @ParameterizedTest @ValueSource(ints={200,400,401,403})
+    void historicalAuthenticationFailurePreservesSessionWithoutRetry(int status) {
+        var adapter=adapter();var identity=session.executionIdentity();
+        var generation=session.marketDataGeneration();
+        var halt=new com.kitehybrid.platform.shared.application.RuntimeTradingHalt(()->true);
+        var epoch=halt.epoch();
+        server.expect(anything()).andExpect(method(HttpMethod.GET)).andRespond(withStatus(HttpStatus.valueOf(status))
+                .contentType(MediaType.APPLICATION_JSON)
+                .body("{\"status\":\"error\",\"error_type\":\"TokenException\",\"message\":\"NeverExpose\"}"));
+        var failure=assertThrows(HistoricalDataException.class,()->adapter.fetch(window));
+        assertEquals(HistoricalDataException.Reason.AUTHENTICATION,failure.reason());
+        assertEquals(identity,session.executionIdentity());assertEquals(generation,session.marketDataGeneration());
+        assertTrue(session.authenticated());assertTrue(session.tokenAvailable());
+        assertTrue(halt.getAsBoolean());assertSame(epoch,halt.epoch());
+        assertEquals(List.of("/instruments/historical/123/minute"),paths);
+        assertFalse(failure.getMessage().contains("NeverExpose"));assertNull(failure.getCause());server.verify();
+    }
+    @ParameterizedTest @ValueSource(ints={200,400,401,403})
+    void ordinaryReadAuthenticationFailureStillInvalidatesSession(int status) {
+        adapter();assertTrue(session.executionIdentity().isPresent());
+        server.expect(requestTo("http://127.0.0.1/user/profile")).andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.valueOf(status)).contentType(MediaType.APPLICATION_JSON)
+                        .body("{\"status\":\"error\",\"error_type\":\"TokenException\",\"message\":\"NeverExpose\"}"));
+        var transport=new KiteRestTransport(builder.build(),session);
+        var failure=assertThrows(com.kitehybrid.platform.broker.application.BrokerReadException.class,
+                ()->transport.get(KiteRestTransport.Endpoint.PROFILE));
+        assertEquals(com.kitehybrid.platform.broker.application.BrokerReadException.Category.AUTHENTICATION,failure.category());
+        assertEquals(KiteSession.State.INVALIDATED,session.state());
+        assertFalse(session.tokenAvailable());assertTrue(session.executionIdentity().isEmpty());
+        assertEquals(List.of("/user/profile"),paths);server.verify();
     }
     @ParameterizedTest @ValueSource(strings={"calendar-date","trailing-json"})
     void invalidCalendarDateOrTrailingDocumentMustNotBeSilentlyNormalized(String mode) {

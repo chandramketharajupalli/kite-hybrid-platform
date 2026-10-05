@@ -13,8 +13,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import static com.kitehybrid.platform.historical.domain.HistoricalDataException.Reason.*;
 
-/** Explicit read-only adapter, never auto-wired. Real normalization awaits authoritative timestamp semantics. */
+/** Explicit read-only minute adapter, never auto-wired. Certification scope is recorded in Phase 11.1. */
 public final class KiteHistoricalAdapter implements HistoricalMarketDataProvider {
+    static final String SOURCE_VERSION="v3-minute-start-20261005-no-local-adjustments";
     private final KiteRestTransport transport;
     private final InstrumentRegistry registry;
     private final Clock clock;
@@ -24,7 +25,7 @@ public final class KiteHistoricalAdapter implements HistoricalMarketDataProvider
             .enable(JsonParser.Feature.STRICT_DUPLICATE_DETECTION)
             .enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
     public static KiteHistoricalAdapter production(KiteSession session, InstrumentRegistry registry, Clock clock) {
-        return new KiteHistoricalAdapter(KiteRestTransport.production(session),registry,clock,false,HistoricalPacing::await);
+        return new KiteHistoricalAdapter(KiteRestTransport.production(session),registry,clock,true,HistoricalPacing::await);
     }
     /** Package-private synthetic seam: not an operational switch for unverified provider semantics. */
     KiteHistoricalAdapter(KiteRestTransport transport, InstrumentRegistry registry, Clock clock,
@@ -39,7 +40,7 @@ public final class KiteHistoricalAdapter implements HistoricalMarketDataProvider
             throw new HistoricalDataException(INVALID_REQUEST);
         var snapshot=registry.snapshot(); var instrument=snapshot.byId().get(window.instrumentId());
         if(instrument==null || instrument.type()!=InstrumentType.CASH || !instrument.exchange().equals("NSE")
-                || !instrument.brokerId().broker().equals("KITE") || snapshot.refreshedAt().isAfter(clock.instant())
+                || !instrument.brokerId().broker().equals(KiteBrokerIdentity.BROKER_ID) || snapshot.refreshedAt().isAfter(clock.instant())
                 || Duration.between(snapshot.refreshedAt(),clock.instant()).compareTo(Duration.ofDays(1))>0)
             throw new HistoricalDataException(REFERENCE_UNAVAILABLE);
         try {
@@ -67,7 +68,7 @@ public final class KiteHistoricalAdapter implements HistoricalMarketDataProvider
                 if(!window.contains(bar)) throw new HistoricalDataException(INVALID_RESPONSE);
                 bars.add(bar);
             }
-            return new Batch(bars,"KITE","v3-minute-unadjusted-by-platform",clock.instant().truncatedTo(ChronoUnit.MICROS));
+            return new Batch(bars,"KITE",SOURCE_VERSION,clock.instant().truncatedTo(ChronoUnit.MICROS));
         } catch(HistoricalDataException safe) { throw safe; }
         catch(BrokerReadException safe) {
             throw new HistoricalDataException(safe.category()==BrokerReadException.Category.AUTHENTICATION?AUTHENTICATION:
