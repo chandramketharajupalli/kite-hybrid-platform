@@ -114,6 +114,24 @@ final class KiteRestTransport {
         return readWithSession(endpoint.path,endpoint.limit,null);
     }
     private String readWithSession(String path,int limit,String jsonBody) {
+        return readWithSession(path,limit,jsonBody,true);
+    }
+    /** Historical GET only. Authentication failure never clears the shared/stored token. */
+    String historicalMinute(String token, java.time.Instant from, java.time.Instant to) {
+        if(token==null || !token.matches("[1-9][0-9]{0,9}") || Long.parseLong(token)>4294967295L
+                || from==null || to==null || !from.isBefore(to)
+                || java.time.Duration.between(from,to).compareTo(java.time.Duration.ofDays(1))>0)
+            throw new BrokerReadException(INVALID_RESPONSE);
+        var format=java.time.format.DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss")
+                .withZone(java.time.ZoneId.of("Asia/Kolkata"));
+        String path="/instruments/historical/"+token+"/minute?from="
+                +format.format(from)+"&to="+format.format(to)+"&continuous=0&oi=0";
+        synchronized(session) {
+            if(!session.authenticated()) throw new BrokerReadException(AUTHENTICATION);
+            return readWithSession(path,1024*1024,null,false);
+        }
+    }
+    private String readWithSession(String path,int limit,String jsonBody,boolean invalidateAuthentication) {
         String authorization = session.authorization();
         try {
             RestClient.RequestHeadersSpec<?> requestSpec=jsonBody==null ? client.get().uri(path)
@@ -123,7 +141,7 @@ final class KiteRestTransport {
                     .exchange((request, response) -> {
                         int status = response.getStatusCode().value();
                         if (status == 401 || status == 403) {
-                            session.invalidate();
+                            if(invalidateAuthentication) session.invalidate();
                             throw new BrokerReadException(AUTHENTICATION, status);
                         }
                         byte[] body = readBounded(response.getBody(), limit);
@@ -151,13 +169,13 @@ final class KiteRestTransport {
                         // Error messages are never retained, even if they echo tokens.
                         if (status != 200) {
                             if (isTokenError(text)) {
-                                session.invalidate();
+                                if(invalidateAuthentication) session.invalidate();
                                 throw new BrokerReadException(AUTHENTICATION, status);
                             }
                             throw new BrokerReadException(BROKER_API, status);
                         }
                         if (isTokenError(text)) {
-                            session.invalidate();
+                            if(invalidateAuthentication) session.invalidate();
                             throw new BrokerReadException(AUTHENTICATION, status);
                         }
                         return text;

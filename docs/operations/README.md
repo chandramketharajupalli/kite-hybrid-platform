@@ -37,3 +37,8 @@ Use the [local development runbook](../runbooks/local-development-infrastructure
 for the Maven/Docker workflow and the [Maven migration report](maven-migration-report.md)
 for current build and infrastructure validation. The Phase 1, Phase 2 and earlier
 development-infrastructure reports retain historical commands and results.
+
+## Historical research
+
+See [Phase 11.0 validation](phase-11.0-validation.md) for isolated historical-data
+storage, synthetic validation and the unresolved real-provider timestamp gate.

@@ -1,5 +1,9 @@
 # System overview
 
+Phase 11.0 adds an isolated [historical data foundation](historical-market-data.md):
+one-minute canonical bars, explicit calendar evidence, idempotent PostgreSQL
+ingestion and closed-bar research queries. It has no execution/strategy wiring.
+
 Current product direction is NSE cash-equity INTRADAY/MIS with
 historical-data-driven intraday strategies. See the
 [intraday-first funding and strategy contract](intraday-first-funding-contract.md)
