@@ -7,7 +7,6 @@ import com.kitehybrid.platform.order.domain.*;
 import com.kitehybrid.platform.order.domain.command.OrderCommandValidationException;
 import com.kitehybrid.platform.risk.application.RiskDecisionStore;
 import io.micrometer.core.instrument.MeterRegistry;
-import java.math.BigDecimal;
 import java.time.*;
 import java.util.function.*;
 import static com.kitehybrid.platform.order.application.ExecutionDenialReason.*;
@@ -54,6 +53,12 @@ public final class ExecutionSafetyPolicy {
             throw new OrderCommandValidationException(AUTHENTICATION_UNAVAILABLE.name());
         if (!arm.armed(clock.instant())) throw new OrderCommandValidationException(DISARMED.name());
     }
+    /** Recompute after admission-lock waits and again before commit; never reuse preflight prices. */
+    public void validateAdmission(OrderRecord approved) {
+        validateAdmission();
+        var reason = check(approved, true);
+        if (reason != NONE) throw new OrderCommandValidationException(reason.name());
+    }
     /** Called after durable admission and again immediately before transport dispatch. */
     public void validateDispatch(OrderRecord approved, OrderRecord submitting) {
         var current=orders.find(submitting.id()).orElse(null);
@@ -95,8 +100,14 @@ public final class ExecutionSafetyPolicy {
             var additionalEvidence = additional.prepare(o);
             var h = health.get();
             var t = market.latest(o.command().instrumentId()).orElse(null);
-            BigDecimal price = t == null ? BigDecimal.ZERO : o.command().limitPrice().map(v -> v.max(t.lastPrice())).orElse(t.lastPrice());
-            var extra = additionalEvidence.apply(price);
+            java.util.Optional<ConservativeOrderValuation> valuation = java.util.Optional.empty();
+            if (t != null && p.riskLimits() != null && p.riskLimits().enabled() && p.riskLimits().configured()) {
+                try {
+                    valuation = java.util.Optional.of(ConservativeOrderValuation.evaluate(o.command().orderType(),
+                            o.command().quantity(), t.lastPrice(), o.command().limitPrice(), p.riskLimits().priceBuffer()));
+                } catch (IllegalArgumentException invalid) { /* Invalid observations cannot authorize transport. */ }
+            }
+            var extra = additionalEvidence.apply(valuation);
             var now = clock.instant();
             boolean authenticated = session.enabled() && session.executionIdentity().isPresent();
             boolean armed = arm.armed(now);
@@ -121,8 +132,8 @@ public final class ExecutionSafetyPolicy {
                     && t != null && t.lastPrice().signum() > 0, MARKET_DATA_UNAVAILABLE);
             put(gates, ExecutionReadiness.Gate.MARKET_DATA_FRESH, t != null && fresh(t.receivedAt(), now, p.marketDataMaxAge())
                     && t.exchangeTimestamp().filter(at -> !fresh(at, now, p.marketDataMaxAge())).isEmpty(), MARKET_DATA_STALE);
-            put(gates, ExecutionReadiness.Gate.NOTIONAL_WITHIN_CAP, price.signum() > 0
-                    && price.multiply(BigDecimal.valueOf(o.command().quantity())).compareTo(p.maxNotional()) <= 0, NOTIONAL_CAP_EXCEEDED);
+            put(gates, ExecutionReadiness.Gate.NOTIONAL_WITHIN_CAP, valuation.filter(v -> v.within(p.maxNotional())
+                    && v.within(p.riskLimits().maxOrderValue())).isPresent(), NOTIONAL_CAP_EXCEEDED);
             gates.putAll(extra);
         } catch (RuntimeException unavailable) {
             for (var gate : ExecutionReadiness.Gate.values()) gates.put(gate, EVIDENCE_UNAVAILABLE);

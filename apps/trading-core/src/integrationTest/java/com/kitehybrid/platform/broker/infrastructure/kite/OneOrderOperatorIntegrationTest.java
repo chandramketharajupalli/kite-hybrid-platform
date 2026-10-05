@@ -215,6 +215,168 @@ class OneOrderOperatorIntegrationTest {
     static PlaceOrder command(String key) { return new PlaceOrder(key,INSTRUMENT.id(),OrderSide.BUY,1,OrderType.MARKET,OrderProduct.DELIVERY,
             OrderValidity.DAY,Optional.empty(),Optional.empty(),0,OrderVariety.REGULAR); }
 
+    @ParameterizedTest
+    @CsvSource({
+        "9500,1.10,10000,12000,20000,false",
+        "9500,1.10,12000,10000,20000,false",
+        "7999.992,1.25,10000,10000,20000,true",
+        "8000,1.25,10000,10000,20000,true",
+        "8000.008,1.25,10000,10000,20000,false",
+        "8500,1,8000,10000,20000,false",
+        "10500,1,12000,10000,20000,false",
+        "10000,1,10000,10000,20000,true",
+        "9500,1,10000,10000,9000,false"
+    })
+    void conservativeCapsComposeThroughProductionPreflightAndExecution(String price, String buffer,
+            String normal, String firstLive, String risk, boolean allowed) throws Exception {
+        try (var f = new Fixture("risk.price-buffer=" + buffer, "risk.max-order-value=" + risk,
+                "kite.order-execution.max-notional=" + normal, "kite.live-test.max-notional=" + firstLive)) {
+            f.approve(); // Legitimate earlier approval at synthetic price 10, never a manufactured decision.
+            f.market.update(new Tick(INSTRUMENT.id(), new BigDecimal(price), NOW), f.publication);
+            var report = f.operator.preflight(f.id);
+            var value = new BigDecimal(price).multiply(new BigDecimal(buffer));
+            assertEquals(value.compareTo(new BigDecimal(normal)) <= 0 && value.compareTo(new BigDecimal(risk)) <= 0,
+                    report.gates().get(ExecutionReadiness.Gate.NOTIONAL_WITHIN_CAP) == ExecutionDenialReason.NONE);
+            assertEquals(value.compareTo(new BigDecimal(firstLive)) <= 0,
+                    report.gates().get(ExecutionReadiness.Gate.LIVE_TEST_NOTIONAL_WITHIN_CAP) == ExecutionDenialReason.NONE);
+            assertEquals(allowed, OperatorExecutionService.canArm(report));
+            assertSame(f.context.getBean(RiskLimits.class), f.context.getBean(OrderExecutionProperties.class).riskLimits());
+            if (allowed) {
+                f.arm(); assertTrue(f.operator.preflight(f.id).ready());
+                assertEquals(OrderState.SUBMITTED, f.operator.execute(f.id).state());
+                f.assertCounts(1); f.consumed();
+            } else {
+                assertFalse(f.operator.arm(f.id, Duration.ofSeconds(30)).armed());
+                assertThrows(RuntimeException.class, () -> f.operator.execute(f.id));
+                assertEquals(OrderState.RISK_APPROVED, f.orders.find(f.id).orElseThrow().state());
+                f.assertCounts(0);
+            }
+        }
+    }
+
+    @Test void riskCapIndependentlyRejectsEvenWhenBothExecutionCapsAllow() throws Exception {
+        try (var f = new Fixture("risk.max-order-value=9000", "kite.order-execution.max-notional=10000",
+                "kite.live-test.max-notional=10000")) {
+            assertEquals("RESUME_SUCCESS DISARMED", f.operator.resume(f.operator.prepareResume()));
+            f.market.update(new Tick(INSTRUMENT.id(), new BigDecimal("9500"), NOW), f.publication);
+            f.id = f.application.place(command("risk-cap-only")).id();
+            var decision = f.context.getBean(RiskService.class).evaluate(f.id);
+            assertFalse(decision.approved()); assertEquals(RiskReason.ORDER_VALUE_LIMIT, decision.reason());
+            assertFalse(OperatorExecutionService.canArm(f.operator.preflight(f.id))); f.assertCounts(0);
+        }
+    }
+
+    private Fixture conservativeFixture() throws Exception {
+        return new Fixture("risk.price-buffer=1.25", "risk.max-order-value=20000",
+                "kite.order-execution.max-notional=10000", "kite.live-test.max-notional=10000");
+    }
+    private void readyAt9900(Fixture f) {
+        f.approve();
+        f.market.update(new Tick(INSTRUMENT.id(), new BigDecimal("7920"), NOW), f.publication);
+        f.arm(); assertTrue(f.operator.preflight(f.id).ready());
+    }
+    private void riseTo10001(Fixture f) {
+        f.market.update(new Tick(INSTRUMENT.id(), new BigDecimal("8000.8"), NOW), f.publication);
+    }
+    @Test void earlierReadyDoesNotFreezeTheValuationAndExecuteDenialConsumesUnusedPermit() throws Exception {
+        try (var f = conservativeFixture()) {
+            readyAt9900(f); riseTo10001(f);
+            assertFalse(f.operator.preflight(f.id).ready());
+            assertEquals(RuntimeExecutionArming.PermitState.UNUSED, f.operator.status().permitState(), "Observation does not consume");
+            assertThrows(RuntimeException.class, () -> f.operator.execute(f.id));
+            assertEquals(OrderState.RISK_APPROVED, f.orders.find(f.id).orElseThrow().state());
+            f.consumed(); f.assertCounts(0);
+        }
+    }
+    @ParameterizedTest @ValueSource(ints={1,2,3})
+    void priceRiseAtAdmissionFencesRollsBackBeforeCommit(int fence) throws Exception {
+        try (var f = conservativeFixture()) {
+            readyAt9900(f);
+            var calls = new AtomicInteger(); var policy = f.context.getBean(ExecutionSafetyPolicy.class);
+            doAnswer(call -> { if (calls.incrementAndGet() == fence) riseTo10001(f); return call.callRealMethod(); })
+                    .when(policy).validateAdmission();
+            assertThrows(RuntimeException.class, () -> f.operator.execute(f.id));
+            assertEquals(OrderState.RISK_APPROVED, f.orders.find(f.id).orElseThrow().state());
+            assertEquals(0, f.gatewayCalls.get()); f.consumed(); f.assertCounts(0);
+            assertEquals(1L, f.jdbc.queryForObject(
+                    "SELECT count(*) FROM trading.execution_authorizations WHERE reason='NOTIONAL_CAP_EXCEEDED' AND NOT allowed", Long.class));
+        }
+    }
+    @ParameterizedTest
+    @CsvSource({"10000,12000,NOTIONAL_CAP_EXCEEDED", "12000,10000,LIVE_TEST_NOTIONAL_CAP"})
+    void finalTransportBarrierRevaluesAfterAdmissionAndBeforeAnyHttp(String normal, String firstLive, String denial) throws Exception {
+        try (var f = new Fixture("risk.price-buffer=1.25", "risk.max-order-value=20000",
+                "kite.order-execution.max-notional=" + normal, "kite.live-test.max-notional=" + firstLive)) {
+            readyAt9900(f);
+            var entered = new CountDownLatch(1); var released = new CountDownLatch(1);
+            f.beforeDispatch = () -> {
+                entered.countDown();
+                try { if (!released.await(5, TimeUnit.SECONDS)) throw new AssertionError("Dispatch barrier timed out"); }
+                catch (InterruptedException interrupted) { Thread.currentThread().interrupt(); throw new AssertionError(interrupted); }
+            };
+            try (var pool = Executors.newSingleThreadExecutor()) {
+                var execution = pool.submit(() -> assertThrows(RuntimeException.class, () -> f.operator.execute(f.id)));
+                try {
+                    assertTrue(entered.await(5, TimeUnit.SECONDS));
+                    assertEquals(OrderState.SUBMITTING, f.orders.find(f.id).orElseThrow().state());
+                    riseTo10001(f); f.assertCounts(0);
+                } finally { released.countDown(); }
+                assertEquals(denial, execution.get(5, TimeUnit.SECONDS).getMessage());
+            }
+            assertEquals(OrderState.FAILED, f.orders.find(f.id).orElseThrow().state());
+            assertTrue(f.orders.find(f.id).orElseThrow().brokerOrderId().isEmpty());
+            f.consumed(); f.assertCounts(0);
+        }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings={"NOTIONAL_CAP_EXCEEDED", "LIVE_TEST_NOTIONAL_CAP", "RISK_APPROVAL_MISSING", "unrecognized", "NONE"})
+    void admissionAuditsOnlyBoundedDenialReasonsAfterRollback(String reason) throws Exception {
+        try (var f = conservativeFixture()) {
+            readyAt9900(f);
+            doThrow(new OrderCommandValidationException(reason)).when(f.context.getBean(ExecutionSafetyPolicy.class))
+                    .validateAdmission(any(OrderRecord.class));
+            assertThrows(OrderCommandValidationException.class, () -> f.operator.execute(f.id));
+            var expected = Set.of("unrecognized", "NONE").contains(reason) ? "EVIDENCE_UNAVAILABLE" : reason;
+            assertEquals(expected, f.jdbc.queryForObject(
+                    "SELECT reason FROM trading.execution_authorizations WHERE NOT allowed", String.class));
+            assertEquals(OrderState.RISK_APPROVED, f.orders.find(f.id).orElseThrow().state());
+            f.consumed(); f.assertCounts(0);
+        }
+    }
+
+    @ParameterizedTest @ValueSource(strings={"missing", "zero", "stale", "future", "exchange-stale", "exchange-future", "unhealthy"})
+    void invalidMarketEvidenceStillDeniesWithConservativeValuation(String change) throws Exception {
+        try (var f = conservativeFixture()) {
+            readyAt9900(f);
+            switch (change) {
+                case "missing" -> f.publication.revoke();
+                case "zero" -> f.market.update(new Tick(INSTRUMENT.id(), BigDecimal.ZERO, NOW), f.publication);
+                case "stale" -> f.now.set(NOW.plusSeconds(6));
+                case "future" -> f.market.update(new Tick(INSTRUMENT.id(), BigDecimal.TEN, NOW.plusSeconds(1)), f.publication);
+                case "exchange-stale", "exchange-future" -> f.market.update(new Tick(INSTRUMENT.id(), BigDecimal.TEN, NOW,
+                        Optional.of(change.equals("exchange-stale") ? NOW.minusSeconds(6) : NOW.plusSeconds(1)),
+                        Optional.empty(), Optional.empty()), f.publication);
+                case "unhealthy" -> f.health = mock(MarketDataHealth.class);
+                default -> throw new AssertionError();
+            }
+            assertFalse(f.operator.preflight(f.id).ready());
+            assertThrows(RuntimeException.class, () -> f.operator.execute(f.id)); f.consumed(); f.assertCounts(0);
+        }
+    }
+    @Test void differentBufferInvalidatesEarlierRiskPolicyAndCannotBeConfiguredIndependently() throws Exception {
+        try (var f = conservativeFixture()) {
+            f.approve();
+            var replacement = f.boot(f.session, "risk.price-buffer=1.10");
+            var properties = replacement.getBean(OrderExecutionProperties.class);
+            assertSame(replacement.getBean(RiskLimits.class), properties.riskLimits());
+            assertEquals(0, new BigDecimal("1.10").compareTo(properties.riskLimits().priceBuffer()));
+            var report = replacement.getBean(OperatorExecutionService.class).preflight(f.id);
+            assertEquals(ExecutionDenialReason.RISK_POLICY_MISMATCH, report.gates().get(ExecutionReadiness.Gate.RISK_DECISION_CURRENT));
+            f.assertCounts(0);
+        }
+    }
+
     @Test void confirmedConsoleWorkflowSendsOnePostThenDisarmsAndRequiresExplicitReconciliation() throws Exception {
         try(var f=new Fixture()) {
             f.approve(); String id=f.id.value().toString();

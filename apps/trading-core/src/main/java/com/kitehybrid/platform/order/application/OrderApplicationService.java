@@ -54,15 +54,16 @@ public final class OrderApplicationService {
         if (!decision.allowed()) throw new OrderCommandValidationException(decision.reason().name());
         var submitting = current.transitionTo(OrderState.SUBMITTING, clock.instant());
         boolean admitted;
-        try { admitted = repository.beginSubmission(current, submitting, safety::validateAdmission); }
+        try { admitted = repository.beginSubmission(current, submitting, () -> safety.validateAdmission(current)); }
         catch (OrderCommandValidationException denied) {
             // Record only after the admission transaction has rolled back; halt itself never writes audit.
-            var reason = switch (denied.getMessage()) {
-                case "EMERGENCY_STOP" -> ExecutionDenialReason.EMERGENCY_STOP;
-                case "DISARMED" -> ExecutionDenialReason.DISARMED;
-                case "AUTHENTICATION_UNAVAILABLE" -> ExecutionDenialReason.AUTHENTICATION_UNAVAILABLE;
-                default -> ExecutionDenialReason.EVIDENCE_UNAVAILABLE;
-            };
+            // Admission now repeats the complete policy, so retain every bounded denial reason.
+            ExecutionDenialReason reason;
+            try { reason = ExecutionDenialReason.valueOf(denied.getMessage()); }
+            catch (IllegalArgumentException | NullPointerException unrecognized) {
+                reason = ExecutionDenialReason.EVIDENCE_UNAVAILABLE;
+            }
+            if (reason == ExecutionDenialReason.NONE) reason = ExecutionDenialReason.EVIDENCE_UNAVAILABLE;
             safety.deny(current, reason);
             throw denied;
         }

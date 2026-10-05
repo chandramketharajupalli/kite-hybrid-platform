@@ -2,7 +2,8 @@ package com.kitehybrid.platform.operator.application;
 
 import com.kitehybrid.platform.order.application.*;
 import com.kitehybrid.platform.order.domain.OrderRecord;
-import java.math.BigDecimal;
+import com.kitehybrid.platform.order.domain.ConservativeOrderValuation;
+import java.util.Optional;
 import java.time.Clock;
 import java.time.Duration;
 import java.util.LinkedHashMap;
@@ -20,11 +21,11 @@ public final class LiveTestExecutionChecks implements AdditionalExecutionChecks 
             RuntimeExecutionArming arm, OperationalReadiness operational, Clock clock) {
         this.operatorEnabled=operatorEnabled; this.p=p; this.arm=arm; this.operational=operational; this.clock=clock;
     }
-    @Override public java.util.function.Function<BigDecimal, Map<ExecutionReadiness.Gate, ExecutionDenialReason>> prepare(OrderRecord order) {
+    @Override public java.util.function.Function<Optional<ConservativeOrderValuation>, Map<ExecutionReadiness.Gate, ExecutionDenialReason>> prepare(OrderRecord order) {
         var evidence = operational.inspect();
-        return price -> evaluate(order, price, evidence);
+        return valuation -> evaluate(order, valuation, evidence);
     }
-    private Map<ExecutionReadiness.Gate, ExecutionDenialReason> evaluate(OrderRecord order, BigDecimal price, OperationalReadiness.Evidence evidence) {
+    private Map<ExecutionReadiness.Gate, ExecutionDenialReason> evaluate(OrderRecord order, Optional<ConservativeOrderValuation> valuation, OperationalReadiness.Evidence evidence) {
         var result = new LinkedHashMap<ExecutionReadiness.Gate, ExecutionDenialReason>();
         var armed = arm.status(clock.instant());
         result.put(SESSION_BOUND, arm.bindingReason(order, clock.instant()));
@@ -32,8 +33,7 @@ public final class LiveTestExecutionChecks implements AdditionalExecutionChecks 
         result.put(LIVE_TEST_MODE_ENABLED, p.enabled() ? NONE : LIVE_TEST_DISABLED);
         result.put(LIVE_TEST_INSTRUMENT_ALLOWED, p.allowedInstruments().contains(order.command().instrumentId()) ? NONE : LIVE_TEST_INSTRUMENT_DENIED);
         result.put(LIVE_TEST_QUANTITY_WITHIN_CAP, p.maxQuantity() > 0 && order.command().quantity() <= p.maxQuantity() ? NONE : LIVE_TEST_QUANTITY_CAP);
-        result.put(LIVE_TEST_NOTIONAL_WITHIN_CAP, p.maxNotional().signum() > 0 && price.signum() > 0
-                && price.multiply(BigDecimal.valueOf(order.command().quantity())).compareTo(p.maxNotional()) <= 0 ? NONE : LIVE_TEST_NOTIONAL_CAP);
+        result.put(LIVE_TEST_NOTIONAL_WITHIN_CAP, valuation.filter(v -> v.within(p.maxNotional())).isPresent() ? NONE : LIVE_TEST_NOTIONAL_CAP);
         result.put(LIVE_TEST_ARM_DURATION_VALID, !p.armMaxDuration().isZero() && (!armed.armed()
                 || Duration.between(armed.armedAt(), armed.expiresAt()).compareTo(p.armMaxDuration()) <= 0) ? NONE : ARM_DURATION_INVALID);
         result.put(DATABASE_READY, evidence.databaseReady() ? NONE : DATABASE_NOT_READY);

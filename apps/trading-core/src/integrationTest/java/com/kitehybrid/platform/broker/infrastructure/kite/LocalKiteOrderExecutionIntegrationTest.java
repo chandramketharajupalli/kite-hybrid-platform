@@ -114,7 +114,7 @@ class LocalKiteOrderExecutionIntegrationTest {
         riskDecisions = new PostgresRiskDecisionStore(jdbc, orders);
         risk = riskService(orders, registry, riskDecisions, market, limits);
         executionProperties = new OrderExecutionProperties(true, Set.of(INSTRUMENT.id()), 1,
-                new BigDecimal("1000"), Duration.ofMinutes(1), Duration.ofMinutes(1), limits.version(), "phase9-test");
+                new BigDecimal("1000"), Duration.ofMinutes(1), Duration.ofMinutes(1), limits, "phase9-test");
         emergencyStop = new AtomicBoolean(false);
         arming = new RuntimeExecutionArming(metrics, session::executionIdentity);
         arming.arm(Duration.ofHours(1), NOW);
@@ -356,10 +356,10 @@ class LocalKiteOrderExecutionIntegrationTest {
     }
 
     @Test void policyEnabledApplicationDenialMatrixNeverReachesLoopbackBroker() {
-        rebuild(new OrderExecutionProperties(false, Set.of(INSTRUMENT.id()), 1, new BigDecimal("1000"), Duration.ofMinutes(1), Duration.ofMinutes(1), executionProperties.riskPolicyVersion(), "disabled"));
+        rebuild(new OrderExecutionProperties(false, Set.of(INSTRUMENT.id()), 1, new BigDecimal("1000"), Duration.ofMinutes(1), Duration.ofMinutes(1), executionProperties.riskLimits(), "disabled"));
         assertDenied("disabled", ExecutionDenialReason.EXECUTION_DISABLED);
 
-        executionProperties = new OrderExecutionProperties(true, Set.of(INSTRUMENT.id()), 1, new BigDecimal("1000"), Duration.ofMinutes(1), Duration.ofMinutes(1), executionProperties.riskPolicyVersion(), "enabled");
+        executionProperties = new OrderExecutionProperties(true, Set.of(INSTRUMENT.id()), 1, new BigDecimal("1000"), Duration.ofMinutes(1), Duration.ofMinutes(1), executionProperties.riskLimits(), "enabled");
         arming.disarm(); rebuild(executionProperties); assertDenied("disarmed", ExecutionDenialReason.DISARMED);
         arming.arm(Duration.ofHours(1), NOW); emergencyStop.set(true); rebuild(executionProperties); assertDenied("stop", ExecutionDenialReason.EMERGENCY_STOP);
         emergencyStop.set(false); session.clear(); rebuild(executionProperties); assertDenied("auth", ExecutionDenialReason.AUTHENTICATION_UNAVAILABLE);
@@ -371,10 +371,10 @@ class LocalKiteOrderExecutionIntegrationTest {
         var rejected = approved("rejected-risk"); jdbc.update("UPDATE trading.risk_decisions SET outcome='REJECTED', reason='RISK_DISABLED' WHERE order_id=?", rejected.id().value()); assertDeniedExisting(rejected, ExecutionDenialReason.RISK_APPROVAL_MISSING);
         var expired = approved("expired-risk"); jdbc.update("UPDATE trading.risk_decisions SET evaluated_at=? WHERE order_id=?", java.sql.Timestamp.from(NOW.minus(Duration.ofHours(1))), expired.id().value()); assertDeniedExisting(expired, ExecutionDenialReason.RISK_APPROVAL_EXPIRED);
         var mismatch = approved("version-risk"); jdbc.update("UPDATE trading.risk_decisions SET order_version=0 WHERE order_id=?", mismatch.id().value()); assertDeniedExisting(mismatch, ExecutionDenialReason.ORDER_VERSION_CHANGED);
-        rebuild(new OrderExecutionProperties(true, Set.of(), 1, new BigDecimal("1000"), Duration.ofMinutes(1), Duration.ofMinutes(1), executionProperties.riskPolicyVersion(), "allowlist")); assertDenied("allowlist", ExecutionDenialReason.INSTRUMENT_NOT_ALLOWED);
-        rebuild(new OrderExecutionProperties(true, Set.of(INSTRUMENT.id()), 0, new BigDecimal("1000"), Duration.ofMinutes(1), Duration.ofMinutes(1), executionProperties.riskPolicyVersion(), "quantity")); assertDenied("quantity", ExecutionDenialReason.QUANTITY_CAP_EXCEEDED);
-        rebuild(new OrderExecutionProperties(true, Set.of(INSTRUMENT.id()), 1, BigDecimal.ZERO, Duration.ofMinutes(1), Duration.ofMinutes(1), executionProperties.riskPolicyVersion(), "notional")); assertDenied("notional", ExecutionDenialReason.NOTIONAL_CAP_EXCEEDED);
-        market = new InMemoryLatestMarketDataStore(); rebuild(new OrderExecutionProperties(true, Set.of(INSTRUMENT.id()), 1, new BigDecimal("1000"), Duration.ofMinutes(1), Duration.ofMinutes(1), executionProperties.riskPolicyVersion(), "missing-md")); assertDenied("missing-md", ExecutionDenialReason.MARKET_DATA_UNAVAILABLE);
+        rebuild(new OrderExecutionProperties(true, Set.of(), 1, new BigDecimal("1000"), Duration.ofMinutes(1), Duration.ofMinutes(1), executionProperties.riskLimits(), "allowlist")); assertDenied("allowlist", ExecutionDenialReason.INSTRUMENT_NOT_ALLOWED);
+        rebuild(new OrderExecutionProperties(true, Set.of(INSTRUMENT.id()), 0, new BigDecimal("1000"), Duration.ofMinutes(1), Duration.ofMinutes(1), executionProperties.riskLimits(), "quantity")); assertDenied("quantity", ExecutionDenialReason.QUANTITY_CAP_EXCEEDED);
+        rebuild(new OrderExecutionProperties(true, Set.of(INSTRUMENT.id()), 1, BigDecimal.ZERO, Duration.ofMinutes(1), Duration.ofMinutes(1), executionProperties.riskLimits(), "notional")); assertDenied("notional", ExecutionDenialReason.NOTIONAL_CAP_EXCEEDED);
+        market = new InMemoryLatestMarketDataStore(); rebuild(new OrderExecutionProperties(true, Set.of(INSTRUMENT.id()), 1, new BigDecimal("1000"), Duration.ofMinutes(1), Duration.ofMinutes(1), executionProperties.riskLimits(), "missing-md")); assertDenied("missing-md", ExecutionDenialReason.MARKET_DATA_UNAVAILABLE);
         market.update(new Tick(INSTRUMENT.id(), new BigDecimal("10"), NOW.minus(Duration.ofHours(1)))); rebuild(executionProperties); assertDenied("stale-md", ExecutionDenialReason.MARKET_DATA_STALE);
         market.update(new Tick(INSTRUMENT.id(), new BigDecimal("10"), NOW)); marketHealth = new MarketDataHealth(MarketDataGateway.State.DEGRADED, MarketDataHealth.Status.DEGRADED, MarketDataHealth.Reason.BROKER_ERROR, Optional.empty(), Optional.empty(), Optional.empty(), 1, 0, 1, 0, 0, 0, 0, 0, 0); rebuild(executionProperties); assertDenied("degraded-md", ExecutionDenialReason.MARKET_DATA_UNAVAILABLE);
         marketHealth = new MarketDataHealth(MarketDataGateway.State.CONNECTED, MarketDataHealth.Status.FRESH, MarketDataHealth.Reason.NONE, Optional.of(NOW), Optional.of(NOW), Optional.of(NOW), 1, 1, 0, 1, 1, 0, 0, 0, 0);

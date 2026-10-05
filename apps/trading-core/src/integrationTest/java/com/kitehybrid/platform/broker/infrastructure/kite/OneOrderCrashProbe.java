@@ -50,7 +50,7 @@ public final class OneOrderCrashProbe {
         var runtimeHalt=new com.kitehybrid.platform.shared.application.RuntimeTradingHalt(() -> false);
         var arm=new RuntimeExecutionArming(metrics,session::executionIdentity,runtimeHalt);
         var properties=new OrderExecutionProperties(true,Set.of(instrument.id()),1,new BigDecimal("20"),Duration.ofSeconds(60),Duration.ofSeconds(5),
-                risks.find(id).orElseThrow().policyVersion(),"crash-probe");
+                new com.kitehybrid.platform.risk.domain.RiskLimits(true,100,new BigDecimal("10000"),100,new BigDecimal("10000"),Duration.ofSeconds(60),Duration.ofSeconds(60),new BigDecimal("1.0"),BigDecimal.ONE),"crash-probe");
         var live=new LiveTestProperties(true,Set.of(instrument.id()),1,new BigDecimal("20"),Duration.ofSeconds(30));
         var checks=new LiveTestExecutionChecks(true,live,arm,new PostgresOperationalReadiness(jdbc,()->true,"public","flyway_schema_history"),clock);
         var audit=new PostgresExecutionAuthorizationAuditStore(jdbc);

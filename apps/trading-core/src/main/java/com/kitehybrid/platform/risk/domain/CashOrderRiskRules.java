@@ -3,6 +3,7 @@ package com.kitehybrid.platform.risk.domain;
 import com.kitehybrid.platform.broker.domain.read.TradingReadTypes;
 import com.kitehybrid.platform.instrument.domain.InstrumentType;
 import com.kitehybrid.platform.order.domain.OrderRecord;
+import com.kitehybrid.platform.order.domain.ConservativeOrderValuation;
 import com.kitehybrid.platform.order.domain.OrderState;
 import com.kitehybrid.platform.order.domain.command.*;
 import com.kitehybrid.platform.shared.domain.Identifiers.InstrumentId;
@@ -46,10 +47,10 @@ final class CashOrderRiskRules {
         var tick = in.ticks().get(c.instrumentId());
         var priceReason = priceReason(tick, now, limits.marketDataMaxAge());
         if (priceReason != APPROVED) return priceReason;
-        BigDecimal reference = tick.lastPrice().max(c.limitPrice().orElse(BigDecimal.ZERO))
-                .multiply(limits.priceBuffer());
-        BigDecimal value = reference.multiply(BigDecimal.valueOf(c.quantity()));
-        if (value.compareTo(limits.maxOrderValue()) > 0) return ORDER_VALUE_LIMIT;
+        var valuation = ConservativeOrderValuation.evaluate(c.orderType(), c.quantity(), tick.lastPrice(),
+                c.limitPrice(), limits.priceBuffer());
+        BigDecimal value = valuation.conservativeNotional();
+        if (!valuation.within(limits.maxOrderValue())) return ORDER_VALUE_LIMIT;
         if (in.positions() == null || in.holdings() == null || in.margins() == null || in.orders() == null)
             return BROKER_STATE_UNAVAILABLE;
         // No outstanding broker orders: their fills/reservations cannot be atomically read with positions.
@@ -87,7 +88,9 @@ final class CashOrderRiskRules {
             var heldTick = in.ticks().get(entry.getKey());
             var reason = priceReason(heldTick, now, limits.marketDataMaxAge());
             if (reason != APPROVED) return reason;
-            exposure = exposure.add(entry.getValue().multiply(heldTick.lastPrice()).multiply(limits.priceBuffer()));
+            var heldUnit = ConservativeOrderValuation.evaluate(OrderType.MARKET, 1, heldTick.lastPrice(),
+                    java.util.Optional.empty(), limits.priceBuffer()).conservativeUnitPrice();
+            exposure = exposure.add(entry.getValue().multiply(heldUnit));
         }
         if (exposure.compareTo(limits.maxExposure()) > 0) return EXPOSURE_LIMIT;
         var equity = in.margins().segments().get(TradingReadTypes.MarginSegment.EQUITY);

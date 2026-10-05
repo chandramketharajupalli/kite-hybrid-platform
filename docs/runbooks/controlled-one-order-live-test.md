@@ -77,6 +77,16 @@ cap/allowlist override or reload is invented. PAPER/default emergency stop and
 all existing application safety defaults are unchanged. Do not bypass existing
 mode validation to make a launch succeed.
 
+Phase 10.6 makes both execution max-notional caps conservative: MARKET uses
+current price × `risk.price-buffer` × quantity; LIMIT uses the higher of current
+price and limit price before applying that same buffer. The risk order-value cap
+is independently reapplied. Preflight, admission and final dispatch recompute
+from current evidence; an earlier READY result never reserves a price.
+See [ADR-019](../adr/ADR-019-conservative-pre-trade-valuation.md).
+**₹10,000 is a conservative PRE-TRADE valuation ceiling, not an absolute realized
+fill-value guarantee for MARKET orders.** This document does not configure that
+value, select a quantity or authorize a live order. Retain stricter limits.
+
 ## Obtain one legitimate candidate — no execution
 
 The terminal intentionally has no create command. The future candidate must come

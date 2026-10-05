@@ -34,7 +34,7 @@ There are no operator HTTP endpoints, browser mutation controls, batch operation
 | `KITE_LIVE_TEST_MAX_NOTIONAL` | 0 | Independent positive BigDecimal cap |
 | `KITE_LIVE_TEST_ARM_MAX_DURATION` | 0s | Positive duration ceiling, maximum 1h |
 
-All normal `KITE_ORDER_EXECUTION_*` gates still apply. Effective instrument permission is the intersection of registry membership, normal execution allowlist and first-live allowlist. Universe membership grants no permission. Missing/zero values deny; negatives, malformed values, unsafe decimal precision/scale, more than five instruments or duration over an hour fail startup. Both notional caps use quantity × max(current tick price, persisted limit price if present), from the same generation-fenced market store evidence. This pre-trade bound cannot guarantee a market-order fill price. No profile is activated by this change.
+All normal `KITE_ORDER_EXECUTION_*` gates still apply. Effective instrument permission is the intersection of registry membership, normal execution allowlist and first-live allowlist. Universe membership grants no permission. Missing/zero values deny; negatives, malformed values, unsafe decimal precision/scale, more than five instruments or duration over an hour fail startup. Both notional caps use the shared conservative valuation: quantity × max(current tick price, persisted limit price if present) × risk.price-buffer, from the same generation-fenced market store evidence. The risk order-value cap is also reapplied to that current valuation at execution. This pre-trade bound cannot guarantee a market-order fill price. No profile is activated by this change.
 
 ## Readiness and auditing
 

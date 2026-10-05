@@ -15,13 +15,13 @@ public record RiskLimits(boolean enabled, long maxOrderQuantity, BigDecimal maxO
     public RiskLimits {
         Objects.requireNonNull(maxOrderValue); Objects.requireNonNull(maxExposure);
         Objects.requireNonNull(marketDataMaxAge); Objects.requireNonNull(registryMaxAge);
-        Objects.requireNonNull(priceBuffer); Objects.requireNonNull(cashReserve);
+        com.kitehybrid.platform.order.domain.ConservativeOrderValuation.validatePriceBuffer(priceBuffer);
+        Objects.requireNonNull(cashReserve);
         if (maxOrderQuantity < 0 || maxPositionQuantity < 0 || maxOrderValue.signum() < 0
                 || maxExposure.signum() < 0 || marketDataMaxAge.isNegative() || registryMaxAge.isNegative()
-                || priceBuffer.compareTo(BigDecimal.ONE) < 0 || priceBuffer.compareTo(new BigDecimal("2")) > 0
                 || cashReserve.signum() < 0)
             throw new IllegalArgumentException("Invalid risk configuration");
-        for (var amount : new BigDecimal[]{maxOrderValue, maxExposure, priceBuffer, cashReserve})
+        for (var amount : new BigDecimal[]{maxOrderValue, maxExposure, cashReserve})
             if (amount.precision() > 36 || Math.abs((long) amount.scale()) > 18)
                 throw new IllegalArgumentException("Risk numeric bounds exceeded");
     }

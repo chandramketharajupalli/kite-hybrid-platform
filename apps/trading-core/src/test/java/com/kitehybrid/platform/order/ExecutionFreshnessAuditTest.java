@@ -22,7 +22,9 @@ import static org.mockito.Mockito.*;
 
 class ExecutionFreshnessAuditTest {
     private static final Instant NOW = Instant.parse("2026-09-26T10:00:00Z");
-    private static final String POLICY = "cash-v1:" + "0".repeat(64);
+    private static final RiskLimits LIMITS = new RiskLimits(true, 100, new BigDecimal("10000"), 100,
+            new BigDecimal("10000"), Duration.ofMinutes(1), Duration.ofMinutes(1), BigDecimal.ONE, BigDecimal.ONE);
+    private static final String POLICY = LIMITS.version();
 
     @Test void futureApprovalIsDenied() {
         assertEquals(ExecutionDenialReason.RISK_APPROVAL_EXPIRED, evaluate(NOW.plusSeconds(1), NOW).reason());
@@ -32,6 +34,9 @@ class ExecutionFreshnessAuditTest {
     }
     @Test void currentInputsStillAllow() {
         assertTrue(evaluate(NOW, NOW).allowed());
+    }
+    @Test void missingValuationPolicyNeverFallsBackToRawPrice() {
+        assertFalse(evaluate(NOW, NOW, false, null).allowed());
     }
     @Test void slowEvidenceReadCannotUseAnOldClockSample() {
         assertFalse(evaluate(NOW, NOW, true).allowed());
@@ -43,19 +48,22 @@ class ExecutionFreshnessAuditTest {
     @Test void auditIdentityChangesWithSafetyConfigurationAndNumericBoundsFailClosed() {
         var id = new InstrumentId(UUID.randomUUID());
         var first = new OrderExecutionProperties(true, Set.of(id), 1, BigDecimal.TEN,
-                Duration.ofSeconds(10), Duration.ofSeconds(10), POLICY, "policy");
+                Duration.ofSeconds(10), Duration.ofSeconds(10), LIMITS, "policy");
         var changed = new OrderExecutionProperties(true, Set.of(id), 2, BigDecimal.TEN,
-                Duration.ofSeconds(10), Duration.ofSeconds(10), POLICY, "policy");
+                Duration.ofSeconds(10), Duration.ofSeconds(10), LIMITS, "policy");
         assertNotEquals(first.auditVersion(), changed.auditVersion());
         assertTrue(first.auditVersion().matches("execution-v2:[0-9a-f]{64}"));
         assertThrows(IllegalArgumentException.class, () -> new OrderExecutionProperties(true, Set.of(id), 1,
-                new BigDecimal("1e100"), Duration.ofSeconds(10), Duration.ofSeconds(10), POLICY, "policy"));
+                new BigDecimal("1e100"), Duration.ofSeconds(10), Duration.ofSeconds(10), LIMITS, "policy"));
     }
 
     private ExecutionAuthorizationDecision evaluate(Instant riskAt, Instant tickAt) {
         return evaluate(riskAt, tickAt, false);
     }
     private ExecutionAuthorizationDecision evaluate(Instant riskAt, Instant tickAt, boolean slowRead) {
+        return evaluate(riskAt, tickAt, slowRead, LIMITS);
+    }
+    private ExecutionAuthorizationDecision evaluate(Instant riskAt, Instant tickAt, boolean slowRead, RiskLimits limits) {
         var currentTime = new java.util.concurrent.atomic.AtomicReference<>(NOW);
         var clock = mock(Clock.class);
         when(clock.instant()).thenAnswer(call -> currentTime.get());
@@ -84,7 +92,7 @@ class ExecutionFreshnessAuditTest {
         var arm = new RuntimeExecutionArming(new SimpleMeterRegistry(), () -> Optional.of(new UUID(0,1)));
         arm.arm(Duration.ofMinutes(1), NOW);
         var properties = new OrderExecutionProperties(true, Set.of(instrumentId), 1, BigDecimal.TEN,
-                Duration.ofMinutes(1), Duration.ofMinutes(1), POLICY, "audit");
+                Duration.ofMinutes(1), Duration.ofMinutes(1), limits, "audit");
         return new ExecutionSafetyPolicy(properties, arm, () -> false, session, risks, registry, market,
                 () -> health, mock(OrderRepository.class), clock,
                 new SimpleMeterRegistry(), ExecutionAuthorizationAuditStore.NOOP).evaluate(order);

@@ -27,7 +27,7 @@ public class OrderConfiguration {
     OrderExecutionProperties orderExecutionProperties(OrderExecutionConfigurationProperties properties,
             org.springframework.beans.factory.ObjectProvider<com.kitehybrid.platform.risk.domain.RiskLimits> limits) {
         var ids = properties.getAllowedInstruments().stream().map(com.kitehybrid.platform.shared.domain.Identifiers.InstrumentId::new).collect(java.util.stream.Collectors.toSet());
-        return new OrderExecutionProperties(properties.isEnabled(), ids, properties.getMaxQuantity(), properties.getMaxNotional(), properties.getRiskDecisionMaxAge(), properties.getMarketDataMaxAge(), limits.getIfAvailable(() -> null) == null ? "" : limits.getIfAvailable().version(), "phase9");
+        return new OrderExecutionProperties(properties.isEnabled(), ids, properties.getMaxQuantity(), properties.getMaxNotional(), properties.getRiskDecisionMaxAge(), properties.getMarketDataMaxAge(), limits.getIfAvailable(), "phase106-conservative");
     }
 
     @Bean RuntimeExecutionArming runtimeExecutionArming(MeterRegistry metrics, KiteAuthenticationSession session, RuntimeTradingHalt halt) { return new RuntimeExecutionArming(metrics, session::executionIdentity, halt); }
