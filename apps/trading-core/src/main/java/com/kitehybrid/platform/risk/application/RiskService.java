@@ -26,6 +26,7 @@ public final class RiskService {
     private final BrokerHoldingsProvider holdings;
     private final BrokerMarginsProvider margins;
     private final BrokerOrdersProvider orders;
+    private final OrderMarginEstimator marginEstimator;
     private final Clock clock;
     private final MeterRegistry metrics;
 
@@ -33,6 +34,13 @@ public final class RiskService {
                        InstrumentRegistry instruments, LatestMarketDataStore market, Supplier<MarketDataHealth> health,
                        BrokerPositionsProvider positions, BrokerHoldingsProvider holdings, BrokerMarginsProvider margins,
                        BrokerOrdersProvider orders, Clock clock, MeterRegistry metrics) {
+        this(decisions,engine,limits,halted,instruments,market,health,positions,holdings,margins,orders,clock,metrics,OrderMarginEstimator.UNAVAILABLE);
+    }
+    public RiskService(RiskDecisionStore decisions, RiskEngine engine, RiskLimits limits, BooleanSupplier halted,
+                       InstrumentRegistry instruments, LatestMarketDataStore market, Supplier<MarketDataHealth> health,
+                       BrokerPositionsProvider positions, BrokerHoldingsProvider holdings, BrokerMarginsProvider margins,
+                       BrokerOrdersProvider orders, Clock clock, MeterRegistry metrics, OrderMarginEstimator marginEstimator) {
+        this.marginEstimator=java.util.Objects.requireNonNull(marginEstimator);
         this.decisions = decisions; this.engine = engine; this.limits = limits; this.halted = halted;
         this.instruments = instruments; this.market = market; this.health = health; this.positions = positions;
         this.holdings = holdings; this.margins = margins; this.orders = orders; this.clock = clock; this.metrics = metrics;
@@ -65,6 +73,12 @@ public final class RiskService {
             var holdingSnapshot = holdings.holdings();
             var marginSnapshot = margins.margins();
             var orderSnapshot = orders.orders();
+            java.util.Optional<com.kitehybrid.platform.broker.domain.read.OrderMarginQuote> quote=java.util.Optional.empty();
+            if(order.command().product()==com.kitehybrid.platform.order.domain.command.OrderProduct.INTRADAY) {
+                try { quote=java.util.Optional.of(marginEstimator.estimate(IntradayAccountCapacity.request(order.command(),
+                        snapshot.byId().get(order.command().instrumentId())))); }
+                catch(RuntimeException unavailable) { return rejected(order,MARGIN_ESTIMATE_UNAVAILABLE); }
+            }
             var ids = new HashSet<com.kitehybrid.platform.shared.domain.Identifiers.InstrumentId>();
             ids.add(order.command().instrumentId());
             positionSnapshot.net().forEach(p -> ids.add(p.instrumentId()));
@@ -76,7 +90,7 @@ public final class RiskService {
             var input = new OrderRiskInput(snapshot, ticks,
                     currentHealth != null && currentHealth.status() == MarketDataHealth.Status.FRESH
                             && currentHealth.reason() == MarketDataHealth.Reason.NONE,
-                    positionSnapshot, holdingSnapshot, marginSnapshot, orderSnapshot);
+                    positionSnapshot, holdingSnapshot, marginSnapshot, orderSnapshot,quote);
             // Read clocks/health after broker reads so a slow read cannot approve stale input.
             return engine.evaluate(order, input, limits, halted.getAsBoolean());
         } catch (RuntimeException unavailable) {

@@ -181,6 +181,10 @@ public final class OrderReconciliationService {
     }
     private static TradingReadTypes.Side side(OrderSide s) { return s == OrderSide.BUY ? TradingReadTypes.Side.BUY : TradingReadTypes.Side.SELL; }
     private static TradingReadTypes.OrderType orderType(OrderType t) { return switch (t) { case MARKET -> TradingReadTypes.OrderType.MARKET; case LIMIT -> TradingReadTypes.OrderType.LIMIT; case STOP_LIMIT -> TradingReadTypes.OrderType.STOP_LIMIT; case STOP_MARKET -> TradingReadTypes.OrderType.STOP_MARKET; }; }
-    private static TradingReadTypes.Product product(OrderProduct p) { return p == OrderProduct.DELIVERY ? TradingReadTypes.Product.DELIVERY : TradingReadTypes.Product.UNKNOWN; }
+    private static TradingReadTypes.Product product(OrderProduct p) { return switch (p) {
+        case DELIVERY -> TradingReadTypes.Product.DELIVERY;
+        case INTRADAY -> TradingReadTypes.Product.INTRADAY;
+        default -> TradingReadTypes.Product.UNKNOWN;
+    }; }
     private static TradingReadTypes.Validity validity(OrderValidity v) { return v == OrderValidity.DAY ? TradingReadTypes.Validity.DAY : TradingReadTypes.Validity.UNKNOWN; }
 }

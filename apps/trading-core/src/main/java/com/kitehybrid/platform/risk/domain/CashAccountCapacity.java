@@ -16,18 +16,29 @@ public final class CashAccountCapacity {
 
     /** Exact-order capacity contract shared by historical risk and current execution observations. */
     public static RiskReason check(Capacity capacity, long quantity, ConservativeOrderValuation valuation, RiskLimits limits) {
-        if (quantity <= 0) throw new IllegalArgumentException("Invalid capacity quantity");
-        if (capacity.heldUnits().add(BigDecimal.valueOf(quantity)).compareTo(BigDecimal.valueOf(limits.maxPositionQuantity())) > 0)
-            return RiskReason.POSITION_LIMIT;
-        if (capacity.existingExposure().add(valuation.conservativeNotional()).compareTo(limits.maxExposure()) > 0)
-            return RiskReason.EXPOSURE_LIMIT;
+        var exposure=checkExposure(capacity,quantity,valuation,limits);
+        if(exposure!=RiskReason.APPROVED) return exposure;
         if (capacity.usableCash().compareTo(valuation.conservativeNotional().add(limits.cashReserve())) < 0)
             return RiskReason.INSUFFICIENT_MARGIN;
         return RiskReason.APPROVED;
     }
 
+    public static RiskReason checkExposure(Capacity capacity, long quantity, ConservativeOrderValuation valuation, RiskLimits limits) {
+        if (quantity <= 0) throw new IllegalArgumentException("Invalid capacity quantity");
+        if (capacity.heldUnits().add(BigDecimal.valueOf(quantity)).compareTo(BigDecimal.valueOf(limits.maxPositionQuantity())) > 0)
+            return RiskReason.POSITION_LIMIT;
+        if (capacity.existingExposure().add(valuation.conservativeNotional()).compareTo(limits.maxExposure()) > 0)
+            return RiskReason.EXPOSURE_LIMIT;
+        return RiskReason.APPROVED;
+    }
     /** Unsupported or incomplete evidence throws a bounded domain denial. */
     public static Capacity inspect(OrderRiskInput in, RiskLimits limits, InstrumentId target, Instant now) {
+        return inspect(in,limits,target,now,false);
+    }
+    public static Capacity inspectIntraday(OrderRiskInput in, RiskLimits limits, InstrumentId target, Instant now) {
+        return inspect(in,limits,target,now,true);
+    }
+    private static Capacity inspect(OrderRiskInput in, RiskLimits limits, InstrumentId target, Instant now, boolean intraday) {
         if (in == null || in.positions() == null || in.holdings() == null || in.margins() == null || in.orders() == null)
             throw denied(RiskReason.BROKER_STATE_UNAVAILABLE);
         for (var order : in.orders())
@@ -43,12 +54,14 @@ public final class CashAccountCapacity {
             quantities.merge(holding.instrumentId(), q, BigDecimal::add);
         }
         for (var position : in.positions().net()) {
-            if (position.quantity() < 0 || position.product() != TradingReadTypes.Product.DELIVERY
+            if (position.quantity() < 0 || (position.product() != TradingReadTypes.Product.DELIVERY
+                    && !(intraday && position.product() == TradingReadTypes.Product.INTRADAY))
                     || position.multiplier().compareTo(BigDecimal.ONE) != 0) throw denied(RiskReason.ACCOUNT_STATE_UNSUPPORTED);
             quantities.merge(position.instrumentId(), BigDecimal.valueOf(position.quantity()), BigDecimal::add);
         }
         for (var position : in.positions().day())
-            if (position.quantity() < 0 || position.product() != TradingReadTypes.Product.DELIVERY
+            if (position.quantity() < 0 || (position.product() != TradingReadTypes.Product.DELIVERY
+                    && !(intraday && position.product() == TradingReadTypes.Product.INTRADAY))
                     || position.multiplier().compareTo(BigDecimal.ONE) != 0) throw denied(RiskReason.ACCOUNT_STATE_UNSUPPORTED);
         BigDecimal exposure = BigDecimal.ZERO;
         for (var entry : quantities.entrySet()) {

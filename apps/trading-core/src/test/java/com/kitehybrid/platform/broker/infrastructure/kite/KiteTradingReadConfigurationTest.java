@@ -19,7 +19,8 @@ class KiteTradingReadConfigurationTest {
             .withBean(KiteRestTransport.class, () -> transport)
             .withBean(KiteSession.class, () -> new KiteSession(new KiteProperties("", "", "", false)))
             .withBean(InstrumentRegistry.class, InMemoryInstrumentRegistry::new)
-            .withBean(MeterRegistry.class, SimpleMeterRegistry::new);
+            .withBean(MeterRegistry.class, SimpleMeterRegistry::new)
+            .withBean(java.time.Clock.class,java.time.Clock::systemUTC);
 
     @Test void absentOrFalseOptInCreatesNoReadPortsOrRequests() {
         context.run(application -> {
@@ -28,6 +29,7 @@ class KiteTradingReadConfigurationTest {
             assertThat(application).doesNotHaveBean(BrokerPositionsProvider.class);
             assertThat(application).doesNotHaveBean(BrokerHoldingsProvider.class);
             assertThat(application).doesNotHaveBean(BrokerMarginsProvider.class);
+            assertThat(application).doesNotHaveBean(OrderMarginEstimator.class);
         });
         context.withPropertyValues("kite.trading-read.enabled=false").run(application ->
                 assertThat(application).doesNotHaveBean(KiteTradingReadAdapter.class));
@@ -37,6 +39,7 @@ class KiteTradingReadConfigurationTest {
     @Test void optInWiresFivePortsToOneAdapterWithoutStartingAnyRead() {
         context.withPropertyValues("kite.trading-read.enabled=true").run(application -> {
             assertThat(application).hasSingleBean(KiteTradingReadAdapter.class);
+            assertThat(application).hasSingleBean(OrderMarginEstimator.class);
             var adapter = application.getBean(KiteTradingReadAdapter.class);
             assertThat(application.getBean(BrokerOrdersProvider.class)).isSameAs(adapter);
             assertThat(application.getBean(BrokerTradesProvider.class)).isSameAs(adapter);

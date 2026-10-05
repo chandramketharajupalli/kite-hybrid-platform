@@ -137,6 +137,23 @@ class OrderReconciliationServiceTest {
         assertEquals(0, store.stateChanges);
     }
 
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.ValueSource(strings={"matching","wrong-order-product","wrong-trade-product"})
+    void misReconciliationRequiresExactProductForOrdersAndTrades(String change) {
+        var base=order(OrderState.SUBMITTED,Optional.of("broker-1"));var c=base.command();
+        var local=new OrderRecord(base.id(),new PlaceOrder(c.idempotencyKey(),INSTRUMENT,c.side(),1,c.orderType(),
+                OrderProduct.INTRADAY,c.validity(),c.limitPrice(),c.triggerPrice(),0,c.variety()),base.state(),base.brokerOrderId(),
+                base.failureCategory(),NOW,NOW,1);
+        var observed=new BrokerOrder("broker-1",Optional.empty(),Optional.empty(),INSTRUMENT,Side.BUY,
+                TradingReadTypes.OrderType.MARKET,change.equals("wrong-order-product")?Product.DELIVERY:Product.INTRADAY,
+                Validity.DAY,Variety.REGULAR,OrderStatus.FILLED,1,1,0,0,0,BigDecimal.ZERO,BigDecimal.ZERO,BigDecimal.TEN,NOW,Optional.of(NOW),Optional.of(NOW));
+        var fill=new BrokerTrade("trade-1","broker-1",Optional.empty(),INSTRUMENT,Side.BUY,
+                change.equals("wrong-trade-product")?Product.DELIVERY:Product.INTRADAY,1,BigDecimal.TEN,NOW,Optional.of(NOW));
+        var service=new OrderReconciliationService(new Repo(local),()->List.of(observed),()->List.of(fill),new Store(),
+                Clock.fixed(NOW,ZoneOffset.UTC),new SimpleMeterRegistry());
+        assertEquals(change.equals("matching")?ReconciliationOutcome.FILLED:ReconciliationOutcome.CONFLICT,service.reconcile(local.id()).outcome());
+    }
+
     private static BrokerOrder broker(OrderStatus status, long filled) {
         return new BrokerOrder("broker-1", Optional.empty(), Optional.empty(), INSTRUMENT, Side.BUY,
                 TradingReadTypes.OrderType.MARKET, Product.DELIVERY, Validity.DAY, Variety.REGULAR, status, 1, filled,

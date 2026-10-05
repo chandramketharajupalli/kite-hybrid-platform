@@ -4,6 +4,8 @@ Start in PAPER with live disabled and emergency stop enabled.
 See [controlled live readiness](controlled-live-readiness.md) for the service-only
 operator boundary, V10 read-only preflight and mandatory backup/restore verification.
 No real order is sent by this implementation phase.
+See [Phase 10.8A MIS validation](phase-10.8a-validation.md) for product-specific
+funding, the full-notional ceiling, synthetic tests and unresolved real collateral eligibility.
 Application liveness does not depend on a broker or Redis. Readiness includes
 database availability outside isolated tests; trading readiness remains false.
 Flyway fails startup on migration errors. Phase 5B.1 adds durable order and

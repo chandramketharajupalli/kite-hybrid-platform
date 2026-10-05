@@ -11,4 +11,10 @@ import java.util.Map;
 public record OrderRiskInput(InstrumentSnapshot instruments, Map<InstrumentId, Tick> ticks,
                              boolean marketHealthy, BrokerPositions positions,
                              List<BrokerHolding> holdings, BrokerMargins margins,
-                             List<BrokerOrder> orders) {}
+                             List<BrokerOrder> orders, java.util.Optional<OrderMarginQuote> marginQuote) {
+    public OrderRiskInput(InstrumentSnapshot instruments, Map<InstrumentId, Tick> ticks, boolean marketHealthy,
+            BrokerPositions positions, List<BrokerHolding> holdings, BrokerMargins margins, List<BrokerOrder> orders) {
+        this(instruments,ticks,marketHealthy,positions,holdings,margins,orders,java.util.Optional.empty());
+    }
+    public OrderRiskInput { java.util.Objects.requireNonNull(marginQuote); }
+}

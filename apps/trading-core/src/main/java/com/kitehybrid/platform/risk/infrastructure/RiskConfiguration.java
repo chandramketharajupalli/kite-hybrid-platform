@@ -35,8 +35,8 @@ public class RiskConfiguration {
                             MarketDataGateway marketGateway, BrokerPositionsProvider positions,
                             BrokerHoldingsProvider holdings, BrokerMarginsProvider margins,
                             BrokerOrdersProvider orders, RuntimeTradingHalt halt,
-                            Clock clock, MeterRegistry metrics) {
+                            Clock clock, MeterRegistry metrics, org.springframework.beans.factory.ObjectProvider<OrderMarginEstimator> estimator) {
         return new RiskService(decisions, engine, limits, halt, instruments, market,
-                marketGateway::health, positions, holdings, margins, orders, clock, metrics);
+                marketGateway::health, positions, holdings, margins, orders, clock, metrics,estimator.getIfAvailable(()->OrderMarginEstimator.UNAVAILABLE));
     }
 }

@@ -105,11 +105,20 @@ final class KiteRestTransport {
             }
         }
     }
+    /** Calculation-only official endpoint. This is not an /orders mutation and never calls orderRequest. */
+    String calculateOrderMargin(String jsonBody) {
+        if(jsonBody==null || jsonBody.length()>8192) throw new BrokerReadException(INVALID_RESPONSE);
+        synchronized(session) { return readWithSession("/margins/orders",64*1024,jsonBody); }
+    }
     private String getWithSession(Endpoint endpoint) {
+        return readWithSession(endpoint.path,endpoint.limit,null);
+    }
+    private String readWithSession(String path,int limit,String jsonBody) {
         String authorization = session.authorization();
         try {
-            return client.get().uri(endpoint.path)
-                    .header("X-Kite-Version", "3").header("Authorization", authorization)
+            RestClient.RequestHeadersSpec<?> requestSpec=jsonBody==null ? client.get().uri(path)
+                    : client.post().uri(path).contentType(org.springframework.http.MediaType.APPLICATION_JSON).body(jsonBody);
+            return requestSpec.header("X-Kite-Version", "3").header("Authorization", authorization)
                     .header("Accept-Encoding", "gzip")
                     .exchange((request, response) -> {
                         int status = response.getStatusCode().value();
@@ -117,7 +126,7 @@ final class KiteRestTransport {
                             session.invalidate();
                             throw new BrokerReadException(AUTHENTICATION, status);
                         }
-                        byte[] body = readBounded(response.getBody(), endpoint.limit);
+                        byte[] body = readBounded(response.getBody(), limit);
                         String encoding = response.getHeaders().getFirst("Content-Encoding");
                         boolean gzip = "gzip".equalsIgnoreCase(encoding)
                                 || (body.length > 1 && body[0] == (byte) 0x1f && body[1] == (byte) 0x8b);
@@ -126,7 +135,7 @@ final class KiteRestTransport {
                             throw new BrokerReadException(INVALID_RESPONSE, status);
                         if (gzip) {
                             try (var input = new GZIPInputStream(new ByteArrayInputStream(body))) {
-                                body = readBounded(input, endpoint.limit);
+                                body = readBounded(input, limit);
                             } catch (IOException corrupt) {
                                 throw new BrokerReadException(INVALID_RESPONSE, status);
                             }

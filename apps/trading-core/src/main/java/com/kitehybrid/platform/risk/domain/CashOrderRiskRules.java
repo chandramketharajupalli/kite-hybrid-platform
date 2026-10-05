@@ -33,11 +33,13 @@ final class CashOrderRiskRules {
             if (price.isPresent() && (price.get().signum() <= 0
                     || price.get().remainder(instrument.tickSize()).signum() != 0)) return INVALID_TICK_SIZE;
         }
-        if (c.side() != OrderSide.BUY || c.product() != OrderProduct.DELIVERY
+        if (c.side() != OrderSide.BUY || (c.product() != OrderProduct.DELIVERY && c.product() != OrderProduct.INTRADAY)
                 || (c.orderType() != OrderType.MARKET && c.orderType() != OrderType.LIMIT)
                 || c.validity() == OrderValidity.TIME_TO_LIVE || c.disclosedQuantity() != 0
                 || c.triggerPrice().isPresent()
                 || (c.orderType() == OrderType.LIMIT) != c.limitPrice().isPresent()) return UNSUPPORTED_ORDER;
+        if(c.product()==OrderProduct.INTRADAY && (!instrument.exchange().equals("NSE") || c.orderType()!=OrderType.MARKET
+                || c.validity()!=OrderValidity.DAY || c.variety()!=OrderVariety.REGULAR)) return UNSUPPORTED_ORDER;
         if (c.quantity() > limits.maxOrderQuantity()) return ORDER_QUANTITY_LIMIT;
         if (!in.marketHealthy()) return MARKET_DATA_UNAVAILABLE;
         var tick = in.ticks().get(c.instrumentId());
@@ -48,9 +50,11 @@ final class CashOrderRiskRules {
         BigDecimal value = valuation.conservativeNotional();
         if (!valuation.within(limits.maxOrderValue())) return ORDER_VALUE_LIMIT;
         final CashAccountCapacity.Capacity capacity;
-        try { capacity = CashAccountCapacity.inspect(in, limits, c.instrumentId(), now); }
+        try { capacity = c.product()==OrderProduct.INTRADAY ? CashAccountCapacity.inspectIntraday(in,limits,c.instrumentId(),now)
+                : CashAccountCapacity.inspect(in, limits, c.instrumentId(), now); }
         catch (CashAccountCapacity.Denied denied) { return denied.reason(); }
-        return CashAccountCapacity.check(capacity, c.quantity(), valuation, limits);
+        return c.product()==OrderProduct.INTRADAY ? IntradayAccountCapacity.check(c,in,capacity,valuation,limits,now)
+                : CashAccountCapacity.check(capacity, c.quantity(), valuation, limits);
     }
 
     static RiskReason priceReason(com.kitehybrid.platform.marketdata.domain.Tick tick,

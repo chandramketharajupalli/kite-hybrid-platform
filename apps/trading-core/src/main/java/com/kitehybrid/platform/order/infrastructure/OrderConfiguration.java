@@ -54,10 +54,11 @@ public class OrderConfiguration {
             org.springframework.beans.factory.ObjectProvider<com.kitehybrid.platform.broker.application.read.BrokerHoldingsProvider> holdings,
             org.springframework.beans.factory.ObjectProvider<com.kitehybrid.platform.broker.application.read.BrokerMarginsProvider> margins,
             org.springframework.beans.factory.ObjectProvider<com.kitehybrid.platform.broker.application.read.BrokerOrdersProvider> orders,
-            InstrumentRegistry instruments, LatestMarketDataStore market, OrderExecutionProperties properties, Clock clock) {
+            InstrumentRegistry instruments, LatestMarketDataStore market, OrderExecutionProperties properties, Clock clock,
+            org.springframework.beans.factory.ObjectProvider<com.kitehybrid.platform.broker.application.read.OrderMarginEstimator> estimator) {
         var p=positions.getIfAvailable(); var h=holdings.getIfAvailable(); var m=margins.getIfAvailable(); var o=orders.getIfAvailable();
         if (p==null || h==null || m==null || o==null || properties.riskLimits()==null) return AccountExecutionChecks.UNAVAILABLE;
-        return new CurrentAccountExecutionChecks(p,h,m,o,instruments,market,properties.riskLimits(),clock);
+        return new CurrentAccountExecutionChecks(p,h,m,o,instruments,market,properties.riskLimits(),clock,estimator.getIfAvailable(()->com.kitehybrid.platform.broker.application.read.OrderMarginEstimator.UNAVAILABLE));
     }
 
     @Bean @Profile("!test")

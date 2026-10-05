@@ -12,7 +12,7 @@ class ConservativeValuationArchitectureTest {
     @Test void accountCapacityAndRevalidationCanOnlyUseReadPorts() {
         var classes = new ClassFileImporter().withImportOption(new ImportOption.DoNotIncludeTests())
                 .importPackages("com.kitehybrid.platform");
-        noClasses().that().haveSimpleName("CashAccountCapacity").should().dependOnClassesThat()
+        noClasses().that().haveNameMatching(".*(CashAccountCapacity|IntradayAccountCapacity).*" ).should().dependOnClassesThat()
                 .resideInAnyPackage("..infrastructure..", "..application..", "org.springframework..", "java.net..", "java.sql..")
                 .check(classes);
         noClasses().that().haveSimpleName("CurrentAccountExecutionChecks").should().dependOnClassesThat()
@@ -27,10 +27,26 @@ class ConservativeValuationArchitectureTest {
             assertEquals("com.kitehybrid.platform.broker.application.read",call.getTargetOwner().getPackageName());
             reads.add(call.getTarget().getName());
         }
-        assertEquals(Set.of("positions","holdings","margins","orders"),reads);
+        assertEquals(Set.of("positions","holdings","margins","orders","estimate"),reads);
         for(var name:Set.of("com.kitehybrid.platform.risk.domain.CashOrderRiskRules",checks.getName()))
             assertTrue(classes.get(name).getMethodCallsFromSelf().stream().anyMatch(call->call.getTargetOwner().getSimpleName().equals("CashAccountCapacity")
                     && call.getTarget().getName().equals("check")));
+    }
+    @Test void marginCalculationCannotCallOrderMutationMethods() {
+        var classes = new ClassFileImporter().withImportOption(new ImportOption.DoNotIncludeTests())
+                .importPackages("com.kitehybrid.platform");
+        var adapter=classes.get("com.kitehybrid.platform.broker.infrastructure.kite.KiteOrderMarginAdapter");
+        var calls=adapter.getMethodCallsFromSelf().stream()
+                .filter(c->c.getTargetOwner().getSimpleName().equals("KiteRestTransport"))
+                .map(c->c.getTarget().getName()).collect(java.util.stream.Collectors.toSet());
+        assertEquals(Set.of("calculateOrderMargin"),calls);
+        var transport=classes.get("com.kitehybrid.platform.broker.infrastructure.kite.KiteRestTransport");
+        for(var method:transport.getMethods()) if(Set.of("calculateOrderMargin","readWithSession").contains(method.getName()))
+            for(var call:method.getMethodCallsFromSelf())
+                assertFalse(Set.of("orderRequest","place","modify","cancel").contains(call.getTarget().getName()),call.toString());
+        noClasses().that().haveNameMatching(".*OrderMargin(Estimator|Quote).*" ).should().dependOnClassesThat()
+                .resideInAnyPackage("..order..", "..infrastructure..", "org.springframework..", "java.net..", "java.sql..")
+                .check(classes);
     }
     @Test void candidateSizingCannotCreateOrdersOrReachInfrastructure() {
         var classes = new ClassFileImporter().withImportOption(new ImportOption.DoNotIncludeTests())

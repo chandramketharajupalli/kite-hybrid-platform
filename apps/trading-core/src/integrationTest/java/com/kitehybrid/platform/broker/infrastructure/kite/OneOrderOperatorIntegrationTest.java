@@ -68,6 +68,8 @@ class OneOrderOperatorIntegrationTest {
         final AtomicBoolean stop=new AtomicBoolean();
         final AtomicReference<com.kitehybrid.platform.shared.application.ExecutionInitialization> initialization =
                 new AtomicReference<>(() -> true);
+        final AtomicReference<com.kitehybrid.platform.broker.application.read.OrderMarginEstimator> marginEstimator =
+                new AtomicReference<>(com.kitehybrid.platform.broker.application.read.OrderMarginEstimator.UNAVAILABLE);
         final AtomicInteger gatewayCalls=new AtomicInteger();
         volatile MarketDataHealth health=OperatorPreflightDryRunTest.healthy();
         final List<String> trace=new CopyOnWriteArrayList<>();
@@ -148,6 +150,8 @@ class OneOrderOperatorIntegrationTest {
             c.registerBean(KiteAuthenticationSession.class,()->currentSession); c.registerBean(InstrumentRegistry.class,()->registry);
             c.registerBean(com.kitehybrid.platform.shared.application.ExecutionInitialization.class,
                     () -> () -> initialization.get().initializationReady());
+            c.registerBean(com.kitehybrid.platform.broker.application.read.OrderMarginEstimator.class,
+                    () -> request -> marginEstimator.get().estimate(request));
             c.registerBean(LatestMarketDataStore.class,()->market); c.registerBean(KiteTradingReadAdapter.class,()->reads);
             c.registerBean(MarketDataGateway.class,()->{ var gateway=mock(MarketDataGateway.class); when(gateway.health()).thenAnswer(call->health); return gateway; });
             c.registerBean(TradingProperties.class,()->{ var trading=mock(TradingProperties.class); when(trading.emergencyStop()).thenAnswer(call->stop.get()); return trading; });
@@ -206,11 +210,12 @@ class OneOrderOperatorIntegrationTest {
             long before=methods.size(); assertThrows(RuntimeException.class,()->operator.execute(id)); assertEquals(before,methods.size());
         }
         void brokerObservation() {
+            var observedCommand=orders.find(id).orElseThrow().command();
             String capturedTag=Arrays.stream(form.get().split("&")).filter(field->field.startsWith("tag="))
                     .map(field->java.net.URLDecoder.decode(field.substring(4),StandardCharsets.UTF_8)).findFirst().orElseThrow();
             when(reads.orders()).thenReturn(List.of(new BrokerOrder("synthetic-only-broker-1",Optional.empty(),Optional.empty(),instrument.id(),
-                    TradingReadTypes.Side.BUY,TradingReadTypes.OrderType.MARKET,TradingReadTypes.Product.DELIVERY,TradingReadTypes.Validity.DAY,
-                    TradingReadTypes.Variety.REGULAR,TradingReadTypes.OrderStatus.OPEN,1,0,1,0,0,BigDecimal.ZERO,BigDecimal.ZERO,BigDecimal.ZERO,
+                    TradingReadTypes.Side.BUY,TradingReadTypes.OrderType.MARKET,TradingReadTypes.Product.valueOf(observedCommand.product().name()),TradingReadTypes.Validity.DAY,
+                    TradingReadTypes.Variety.REGULAR,TradingReadTypes.OrderStatus.OPEN,observedCommand.quantity(),0,observedCommand.quantity(),0,0,BigDecimal.ZERO,BigDecimal.ZERO,BigDecimal.ZERO,
                     NOW,Optional.of(NOW),Optional.of(new com.kitehybrid.platform.shared.domain.BrokerCorrelationId(capturedTag)),Optional.of(NOW))));
         }
         List<String> console(String... commands) {

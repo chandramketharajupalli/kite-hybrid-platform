@@ -19,10 +19,17 @@ public final class CurrentAccountExecutionChecks implements AccountExecutionChec
     private final InstrumentRegistry instruments;
     private final LatestMarketDataStore market;
     private final RiskLimits limits;
+    private final OrderMarginEstimator marginEstimator;
     private final Clock clock;
     public CurrentAccountExecutionChecks(BrokerPositionsProvider positions, BrokerHoldingsProvider holdings,
             BrokerMarginsProvider margins, BrokerOrdersProvider orders, InstrumentRegistry instruments,
             LatestMarketDataStore market, RiskLimits limits, Clock clock) {
+        this(positions,holdings,margins,orders,instruments,market,limits,clock,OrderMarginEstimator.UNAVAILABLE);
+    }
+    public CurrentAccountExecutionChecks(BrokerPositionsProvider positions, BrokerHoldingsProvider holdings,
+            BrokerMarginsProvider margins, BrokerOrdersProvider orders, InstrumentRegistry instruments,
+            LatestMarketDataStore market, RiskLimits limits, Clock clock, OrderMarginEstimator marginEstimator) {
+        this.marginEstimator=Objects.requireNonNull(marginEstimator);
         this.positions=Objects.requireNonNull(positions); this.holdings=Objects.requireNonNull(holdings);
         this.margins=Objects.requireNonNull(margins); this.orders=Objects.requireNonNull(orders);
         this.instruments=Objects.requireNonNull(instruments); this.market=Objects.requireNonNull(market);
@@ -37,6 +44,13 @@ public final class CurrentAccountExecutionChecks implements AccountExecutionChec
             var h=List.copyOf(holdings.holdings());
             var m=Objects.requireNonNull(margins.margins());
             var o=List.copyOf(orders.orders());
+            var intraday=order.command().product()==com.kitehybrid.platform.order.domain.command.OrderProduct.INTRADAY;
+            final Optional<com.kitehybrid.platform.broker.domain.read.OrderMarginQuote> quote;
+            if(intraday) {
+                try { quote=Optional.of(marginEstimator.estimate(IntradayAccountCapacity.request(order.command(),
+                        reference.byId().get(order.command().instrumentId())))); }
+                catch(RuntimeException unavailable) { return valuation -> MARGIN_ESTIMATE_UNAVAILABLE; }
+            } else quote=Optional.empty();
             var ids=new HashSet<com.kitehybrid.platform.shared.domain.Identifiers.InstrumentId>();
             ids.add(order.command().instrumentId());
             p.net().forEach(row -> ids.add(row.instrumentId()));
@@ -48,9 +62,11 @@ public final class CurrentAccountExecutionChecks implements AccountExecutionChec
                             || Duration.between(reference.refreshedAt(),now).compareTo(limits.registryMaxAge())>=0)
                         return INSTRUMENT_NOT_ALLOWED;
                     if (valuation.isEmpty()) return NOTIONAL_CAP_EXCEEDED;
-                    var input=new OrderRiskInput(reference,ticks,true,p,h,m,o);
-                    var capacity=CashAccountCapacity.inspect(input,limits,order.command().instrumentId(),now);
-                    return map(CashAccountCapacity.check(capacity,order.command().quantity(),valuation.get(),limits));
+                    var input=new OrderRiskInput(reference,ticks,true,p,h,m,o,quote);
+                    var capacity=intraday ? CashAccountCapacity.inspectIntraday(input,limits,order.command().instrumentId(),now)
+                            : CashAccountCapacity.inspect(input,limits,order.command().instrumentId(),now);
+                    return map(intraday ? IntradayAccountCapacity.check(order.command(),input,capacity,valuation.get(),limits,now)
+                            : CashAccountCapacity.check(capacity,order.command().quantity(),valuation.get(),limits));
                 } catch (CashAccountCapacity.Denied denied) { return map(denied.reason()); }
                 catch (RuntimeException invalid) { return ACCOUNT_EVIDENCE_UNAVAILABLE; }
             };
@@ -59,6 +75,10 @@ public final class CurrentAccountExecutionChecks implements AccountExecutionChec
     private static ExecutionDenialReason map(RiskReason reason) {
         return switch (reason) {
             case APPROVED -> NONE;
+            case MIS_MARGIN_UNAVAILABLE -> MIS_MARGIN_UNAVAILABLE;
+            case MIS_MARGIN_INSUFFICIENT -> MIS_MARGIN_INSUFFICIENT;
+            case MARGIN_ESTIMATE_UNAVAILABLE -> MARGIN_ESTIMATE_UNAVAILABLE;
+            case COLLATERAL_UNSUPPORTED -> COLLATERAL_UNSUPPORTED;
             case POSITION_LIMIT -> ACCOUNT_POSITION_LIMIT;
             case EXPOSURE_LIMIT -> ACCOUNT_EXPOSURE_LIMIT;
             case INSUFFICIENT_MARGIN -> ACCOUNT_INSUFFICIENT_MARGIN;

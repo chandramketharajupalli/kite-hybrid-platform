@@ -33,7 +33,7 @@ public record RiskLimits(boolean enabled, long maxOrderQuantity, BigDecimal maxO
     public String version() {
         try {
             return "cash-v1:" + HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256")
-                    .digest(toString().getBytes(StandardCharsets.UTF_8)));
+                    .digest(("intraday-margin-v1|"+toString()).getBytes(StandardCharsets.UTF_8)));
         } catch (java.security.NoSuchAlgorithmException impossible) { throw new IllegalStateException(); }
     }
 }
