@@ -75,7 +75,7 @@ public final class OrderApplicationService {
         }
         try {
             safety.validateDispatch(current, submitting);
-            String brokerId = gateway.place(submitting, () -> safety.validateDispatch(current, submitting));
+            String brokerId = gateway.place(submitting, () -> safety.validateTransport(current, submitting));
             var attached = submitting.withBrokerOrderId(brokerId, clock.instant());
             var submitted = attached.transitionTo(OrderState.SUBMITTED, clock.instant());
             if (!repository.attachBrokerOrderId(submitting, submitted))

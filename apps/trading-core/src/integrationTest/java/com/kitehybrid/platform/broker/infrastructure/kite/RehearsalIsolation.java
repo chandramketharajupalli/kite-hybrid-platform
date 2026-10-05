@@ -10,6 +10,15 @@ import org.springframework.web.client.RestClient;
 /** Test-only: no DNS names, redirects, ambient deployment properties or external broker targets. */
 final class RehearsalIsolation {
     private RehearsalIsolation() {}
+    static com.kitehybrid.platform.order.application.AccountExecutionChecks accounts(
+            com.kitehybrid.platform.order.application.OrderExecutionProperties properties,
+            com.kitehybrid.platform.instrument.application.InstrumentRegistry registry,
+            com.kitehybrid.platform.marketdata.application.LatestMarketDataStore market, java.time.Clock clock) {
+        return new com.kitehybrid.platform.order.application.CurrentAccountExecutionChecks(
+                () -> new com.kitehybrid.platform.broker.domain.read.BrokerPositions(java.util.List.of(),java.util.List.of()),
+                java.util.List::of, OperatorPreflightDryRunTest::margins, java.util.List::of,
+                registry,market,properties.riskLimits(),clock);
+    }
     static StandardEnvironment environment() {
         var environment = new StandardEnvironment();
         environment.getPropertySources().remove(StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME);

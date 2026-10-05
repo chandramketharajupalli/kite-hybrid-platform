@@ -151,6 +151,11 @@ class OperatorPreflightDryRunTest {
                         var beans = (DefaultListableBeanFactory) factory;
                         replace(beans, "clock", clock);
                         replace(beans, "kiteSession", session);
+                        var initialized=mock(com.kitehybrid.platform.broker.application.auth.KiteAuthenticationUseCase.class);
+                        when(initialized.initializationReady()).thenReturn(true);
+                        var authStatus=new com.kitehybrid.platform.broker.application.auth.KiteAuthenticationUseCase.Status(false,"KITE",false,"SYNTHETIC",null,false);
+                        when(initialized.restore()).thenReturn(authStatus); when(initialized.status()).thenReturn(authStatus);
+                        replace(beans, "kiteAuthenticationUseCase", initialized);
                         replace(beans, "kiteAuthenticationGateway", mock(com.kitehybrid.platform.broker.application.auth.KiteAuthenticationGateway.class,
                                 call -> { throw new AssertionError("Dry run reached authentication transport"); }));
                         replace(beans, "kiteWebSocketTransport", mock(KiteWebSocketTransport.class));
@@ -227,7 +232,9 @@ class OperatorPreflightDryRunTest {
             if (report.ready()) assertEquals(8,queries.size(), "Explicit Flyway schema: eight SELECT statements");
             assertEquals(EnumSet.allOf(ExecutionReadiness.Gate.class), report.gates().keySet());
             assertEquals(before, snapshot(), "Preflight must leave all durable evidence unchanged");
-            assertEquals(readCalls, mockingDetails(reads).getInvocations().size(), "Preflight must not perform broker reads");
+            int readDelta=mockingDetails(reads).getInvocations().size()-readCalls;
+            assertTrue(readDelta>=0 && readDelta<=4, "Bounded read-only account inspection");
+            if (report.ready()) assertEquals(4,readDelta);
             assertZeroMutation();
             return report;
         }
@@ -355,6 +362,11 @@ class OperatorPreflightDryRunTest {
                 case LIVE_TEST_ARM_DURATION_VALID -> ARM_DURATION_INVALID;
                 case DATABASE_READY -> DATABASE_NOT_READY;
                 case AUTHENTICATED -> { h.session.clear(); yield AUTHENTICATION_UNAVAILABLE; }
+                case INITIALIZATION_READY -> {
+                    when(h.context.getBean(com.kitehybrid.platform.broker.application.auth.KiteAuthenticationUseCase.class).initializationReady()).thenReturn(false);
+                    yield AUTHENTICATION_NOT_INITIALIZED;
+                }
+                case ACCOUNT_CAPACITY_CURRENT -> { when(h.reads.margins()).thenReturn(null); yield ACCOUNT_EVIDENCE_UNAVAILABLE; }
                 case RUNTIME_ARMED -> { h.operator.disarm(); yield DISARMED; }
                 case SESSION_BOUND -> { h.session.install(new KiteAccessToken("replacementSynthetic", NOW, NOW.plusSeconds(3600))); h.session.profileValidated(); yield DISARMED; }
                 case EMERGENCY_STOP_CLEAR -> { h.stop.set(true); yield EMERGENCY_STOP; }

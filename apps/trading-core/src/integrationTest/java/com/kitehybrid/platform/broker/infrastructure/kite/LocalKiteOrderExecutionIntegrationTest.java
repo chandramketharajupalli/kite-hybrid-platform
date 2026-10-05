@@ -120,7 +120,7 @@ class LocalKiteOrderExecutionIntegrationTest {
         arming.arm(Duration.ofHours(1), NOW);
         var policy = new ExecutionSafetyPolicy(executionProperties, arming, emergencyStop::get, session, riskDecisions,
                 registry, market, () -> marketHealth, orders, Clock.fixed(NOW, ZoneOffset.UTC), metrics,
-                new PostgresExecutionAuthorizationAuditStore(jdbc));
+                new PostgresExecutionAuthorizationAuditStore(jdbc), RehearsalIsolation.accounts(executionProperties,registry,market,Clock.fixed(NOW,ZoneOffset.UTC)), () -> true);
         var gateway = org.mockito.Mockito.spy(new KiteOrderAdapter(transport, registry, executionProperties));
         executionGateway = gateway;
         application = new OrderApplicationService(orders, new com.kitehybrid.platform.order.application.OrderCommandValidator(registry),
@@ -154,6 +154,8 @@ class LocalKiteOrderExecutionIntegrationTest {
             org.mockito.Mockito.when(gateway.health()).thenAnswer(call -> marketHealth);
             return gateway;
         });
+        context.registerBean(com.kitehybrid.platform.shared.application.ExecutionInitialization.class, () -> () -> true);
+        context.registerBean("syntheticAccountChecks", AccountExecutionChecks.class, () -> RehearsalIsolation.accounts(context.getBean(OrderExecutionProperties.class),registry,market,context.getBean(Clock.class)), definition -> definition.setPrimary(true));
         context.registerBean(RiskDecisionStore.class, () -> riskDecisions);
         context.registerBean(RiskLimits.class, () -> new RiskLimits(true, 100, new BigDecimal("10000"), 100,
                 new BigDecimal("10000"), Duration.ofMinutes(1), Duration.ofMinutes(1), BigDecimal.ONE, BigDecimal.ONE));
@@ -185,7 +187,7 @@ class LocalKiteOrderExecutionIntegrationTest {
             var prearm = operator.preflight(placed.id());
             assertFalse(prearm.ready());
             assertEquals(ExecutionDenialReason.DISARMED, prearm.reason());
-            assertEquals(24, prearm.gates().size());
+            assertEquals(ExecutionReadiness.Gate.values().length, prearm.gates().size());
             assertEquals(before, orders.find(placed.id()).orElseThrow());
             assertEquals(0, broker.requests().size());
             assertTrue(operator.arm(placed.id(), Duration.ofSeconds(20)).armed());
@@ -327,7 +329,7 @@ class LocalKiteOrderExecutionIntegrationTest {
         executionProperties = properties;
         var policy = new ExecutionSafetyPolicy(properties, arming, emergencyStop::get, session, riskDecisions,
                 registry, market, () -> marketHealth, orders, clock, metrics,
-                new PostgresExecutionAuthorizationAuditStore(jdbc));
+                new PostgresExecutionAuthorizationAuditStore(jdbc), RehearsalIsolation.accounts(properties,registry,market,Clock.fixed(NOW,ZoneOffset.UTC)), () -> true);
         executionGateway = org.mockito.Mockito.spy(new KiteOrderAdapter(transport, registry, properties));
         application = new OrderApplicationService(orders, new OrderCommandValidator(registry),
                 executionGateway, properties,
@@ -431,7 +433,7 @@ class LocalKiteOrderExecutionIntegrationTest {
             public boolean hasDangerousUnresolvedOrders(){return delegate.hasDangerousUnresolvedOrders();}
         };
         application = new OrderApplicationService(mutating, new OrderCommandValidator(registry), new KiteOrderAdapter(transport, registry, executionProperties), executionProperties, Clock.fixed(NOW, ZoneOffset.UTC), metrics,
-                new ExecutionSafetyPolicy(executionProperties, arming, emergencyStop::get, session, riskDecisions, registry, market, () -> marketHealth, orders, Clock.fixed(NOW, ZoneOffset.UTC), metrics, new PostgresExecutionAuthorizationAuditStore(jdbc)));
+                new ExecutionSafetyPolicy(executionProperties, arming, emergencyStop::get, session, riskDecisions, registry, market, () -> marketHealth, orders, Clock.fixed(NOW, ZoneOffset.UTC), metrics, new PostgresExecutionAuthorizationAuditStore(jdbc), RehearsalIsolation.accounts(executionProperties,registry,market,Clock.fixed(NOW,ZoneOffset.UTC)), () -> true));
         assertThrows(OrderExecutionException.class, () -> application.executeRiskApproved(order.id()));
         assertEquals(0, broker.placeCount());
         assertEquals(OrderState.VALIDATED, orders.find(order.id()).orElseThrow().state());
@@ -453,7 +455,7 @@ class LocalKiteOrderExecutionIntegrationTest {
         application = new OrderApplicationService(orders, new OrderCommandValidator(registry), executionGateway,
                 executionProperties, clock, metrics, new ExecutionSafetyPolicy(executionProperties, arming,
                 emergencyStop::get, session, riskDecisions, registry, market, () -> marketHealth, orders,
-                clock, metrics, barrierAudit));
+                clock, metrics, barrierAudit, RehearsalIsolation.accounts(executionProperties,registry,market,Clock.fixed(NOW,ZoneOffset.UTC)), () -> true));
         var pool = Executors.newFixedThreadPool(2);
         try {
             var first = pool.submit(() -> attempt(order.id()));
@@ -504,7 +506,7 @@ class LocalKiteOrderExecutionIntegrationTest {
         application = new OrderApplicationService(orders, new OrderCommandValidator(registry), executionGateway,
                 executionProperties, clock, metrics, new ExecutionSafetyPolicy(executionProperties, arming,
                 emergencyStop::get, session, riskDecisions, registry, changingMarket, () -> marketHealth,
-                orders, clock, metrics, changingAudit));
+                orders, clock, metrics, changingAudit, RehearsalIsolation.accounts(executionProperties,registry,market,Clock.fixed(NOW,ZoneOffset.UTC)), () -> true));
         assertThrows(RuntimeException.class, () -> application.executeRiskApproved(order.id()));
         assertEquals(0, broker.requests().size());
         assertTrue(jdbc.queryForObject("SELECT EXISTS(SELECT 1 FROM trading.execution_authorizations WHERE order_id=? AND NOT allowed)", Boolean.class, order.id().value()));
@@ -548,11 +550,11 @@ class LocalKiteOrderExecutionIntegrationTest {
         var clock = Clock.fixed(NOW, ZoneOffset.UTC);
         var firstService = new OrderApplicationService(orders, new OrderCommandValidator(registry), executionGateway,
                 executionProperties, clock, metrics, new ExecutionSafetyPolicy(executionProperties, arming, emergencyStop::get,
-                session, riskDecisions, registry, market, () -> marketHealth, orders, clock, metrics, barrier));
+                session, riskDecisions, registry, market, () -> marketHealth, orders, clock, metrics, barrier, RehearsalIsolation.accounts(executionProperties,registry,market,Clock.fixed(NOW,ZoneOffset.UTC)), () -> true));
         var otherService = new OrderApplicationService(otherRepository, new OrderCommandValidator(registry),
                 new KiteOrderAdapter(transport, registry, executionProperties), executionProperties, clock, metrics,
                 new ExecutionSafetyPolicy(executionProperties, arming, emergencyStop::get, session, riskDecisions,
-                registry, market, () -> marketHealth, otherRepository, clock, metrics, barrier));
+                registry, market, () -> marketHealth, otherRepository, clock, metrics, barrier, RehearsalIsolation.accounts(executionProperties,registry,market,Clock.fixed(NOW,ZoneOffset.UTC)), () -> true));
         try (var pool = Executors.newFixedThreadPool(2)) {
             var a = pool.submit(() -> { try { firstService.executeRiskApproved(first.id()); } catch (RuntimeException ignored) {} });
             var b = pool.submit(() -> { try { otherService.executeRiskApproved(second.id()); } catch (RuntimeException ignored) {} });

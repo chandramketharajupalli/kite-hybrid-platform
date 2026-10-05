@@ -55,7 +55,8 @@ public final class OneOrderCrashProbe {
         var checks=new LiveTestExecutionChecks(true,live,arm,new PostgresOperationalReadiness(jdbc,()->true,"public","flyway_schema_history"),clock);
         var audit=new PostgresExecutionAuthorizationAuditStore(jdbc);
         var policy=new ExecutionSafetyPolicy(properties,arm,runtimeHalt,session,risks,registry,market,OperatorPreflightDryRunTest::healthy,orders,clock,metrics,
-                decision->{ audit.record(decision); halt(args[5],"authorized"); },checks);
+                decision->{ audit.record(decision); halt(args[5],"authorized"); },checks,
+                RehearsalIsolation.accounts(properties,registry,market,clock), () -> true);
         var adapter=new KiteOrderAdapter(new KiteRestTransport(RehearsalIsolation.client(args[3],args[5].equals("http-in-flight") ? 30000 : 1000),session),registry,properties);
         var gateway=new OrderExecutionGateway() {
             @Override public String place(OrderRecord order,Runnable validation) {

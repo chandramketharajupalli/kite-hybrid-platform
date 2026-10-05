@@ -37,6 +37,27 @@ class KiteAuthenticationUseCaseTest {
     private static final String REQUEST = "syntheticRequestCredential";
     private static final String SENSITIVE = "syntheticSecretNeverExpose";
 
+    @Test void initializationPortSharesStatusStateAndIsBoundToExecutionIdentity() throws Exception {
+        Fixture f=new Fixture(); f.store.token=TOKEN;
+        assertThat(f.useCase.initializationReady()).isFalse();
+        assertThat(f.useCase.restore().initializationReady()).isTrue();
+        assertThat(f.useCase.initializationReady()).isEqualTo(f.useCase.status().initializationReady());
+        int loads=f.store.loads, refreshes=f.refreshCalls;
+        // The getter remains callable while the authentication workflow monitor is held.
+        synchronized(f.useCase) {
+            try(var pool=Executors.newSingleThreadExecutor()) {
+                assertThat(pool.submit(f.useCase::initializationReady).get(2,java.util.concurrent.TimeUnit.SECONDS)).isTrue();
+            }
+        }
+        assertThat(f.store.loads).isEqualTo(loads); assertThat(f.refreshCalls).isEqualTo(refreshes);
+        f.session.install(TOKEN); f.session.validated=true;
+        assertThat(f.session.executionIdentity()).isPresent();
+        assertThat(f.useCase.initializationReady()).isFalse();
+        assertThat(f.useCase.status().initializationReady()).isFalse();
+        assertThat(f.useCase.restore().initializationReady()).isTrue();
+        assertThat(f.useCase.reset().initializationReady()).isFalse();
+        assertThat(f.useCase.initializationReady()).isFalse();
+    }
     @Test void noTokenRequiresInteractiveAuthenticationWithoutCallingBroker() {
         Fixture fixture = new Fixture();
 
@@ -379,6 +400,8 @@ class KiteAuthenticationUseCaseTest {
         boolean enabled = true;
         boolean validated;
         KiteAccessToken token;
+        java.util.UUID identity;
+        @Override public Optional<java.util.UUID> executionIdentity() { return authenticated() ? Optional.ofNullable(identity) : Optional.empty(); }
         FakeSession(List<String> events) { this.events = events; }
         @Override public boolean enabled() { return enabled; }
         @Override public boolean authenticated() { return validated && token != null; }
@@ -386,6 +409,7 @@ class KiteAuthenticationUseCaseTest {
         @Override public void install(KiteAccessToken token) {
             events.add("install");
             this.token = token;
+            identity = java.util.UUID.randomUUID();
             validated = false;
         }
         @Override public void clear() { token = null; validated = false; }

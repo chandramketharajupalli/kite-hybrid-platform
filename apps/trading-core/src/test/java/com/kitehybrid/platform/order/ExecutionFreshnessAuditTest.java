@@ -83,7 +83,7 @@ class ExecutionFreshnessAuditTest {
         var market = mock(LatestMarketDataStore.class);
         when(market.latest(instrumentId)).thenReturn(Optional.of(new Tick(instrumentId, BigDecimal.TEN, tickAt)));
         var session = mock(KiteAuthenticationSession.class);
-        when(session.executionIdentity()).thenReturn(Optional.of(new UUID(0,1)));when(session.enabled()).thenReturn(true);
+        when(session.executionIdentity()).thenReturn(Optional.of(new UUID(0,1)));when(session.enabled()).thenReturn(true); when(session.authenticated()).thenReturn(true); when(session.tokenAvailable()).thenReturn(true);
         when(session.authenticated()).thenReturn(true);
         when(session.tokenAvailable()).thenReturn(true);
         var health = new MarketDataHealth(MarketDataGateway.State.CONNECTED, MarketDataHealth.Status.FRESH,
@@ -95,6 +95,6 @@ class ExecutionFreshnessAuditTest {
                 Duration.ofMinutes(1), Duration.ofMinutes(1), limits, "audit");
         return new ExecutionSafetyPolicy(properties, arm, () -> false, session, risks, registry, market,
                 () -> health, mock(OrderRepository.class), clock,
-                new SimpleMeterRegistry(), ExecutionAuthorizationAuditStore.NOOP).evaluate(order);
+                new SimpleMeterRegistry(), ExecutionAuthorizationAuditStore.NOOP, orderEvidence -> valuationEvidence -> com.kitehybrid.platform.order.application.ExecutionDenialReason.NONE, () -> true).evaluate(order);
     }
 }

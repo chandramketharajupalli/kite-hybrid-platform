@@ -32,7 +32,13 @@ final class KiteOrderAdapter implements OrderExecutionGateway {
         c.triggerPrice().ifPresent(value -> form.put("trigger_price", value.toPlainString()));
         if (c.disclosedQuantity() > 0) form.put("disclosed_quantity", Long.toString(c.disclosedQuantity()));
         order.brokerCorrelationId().ifPresent(value -> form.put("tag", value.value()));
-        try { return response(transport.postRegularOrder(form, java.util.Objects.requireNonNull(dispatchValidation))); }
+        java.util.Objects.requireNonNull(dispatchValidation);
+        try { return response(transport.postRegularOrder(form, () -> {
+            dispatchValidation.run();
+            // The encoded exchange/symbol and semantics must still describe this exact instrument.
+            if (!instrument.equals(instruments.snapshot().byId().get(c.instrumentId())))
+                throw new OrderCommandValidationException("INSTRUMENT_NOT_ALLOWED");
+        })); }
         catch (BrokerReadException failure) { throw map(failure); }
     }
     @Override public void modify(OrderRecord order, ModifyOrder c) {

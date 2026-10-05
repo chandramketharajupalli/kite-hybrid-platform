@@ -18,7 +18,7 @@ import static com.kitehybrid.platform.broker.application.auth.KiteAuthentication
  * Serializes restore, callback and reset for one broker account. Interactive login remains with
  * Zerodha; no broker credentials or token values are returned to the delivery layer.
  */
-public final class KiteAuthenticationUseCase {
+public final class KiteAuthenticationUseCase implements com.kitehybrid.platform.shared.application.ExecutionInitialization {
     public static final String LOGIN_ENDPOINT = "/api/broker/kite/auth/login";
     private static final int MAX_REMEMBERED_REQUESTS = 256;
     private final KiteAuthenticationGateway gateway;
@@ -30,7 +30,7 @@ public final class KiteAuthenticationUseCase {
     private final Map<String, Attempt> attempts = new LinkedHashMap<>();
     private KiteAccessToken activeToken;
     private long generation;
-    private boolean initializationReady;
+    private volatile java.util.Optional<java.util.UUID> initializedIdentity = java.util.Optional.empty();
     private String unavailableCode;
 
     public KiteAuthenticationUseCase(KiteAuthenticationGateway gateway,
@@ -167,10 +167,11 @@ public final class KiteAuthenticationUseCase {
     }
 
     private void initializeInstruments() {
-        if (initializationReady || activeToken == null || !session.authenticated()) return;
+        if (initializationReady() || activeToken == null || !session.authenticated()) return;
         try {
+            var identity = session.executionIdentity();
             instruments.refresh();
-            initializationReady = true;
+            if (identity.isPresent() && identity.equals(session.executionIdentity())) initializedIdentity = identity;
         } catch (BrokerReadException failure) {
             if (failure.category() == BrokerReadException.Category.AUTHENTICATION) {
                 try { clearStoredSession(); }
@@ -201,19 +202,27 @@ public final class KiteAuthenticationUseCase {
     }
 
     private void clearSession() {
+        initializedIdentity = java.util.Optional.empty();
         session.clear();
         activeToken = null;
-        initializationReady = false;
         generation++;
+    }
+
+    /** The status endpoint and execution share this state. Never acquire the authentication monitor
+     * from transport's session monitor, reconcile credentials, refresh instruments or touch storage here. */
+    @Override public boolean initializationReady() {
+        var initialized = initializedIdentity;
+        return initialized.isPresent() && initialized.equals(session.executionIdentity());
     }
 
     private Status currentStatus() {
         if (!session.enabled()) return new Status(false, "KITE", false, "KITE_AUTH_DISABLED", null, false);
         boolean authenticated = activeToken != null && session.authenticated();
-        String code = authenticated ? initializationReady ? "KITE_AUTHENTICATED" : "KITE_INITIALIZATION_PENDING"
+        boolean initialized = initializationReady();
+        String code = authenticated ? initialized ? "KITE_AUTHENTICATED" : "KITE_INITIALIZATION_PENDING"
                 : unavailableCode != null ? unavailableCode : "KITE_AUTH_REQUIRED";
         return new Status(authenticated, "KITE", session.tokenAvailable(), code,
-                authenticated ? null : LOGIN_ENDPOINT, authenticated && initializationReady);
+                authenticated ? null : LOGIN_ENDPOINT, authenticated && initialized);
     }
 
     private void requireEnabled() {

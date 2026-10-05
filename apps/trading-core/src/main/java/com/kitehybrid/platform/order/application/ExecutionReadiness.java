@@ -14,7 +14,7 @@ public record ExecutionReadiness(Map<Gate, ExecutionDenialReason> gates) {
         OPERATOR_CONTROL_ENABLED, LIVE_TEST_MODE_ENABLED, LIVE_TEST_INSTRUMENT_ALLOWED,
         LIVE_TEST_QUANTITY_WITHIN_CAP, LIVE_TEST_NOTIONAL_WITHIN_CAP,
         LIVE_TEST_ARM_DURATION_VALID, DATABASE_READY, RECONCILIATION_STORE_HEALTHY,
-        RECONCILIATION_CONFLICT_CLEAR, TRADING_READ_AVAILABLE
+        RECONCILIATION_CONFLICT_CLEAR, TRADING_READ_AVAILABLE, INITIALIZATION_READY, ACCOUNT_CAPACITY_CURRENT
     }
     public ExecutionReadiness { gates = Collections.unmodifiableMap(new LinkedHashMap<>(gates)); }
     public boolean ready() { return !gates.isEmpty() && gates.values().stream().allMatch(r -> r == ExecutionDenialReason.NONE); }

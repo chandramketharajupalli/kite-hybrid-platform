@@ -66,7 +66,7 @@ class ConservativeNotionalRegressionTest {
         var risks = mock(RiskDecisionStore.class);
         when(risks.find(approved.id())).thenReturn(Optional.of(new RiskDecision(approved.id(), 1,
                 RiskDecision.Outcome.APPROVED, RiskReason.APPROVED, NOW, limits.version())));
-        var session = mock(ExecutionSession.class); when(session.enabled()).thenReturn(true);
+        var session = mock(ExecutionSession.class); when(session.enabled()).thenReturn(true); when(session.authenticated()).thenReturn(true); when(session.tokenAvailable()).thenReturn(true);
         when(session.executionIdentity()).thenReturn(Optional.of(new UUID(0, 1)));
         var arm = new RuntimeExecutionArming(new SimpleMeterRegistry(), session::executionIdentity);
         arm.arm(approved, Duration.ofSeconds(30), NOW);
@@ -80,7 +80,7 @@ class ConservativeNotionalRegressionTest {
         var extra = new LiveTestExecutionChecks(true, live, arm,
                 () -> new OperationalReadiness.Evidence(true, true, true, true), clock);
         var policy = new ExecutionSafetyPolicy(execution, arm, () -> false, session, risks, registry, market,
-                () -> health, orders, clock, new SimpleMeterRegistry(), ExecutionAuthorizationAuditStore.NOOP, extra);
+                () -> health, orders, clock, new SimpleMeterRegistry(), ExecutionAuthorizationAuditStore.NOOP, extra, orderEvidence -> valuationEvidence -> com.kitehybrid.platform.order.application.ExecutionDenialReason.NONE, () -> true);
         var report = policy.inspect(approved);
         assertEquals(rawAllowed, new BigDecimal(price).multiply(BigDecimal.valueOf(quantity))
                 .compareTo(new BigDecimal("10000")) <= 0, "Historical raw arithmetic for regression evidence");

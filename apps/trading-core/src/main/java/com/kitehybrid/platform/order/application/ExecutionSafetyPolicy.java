@@ -26,6 +26,8 @@ public final class ExecutionSafetyPolicy {
     private final MeterRegistry metrics;
     private final ExecutionAuthorizationAuditStore audit;
     private final AdditionalExecutionChecks additional;
+    private final AccountExecutionChecks accounts;
+    private final com.kitehybrid.platform.shared.application.ExecutionInitialization initialization;
 
     public ExecutionSafetyPolicy(OrderExecutionProperties p, RuntimeExecutionArming arm, BooleanSupplier stop,
             ExecutionSession session, RiskDecisionStore risks, InstrumentRegistry instruments,
@@ -37,10 +39,27 @@ public final class ExecutionSafetyPolicy {
             ExecutionSession session, RiskDecisionStore risks, InstrumentRegistry instruments,
             LatestMarketDataStore market, Supplier<MarketDataHealth> health, OrderRepository orders,
             Clock clock, MeterRegistry metrics, ExecutionAuthorizationAuditStore audit, AdditionalExecutionChecks additional) {
+        this(p,arm,stop,session,risks,instruments,market,health,orders,clock,metrics,audit,additional,
+                AccountExecutionChecks.UNAVAILABLE, () -> false);
+    }
+    public ExecutionSafetyPolicy(OrderExecutionProperties p, RuntimeExecutionArming arm, BooleanSupplier stop,
+            ExecutionSession session, RiskDecisionStore risks, InstrumentRegistry instruments,
+            LatestMarketDataStore market, Supplier<MarketDataHealth> health, OrderRepository orders,
+            Clock clock, MeterRegistry metrics, ExecutionAuthorizationAuditStore audit,
+            AccountExecutionChecks accounts, com.kitehybrid.platform.shared.application.ExecutionInitialization initialization) {
+        this(p,arm,stop,session,risks,instruments,market,health,orders,clock,metrics,audit,order -> value -> java.util.Map.of(),accounts,initialization);
+    }
+    public ExecutionSafetyPolicy(OrderExecutionProperties p, RuntimeExecutionArming arm, BooleanSupplier stop,
+            ExecutionSession session, RiskDecisionStore risks, InstrumentRegistry instruments,
+            LatestMarketDataStore market, Supplier<MarketDataHealth> health, OrderRepository orders,
+            Clock clock, MeterRegistry metrics, ExecutionAuthorizationAuditStore audit, AdditionalExecutionChecks additional,
+            AccountExecutionChecks accounts, com.kitehybrid.platform.shared.application.ExecutionInitialization initialization) {
         this.p=p; this.arm=arm; this.stop=stop; this.session=session; this.risks=risks;
         this.instruments=instruments; this.market=market; this.health=health; this.orders=orders;
         this.clock=clock; this.metrics=metrics; this.audit=java.util.Objects.requireNonNull(audit);
         this.additional=java.util.Objects.requireNonNull(additional);
+        this.accounts=java.util.Objects.requireNonNull(accounts);
+        this.initialization=java.util.Objects.requireNonNull(initialization);
     }
     public ExecutionAuthorizationDecision evaluate(OrderRecord order) {
         var reason=check(order, false);
@@ -49,8 +68,8 @@ public final class ExecutionSafetyPolicy {
     /** Volatile safety fence before CAS and before transaction commit, including after admission-lock waits. */
     public void validateAdmission() {
         if (stop.getAsBoolean()) throw new OrderCommandValidationException(EMERGENCY_STOP.name());
-        if (!session.enabled() || session.executionIdentity().isEmpty())
-            throw new OrderCommandValidationException(AUTHENTICATION_UNAVAILABLE.name());
+        var authentication = authenticationReason();
+        if (authentication != NONE) throw new OrderCommandValidationException(authentication.name());
         if (!arm.armed(clock.instant())) throw new OrderCommandValidationException(DISARMED.name());
     }
     /** Recompute after admission-lock waits and again before commit; never reuse preflight prices. */
@@ -61,9 +80,20 @@ public final class ExecutionSafetyPolicy {
     }
     /** Called after durable admission and again immediately before transport dispatch. */
     public void validateDispatch(OrderRecord approved, OrderRecord submitting) {
+        validateDispatch(approved, submitting, null);
+    }
+    /** Only the gateway's latest pre-HTTP callback invokes this. No account snapshot survives it. */
+    public void validateTransport(OrderRecord approved, OrderRecord submitting) {
+        validateDispatch(approved, submitting);
+        var account = prepareAccount(approved);
+        // Recheck local state and ALL volatile evidence after potentially slow account reads.
+        validateDispatch(approved, submitting, account);
+    }
+    private void validateDispatch(OrderRecord approved, OrderRecord submitting,
+            Function<java.util.Optional<ConservativeOrderValuation>, ExecutionDenialReason> account) {
         var current=orders.find(submitting.id()).orElse(null);
         var reason = current == null || current.version()!=submitting.version() || current.state()!=OrderState.SUBMITTING
-                || !current.command().equals(submitting.command()) || !current.brokerCorrelationId().equals(submitting.brokerCorrelationId()) ? ORDER_VERSION_CHANGED : check(approved, true);
+                || !current.command().equals(submitting.command()) || !current.brokerCorrelationId().equals(submitting.brokerCorrelationId()) ? ORDER_VERSION_CHANGED : check(approved, true, account);
         if (reason != NONE) {
             record(submitting, reason, clock.instant());
             throw new OrderCommandValidationException(reason.name());
@@ -80,16 +110,22 @@ public final class ExecutionSafetyPolicy {
         return decision;
     }
     /** Read-only evidence; no authorization audit write, transition, or broker invocation. */
-    public ExecutionReadiness inspect(OrderRecord order) { return inspect(order, false); }
+    public ExecutionReadiness inspect(OrderRecord order) { return inspect(order, false, prepareAccount(order)); }
 
     private ExecutionDenialReason check(OrderRecord order, boolean dispatch) {
+        return check(order, dispatch, null);
+    }
+    private ExecutionDenialReason check(OrderRecord order, boolean dispatch,
+            Function<java.util.Optional<ConservativeOrderValuation>, ExecutionDenialReason> account) {
         if (!p.enabled()) return EXECUTION_DISABLED;
         if (stop.getAsBoolean()) return EMERGENCY_STOP;
-        if (!session.enabled() || session.executionIdentity().isEmpty()) return AUTHENTICATION_UNAVAILABLE;
+        var authentication=authenticationReason();
+        if (authentication != NONE) return authentication;
         if (!arm.armed(clock.instant())) return DISARMED;
-        return inspect(order, dispatch).reason();
+        return inspect(order, dispatch, account).reason();
     }
-    private ExecutionReadiness inspect(OrderRecord o, boolean dispatch) {
+    private ExecutionReadiness inspect(OrderRecord o, boolean dispatch,
+            Function<java.util.Optional<ConservativeOrderValuation>, ExecutionDenialReason> account) {
         var gates = new java.util.LinkedHashMap<ExecutionReadiness.Gate, ExecutionDenialReason>();
         try {
             // Sample freshness AFTER potentially blocking evidence reads.
@@ -108,11 +144,14 @@ public final class ExecutionSafetyPolicy {
                 } catch (IllegalArgumentException invalid) { /* Invalid observations cannot authorize transport. */ }
             }
             var extra = additionalEvidence.apply(valuation);
+            var accountReason = account == null ? NONE : accountReason(account, valuation);
             var now = clock.instant();
-            boolean authenticated = session.enabled() && session.executionIdentity().isPresent();
+            var authentication=authenticationReason();
+            boolean authenticated = authentication != AUTHENTICATION_UNAVAILABLE;
             boolean armed = arm.armed(now);
             put(gates, ExecutionReadiness.Gate.EXECUTION_CAPABILITY_CONFIGURED, p.enabled(), EXECUTION_DISABLED);
             put(gates, ExecutionReadiness.Gate.AUTHENTICATED, authenticated, AUTHENTICATION_UNAVAILABLE);
+            gates.put(ExecutionReadiness.Gate.INITIALIZATION_READY, authentication);
             put(gates, ExecutionReadiness.Gate.RUNTIME_ARMED, armed, DISARMED);
             put(gates, ExecutionReadiness.Gate.SESSION_BOUND, armed && authenticated, DISARMED);
             put(gates, ExecutionReadiness.Gate.EMERGENCY_STOP_CLEAR, !stop.getAsBoolean(), EMERGENCY_STOP);
@@ -135,10 +174,32 @@ public final class ExecutionSafetyPolicy {
             put(gates, ExecutionReadiness.Gate.NOTIONAL_WITHIN_CAP, valuation.filter(v -> v.within(p.maxNotional())
                     && v.within(p.riskLimits().maxOrderValue())).isPresent(), NOTIONAL_CAP_EXCEEDED);
             gates.putAll(extra);
+            gates.put(ExecutionReadiness.Gate.ACCOUNT_CAPACITY_CURRENT, accountReason);
         } catch (RuntimeException unavailable) {
             for (var gate : ExecutionReadiness.Gate.values()) gates.put(gate, EVIDENCE_UNAVAILABLE);
         }
         return new ExecutionReadiness(gates);
+    }
+    private static ExecutionDenialReason accountReason(
+            Function<java.util.Optional<ConservativeOrderValuation>, ExecutionDenialReason> account,
+            java.util.Optional<ConservativeOrderValuation> valuation) {
+        try { return java.util.Objects.requireNonNull(account.apply(valuation)); }
+        catch (RuntimeException unavailable) { return ACCOUNT_EVIDENCE_UNAVAILABLE; }
+    }
+    private Function<java.util.Optional<ConservativeOrderValuation>, ExecutionDenialReason> prepareAccount(OrderRecord order) {
+        try {
+            if (!p.enabled() || stop.getAsBoolean() || authenticationReason()!=NONE)
+                return value -> ACCOUNT_EVIDENCE_UNAVAILABLE;
+            return java.util.Objects.requireNonNull(accounts.prepare(order));
+        } catch (RuntimeException unavailable) { return value -> ACCOUNT_EVIDENCE_UNAVAILABLE; }
+    }
+    private ExecutionDenialReason authenticationReason() {
+        try {
+            if (!session.enabled() || !session.authenticated() || !session.tokenAvailable() || session.executionIdentity().isEmpty())
+                return AUTHENTICATION_UNAVAILABLE;
+        } catch (RuntimeException unavailable) { return AUTHENTICATION_UNAVAILABLE; }
+        try { return initialization.initializationReady() ? NONE : AUTHENTICATION_NOT_INITIALIZED; }
+        catch (RuntimeException unavailable) { return AUTHENTICATION_NOT_INITIALIZED; }
     }
     private static void put(java.util.Map<ExecutionReadiness.Gate, ExecutionDenialReason> gates,
             ExecutionReadiness.Gate gate, boolean passed, ExecutionDenialReason reason) {

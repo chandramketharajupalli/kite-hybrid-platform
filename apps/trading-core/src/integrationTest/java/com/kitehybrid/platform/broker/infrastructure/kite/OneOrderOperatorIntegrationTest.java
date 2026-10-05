@@ -66,6 +66,8 @@ class OneOrderOperatorIntegrationTest {
     final class Fixture implements AutoCloseable {
         final AtomicReference<Instant> now=new AtomicReference<>(NOW);
         final AtomicBoolean stop=new AtomicBoolean();
+        final AtomicReference<com.kitehybrid.platform.shared.application.ExecutionInitialization> initialization =
+                new AtomicReference<>(() -> true);
         final AtomicInteger gatewayCalls=new AtomicInteger();
         volatile MarketDataHealth health=OperatorPreflightDryRunTest.healthy();
         final List<String> trace=new CopyOnWriteArrayList<>();
@@ -92,10 +94,13 @@ class OneOrderOperatorIntegrationTest {
         volatile Runnable beforeDispatch=()->{}, beforeGateway=()->{}, afterReceipt=()->{};
         OrderId id;
 
-        Fixture(String... overrides) throws Exception {
+        final Instrument instrument;
+        Fixture(String... overrides) throws Exception { this(INSTRUMENT, overrides); }
+        Fixture(Instrument instrument, String... overrides) throws Exception {
+            this.instrument = instrument;
             when(clock.instant()).thenAnswer(call->now.get()); when(clock.getZone()).thenReturn(ZoneOffset.UTC);
-            registry.replace(List.of(INSTRUMENT),NOW);
-            market.update(new Tick(INSTRUMENT.id(),BigDecimal.TEN,NOW),publication);
+            registry.replace(List.of(instrument),NOW);
+            market.update(new Tick(instrument.id(),BigDecimal.TEN,NOW),publication);
             when(reads.positions()).thenReturn(new BrokerPositions(List.of(),List.of()));
             when(reads.holdings()).thenReturn(List.of()); when(reads.orders()).thenReturn(List.of());
             when(reads.trades()).thenReturn(List.of()); when(reads.margins()).thenReturn(OperatorPreflightDryRunTest.margins());
@@ -130,10 +135,10 @@ class OneOrderOperatorIntegrationTest {
         AnnotationConfigApplicationContext boot(KiteSession currentSession, String... overrides) {
             var c=new AnnotationConfigApplicationContext();
             c.setEnvironment(RehearsalIsolation.environment());
-            TestPropertyValues.of("kite.order-execution.enabled=true", "kite.order-execution.allowed-instruments="+INSTRUMENT.id().value(),
+            TestPropertyValues.of("kite.order-execution.enabled=true", "kite.order-execution.allowed-instruments="+instrument.id().value(),
                     "kite.order-execution.max-quantity=1", "kite.order-execution.max-notional=20", "kite.order-execution.risk-decision-max-age=60s",
                     "kite.order-execution.market-data-max-age=5s", "kite.operator-control.enabled=true", "kite.live-test.enabled=true",
-                    "kite.live-test.allowed-instruments="+INSTRUMENT.id().value(), "kite.live-test.max-quantity=1", "kite.live-test.max-notional=20",
+                    "kite.live-test.allowed-instruments="+instrument.id().value(), "kite.live-test.max-quantity=1", "kite.live-test.max-notional=20",
                     "kite.live-test.arm-max-duration=30s", "kite.trading-read.enabled=true", "risk.enabled=true", "risk.max-order-quantity=100",
                     "risk.max-order-value=10000", "risk.max-position-quantity=100", "risk.max-exposure=10000", "risk.market-data-max-age=60s",
                     "risk.registry-max-age=60s", "risk.cash-reserve=1").applyTo(c);
@@ -141,6 +146,8 @@ class OneOrderOperatorIntegrationTest {
             c.registerBean(JdbcTemplate.class,()->new JdbcTemplate(source)); c.registerBean(Flyway.class,()->flyway);
             c.registerBean(Clock.class,()->clock); c.registerBean(MeterRegistry.class,SimpleMeterRegistry::new);
             c.registerBean(KiteAuthenticationSession.class,()->currentSession); c.registerBean(InstrumentRegistry.class,()->registry);
+            c.registerBean(com.kitehybrid.platform.shared.application.ExecutionInitialization.class,
+                    () -> () -> initialization.get().initializationReady());
             c.registerBean(LatestMarketDataStore.class,()->market); c.registerBean(KiteTradingReadAdapter.class,()->reads);
             c.registerBean(MarketDataGateway.class,()->{ var gateway=mock(MarketDataGateway.class); when(gateway.health()).thenAnswer(call->health); return gateway; });
             c.registerBean(TradingProperties.class,()->{ var trading=mock(TradingProperties.class); when(trading.emergencyStop()).thenAnswer(call->stop.get()); return trading; });
@@ -201,7 +208,7 @@ class OneOrderOperatorIntegrationTest {
         void brokerObservation() {
             String capturedTag=Arrays.stream(form.get().split("&")).filter(field->field.startsWith("tag="))
                     .map(field->java.net.URLDecoder.decode(field.substring(4),StandardCharsets.UTF_8)).findFirst().orElseThrow();
-            when(reads.orders()).thenReturn(List.of(new BrokerOrder("synthetic-only-broker-1",Optional.empty(),Optional.empty(),INSTRUMENT.id(),
+            when(reads.orders()).thenReturn(List.of(new BrokerOrder("synthetic-only-broker-1",Optional.empty(),Optional.empty(),instrument.id(),
                     TradingReadTypes.Side.BUY,TradingReadTypes.OrderType.MARKET,TradingReadTypes.Product.DELIVERY,TradingReadTypes.Validity.DAY,
                     TradingReadTypes.Variety.REGULAR,TradingReadTypes.OrderStatus.OPEN,1,0,1,0,0,BigDecimal.ZERO,BigDecimal.ZERO,BigDecimal.ZERO,
                     NOW,Optional.of(NOW),Optional.of(new com.kitehybrid.platform.shared.domain.BrokerCorrelationId(capturedTag)),Optional.of(NOW))));

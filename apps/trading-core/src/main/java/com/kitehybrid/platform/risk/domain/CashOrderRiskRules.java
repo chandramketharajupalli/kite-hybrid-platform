@@ -1,17 +1,13 @@
 package com.kitehybrid.platform.risk.domain;
 
-import com.kitehybrid.platform.broker.domain.read.TradingReadTypes;
 import com.kitehybrid.platform.instrument.domain.InstrumentType;
 import com.kitehybrid.platform.order.domain.OrderRecord;
 import com.kitehybrid.platform.order.domain.ConservativeOrderValuation;
 import com.kitehybrid.platform.order.domain.OrderState;
 import com.kitehybrid.platform.order.domain.command.*;
-import com.kitehybrid.platform.shared.domain.Identifiers.InstrumentId;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
 import static com.kitehybrid.platform.risk.domain.RiskReason.*;
 
 /** Conservative cash-buy checkpoint, not broker margin calculation or executable authorization. */
@@ -51,61 +47,13 @@ final class CashOrderRiskRules {
                 c.limitPrice(), limits.priceBuffer());
         BigDecimal value = valuation.conservativeNotional();
         if (!valuation.within(limits.maxOrderValue())) return ORDER_VALUE_LIMIT;
-        if (in.positions() == null || in.holdings() == null || in.margins() == null || in.orders() == null)
-            return BROKER_STATE_UNAVAILABLE;
-        // No outstanding broker orders: their fills/reservations cannot be atomically read with positions.
-        for (var existing : in.orders()) {
-            if (existing.status() != TradingReadTypes.OrderStatus.FILLED
-                    && existing.status() != TradingReadTypes.OrderStatus.CANCELLED
-                    && existing.status() != TradingReadTypes.OrderStatus.REJECTED) return OPEN_BROKER_ORDERS;
-        }
-        Map<InstrumentId, BigDecimal> quantities = new HashMap<>();
-        for (var holding : in.holdings()) {
-            if (holding.discrepancy() || holding.marginFunded().isPresent()
-                    || holding.product() != TradingReadTypes.Product.DELIVERY) return ACCOUNT_STATE_UNSUPPORTED;
-            // These buckets may overlap. Summation is deliberately an upper bound, never available-to-sell.
-            var quantity = BigDecimal.valueOf(holding.quantity()).add(BigDecimal.valueOf(holding.unsettledQuantity()))
-                    .add(BigDecimal.valueOf(holding.collateralQuantity()));
-            quantities.merge(holding.instrumentId(), quantity, BigDecimal::add);
-        }
-        for (var position : in.positions().net()) {
-            if (position.quantity() < 0 || position.product() != TradingReadTypes.Product.DELIVERY
-                    || position.multiplier().compareTo(BigDecimal.ONE) != 0) return ACCOUNT_STATE_UNSUPPORTED;
-            quantities.merge(position.instrumentId(), BigDecimal.valueOf(position.quantity()), BigDecimal::add);
-        }
-        // Day rows are not added to net: doing so would invent exposure; unsupported day products fail closed.
-        for (var position : in.positions().day())
-            if (position.product() != TradingReadTypes.Product.DELIVERY || position.quantity() < 0
-                    || position.multiplier().compareTo(BigDecimal.ONE) != 0) return ACCOUNT_STATE_UNSUPPORTED;
-        BigDecimal projected = quantities.getOrDefault(c.instrumentId(), BigDecimal.ZERO)
-                .add(BigDecimal.valueOf(c.quantity()));
-        if (projected.compareTo(BigDecimal.valueOf(limits.maxPositionQuantity())) > 0) return POSITION_LIMIT;
-        BigDecimal exposure = value;
-        for (var entry : quantities.entrySet()) {
-            if (entry.getValue().signum() == 0) continue;
-            var held = registry.byId().get(entry.getKey());
-            if (held == null || held.type() != InstrumentType.CASH) return ACCOUNT_STATE_UNSUPPORTED;
-            var heldTick = in.ticks().get(entry.getKey());
-            var reason = priceReason(heldTick, now, limits.marketDataMaxAge());
-            if (reason != APPROVED) return reason;
-            var heldUnit = ConservativeOrderValuation.evaluate(OrderType.MARKET, 1, heldTick.lastPrice(),
-                    java.util.Optional.empty(), limits.priceBuffer()).conservativeUnitPrice();
-            exposure = exposure.add(entry.getValue().multiply(heldUnit));
-        }
-        if (exposure.compareTo(limits.maxExposure()) > 0) return EXPOSURE_LIMIT;
-        var equity = in.margins().segments().get(TradingReadTypes.MarginSegment.EQUITY);
-        if (equity == null || !equity.enabled()) return BROKER_STATE_UNAVAILABLE;
-        var available = equity.available();
-        // Cash-only budget: no collateral, leverage, sale proceeds, or discretionary credit.
-        var usable = available.cash().min(available.openingBalance()).min(available.liveBalance()).min(equity.net())
-                .subtract(equity.utilised().debits().max(BigDecimal.ZERO))
-                .subtract(equity.utilised().payout().max(BigDecimal.ZERO))
-                .subtract(equity.utilised().holdingSales().max(BigDecimal.ZERO));
-        if (usable.compareTo(value.add(limits.cashReserve())) < 0) return INSUFFICIENT_MARGIN;
-        return APPROVED;
+        final CashAccountCapacity.Capacity capacity;
+        try { capacity = CashAccountCapacity.inspect(in, limits, c.instrumentId(), now); }
+        catch (CashAccountCapacity.Denied denied) { return denied.reason(); }
+        return CashAccountCapacity.check(capacity, c.quantity(), valuation, limits);
     }
 
-    private static RiskReason priceReason(com.kitehybrid.platform.marketdata.domain.Tick tick,
+    static RiskReason priceReason(com.kitehybrid.platform.marketdata.domain.Tick tick,
                                           Instant now, Duration maxAge) {
         if (tick == null) return MARKET_DATA_UNAVAILABLE;
         if (!fresh(tick.receivedAt(), now, maxAge)

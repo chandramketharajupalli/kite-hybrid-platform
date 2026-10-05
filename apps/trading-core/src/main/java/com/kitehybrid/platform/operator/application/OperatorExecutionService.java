@@ -117,7 +117,12 @@ public final class OperatorExecutionService {
             // Persisted order is authoritative. The application repeats authorization and account admission.
             return application.executeRiskApproved(id);
         } catch (RuntimeException denied) {
-            audit("EXECUTE_DENIED", EVIDENCE_UNAVAILABLE);
+            var reason = EVIDENCE_UNAVAILABLE;
+            if (denied instanceof OrderCommandValidationException) {
+                try { reason = ExecutionDenialReason.valueOf(denied.getMessage()); }
+                catch (IllegalArgumentException | NullPointerException unknown) { /* Never expose raw exception text. */ }
+            }
+            audit("EXECUTE_DENIED", reason);
             throw denied;
         } finally {
             arm.disarm();

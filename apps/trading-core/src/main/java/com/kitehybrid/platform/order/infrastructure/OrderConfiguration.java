@@ -41,9 +41,23 @@ public class OrderConfiguration {
     ExecutionSafetyPolicy executionSafetyPolicy(OrderExecutionProperties properties, RuntimeExecutionArming arm,
             RuntimeTradingHalt halt, KiteAuthenticationSession session, RiskDecisionStore risks, InstrumentRegistry instruments,
             LatestMarketDataStore market, MarketDataGateway gateway, OrderRepository orders, Clock clock, MeterRegistry metrics,
-            ExecutionAuthorizationAuditStore audit, AdditionalExecutionChecks additional) {
+            ExecutionAuthorizationAuditStore audit, AdditionalExecutionChecks additional, AccountExecutionChecks accounts,
+            org.springframework.beans.factory.ObjectProvider<com.kitehybrid.platform.shared.application.ExecutionInitialization> initialization) {
         return new ExecutionSafetyPolicy(properties, arm, halt, session, risks, instruments, market,
-                gateway::health, orders, clock, metrics, audit, additional);
+                gateway::health, orders, clock, metrics, audit, additional, accounts,
+                () -> initialization.getIfAvailable(() -> () -> false).initializationReady());
+    }
+
+    @Bean @Profile("!test")
+    AccountExecutionChecks accountExecutionChecks(
+            org.springframework.beans.factory.ObjectProvider<com.kitehybrid.platform.broker.application.read.BrokerPositionsProvider> positions,
+            org.springframework.beans.factory.ObjectProvider<com.kitehybrid.platform.broker.application.read.BrokerHoldingsProvider> holdings,
+            org.springframework.beans.factory.ObjectProvider<com.kitehybrid.platform.broker.application.read.BrokerMarginsProvider> margins,
+            org.springframework.beans.factory.ObjectProvider<com.kitehybrid.platform.broker.application.read.BrokerOrdersProvider> orders,
+            InstrumentRegistry instruments, LatestMarketDataStore market, OrderExecutionProperties properties, Clock clock) {
+        var p=positions.getIfAvailable(); var h=holdings.getIfAvailable(); var m=margins.getIfAvailable(); var o=orders.getIfAvailable();
+        if (p==null || h==null || m==null || o==null || properties.riskLimits()==null) return AccountExecutionChecks.UNAVAILABLE;
+        return new CurrentAccountExecutionChecks(p,h,m,o,instruments,market,properties.riskLimits(),clock);
     }
 
     @Bean @Profile("!test")
