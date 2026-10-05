@@ -23,13 +23,22 @@ class KiteOrderMarginAdapterTest {
         "span":0,"exposure":0,"option_premium":0,"additional":0,"bo":0,"cash":0,"var":2000.125,
         "pnl":{"realised":0,"unrealised":0},"charges":{"total":1.25},"total":2000.125}]}
         """;
-    final RestClient.Builder builder=RestClient.builder().baseUrl(BASE);
+    final List<String> requests=new ArrayList<>();
+    final RestClient.Builder builder=RestClient.builder().baseUrl(BASE).requestInterceptor((request,body,next)->{
+        requests.add(request.getMethod().name()+" "+request.getURI().getPath());
+        return next.execute(request,body);
+    });
     final MockRestServiceServer server=MockRestServiceServer.bindTo(builder).build();
     final Clock clock=Clock.fixed(NOW,ZoneOffset.UTC);
     final KiteSession session=new KiteSession(new KiteProperties("syntheticMarginKey","","",true),clock);
     final OrderMarginQuote.Request request=new OrderMarginQuote.Request(new InstrumentId(UUID.randomUUID()),"NSE","SBIN",
             TradingReadTypes.Side.BUY,TradingReadTypes.OrderType.MARKET,TradingReadTypes.Product.INTRADAY,
             TradingReadTypes.Validity.DAY,TradingReadTypes.Variety.REGULAR,10);
+    void assertCalculationOnly() {
+        assertEquals(List.of("POST /margins/orders"),requests);
+        for(String method:List.of("POST","PUT","DELETE"))
+            assertEquals(0,requests.stream().filter(r->r.startsWith(method+" /orders")).count());
+    }
     KiteOrderMarginAdapter adapter() {
         session.install(new KiteAccessToken("syntheticMarginToken",NOW,NOW.plusSeconds(3600)));session.profileValidated();
         return new KiteOrderMarginAdapter(new KiteRestTransport(builder.build(),session),session,clock);
@@ -43,7 +52,7 @@ class KiteOrderMarginAdapterTest {
                   "order_type":"MARKET","quantity":10,"price":0,"trigger_price":0}]
                 """,true)).andRespond(withSuccess(BODY,MediaType.APPLICATION_JSON));
         var q=adapter.estimate(request);assertEquals(request,q.request());assertEquals(new BigDecimal("2000.125"),q.requiredMargin());
-        assertTrue(q.collateralTerms().isEmpty());assertEquals(NOW,q.receivedAt());server.verify();
+        assertTrue(q.collateralTerms().isEmpty());assertEquals(NOW,q.receivedAt());server.verify();assertCalculationOnly();
     }
     @ParameterizedTest @ValueSource(strings={"missing","string","negative","zero","huge","identity","duplicate","credit","pnl","offset","array","error","redirect","timeout","auth"})
     void unsupportedEvidenceFailsBoundedlyWithoutRetries(String change) {
@@ -68,6 +77,6 @@ class KiteOrderMarginAdapterTest {
             };expected.andRespond(withSuccess(body,MediaType.APPLICATION_JSON));
         }
         var failure=assertThrows(BrokerReadException.class,()->adapter.estimate(request));
-        assertFalse(failure.getMessage().contains("syntheticNeverExpose"));server.verify();
+        assertFalse(failure.getMessage().contains("syntheticNeverExpose"));server.verify();assertCalculationOnly();
     }
 }

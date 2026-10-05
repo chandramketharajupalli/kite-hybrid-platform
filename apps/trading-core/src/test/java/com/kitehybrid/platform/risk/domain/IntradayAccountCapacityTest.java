@@ -119,4 +119,28 @@ class IntradayAccountCapacityTest {
                 TradingReadTypes.MarginSegment.EQUITY,e,TradingReadTypes.MarginSegment.COMMODITY,e)),quote("2000",true),"800")));
     }
 
+    @Test void observedPayinAndCollateralShapeDoesNotTurnUnknownEligibilityIntoApproval() {
+        // Synthetic account fixture reproducing bounded field relationships, not a current portfolio or tick.
+        var available=new BrokerMargins.AvailableMargin(Z,d("-14681.5"),d("-14681.5"),d("318.5"),d("1089220.75181"),d("15000"));
+        var utilised=new BrokerMargins.UtilisedMargin(Z,Z,d("100"),Z,Z,Z,Z,Z,Z,Z,d("1089220.75181"),Z);
+        var equity=new BrokerMargins.SegmentMargin(true,d("1089539.25181"),available,utilised);
+        var margins=new BrokerMargins(Map.of(TradingReadTypes.MarginSegment.EQUITY,equity,
+                TradingReadTypes.MarginSegment.COMMODITY,margins("0","0",false).segments().get(TradingReadTypes.MarginSegment.EQUITY)));
+        var base=quote("191.60000000000002",false);
+        var r=base.request();
+        var oneShare=new OrderMarginQuote.Request(r.instrumentId(),r.exchange(),r.symbol(),r.side(),r.orderType(),r.product(),r.validity(),r.variety(),1);
+        var estimate=new OrderMarginQuote(oneShare,base.requiredMargin(),d("0.374966948"),Optional.empty(),NOW);
+        var synthetic=input(margins,estimate,"800");
+        assertEquals(0,equity.net().compareTo(available.collateral().add(available.liveBalance())));
+        assertEquals(0,available.liveBalance().compareTo(available.openingBalance().add(available.intradayPayin())));
+        var capacity=CashAccountCapacity.inspectIntraday(synthetic,limits,SBIN.id(),NOW);
+        assertEquals(0,d("-14681.5").compareTo(capacity.usableCash()));
+        var funding=IntradayAccountCapacity.funding(capacity,margins,estimate);
+        assertEquals(0,d("-29781.5").compareTo(funding.cash()));
+        assertEquals(0,BigDecimal.ZERO.compareTo(funding.eligibleCollateral()));
+        assertEquals(COLLATERAL_UNSUPPORTED,IntradayAccountCapacity.checkFunding(capacity,margins,estimate,limits));
+        assertEquals(INSUFFICIENT_MARGIN,CashAccountCapacity.check(capacity,1,
+                ConservativeOrderValuation.evaluate(OrderType.MARKET,1,d("800"),Optional.empty(),limits.priceBuffer()),limits));
+    }
+
 }
