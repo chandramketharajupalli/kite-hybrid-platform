@@ -54,6 +54,12 @@ class KiteOrderMarginAdapterTest {
         var q=adapter.estimate(request);assertEquals(request,q.request());assertEquals(new BigDecimal("2000.125"),q.requiredMargin());
         assertTrue(q.collateralTerms().isEmpty());assertEquals(NOW,q.receivedAt());server.verify();assertCalculationOnly();
     }
+    @Test void authenticationLostBeforeCalculationProducesNoRequest() {
+        var adapter=adapter();session.invalidate();
+        var failure=assertThrows(BrokerReadException.class,()->adapter.estimate(request));
+        assertEquals(BrokerReadException.Category.AUTHENTICATION,failure.category());
+        assertTrue(requests.isEmpty());server.verify();
+    }
     @ParameterizedTest @ValueSource(strings={"missing","string","negative","zero","huge","identity","duplicate","credit","pnl","offset","array","error","redirect","timeout","auth"})
     void unsupportedEvidenceFailsBoundedlyWithoutRetries(String change) {
         var adapter=adapter();var expected=server.expect(requestTo(BASE+"/margins/orders")).andExpect(method(HttpMethod.POST));

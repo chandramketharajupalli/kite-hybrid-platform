@@ -8,6 +8,8 @@ See [Phase 10.8A MIS validation](phase-10.8a-validation.md) for product-specific
 funding, the full-notional ceiling, synthetic tests and unresolved real collateral eligibility.
 See [Phase 10.8B collateral review](phase-10.8b-validation.md) for bounded real
 read-only evidence and the NOT_READY collateral/cash-component conclusion.
+See [Phase 10.8C composition review](phase-10.8c-validation.md) for refreshed
+pledge metadata, token/DB preservation and the remaining authoritative eligibility gaps.
 Application liveness does not depend on a broker or Redis. Readiness includes
 database availability outside isolated tests; trading readiness remains false.
 Flyway fails startup on migration errors. Phase 5B.1 adds durable order and

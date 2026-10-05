@@ -119,6 +119,38 @@ class IntradayAccountCapacityTest {
                 TradingReadTypes.MarginSegment.EQUITY,e,TradingReadTypes.MarginSegment.COMMODITY,e)),quote("2000",true),"800")));
     }
 
+    @Test void netAlreadyIncludingCollateralCannotFundASecondCopy() {
+        var m=margins("100","2000",true); // net = 2100, not 4100
+        var q=quote("3000",true);
+        var in=input(m,q,"800");
+        var capacity=CashAccountCapacity.inspectIntraday(in,limits,SBIN.id(),NOW);
+        var funding=IntradayAccountCapacity.funding(capacity,m,q);
+        assertEquals(0,d("2100").compareTo(funding.effectiveCapacity()));
+        assertEquals(MIS_MARGIN_INSUFFICIENT,evaluate(OrderProduct.INTRADAY,in));
+    }
+
+    @Test void fullyUtilisedCollateralIsNotAvailableEvenWithExplicitTerms() {
+        var base=margins("100","3000",true);
+        var e=base.segments().get(TradingReadTypes.MarginSegment.EQUITY);
+        var u=new BrokerMargins.UtilisedMargin(Z,Z,Z,Z,Z,Z,Z,Z,Z,d("1000"),d("2000"),Z);
+        var m=new BrokerMargins(Map.of(TradingReadTypes.MarginSegment.EQUITY,
+                new BrokerMargins.SegmentMargin(true,e.net(),e.available(),u),
+                TradingReadTypes.MarginSegment.COMMODITY,base.segments().get(TradingReadTypes.MarginSegment.COMMODITY)));
+        var q=quote("2000",true);var in=input(m,q,"800");
+        var f=IntradayAccountCapacity.funding(CashAccountCapacity.inspectIntraday(in,limits,SBIN.id(),NOW),m,q);
+        assertEquals(0,Z.compareTo(f.eligibleCollateral()));
+        assertEquals(0,d("100").compareTo(f.effectiveCapacity()));
+        assertEquals(MIS_MARGIN_INSUFFICIENT,evaluate(OrderProduct.INTRADAY,in));
+    }
+
+    @ParameterizedTest @ValueSource(strings={"eligibility","haircut","cashComponent"})
+    void anyUnestablishedCollateralTermRequiresCompleteEvidence(String missingFact) {
+        // The boundary has no partial-terms representation. Any unknown fact must keep terms absent.
+        var in=input(margins("100","1000000",true),quote("2000",false),"800");
+        assertTrue(in.marginQuote().orElseThrow().collateralTerms().isEmpty(),missingFact);
+        assertEquals(COLLATERAL_UNSUPPORTED,evaluate(OrderProduct.INTRADAY,in),missingFact);
+    }
+
     @Test void observedPayinAndCollateralShapeDoesNotTurnUnknownEligibilityIntoApproval() {
         // Synthetic account fixture reproducing bounded field relationships, not a current portfolio or tick.
         var available=new BrokerMargins.AvailableMargin(Z,d("-14681.5"),d("-14681.5"),d("318.5"),d("1089220.75181"),d("15000"));
