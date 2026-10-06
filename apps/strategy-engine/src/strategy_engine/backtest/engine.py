@@ -16,6 +16,7 @@ from typing import Annotated, Any, Literal, Protocol
 
 from pydantic import Field, model_validator
 
+from strategy_engine.backtest.corpus import Corpus
 from strategy_engine.backtest.costs import IntradayCostSchedule
 from strategy_engine.backtest.dataset import (
     NSE,
@@ -254,10 +255,12 @@ def percent(numerator: Decimal, denominator: Decimal) -> Decimal:
         return (numerator * 100 / denominator).quantize(Decimal("0.00000001"))
 
 
-def run(dataset: Dataset, config: Config, spec: StrategySpec, strategy: BacktestStrategy) -> Result:
+def run(dataset: Dataset | Corpus, config: Config, spec: StrategySpec,
+        strategy: BacktestStrategy) -> Result:
     """Pure inputs; no I/O. Invalid data/forced exits yield no successful result."""
     # Validate again even if a caller used Pydantic's unsafe construct/copy helpers.
-    dataset = Dataset.model_validate(dataset.model_dump())
+    dataset = (Corpus.model_validate(dataset.model_dump()) if isinstance(dataset, Corpus)
+               else Dataset.model_validate(dataset.model_dump()))
     config = Config.model_validate(config.model_dump())
     spec = StrategySpec.model_validate(spec.model_dump())
     for day in dataset.calendar.days:
@@ -275,7 +278,7 @@ def run(dataset: Dataset, config: Config, spec: StrategySpec, strategy: Backtest
         raise ValueError("ARITHMETIC_FAILURE") from None
 
 
-def _simulate(dataset: Dataset, config: Config, spec: StrategySpec,
+def _simulate(dataset: Dataset | Corpus, config: Config, spec: StrategySpec,
               strategy: BacktestStrategy) -> Result:
     cash = config.initial_cash
     realized = ZERO
@@ -293,8 +296,13 @@ def _simulate(dataset: Dataset, config: Config, spec: StrategySpec,
                                       side=intent.side, quantity=intent.quantity,
                                       reason=intent.reason, outcome=status))
 
-    for index, bar in enumerate(dataset.bars):
+    bars = dataset.bars
+    days = {day.date: day for day in dataset.calendar.days}
+    session_start_index = 0
+    for index, bar in enumerate(bars):
         local = bar.start.astimezone(NSE)
+        if index and bars[index - 1].start.astimezone(NSE).date() != local.date():
+            session_start_index = index
         forced = local.time() == config.forced_exit_time and entry is not None
         if forced:
             if pending is not None:
@@ -369,10 +377,11 @@ def _simulate(dataset: Dataset, config: Config, spec: StrategySpec,
         curve.append(EquityPoint(decision_time=bar.end, cash=cash, position_quantity=quantity,
                                  mark_price=bar.close, unrealized_gross=unrealized,
                                  realized_net=realized, equity=equity))
-        day = next(d for d in dataset.calendar.days if d.date == local.date())
+        day = days[local.date()]
         session = day.sessions[0]  # Dataset validation requires one confirmed complete session.
         context = Decision(instrument_id=dataset.instrument_id, decision_time=bar.end,
-                           completed_bars=dataset.bars[:index + 1],
+                           completed_bars=bars[
+                               session_start_index if isinstance(dataset, Corpus) else 0:index + 1],
                            position=Position(quantity=quantity, entry_price=entry_price,
                                              entry_costs=entry_fee, unrealized_gross=unrealized),
                            cash=cash, realized_net=realized, parameters=spec.parameters,
@@ -391,8 +400,8 @@ def _simulate(dataset: Dataset, config: Config, spec: StrategySpec,
         if proposal is not None:
             pending = (next_id, bar.end, proposal)
             next_id += 1
-        final = index == len(dataset.bars) - 1
-        session_end = final or dataset.bars[index + 1].start.astimezone(NSE).date() != local.date()
+        final = index == len(bars) - 1
+        session_end = final or bars[index + 1].start.astimezone(NSE).date() != local.date()
         if session_end:
             if entry is not None:
                 raise ValueError("OVERNIGHT_POSITION_FORBIDDEN")
@@ -419,7 +428,9 @@ def _simulate(dataset: Dataset, config: Config, spec: StrategySpec,
                       net_pnl=realized, return_percent=percent(realized, config.initial_cash),
                       win_rate_percent=percent(Decimal(wins), Decimal(len(trades))),
                       max_drawdown=drawdown, max_drawdown_percent=drawdown_percent)
-    return Result(engine_version=(ENGINE_VERSION if isinstance(config.costs, ConfiguredCosts)
+    return Result(engine_version=("intraday-next-open-v3-session-corpus"
+                                  if isinstance(dataset, Corpus)
+                                  else ENGINE_VERSION if isinstance(config.costs, ConfiguredCosts)
                                   else "intraday-next-open-v2-costs"),
                   dataset_fingerprint=dataset.content_fingerprint,
                   dataset_artifact_fingerprint=digest(canonical_json(dataset)),

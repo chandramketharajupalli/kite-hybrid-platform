@@ -1,0 +1,45 @@
+[
+    {
+        "stage":  "PLAN",
+        "observedAt":  "2026-10-05T19:11:58.427674100Z",
+        "planFingerprint":  "2b93e329997a206321ba45bfa0e47d271a69346a38fe749e51c02629f08f0c1f",
+        "calendarFingerprint":  "22c28c857547dbc81d7796a4b083edb84b0239bbf76cc9b4cc9fcfd04eb77f3f",
+        "requests":  122
+    },
+    {
+        "stage":  "CORPUS",
+        "observedAt":  "2026-10-05T19:14:24.200856400Z",
+        "sessions":  122,
+        "bars":  45750,
+        "contentFingerprint":  "b8d362e35976f61213e1526c4eb1686e506853f391566456843faa9b8cacea52",
+        "providerCalls":  122,
+        "acquisitionCompletedAt":  "2026-10-05T19:14:24.200856400Z",
+        "researchTradingRows":  0,
+        "replayInserted":  0,
+        "replayCalls":  0,
+        "acquisitionStartedAt":  "2026-10-05T19:12:00.069678900Z"
+    },
+    {
+        "stage":  "PRESERVATION",
+        "observedAt":  "2026-10-05T19:14:24.455620400Z",
+        "verified":  true,
+        "tableCountsUnchanged":  true,
+        "tokenStoreUnchanged":  true
+    },
+    {
+        "stage":  "FINAL",
+        "observedAt":  "2026-10-05T19:14:24.455620400Z",
+        "runtimeHalt":  "HALTED",
+        "orderMutationRequests":  0,
+        "executionInvocations":  0,
+        "brokerRequests":  {
+                               "GET /instruments":  1,
+                               "GET /instruments/historical/[resolved]/minute":  122,
+                               "GET /user/profile":  1
+                           },
+        "tokenWrites":  0,
+        "databaseWrites":  0,
+        "emergencyStop":  true,
+        "subscriptions":  0
+    }
+]

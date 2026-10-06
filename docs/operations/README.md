@@ -1,5 +1,9 @@
 # Operations foundation
 
+See [Phase 11.4 corpus and walk-forward validation](phase-11.4-validation.md)
+and its [predeclared acquisition/research plan](phase-11.4-acquisition-plan.md).
+Research uses a separate PostgreSQL database; final TEST stays sealed.
+
 Start in PAPER with live disabled and emergency stop enabled.
 See [controlled live readiness](controlled-live-readiness.md) for the service-only
 operator boundary, V10 read-only preflight and mandatory backup/restore verification.

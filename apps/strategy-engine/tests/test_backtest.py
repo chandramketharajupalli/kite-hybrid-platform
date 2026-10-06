@@ -324,7 +324,7 @@ def test_session_policy_outside_confirmed_session_denied() -> None:
 def test_research_dependency_and_clock_boundaries() -> None:
     allowed = {"__future__", "datetime", "decimal", "typing", "uuid", "zoneinfo", "hashlib",
                "json", "re", "pydantic", "strategy_engine.backtest.dataset",
-               "strategy_engine.backtest.costs"}
+               "strategy_engine.backtest.costs", "strategy_engine.backtest.corpus"}
     for source in (ROOT / "apps/strategy-engine/src/strategy_engine/backtest").glob("*.py"):
         tree = ast.parse(source.read_text(encoding="utf-8"))
         for node in ast.walk(tree):

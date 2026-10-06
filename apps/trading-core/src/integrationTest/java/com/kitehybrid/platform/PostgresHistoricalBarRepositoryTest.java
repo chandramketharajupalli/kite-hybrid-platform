@@ -49,6 +49,34 @@ class PostgresHistoricalBarRepositoryTest {
     HistoricalBarRepository.Dataset query(Instant decision,Instant dataset) {
         return repo.query(new HistoricalBarRepository.Query(window(),decision,dataset));
     }
+    @Test void corpusRestartReusesCommittedSessionAndNeverRetriesFailedFetch() {
+        var day=new TradingCalendar.Day(TradingCalendar.Status.EXPECTED_SESSION,List.of(
+            new TradingCalendar.Session(LocalTime.of(9,15),LocalTime.of(9,18))));
+        var first=START.atZone(TradingCalendar.NSE_ZONE).toLocalDate();
+        var calendar=new TradingCalendar("corpus-test","synthetic",Map.of(first,day,first.plusDays(1),day));
+        var plan=new HistoricalCorpusPlan(SBIN.id(),first,first.plusDays(2),calendar,2);
+        var registry=mock(InstrumentRegistry.class);
+        when(registry.snapshot()).thenReturn(InstrumentSnapshot.validated(List.of(SBIN),1,NOW));
+        when(registry.findById(SBIN.id())).thenReturn(Optional.of(SBIN));
+        var calls=new java.util.concurrent.atomic.AtomicInteger();
+        HistoricalMarketDataProvider provider=w->{
+            if(calls.incrementAndGet()==2) throw new HistoricalDataException(HistoricalDataException.Reason.RATE_LIMITED);
+            return new HistoricalMarketDataProvider.Batch(List.of(bar(w.from(),"100"),bar(w.from().plusSeconds(60),"100"),
+                bar(w.from().plusSeconds(120),"100")),"FAKE","v1",NOW);
+        };
+        var clock=Clock.fixed(NOW,ZoneOffset.UTC);
+        var acquisition=new HistoricalCorpusAcquisition(new HistoricalDataIngestionService(registry,provider,repo,clock),repo,clock);
+        assertThrows(HistoricalDataException.class,()->acquisition.acquire(plan));
+        assertEquals(2,calls.get()); assertEquals(3,jdbc.queryForObject("SELECT count(*) FROM trading.historical_bars",Integer.class));
+        var resumed=acquisition.acquire(plan);
+        assertEquals(3,calls.get());assertEquals(1,resumed.providerCalls()); assertEquals(3,resumed.inserted());
+        assertTrue(resumed.sessions().getFirst().reused());
+        var before=jdbc.queryForList("SELECT * FROM trading.historical_bars ORDER BY start_time");
+        var replay=acquisition.acquire(plan);
+        assertEquals(3,calls.get());assertEquals(0,replay.providerCalls());assertEquals(0,replay.inserted());
+        assertEquals(resumed.contentFingerprint(),replay.contentFingerprint());
+        assertEquals(before,jdbc.queryForList("SELECT * FROM trading.historical_bars ORDER BY start_time"));
+    }
     @Test void migrationIsExplicitRepeatableAndDoesNotChangeTradingReadinessAtDefaultLocation() {
         jdbc.execute("CREATE DATABASE historical_default_scope");
         var defaultSource=new DriverManagerDataSource(postgres.getJdbcUrl().replace("/"+postgres.getDatabaseName(),"/historical_default_scope"),

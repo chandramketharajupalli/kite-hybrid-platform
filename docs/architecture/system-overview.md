@@ -1,5 +1,9 @@
 # System overview
 
+Phase 11.4 adds [bounded corpus acquisition and walk-forward research](historical-corpus-walk-forward.md).
+Pinned v1 exports compose into a validated corpus; chronological development folds
+remain separate from final TEST and from all trading/execution capabilities.
+
 Phase 11.0 adds an isolated [historical data foundation](historical-market-data.md):
 one-minute canonical bars, explicit calendar evidence, idempotent PostgreSQL
 ingestion and closed-bar research queries. It has no execution/strategy wiring.
