@@ -77,6 +77,45 @@ class PostgresHistoricalBarRepositoryTest {
         assertEquals(resumed.contentFingerprint(),replay.contentFingerprint());
         assertEquals(before,jdbc.queryForList("SELECT * FROM trading.historical_bars ORDER BY start_time"));
     }
+    @Test void multiInstrumentRestartAndReplayPreserveEachCommittedCorpus() {
+        var other=Instrument.create(new BrokerInstrumentId("ZERODHA","456"),"HDFCBANK","NSE","CASH",
+                InstrumentType.CASH,Optional.empty(),Optional.empty(),new BigDecimal("0.05"),1);
+        var first=LocalDate.of(2026,2,2);
+        var day=new TradingCalendar.Day(TradingCalendar.Status.EXPECTED_SESSION,List.of(
+                new TradingCalendar.Session(LocalTime.of(9,15),LocalTime.of(9,18))));
+        var calendar=new TradingCalendar("multi-synthetic","synthetic",Map.of(first,day));
+        var plan=new MultiInstrumentCorpusPlan("a".repeat(64),List.of(
+                new HistoricalCorpusPlan(SBIN.id(),first,first.plusDays(1),calendar,1),
+                new HistoricalCorpusPlan(other.id(),first,first.plusDays(1),calendar,1)),2);
+        var registry=mock(InstrumentRegistry.class);
+        when(registry.snapshot()).thenReturn(InstrumentSnapshot.validated(List.of(SBIN,other),1,NOW));
+        when(registry.findById(SBIN.id())).thenReturn(Optional.of(SBIN));
+        when(registry.findById(other.id())).thenReturn(Optional.of(other));
+        var calls=new java.util.concurrent.atomic.AtomicInteger();
+        HistoricalMarketDataProvider provider=w->{
+            if(calls.incrementAndGet()==2) throw new HistoricalDataException(HistoricalDataException.Reason.RATE_LIMITED);
+            var bars=new ArrayList<HistoricalBar>();
+            for(int n=0;n<3;n++) bars.add(new HistoricalBar(w.instrumentId(),w.from().plusSeconds(n*60L),
+                    BarInterval.MINUTE,new BigDecimal("100"),new BigDecimal("101"),new BigDecimal("99"),
+                    new BigDecimal("100"),100,Optional.empty()));
+            return new HistoricalMarketDataProvider.Batch(bars,"FAKE","v1",NOW);
+        };
+        var clock=Clock.fixed(NOW,ZoneOffset.UTC);
+        var single=new HistoricalCorpusAcquisition(
+                new HistoricalDataIngestionService(registry,provider,repo,clock),repo,clock);
+        var multi=new MultiInstrumentCorpusAcquisition(single);
+        assertThrows(HistoricalDataException.class,()->multi.acquire(plan));
+        assertEquals(3,jdbc.queryForObject("SELECT count(*) FROM trading.historical_bars",Integer.class));
+        var resumed=multi.acquire(plan);
+        assertEquals(1,resumed.providerCalls());assertEquals(3,resumed.inserted());
+        var before=jdbc.queryForList("SELECT * FROM trading.historical_bars ORDER BY instrument_id,start_time");
+        var replay=multi.acquire(plan);
+        assertEquals(3,calls.get());assertEquals(0,replay.providerCalls());assertEquals(0,replay.inserted());
+        assertEquals(resumed.aggregateFingerprint(),replay.aggregateFingerprint());
+        assertEquals(resumed.members().stream().map(HistoricalCorpusAcquisition.Result::contentFingerprint).toList(),
+                replay.members().stream().map(HistoricalCorpusAcquisition.Result::contentFingerprint).toList());
+        assertEquals(before,jdbc.queryForList("SELECT * FROM trading.historical_bars ORDER BY instrument_id,start_time"));
+    }
     @Test void migrationIsExplicitRepeatableAndDoesNotChangeTradingReadinessAtDefaultLocation() {
         jdbc.execute("CREATE DATABASE historical_default_scope");
         var defaultSource=new DriverManagerDataSource(postgres.getJdbcUrl().replace("/"+postgres.getDatabaseName(),"/historical_default_scope"),

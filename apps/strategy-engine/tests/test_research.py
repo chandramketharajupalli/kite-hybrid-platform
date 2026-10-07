@@ -345,11 +345,18 @@ def test_changing_only_test_bars_cannot_change_train_validation_outputs() -> Non
 def test_research_import_boundaries_and_no_wallclock_random_or_io() -> None:
     root = Path(__file__).resolve().parents[1] / "src/strategy_engine/research"
     allowed = {"datetime", "decimal", "typing", "pydantic"}
+    # Phase 12 pure deterministic identity/statistics helpers only. No I/O capabilities.
+    phase120_imports = {
+        "universe.py": {"hashlib", "struct", "uuid"},
+        "development.py": {"collections.abc"},
+        "multi_instrument.py": {"collections.abc", "statistics"},
+    }
     for source in root.glob("*.py"):
         for node in ast.walk(ast.parse(source.read_text(encoding="utf-8"))):
             names = ([a.name for a in node.names] if isinstance(node, ast.Import) else
                      [node.module or ""] if isinstance(node, ast.ImportFrom) else [])
-            assert all(name in allowed or name.startswith("strategy_engine.research.")
+            assert all(name in allowed | phase120_imports.get(source.name, set())
+                       or name.startswith("strategy_engine.research.")
                        or name.startswith("strategy_engine.backtest.") for name in names), source
             if source.name in {"features.py", "strategy.py"} and isinstance(node, ast.ImportFrom):
                 assert all(alias.name not in {"Dataset", "ExperimentSpec"} for alias in node.names)
