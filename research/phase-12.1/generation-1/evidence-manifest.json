@@ -1,0 +1,808 @@
+{
+  "accessed_on": "2026-10-08",
+  "fingerprint": "aa6caec7e22a1e1968aa024b9360433383bd3fd497eb2c1e88196380e80a9be6",
+  "manifest": {
+    "end_exclusive": "2026-07-01",
+    "evidence": [
+      {
+        "document_sha256": "7411b655d69e74410334e6c33b10ad792afc37d2dd6c8fb6f6b69a2fa8679c74",
+        "effective_date": null,
+        "evidence_id": "HDFCBANK-actions",
+        "finding": "Bounded valid JSON response: 1 rows. Dividend - Rs 13 Per Share; ex 19-Jun-2026; record 19-Jun-2026; EQ; ISIN field INE040A01018",
+        "limitation": "Action feed is ex-date coverage, not a full symbol/series change archive. ISIN field conflicts for HDFCBANK and SBIN are retained, not silently corrected.",
+        "organization": "NSE",
+        "publication_date": null,
+        "quality": "EXCHANGE_PRIMARY",
+        "symbols": [
+          "HDFCBANK"
+        ],
+        "title": "NSE corporate actions: 30 January through 30 June 2026",
+        "url": "https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=HDFCBANK&from_date=30-01-2026&to_date=30-06-2026"
+      },
+      {
+        "document_sha256": "ad063c3ce206f725daa9802c43a1da7de1baa03310f7a9da06f3454627d296dd",
+        "effective_date": null,
+        "evidence_id": "HDFCBANK-announcements",
+        "finding": "70 entries returned. Subjects and action-related attachment links reviewed; index contains financial, allotment, governance and general-update disclosures.",
+        "limitation": "Index inspection is not review of every attachment. Earlier announcements with in-window effects and exchange series changes require further coverage; no blanket negative certification.",
+        "organization": "NSE",
+        "publication_date": null,
+        "quality": "EXCHANGE_PRIMARY",
+        "symbols": [
+          "HDFCBANK"
+        ],
+        "title": "NSE dated issuer announcement index",
+        "url": "https://www.nseindia.com/api/corporate-announcements?index=equities&symbol=HDFCBANK&from_date=30-01-2026&to_date=30-06-2026"
+      },
+      {
+        "document_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "effective_date": null,
+        "evidence_id": "ICICIBANK-actions",
+        "finding": "Bounded valid JSON response: 0 rows. No rows; not standalone proof of no event.",
+        "limitation": "Action feed is ex-date coverage, not a full symbol/series change archive. ISIN field conflicts for HDFCBANK and SBIN are retained, not silently corrected.",
+        "organization": "NSE",
+        "publication_date": null,
+        "quality": "EXCHANGE_PRIMARY",
+        "symbols": [
+          "ICICIBANK"
+        ],
+        "title": "NSE corporate actions: 30 January through 30 June 2026",
+        "url": "https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=ICICIBANK&from_date=30-01-2026&to_date=30-06-2026"
+      },
+      {
+        "document_sha256": "7553b73b19d36e440013622216da79072594f9f148f18a37e20bd1b53256365f",
+        "effective_date": null,
+        "evidence_id": "ICICIBANK-announcements",
+        "finding": "90 entries returned. Subjects and action-related attachment links reviewed; index contains financial, allotment, governance and general-update disclosures.",
+        "limitation": "Index inspection is not review of every attachment. Earlier announcements with in-window effects and exchange series changes require further coverage; no blanket negative certification.",
+        "organization": "NSE",
+        "publication_date": null,
+        "quality": "EXCHANGE_PRIMARY",
+        "symbols": [
+          "ICICIBANK"
+        ],
+        "title": "NSE dated issuer announcement index",
+        "url": "https://www.nseindia.com/api/corporate-announcements?index=equities&symbol=ICICIBANK&from_date=30-01-2026&to_date=30-06-2026"
+      },
+      {
+        "document_sha256": "c1e0400f934517833c8b153ed859de1e2e01ce8c4a6bb094bc1bb90784cf074b",
+        "effective_date": null,
+        "evidence_id": "LT-actions",
+        "finding": "Bounded valid JSON response: 1 rows. Dividend - Rs 38 Per Share; ex 22-May-2026; record 22-May-2026; EQ; ISIN field INE018A01030",
+        "limitation": "Action feed is ex-date coverage, not a full symbol/series change archive. ISIN field conflicts for HDFCBANK and SBIN are retained, not silently corrected.",
+        "organization": "NSE",
+        "publication_date": null,
+        "quality": "EXCHANGE_PRIMARY",
+        "symbols": [
+          "LT"
+        ],
+        "title": "NSE corporate actions: 30 January through 30 June 2026",
+        "url": "https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=LT&from_date=30-01-2026&to_date=30-06-2026"
+      },
+      {
+        "document_sha256": "4d6c327aa282143cb4445d2d849c26c7fa5ae4dbe80d3f139d7fa45f1f98fd63",
+        "effective_date": null,
+        "evidence_id": "LT-announcements",
+        "finding": "77 entries returned. Subjects and action-related attachment links reviewed; index contains financial, allotment, governance and general-update disclosures.",
+        "limitation": "Index inspection is not review of every attachment. Earlier announcements with in-window effects and exchange series changes require further coverage; no blanket negative certification.",
+        "organization": "NSE",
+        "publication_date": null,
+        "quality": "EXCHANGE_PRIMARY",
+        "symbols": [
+          "LT"
+        ],
+        "title": "NSE dated issuer announcement index",
+        "url": "https://www.nseindia.com/api/corporate-announcements?index=equities&symbol=LT&from_date=30-01-2026&to_date=30-06-2026"
+      },
+      {
+        "document_sha256": "1e27456011c2449033829c9665a2e5d20f2a27993639d23d10c9e99c685d88f5",
+        "effective_date": null,
+        "evidence_id": "RELIANCE-actions",
+        "finding": "Bounded valid JSON response: 1 rows. Dividend - Rs 6 Per Share; ex 05-Jun-2026; record 05-Jun-2026; EQ; ISIN field INE002A01018",
+        "limitation": "Action feed is ex-date coverage, not a full symbol/series change archive. ISIN field conflicts for HDFCBANK and SBIN are retained, not silently corrected.",
+        "organization": "NSE",
+        "publication_date": null,
+        "quality": "EXCHANGE_PRIMARY",
+        "symbols": [
+          "RELIANCE"
+        ],
+        "title": "NSE corporate actions: 30 January through 30 June 2026",
+        "url": "https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=RELIANCE&from_date=30-01-2026&to_date=30-06-2026"
+      },
+      {
+        "document_sha256": "17feafb1831b0ea469f839cc08023da99ed96e67a299a2d9b77a3f5e963da591",
+        "effective_date": null,
+        "evidence_id": "RELIANCE-announcements",
+        "finding": "72 entries returned. Subjects and action-related attachment links reviewed; index contains financial, allotment, governance and general-update disclosures.",
+        "limitation": "Index inspection is not review of every attachment. Earlier announcements with in-window effects and exchange series changes require further coverage; no blanket negative certification.",
+        "organization": "NSE",
+        "publication_date": null,
+        "quality": "EXCHANGE_PRIMARY",
+        "symbols": [
+          "RELIANCE"
+        ],
+        "title": "NSE dated issuer announcement index",
+        "url": "https://www.nseindia.com/api/corporate-announcements?index=equities&symbol=RELIANCE&from_date=30-01-2026&to_date=30-06-2026"
+      },
+      {
+        "document_sha256": "8890e8844b10dc22c9b94aa7105ea2ff9e47a377bf51449df1343f2bd8f1aac1",
+        "effective_date": null,
+        "evidence_id": "SBIN-actions",
+        "finding": "Bounded valid JSON response: 1 rows. Dividend - Rs 17.35 Per Share; ex 15-May-2026; record 16-May-2026; EQ; ISIN field INE062A01012",
+        "limitation": "Action feed is ex-date coverage, not a full symbol/series change archive. ISIN field conflicts for HDFCBANK and SBIN are retained, not silently corrected.",
+        "organization": "NSE",
+        "publication_date": null,
+        "quality": "EXCHANGE_PRIMARY",
+        "symbols": [
+          "SBIN"
+        ],
+        "title": "NSE corporate actions: 30 January through 30 June 2026",
+        "url": "https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=SBIN&from_date=30-01-2026&to_date=30-06-2026"
+      },
+      {
+        "document_sha256": "cbe2000aea7faf99f376d32050f990c2b2577063d4eb17927c31aa84cc9db361",
+        "effective_date": null,
+        "evidence_id": "SBIN-announcements",
+        "finding": "107 entries returned. Subjects and action-related attachment links reviewed; index contains financial, allotment, governance and general-update disclosures.",
+        "limitation": "Index inspection is not review of every attachment. Earlier announcements with in-window effects and exchange series changes require further coverage; no blanket negative certification.",
+        "organization": "NSE",
+        "publication_date": null,
+        "quality": "EXCHANGE_PRIMARY",
+        "symbols": [
+          "SBIN"
+        ],
+        "title": "NSE dated issuer announcement index",
+        "url": "https://www.nseindia.com/api/corporate-announcements?index=equities&symbol=SBIN&from_date=30-01-2026&to_date=30-06-2026"
+      },
+      {
+        "document_sha256": null,
+        "effective_date": null,
+        "evidence_id": "hdfc-dividend",
+        "finding": "Issuer dividend recommendation and June record-date disclosure corroborate NSE action row.",
+        "limitation": "Does not by itself establish uninterrupted NSE series coverage for every session.",
+        "organization": "Issuer",
+        "publication_date": "2026-04-18",
+        "quality": "ISSUER_PRIMARY",
+        "symbols": [
+          "HDFCBANK"
+        ],
+        "title": "April board outcome",
+        "url": "https://nsearchives.nseindia.com/corporate/HDFCBANK_18042026145701_SEResultOutcome18042026.pdf"
+      },
+      {
+        "document_sha256": null,
+        "effective_date": null,
+        "evidence_id": "hdfc-june-identity",
+        "finding": "HDFC Bank Limited, HDFCBANK, equity, ISIN INE040A01034. Period-end corroboration, not a series-change archive.",
+        "limitation": "Does not by itself establish uninterrupted NSE series coverage for every session.",
+        "organization": "NSE",
+        "publication_date": "2026-07-18",
+        "quality": "EXCHANGE_PRIMARY",
+        "symbols": [
+          "HDFCBANK"
+        ],
+        "title": "June-quarter banking filing",
+        "url": "https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_BANKING_175753_18072026160136_iXBRL_WEB.html"
+      },
+      {
+        "document_sha256": null,
+        "effective_date": "2026-04-27",
+        "evidence_id": "hdfc-listing",
+        "finding": "HDFCBANK EQ, ISIN INE040A01034, face value INR 1, further ESOP shares pari passu. Conflicts with action-feed ISIN INE040A01018.",
+        "limitation": "Does not by itself establish uninterrupted NSE series coverage for every session.",
+        "organization": "NSE",
+        "publication_date": "2026-04-24",
+        "quality": "EXCHANGE_PRIMARY",
+        "symbols": [
+          "HDFCBANK"
+        ],
+        "title": "NSE listing circular 73892",
+        "url": "https://nsearchives.nseindia.com/content/circulars/CML73892.pdf"
+      },
+      {
+        "document_sha256": null,
+        "effective_date": null,
+        "evidence_id": "icici-disclosures",
+        "finding": "Dated ESOS/ESUS allotment and regulatory filing index; June board record-date attachment inspected.",
+        "limitation": "Does not by itself establish uninterrupted NSE series coverage for every session.",
+        "organization": "Issuer",
+        "publication_date": null,
+        "quality": "ISSUER_PRIMARY",
+        "symbols": [
+          "ICICIBANK"
+        ],
+        "title": "2026 issuer disclosures",
+        "url": "https://www.icici.bank.in/about-us/disclosures-to-stock-exchanges/2026"
+      },
+      {
+        "document_sha256": null,
+        "effective_date": null,
+        "evidence_id": "icici-identity",
+        "finding": "ICICI Bank Limited, ICICIBANK, equity, ISIN INE090A01021.",
+        "limitation": "Does not by itself establish uninterrupted NSE series coverage for every session.",
+        "organization": "NSE",
+        "publication_date": "2026-04-18",
+        "quality": "EXCHANGE_PRIMARY",
+        "symbols": [
+          "ICICIBANK"
+        ],
+        "title": "March-quarter banking filing",
+        "url": "https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_BANKING_151430_18042026180833_iXBRL_WEB.html"
+      },
+      {
+        "document_sha256": null,
+        "effective_date": "2026-08-03",
+        "evidence_id": "icici-record",
+        "finding": "Dividend record date August 3, 2026; August 21 AGM. Announced in window, entitlement outside it.",
+        "limitation": "Does not by itself establish uninterrupted NSE series coverage for every session.",
+        "organization": "Issuer",
+        "publication_date": "2026-06-29",
+        "quality": "ISSUER_PRIMARY",
+        "symbols": [
+          "ICICIBANK"
+        ],
+        "title": "June 29 board outcome",
+        "url": "https://www.icici.bank.in/content/dam/icicibank/india/managed-assets/docs/about-us/2026/NSEBSE_29062026.pdf"
+      },
+      {
+        "document_sha256": null,
+        "effective_date": null,
+        "evidence_id": "lt-board",
+        "finding": "Realty Undertaking transfer to wholly owned LTRPL; subsidiary issues 3,935,393,685 shares of INR 10 plus INR 6 premium to L&T, not to LT public shareholders. Separate SuFin transfer April 1, 2026 for INR 42.9 crore.",
+        "limitation": "Proposed scheme terms; not proof of sanction or trading effective date.",
+        "organization": "Issuer",
+        "publication_date": "2026-05-05",
+        "quality": "ISSUER_PRIMARY",
+        "symbols": [
+          "LT"
+        ],
+        "title": "FY2026 Board Report",
+        "url": "https://investors.larsentoubro.com/board-report.aspx"
+      },
+      {
+        "document_sha256": null,
+        "effective_date": null,
+        "evidence_id": "lt-identity",
+        "finding": "Larsen & Toubro Limited, NSE LT, equity, ISIN INE018A01030.",
+        "limitation": "Does not by itself establish uninterrupted NSE series coverage for every session.",
+        "organization": "NSE",
+        "publication_date": "2026-05-06",
+        "quality": "EXCHANGE_PRIMARY",
+        "symbols": [
+          "LT"
+        ],
+        "title": "March-quarter IndAS filing",
+        "url": "https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_155858_06052026192958_iXBRL_WEB.html"
+      },
+      {
+        "document_sha256": null,
+        "effective_date": null,
+        "evidence_id": "lt-june-order",
+        "finding": "June 24 issuer cover letter: June 12/16 orders direct shareholder meeting within 60 days. Approval still to be sought. Typographical December date in order acknowledged by issuer.",
+        "limitation": "Does not by itself establish uninterrupted NSE series coverage for every session.",
+        "organization": "Issuer",
+        "publication_date": "2026-06-24",
+        "quality": "ISSUER_PRIMARY",
+        "symbols": [
+          "LT"
+        ],
+        "title": "Receipt of NCLT first-motion orders",
+        "url": "https://nsearchives.nseindia.com/corporate/PAM_24062026190028_Reg3024062026signed1.pdf"
+      },
+      {
+        "document_sha256": null,
+        "effective_date": null,
+        "evidence_id": "lt-june-results",
+        "finding": "As of July 28 filing, Realty approvals remain pending and undertaking remains included. No effective scheme boundary is established inside the target window. Separately Nabha subsidiary stake divested June 25; Metro closure expected September 30.",
+        "limitation": "Supports NO segmentation for the named Realty scheme during target window; does not certify full historical NSE series continuity.",
+        "organization": "Issuer",
+        "publication_date": "2026-07-28",
+        "quality": "ISSUER_PRIMARY",
+        "symbols": [
+          "LT"
+        ],
+        "title": "June-quarter results, standalone note ii",
+        "url": "https://investors.larsentoubro.com/upload/Quarterly/FY2027QuarterlyLTJune2026-website.pdf"
+      },
+      {
+        "document_sha256": null,
+        "effective_date": null,
+        "evidence_id": "lt-march",
+        "finding": "Realty scheme approved December 8, 2025, proposed appointed date April 1, 2026, approvals pending. Separate April 29 Metro share-sale agreement carried expected June 30 completion.",
+        "limitation": "Does not by itself establish uninterrupted NSE series coverage for every session.",
+        "organization": "Issuer",
+        "publication_date": "2026-05-05",
+        "quality": "ISSUER_PRIMARY",
+        "symbols": [
+          "LT"
+        ],
+        "title": "FY2026 results: standalone notes iv-v",
+        "url": "https://investors.larsentoubro.com/upload/Quarterly/FY2026QuarterlyLTResultMarch2026.pdf"
+      },
+      {
+        "document_sha256": null,
+        "effective_date": null,
+        "evidence_id": "lt-observation",
+        "finding": "March 19 NSE no-objection permits filing proposed Realty scheme with NCLT; not final scheme sanction.",
+        "limitation": "Does not by itself establish uninterrupted NSE series coverage for every session.",
+        "organization": "NSE",
+        "publication_date": "2026-03-19",
+        "quality": "EXCHANGE_PRIMARY",
+        "symbols": [
+          "LT"
+        ],
+        "title": "NSE/BSE scheme observation letters",
+        "url": "https://nsearchives.nseindia.com/corporate/PAM_19032026161557_NSE_BSE_Response.pdf"
+      },
+      {
+        "document_sha256": null,
+        "effective_date": null,
+        "evidence_id": "reliance-after",
+        "finding": "End-period issuer identity: RELIANCE equity, Reliance Industries Limited, INE002A01018.",
+        "limitation": "Does not by itself establish uninterrupted NSE series coverage for every session.",
+        "organization": "NSE",
+        "publication_date": "2026-07-17",
+        "quality": "EXCHANGE_PRIMARY",
+        "symbols": [
+          "RELIANCE"
+        ],
+        "title": "June-quarter IndAS filing",
+        "url": "https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_175608_17072026195004_iXBRL_WEB.html"
+      },
+      {
+        "document_sha256": null,
+        "effective_date": null,
+        "evidence_id": "reliance-before",
+        "finding": "Before-window issuer identity: RELIANCE equity, Reliance Industries Limited, INE002A01018.",
+        "limitation": "Does not by itself establish uninterrupted NSE series coverage for every session.",
+        "organization": "NSE",
+        "publication_date": "2026-01-16",
+        "quality": "EXCHANGE_PRIMARY",
+        "symbols": [
+          "RELIANCE"
+        ],
+        "title": "December-quarter IndAS filing",
+        "url": "https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_135487_16012026193821_iXBRL_WEB.html"
+      },
+      {
+        "document_sha256": null,
+        "effective_date": "2026-06-05",
+        "evidence_id": "reliance-record",
+        "finding": "June 5 record date; June 19 AGM; conditional dividend payment within seven days of AGM.",
+        "limitation": "Does not by itself establish uninterrupted NSE series coverage for every session.",
+        "organization": "Issuer",
+        "publication_date": "2026-05-27",
+        "quality": "ISSUER_PRIMARY",
+        "symbols": [
+          "RELIANCE"
+        ],
+        "title": "May 27 AGM and record-date notice",
+        "url": "https://www.ril.com/sites/default/files/2026-05/SE_27052026.pdf"
+      },
+      {
+        "document_sha256": null,
+        "effective_date": null,
+        "evidence_id": "sbin-dividend",
+        "finding": "INR 17.35 dividend, May 16 record date, June 4 payment; NSE action feed independently supplies May 15 ex-date.",
+        "limitation": "Does not by itself establish uninterrupted NSE series coverage for every session.",
+        "organization": "Issuer",
+        "publication_date": "2026-05-08",
+        "quality": "ISSUER_PRIMARY",
+        "symbols": [
+          "SBIN"
+        ],
+        "title": "Dividend and record date filing",
+        "url": "https://nsearchives.nseindia.com/corporate/SBIN_08052026154613_BSE_NSE_DividendRecordDate_08052026.pdf"
+      },
+      {
+        "document_sha256": null,
+        "effective_date": "2025-07-23",
+        "evidence_id": "sbin-listing",
+        "finding": "SBIN EQ ISIN INE062A01020, INR 1 ordinary equity. Conflicts with INE062A01012 in action feed. Older listing used only to investigate this identity discrepancy.",
+        "limitation": "Does not by itself establish uninterrupted NSE series coverage for every session.",
+        "organization": "NSE",
+        "publication_date": "2025-07-22",
+        "quality": "EXCHANGE_PRIMARY",
+        "symbols": [
+          "SBIN"
+        ],
+        "title": "NSE further listing circular 69252",
+        "url": "https://nsearchives.nseindia.com/content/circulars/CML69252.pdf"
+      }
+    ],
+    "first": "2026-02-02",
+    "generation": "phase-12.1-g1",
+    "policy_fingerprint": "a350a24be35b6a844a0a769e8f14bd0821be3ca8bed44d4f8df5d32fc124f5f4",
+    "reviews": [
+      {
+        "actions": [
+          {
+            "action_id": "HDFCBANK-dividend-2026",
+            "amount_or_ratio": "13",
+            "announcement_date": "2026-04-18",
+            "effective_date": "2026-06-19",
+            "evidence_ids": [
+              "HDFCBANK-actions"
+            ],
+            "ex_date": "2026-06-19",
+            "impact": "DIVIDEND",
+            "kind": "CASH_DIVIDEND",
+            "note": "Confirmed action boundary; within-session validity is conditional on separate identity certification. No local adjustment.",
+            "record_date": "2026-06-19",
+            "volume_reset": false
+          }
+        ],
+        "conflicts": [
+          "Action-feed ISIN differs from dated NSE listing evidence; authoritative correction or historical security-master reconciliation needed."
+        ],
+        "corporate_action_completeness": {
+          "complete": false,
+          "evidence_ids": [
+            "HDFCBANK-actions",
+            "HDFCBANK-announcements"
+          ],
+          "reason": "Action listing and dated announcement index obtained; not all general-update attachments and pre-window effective events reviewed. No blanket negative conclusion for the full taxonomy."
+        },
+        "identity": {
+          "broker": "ZERODHA",
+          "broker_id": "341249",
+          "exchange": "NSE",
+          "instrument_id": "0dce64b8-7a7f-3960-bb69-725f2c4a456a",
+          "instrument_type": "CASH",
+          "lot_size": 1,
+          "reference_fingerprint": "86a03cd5f5cdeda7c3f1c2d2bc1280e25e10b0abcfd2850fd7adc8a7e4a797c2",
+          "segment": "CASH",
+          "symbol": "HDFCBANK"
+        },
+        "notes": [
+          "Raw provider OHLC unchanged; no split/dividend adjustment or total-return series.",
+          "Blocked member stays in frozen five-member universe."
+        ],
+        "observed_isins": [
+          "INE040A01018",
+          "INE040A01034"
+        ],
+        "observed_series": [
+          "EQ"
+        ],
+        "security_identity": {
+          "complete": false,
+          "evidence_ids": [
+            "hdfc-listing",
+            "hdfc-june-identity",
+            "HDFCBANK-actions"
+          ],
+          "reason": "Dated identity observations exist but full-window identity coverage is not established; conflicting action-feed identifiers retained where present."
+        },
+        "series_continuity": {
+          "complete": false,
+          "evidence_ids": [
+            "HDFCBANK-actions"
+          ],
+          "reason": "EQ snapshots do not establish absence of EQ/BE/other series transitions throughout all 99 sessions."
+        },
+        "symbol_continuity": {
+          "complete": false,
+          "evidence_ids": [
+            "hdfc-listing",
+            "hdfc-june-identity",
+            "HDFCBANK-announcements"
+          ],
+          "reason": "Matching observed symbol is not a complete historical symbol-change ledger."
+        }
+      },
+      {
+        "actions": [
+          {
+            "action_id": "ICICIBANK-dividend-outside-window",
+            "amount_or_ratio": null,
+            "announcement_date": "2026-06-29",
+            "effective_date": null,
+            "evidence_ids": [
+              "icici-record"
+            ],
+            "ex_date": null,
+            "impact": "UNRESOLVED",
+            "kind": "CASH_DIVIDEND",
+            "note": "Record date outside target; NSE ex-date not established here. No in-window boundary inferred.",
+            "record_date": "2026-08-03",
+            "volume_reset": false
+          }
+        ],
+        "conflicts": [],
+        "corporate_action_completeness": {
+          "complete": false,
+          "evidence_ids": [
+            "ICICIBANK-actions",
+            "ICICIBANK-announcements"
+          ],
+          "reason": "Action listing and dated announcement index obtained; not all general-update attachments and pre-window effective events reviewed. No blanket negative conclusion for the full taxonomy."
+        },
+        "identity": {
+          "broker": "ZERODHA",
+          "broker_id": "1270529",
+          "exchange": "NSE",
+          "instrument_id": "b940f917-be88-36d4-85dc-89d747386c53",
+          "instrument_type": "CASH",
+          "lot_size": 1,
+          "reference_fingerprint": "86a03cd5f5cdeda7c3f1c2d2bc1280e25e10b0abcfd2850fd7adc8a7e4a797c2",
+          "segment": "CASH",
+          "symbol": "ICICIBANK"
+        },
+        "notes": [
+          "Raw provider OHLC unchanged; no split/dividend adjustment or total-return series.",
+          "Blocked member stays in frozen five-member universe."
+        ],
+        "observed_isins": [
+          "INE090A01021"
+        ],
+        "observed_series": [],
+        "security_identity": {
+          "complete": false,
+          "evidence_ids": [
+            "icici-identity",
+            "ICICIBANK-actions"
+          ],
+          "reason": "Dated identity observations exist but full-window identity coverage is not established; conflicting action-feed identifiers retained where present."
+        },
+        "series_continuity": {
+          "complete": false,
+          "evidence_ids": [
+            "ICICIBANK-actions"
+          ],
+          "reason": "EQ snapshots do not establish absence of EQ/BE/other series transitions throughout all 99 sessions."
+        },
+        "symbol_continuity": {
+          "complete": false,
+          "evidence_ids": [
+            "icici-identity",
+            "ICICIBANK-announcements"
+          ],
+          "reason": "Matching observed symbol is not a complete historical symbol-change ledger."
+        }
+      },
+      {
+        "actions": [
+          {
+            "action_id": "LT-dividend-2026",
+            "amount_or_ratio": "38",
+            "announcement_date": "2026-05-05",
+            "effective_date": "2026-05-22",
+            "evidence_ids": [
+              "LT-actions"
+            ],
+            "ex_date": "2026-05-22",
+            "impact": "DIVIDEND",
+            "kind": "CASH_DIVIDEND",
+            "note": "Confirmed action boundary; within-session validity is conditional on separate identity certification. No local adjustment.",
+            "record_date": "2026-05-22",
+            "volume_reset": false
+          },
+          {
+            "action_id": "LT-realty-proposed-scheme",
+            "amount_or_ratio": "LTRPL shares issued to L&T; no LT shareholder exchange ratio",
+            "announcement_date": "2025-12-08",
+            "effective_date": null,
+            "evidence_ids": [
+              "lt-board",
+              "lt-june-order",
+              "lt-june-results",
+              "lt-march",
+              "lt-observation"
+            ],
+            "ex_date": null,
+            "impact": "NONE",
+            "kind": "SECURITY_RESTRUCTURING",
+            "note": "Proposed April 1 appointed date is not effective trading date. Still pending in July 28 June-quarter filing. Named scheme requires NO segmentation inside window.",
+            "record_date": null,
+            "volume_reset": false
+          }
+        ],
+        "conflicts": [],
+        "corporate_action_completeness": {
+          "complete": false,
+          "evidence_ids": [
+            "LT-actions",
+            "LT-announcements"
+          ],
+          "reason": "Action listing and dated announcement index obtained; not all general-update attachments and pre-window effective events reviewed. No blanket negative conclusion for the full taxonomy."
+        },
+        "identity": {
+          "broker": "ZERODHA",
+          "broker_id": "2939649",
+          "exchange": "NSE",
+          "instrument_id": "12d53f0d-2e49-3374-83f9-82c91bf01a50",
+          "instrument_type": "CASH",
+          "lot_size": 1,
+          "reference_fingerprint": "86a03cd5f5cdeda7c3f1c2d2bc1280e25e10b0abcfd2850fd7adc8a7e4a797c2",
+          "segment": "CASH",
+          "symbol": "LT"
+        },
+        "notes": [
+          "Raw provider OHLC unchanged; no split/dividend adjustment or total-return series.",
+          "Blocked member stays in frozen five-member universe."
+        ],
+        "observed_isins": [
+          "INE018A01030"
+        ],
+        "observed_series": [
+          "EQ"
+        ],
+        "security_identity": {
+          "complete": false,
+          "evidence_ids": [
+            "lt-identity",
+            "LT-actions"
+          ],
+          "reason": "Dated identity observations exist but full-window identity coverage is not established; conflicting action-feed identifiers retained where present."
+        },
+        "series_continuity": {
+          "complete": false,
+          "evidence_ids": [
+            "LT-actions"
+          ],
+          "reason": "EQ snapshots do not establish absence of EQ/BE/other series transitions throughout all 99 sessions."
+        },
+        "symbol_continuity": {
+          "complete": false,
+          "evidence_ids": [
+            "lt-identity",
+            "LT-announcements"
+          ],
+          "reason": "Matching observed symbol is not a complete historical symbol-change ledger."
+        }
+      },
+      {
+        "actions": [
+          {
+            "action_id": "RELIANCE-dividend-2026",
+            "amount_or_ratio": "6",
+            "announcement_date": "2026-04-24",
+            "effective_date": "2026-06-05",
+            "evidence_ids": [
+              "RELIANCE-actions"
+            ],
+            "ex_date": "2026-06-05",
+            "impact": "DIVIDEND",
+            "kind": "CASH_DIVIDEND",
+            "note": "Confirmed action boundary; within-session validity is conditional on separate identity certification. No local adjustment.",
+            "record_date": "2026-06-05",
+            "volume_reset": false
+          }
+        ],
+        "conflicts": [],
+        "corporate_action_completeness": {
+          "complete": false,
+          "evidence_ids": [
+            "RELIANCE-actions",
+            "RELIANCE-announcements"
+          ],
+          "reason": "Action listing and dated announcement index obtained; not all general-update attachments and pre-window effective events reviewed. No blanket negative conclusion for the full taxonomy."
+        },
+        "identity": {
+          "broker": "ZERODHA",
+          "broker_id": "738561",
+          "exchange": "NSE",
+          "instrument_id": "31b3a1e4-ab49-3447-8b8c-fbef31c1b7af",
+          "instrument_type": "CASH",
+          "lot_size": 1,
+          "reference_fingerprint": "86a03cd5f5cdeda7c3f1c2d2bc1280e25e10b0abcfd2850fd7adc8a7e4a797c2",
+          "segment": "CASH",
+          "symbol": "RELIANCE"
+        },
+        "notes": [
+          "Raw provider OHLC unchanged; no split/dividend adjustment or total-return series.",
+          "Blocked member stays in frozen five-member universe."
+        ],
+        "observed_isins": [
+          "INE002A01018"
+        ],
+        "observed_series": [
+          "EQ"
+        ],
+        "security_identity": {
+          "complete": false,
+          "evidence_ids": [
+            "reliance-before",
+            "reliance-after",
+            "RELIANCE-actions"
+          ],
+          "reason": "Dated identity observations exist but full-window identity coverage is not established; conflicting action-feed identifiers retained where present."
+        },
+        "series_continuity": {
+          "complete": false,
+          "evidence_ids": [
+            "RELIANCE-actions"
+          ],
+          "reason": "EQ snapshots do not establish absence of EQ/BE/other series transitions throughout all 99 sessions."
+        },
+        "symbol_continuity": {
+          "complete": false,
+          "evidence_ids": [
+            "reliance-before",
+            "reliance-after",
+            "RELIANCE-announcements"
+          ],
+          "reason": "Matching observed symbol is not a complete historical symbol-change ledger."
+        }
+      },
+      {
+        "actions": [
+          {
+            "action_id": "SBIN-dividend-2026",
+            "amount_or_ratio": "17.35",
+            "announcement_date": "2026-05-08",
+            "effective_date": "2026-05-15",
+            "evidence_ids": [
+              "SBIN-actions"
+            ],
+            "ex_date": "2026-05-15",
+            "impact": "DIVIDEND",
+            "kind": "CASH_DIVIDEND",
+            "note": "Confirmed action boundary; within-session validity is conditional on separate identity certification. No local adjustment.",
+            "record_date": "2026-05-16",
+            "volume_reset": false
+          }
+        ],
+        "conflicts": [
+          "Action-feed ISIN differs from dated NSE listing evidence; authoritative correction or historical security-master reconciliation needed."
+        ],
+        "corporate_action_completeness": {
+          "complete": false,
+          "evidence_ids": [
+            "SBIN-actions",
+            "SBIN-announcements"
+          ],
+          "reason": "Action listing and dated announcement index obtained; not all general-update attachments and pre-window effective events reviewed. No blanket negative conclusion for the full taxonomy."
+        },
+        "identity": {
+          "broker": "ZERODHA",
+          "broker_id": "779521",
+          "exchange": "NSE",
+          "instrument_id": "050f94dd-e639-364f-97a6-595594de6543",
+          "instrument_type": "CASH",
+          "lot_size": 1,
+          "reference_fingerprint": "86a03cd5f5cdeda7c3f1c2d2bc1280e25e10b0abcfd2850fd7adc8a7e4a797c2",
+          "segment": "CASH",
+          "symbol": "SBIN"
+        },
+        "notes": [
+          "Raw provider OHLC unchanged; no split/dividend adjustment or total-return series.",
+          "Blocked member stays in frozen five-member universe."
+        ],
+        "observed_isins": [
+          "INE062A01012",
+          "INE062A01020"
+        ],
+        "observed_series": [
+          "EQ"
+        ],
+        "security_identity": {
+          "complete": false,
+          "evidence_ids": [
+            "sbin-listing",
+            "SBIN-actions"
+          ],
+          "reason": "Dated identity observations exist but full-window identity coverage is not established; conflicting action-feed identifiers retained where present."
+        },
+        "series_continuity": {
+          "complete": false,
+          "evidence_ids": [
+            "SBIN-actions"
+          ],
+          "reason": "EQ snapshots do not establish absence of EQ/BE/other series transitions throughout all 99 sessions."
+        },
+        "symbol_continuity": {
+          "complete": false,
+          "evidence_ids": [
+            "sbin-listing",
+            "SBIN-announcements"
+          ],
+          "reason": "Matching observed symbol is not a complete historical symbol-change ledger."
+        }
+      }
+    ],
+    "universe_fingerprint": "638f11d8805f8d45724e8ade9a74e37652564046b699acd03033988ea4150395",
+    "version": "HistoricalContinuityEvidence.v1"
+  }
+}

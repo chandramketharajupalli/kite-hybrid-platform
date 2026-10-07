@@ -1,0 +1,49 @@
+{
+  "acquisition_allowed": false,
+  "broker_reference_gets": 0,
+  "certification_fingerprint": "289a3068ff6ab3723331dc8866ad40e877e84cbb9e898c9ea1f77000a662179c",
+  "cross_instrument_research_pnl_calculations": 0,
+  "evidence_fingerprint": "b97221c38ac0f2258a30ede00335a0b59d23ebe6a4b3d712d15cdd9fc9a8cce9",
+  "generation": "phase-12.1-g2",
+  "h1_research_evaluations": 0,
+  "h2_research_evaluations": 0,
+  "historical_candle_gets": 0,
+  "identical_classifications_boundaries_fingerprint_gate": true,
+  "offline_replay_runs": 2,
+  "phase116_freeze_file_sha256": "56a1bd05bbbec36f639450f2f52c491c8c5436c16094f86bcf0c2818d4f63656",
+  "policy_fingerprint": "a350a24be35b6a844a0a769e8f14bd0821be3ca8bed44d4f8df5d32fc124f5f4",
+  "public_evidence_sources": 27,
+  "research_baseline_evaluations": 0,
+  "safety": {
+    "account_trading_reads": 0,
+    "development_db_access": 0,
+    "development_db_mutations": 0,
+    "execute_calls": 0,
+    "execution_arm": 0,
+    "halt_resume": 0,
+    "live_paper_activity": 0,
+    "real_order_mutations": 0,
+    "research_corpus_db_access": 0,
+    "token_access": 0,
+    "token_mutations": 0,
+    "websocket_connections": 0
+  },
+  "source_text_sha256": {
+    "apps/strategy-engine/src/strategy_engine/research/continuity.py": "3468dd56594153f266db82127f1c2db3a3b4774d87c86f51ec5336616b98311a",
+    "apps/strategy-engine/src/strategy_engine/research/continuity_features.py": "c8a5d74b79c92b17376c32339c6e356ed3fabce58c60d958e958e350a500d3f4",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/historical/application/HistoricalContinuityGate.java": "bfbe8a623ad0ffac452a84ffea3a0e8f37c4abd10ae9031c3424ab133ebc54d4",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/historical/application/MultiInstrumentCorpusAcquisition.java": "44a6869059d25cc91fe654dd03fe7cda82e81ac6bf1a9d4dad993445e5667859",
+    "scripts/research/run_phase121.py": "40fe83d7f39ffaea532bd6bbe0ad16918ac0d86d90c5166c271bbdd7c82b0c72"
+  },
+  "validation": {
+    "disposable_historical_integration_tests": 11,
+    "java_unit_architecture_tests": 1221,
+    "project": "PASS",
+    "python_tests": 193,
+    "ruff": "PASS",
+    "secret_findings": 0,
+    "strict_mypy": "PASS_34_FILES",
+    "whitespace": "PASS"
+  },
+  "version": "Phase121ImplementationVerification.v1"
+}

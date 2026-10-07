@@ -1,0 +1,56 @@
+{
+  "accessed_on": "2026-10-08",
+  "ancillary_accesses": [
+    {
+      "outcome": "Web reader returned dynamic shell without action records; NOT negative evidence.",
+      "url": "https://www.nseindia.com/companies-listing/corporate-filings-actions?symbol=HDFCBANK"
+    },
+    {
+      "outcome": "Web reader returned dynamic shell without action records; NOT negative evidence.",
+      "url": "https://www.nseindia.com/companies-listing/corporate-filings-actions?symbol=ICICIBANK"
+    },
+    {
+      "outcome": "Web reader returned dynamic shell without action records; NOT negative evidence.",
+      "url": "https://www.nseindia.com/companies-listing/corporate-filings-actions?symbol=LT"
+    },
+    {
+      "outcome": "Web reader returned dynamic shell without action records; NOT negative evidence.",
+      "url": "https://www.nseindia.com/companies-listing/corporate-filings-actions?symbol=RELIANCE"
+    },
+    {
+      "outcome": "Web reader returned dynamic shell without action records; NOT negative evidence.",
+      "url": "https://www.nseindia.com/companies-listing/corporate-filings-actions?symbol=SBIN"
+    },
+    {
+      "outcome": "Web reader unavailable; subsequent bounded direct GET returned valid JSON; semantic evidence retained in manifest.",
+      "url": "https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=LT&from_date=30-01-2026&to_date=30-06-2026"
+    },
+    {
+      "outcome": "Web reader size limit 12679182 bytes; one direct download attempt timed out. No document hash asserted. Smaller issuer copy inspected successfully.",
+      "url": "https://nsearchives.nseindia.com/corporate/PAM_28072026171704_LTJune2026.pdf"
+    },
+    {
+      "document_sha256": "c37fb9fb007102a668b7ef01e19b284a7551657c10794f4986c9346a00dc8a0c",
+      "outcome": "21-entry metadata index used to locate June-quarter results; no price data.",
+      "url": "https://www.nseindia.com/api/corporate-announcements?index=equities&symbol=LT&from_date=01-07-2026&to_date=31-07-2026"
+    },
+    {
+      "outcome": "Web reader access failure; not absence evidence.",
+      "url": "https://investors.larsentoubro.com/StockInformation.aspx"
+    },
+    {
+      "outcome": "Web reader access failure; not absence evidence.",
+      "url": "https://investors.larsentoubro.com/QuarterlyResults.aspx"
+    },
+    {
+      "outcome": "Default page displayed another subsidiary scheme; not treated as the Realty scheme. Relevant issuer/NSE documents inspected separately.",
+      "url": "https://investors.larsentoubro.com/listing-compliance-schemeofamalgamation.aspx"
+    }
+  ],
+  "broker_gets": 0,
+  "direct_pdf_gets_failed": 1,
+  "direct_public_metadata_gets_successful": 11,
+  "semantic_sources": "See evidence-manifest.json (27 sources)",
+  "version": "Phase121PublicAccessLog.v1",
+  "web_tool_internal_request_count": "NOT_EXPOSED"
+}

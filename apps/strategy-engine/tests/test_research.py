@@ -350,6 +350,7 @@ def test_research_import_boundaries_and_no_wallclock_random_or_io() -> None:
         "universe.py": {"hashlib", "struct", "uuid"},
         "development.py": {"collections.abc"},
         "multi_instrument.py": {"collections.abc", "statistics"},
+        "continuity.py": {"json"},
     }
     for source in root.glob("*.py"):
         for node in ast.walk(ast.parse(source.read_text(encoding="utf-8"))):

@@ -53,12 +53,13 @@ class MultiInstrumentCorpusTest {
         when(delegate.acquire(first)).thenReturn(result(first, false), result(first, true));
         when(delegate.acquire(second)).thenThrow(new IllegalStateException("PARTIAL_SESSION"))
                 .thenReturn(result(second, false));
-        assertThrows(IllegalStateException.class, () -> service.acquire(p));
-        var resumed = service.acquire(p);
+        var policy = ContinuityFixtures.policy(); var certificate = ContinuityFixtures.certificate(p);
+        assertThrows(IllegalStateException.class, () -> service.acquire(p, policy, certificate));
+        var resumed = service.acquire(p, policy, certificate);
         assertEquals(1, resumed.providerCalls()); assertEquals(375, resumed.inserted());
         assertEquals(2, resumed.members().size());
         when(delegate.acquire(second)).thenReturn(result(second, true));
-        var replay = service.acquire(p);
+        var replay = service.acquire(p, policy, certificate);
         assertEquals(0, replay.providerCalls()); assertEquals(0, replay.inserted());
         assertEquals(resumed.aggregateFingerprint(), replay.aggregateFingerprint());
         var order = inOrder(delegate);

@@ -1,0 +1,78 @@
+{
+  "fingerprint": "a350a24be35b6a844a0a769e8f14bd0821be3ca8bed44d4f8df5d32fc124f5f4",
+  "policy": {
+    "aggregate_rule": {
+      "allowed": [
+        "CERTIFIED_CONTINUOUS",
+        "CERTIFIED_WITH_DIVIDEND_NOTE"
+      ],
+      "boundary_metadata_required": true,
+      "missing_or_conflicting_evidence": "BLOCK",
+      "require_exact_member_set": true,
+      "segmentation": "BLOCK_COMMON_CONTINUOUS_PLAN"
+    },
+    "classification_precedence": [
+      "IDENTITY_UNRESOLVED",
+      "CORPORATE_ACTION_UNRESOLVED",
+      "REQUIRES_SEGMENTATION",
+      "CERTIFIED_WITH_DIVIDEND_NOTE",
+      "CERTIFIED_CONTINUOUS"
+    ],
+    "completeness_rule": "Explicit authoritative period coverage required for negative action findings. Failed access, snippets and individual dividend announcements cannot establish completeness. Conflicts remain unresolved.",
+    "component_statuses": [
+      "CERTIFIED",
+      "CERTIFIED_WITH_NOTE",
+      "REQUIRES_SEGMENTATION",
+      "UNRESOLVED"
+    ],
+    "dividend_policy": {
+      "ex_date_price_boundary": "INVALID_FOR_ORDINARY_GAP",
+      "intraday_session": "VALID_IF_IDENTITY_CERTIFIED",
+      "local_adjustment": false,
+      "raw_ohlc": "UNCHANGED",
+      "volume_history": "RETAIN_UNLESS_SEPARATE_VOLUME_EVENT"
+    },
+    "evidence_hierarchy": [
+      "EXCHANGE_PRIMARY",
+      "ISSUER_PRIMARY",
+      "REGULATOR_PRIMARY",
+      "BROKER_REFERENCE_ONLY"
+    ],
+    "gap_policy": "At invalid price boundary return unavailable INVALID_BOUNDARY, never zero. Unknown boundary dates block certification.",
+    "identity_rule": "Dated NSE security/symbol/series evidence with reviewed period coverage required. Current broker mapping alone never suffices.",
+    "primary_classifications": [
+      "CERTIFIED_CONTINUOUS",
+      "CERTIFIED_WITH_DIVIDEND_NOTE",
+      "REQUIRES_SEGMENTATION",
+      "IDENTITY_UNRESOLVED",
+      "CORPORATE_ACTION_UNRESOLVED"
+    ],
+    "scope": "Frozen universe and window only. No strategy outcomes, no candles, no universe redesign. Access dates outside semantic evidence fingerprint. New evidence requires a new generation.",
+    "segmentation_policy": {
+      "default_actions": [
+        "STOCK_SPLIT",
+        "BONUS_ISSUE",
+        "FACE_VALUE_CHANGE"
+      ],
+      "other_actions": "Reviewed actual listed-security mechanics determine boundary; rights/buyback/subsidiary events are not automatic splits. Unknown mechanics remain unresolved.",
+      "price_state": "RESET_AT_BOUNDARY",
+      "segments": "Half-open segments at confirmed effective trading boundary; no splice or local adjustment.",
+      "volume_state": "RESET_WHEN_QUANTITY_OR_SECURITY_COMPARABILITY_BREAKS"
+    },
+    "taxonomy": [
+      "CASH_DIVIDEND",
+      "STOCK_SPLIT",
+      "BONUS_ISSUE",
+      "RIGHTS_ISSUE",
+      "MERGER",
+      "DEMERGER",
+      "SPINOFF",
+      "SECURITY_RESTRUCTURING",
+      "SYMBOL_CHANGE",
+      "FACE_VALUE_CHANGE",
+      "BUYBACK",
+      "OTHER"
+    ],
+    "version": "CorporateActionContinuityPolicy.v1"
+  }
+}

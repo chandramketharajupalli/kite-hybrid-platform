@@ -17,7 +17,13 @@ public final class MultiInstrumentCorpusAcquisition {
     }
 
     public Result acquire(MultiInstrumentCorpusPlan plan) {
+        // Retained signature fails closed. There is no legacy path around certification.
+        return acquire(plan, null, null);
+    }
+
+    public Result acquire(MultiInstrumentCorpusPlan plan, String policyArtifact, String certificateArtifact) {
         Objects.requireNonNull(plan);
+        HistoricalContinuityGate.require(plan, policyArtifact, certificateArtifact);
         var results = new ArrayList<HistoricalCorpusAcquisition.Result>();
         int calls = 0, inserted = 0;
         var content = new StringBuilder("multi-instrument-acquisition-v1\n")

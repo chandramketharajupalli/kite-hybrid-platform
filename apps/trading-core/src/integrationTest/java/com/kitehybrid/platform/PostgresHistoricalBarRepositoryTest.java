@@ -104,12 +104,14 @@ class PostgresHistoricalBarRepositoryTest {
         var single=new HistoricalCorpusAcquisition(
                 new HistoricalDataIngestionService(registry,provider,repo,clock),repo,clock);
         var multi=new MultiInstrumentCorpusAcquisition(single);
-        assertThrows(HistoricalDataException.class,()->multi.acquire(plan));
+        var continuityPolicy=IntegrationContinuityFixtures.policy();
+        var continuityCertificate=IntegrationContinuityFixtures.certificate(plan);
+        assertThrows(HistoricalDataException.class,()->multi.acquire(plan,continuityPolicy,continuityCertificate));
         assertEquals(3,jdbc.queryForObject("SELECT count(*) FROM trading.historical_bars",Integer.class));
-        var resumed=multi.acquire(plan);
+        var resumed=multi.acquire(plan,continuityPolicy,continuityCertificate);
         assertEquals(1,resumed.providerCalls());assertEquals(3,resumed.inserted());
         var before=jdbc.queryForList("SELECT * FROM trading.historical_bars ORDER BY instrument_id,start_time");
-        var replay=multi.acquire(plan);
+        var replay=multi.acquire(plan,continuityPolicy,continuityCertificate);
         assertEquals(3,calls.get());assertEquals(0,replay.providerCalls());assertEquals(0,replay.inserted());
         assertEquals(resumed.aggregateFingerprint(),replay.aggregateFingerprint());
         assertEquals(resumed.members().stream().map(HistoricalCorpusAcquisition.Result::contentFingerprint).toList(),

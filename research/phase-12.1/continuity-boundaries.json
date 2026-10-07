@@ -1,0 +1,48 @@
+{
+  "content": {
+    "boundaries": [
+      {
+        "action": "CASH_DIVIDEND",
+        "action_id": "HDFCBANK-dividend-2026",
+        "date": "2026-06-19",
+        "instrument_id": "0dce64b8-7a7f-3960-bb69-725f2c4a456a",
+        "intraday_session_valid": true,
+        "price_continuity": false,
+        "segment_reset": false,
+        "volume_continuity": true
+      },
+      {
+        "action": "CASH_DIVIDEND",
+        "action_id": "LT-dividend-2026",
+        "date": "2026-05-22",
+        "instrument_id": "12d53f0d-2e49-3374-83f9-82c91bf01a50",
+        "intraday_session_valid": true,
+        "price_continuity": false,
+        "segment_reset": false,
+        "volume_continuity": true
+      },
+      {
+        "action": "CASH_DIVIDEND",
+        "action_id": "RELIANCE-dividend-2026",
+        "date": "2026-06-05",
+        "instrument_id": "31b3a1e4-ab49-3447-8b8c-fbef31c1b7af",
+        "intraday_session_valid": true,
+        "price_continuity": false,
+        "segment_reset": false,
+        "volume_continuity": true
+      },
+      {
+        "action": "CASH_DIVIDEND",
+        "action_id": "SBIN-dividend-2026",
+        "date": "2026-05-15",
+        "instrument_id": "050f94dd-e639-364f-97a6-595594de6543",
+        "intraday_session_valid": true,
+        "price_continuity": false,
+        "segment_reset": false,
+        "volume_continuity": true
+      }
+    ],
+    "certification_fingerprint": "289a3068ff6ab3723331dc8866ad40e877e84cbb9e898c9ea1f77000a662179c"
+  },
+  "fingerprint": "51da2ca5efd80776f52677fb10ab5aab202d043c2459666da1d857e6afd6cb1d"
+}

@@ -1,0 +1,14 @@
+{
+  "acquisition_allowed": false,
+  "certification_fingerprint": "fa8b8bfd844a9240c4589c6a3643c9af473ff4a06cdba4d5e94f20343b463d02",
+  "reasons": [
+    "HDFCBANK:IDENTITY_UNRESOLVED",
+    "ICICIBANK:IDENTITY_UNRESOLVED",
+    "LT:IDENTITY_UNRESOLVED",
+    "RELIANCE:IDENTITY_UNRESOLVED",
+    "SBIN:IDENTITY_UNRESOLVED"
+  ],
+  "strategy_evaluation_allowed": false,
+  "universe_fingerprint": "638f11d8805f8d45724e8ade9a74e37652564046b699acd03033988ea4150395",
+  "version": "UniverseAcquisitionCertification.v1"
+}
