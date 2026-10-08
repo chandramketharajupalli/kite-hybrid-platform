@@ -1,0 +1,60 @@
+{
+  "acquisition_allowed": false,
+  "artifact_sha256": {
+    "access-log.json": "ec5e2e22f4f7b15b3de09cac385ccd4c0a2e04990c89fa32f127af8a6efe50e5",
+    "acquisition-gate.json": "e8dcdd78adff3f8d17d52d2097f9571456b7e49a22cb1b61fd9111ddbb47808e",
+    "baseline.json": "b73003c7e40abfc0e0b29b6f76c7ea99f5542715ba810da6e2a0d5899c8e33cc",
+    "continuity-boundaries.json": "1888100051bb088fafd35328875249fa5c2f882c635407ab853cea5d8bc1cacd",
+    "evidence-freeze.json": "0ef497571222123ee1e17a3e6361f95b3a1844a4f57dbef22e13f6ff757149f3",
+    "evidence-manifest.json": "fd0932796e1b43c919cda0c0984bc4925c7db86010eb55379364c50d01754242",
+    "instrument-certifications.json": "5dc1880ff82ceb231e0eb375ca8d7d8414f627680f33b522ef4b0d27eac8fe43",
+    "isin-reconciliation.json": "49deae007fdfbb76f74ade5b1e40be853fbe2915bdae182c73e196545938bafa",
+    "security-reference.csv": "b4e000fcb37b5123933cb74cd5c0fd3de30babd5448f1177514ca8de02669ec9",
+    "source-inventory.json": "c43d2ed63a7bd0d3cac1c8d3446b7f508282dbfb11a3bc09e3acc047bd41b846"
+  },
+  "certification_fingerprint": "e6322b88e23e85e57c4154b7907ef09f219135f918bd7510ad7e6cf9dd628c36",
+  "downloaded_master_hashes_verified": 99,
+  "historical_identity_objective": "CERTIFIED_DAILY_NSE_SECURITY_SYMBOL_SERIES_FOR_ALL_FIVE",
+  "identical_classifications_boundaries_fingerprint_gate": true,
+  "java_gate_acquisition_tests": 19,
+  "limitations": [
+    "No full regression suite or database integration tests needed or run in Phase 12.1A.",
+    "Synthetic feature fixtures in continuity tests are not research strategy evaluations.",
+    "Depository pages did not yield records; see access log.",
+    "Corporate-action completeness remains unresolved for every member."
+  ],
+  "mypy": "PASS_35_FILES",
+  "offline_replays": 2,
+  "parent_offline_replay": "PASS_UNCHANGED",
+  "phase_result": "UNIVERSE_CERTIFICATION_UNRESOLVED",
+  "protected_file_hashes_unchanged": 12,
+  "python_continuity_and_phase121a_tests": 23,
+  "ruff": "PASS",
+  "safety": {
+    "broker_account_reads": 0,
+    "commit": 0,
+    "database_access": 0,
+    "database_mutations": 0,
+    "halt_resume": 0,
+    "historical_candle_requests": 0,
+    "order_mutations": 0,
+    "push": 0,
+    "strategy_evaluations": 0,
+    "token_access": 0,
+    "token_mutations": 0
+  },
+  "secret_scan": {
+    "findings": 0,
+    "scope": "Executed after evidence and code generation, before final report and this validation record.",
+    "text_files_scanned": 1056
+  },
+  "source_sha256": {
+    "apps/strategy-engine/src/strategy_engine/research/continuity.py": "6a33ef3dc35cd0fafb53879b1eb4160312437f32b85db36dac9d8ab9cd7dd1e6",
+    "apps/strategy-engine/tests/test_phase121a.py": "891d10eb39877c1a0f2d1385b9591669c1486c8baee08376d307e66b65cb7278",
+    "docs/operations/phase-12.1a-identity.md": "187f54155d44b0f35088786ad776a15cf1687066a774ddf6b2702041cc11a398",
+    "scripts/research/run_phase121a.py": "7dc4b4b7c33a238708cb6f31ff065aaaa22f846337caaa9c6b26312beb4228da"
+  },
+  "strategy_evaluation_allowed": false,
+  "version": "Phase121AValidation.v1",
+  "whitespace": "PASS"
+}

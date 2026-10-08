@@ -1,0 +1,219 @@
+{
+  "accessed_on": "2026-10-08",
+  "daily_master_gets": 99,
+  "daily_master_successes": 99,
+  "document_attempts": [
+    {
+      "bytes": 74473,
+      "http_status": 200,
+      "id": "nse-master-spec",
+      "sha256": "02d851cec85512d10440d47bf5c253545510711504cf53b35f67f3b134b02a35",
+      "url": "https://nsearchives.nseindia.com/content/circulars/MSD60315.pdf"
+    },
+    {
+      "bytes": 211738,
+      "http_status": 200,
+      "id": "nse-master-scope",
+      "sha256": "8cff554cd21720ada13a9837f47e33f000f43974e1b8da480e49f200204c1786",
+      "url": "https://nsearchives.nseindia.com/content/circulars/MSD67344.pdf"
+    },
+    {
+      "bytes": 380649,
+      "http_status": 200,
+      "id": "hdfc-2019-clearing",
+      "sha256": "ebf3cdba4227337ab7bbe851455d2dadc14b9016b2e606daa13213e7724bcadd",
+      "url": "https://nsearchives.nseindia.com/content/circulars/CMPT42091.pdf"
+    },
+    {
+      "bytes": 216355,
+      "http_status": 200,
+      "id": "hdfc-2019-isin",
+      "sha256": "05f4a92454541e1235e9fb0e60ec184bc1a7043412237ca2b1d8565a312b88cd",
+      "url": "https://www.msei.in/SX-Content/Circulars/2019/September/Circular-8106.pdf"
+    },
+    {
+      "bytes": 233061,
+      "http_status": 200,
+      "id": "sbin-2014-isin",
+      "sha256": "68034d6cf7b6e4b0a9f54b65d6769037c7ab6c01351b47207cac454de218bb3f",
+      "url": "https://www.msei.in/SX-Content/Circulars/2014/November/Circular-2345.pdf"
+    },
+    {
+      "bytes": 4000978,
+      "http_status": 200,
+      "id": "hdfc-2012-report",
+      "sha256": "89678f70370d1ea45d0e1d25bf19614756a880602a077b0c48edee1fbcfdc834",
+      "url": "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/pdf/annual-reports/2011-12/annual-report-2011-12.pdf"
+    },
+    {
+      "bytes": 2145434,
+      "http_status": 200,
+      "id": "hdfc-2008-report",
+      "sha256": "9187719705c1cb2494d3c48f3beb6e203fa7f4fbc0043f0891e6a046cb6c2520",
+      "url": "https://v.hdfcbank.com/content/dam/hdfc-aem-microsites/common-pdfs/pdf/corporate/annual_report_07_08.pdf"
+    },
+    {
+      "error": "Remote end closed connection without response",
+      "id": "nsdl-2020-issuers",
+      "url": "https://nsdl.co.in/downloadables/Issuer%20Details%20May%202020.pdf"
+    },
+    {
+      "bytes": 305013,
+      "http_status": 200,
+      "id": "hdfc-2026-listing",
+      "sha256": "e5b9f56f66962b2c1a51b02fdf3eb0c040094dd4afddcd46495fb1f167f9b0c3",
+      "url": "https://nsearchives.nseindia.com/content/circulars/CML73892.pdf"
+    },
+    {
+      "bytes": 280931,
+      "http_status": 200,
+      "id": "sbin-2025-listing",
+      "sha256": "ff7b3211fc65f62b1a3f36694b821820c2189d4935dc62f16d497b510db0fb9f",
+      "url": "https://nsearchives.nseindia.com/content/circulars/CML69252.pdf"
+    },
+    {
+      "bytes": 35417,
+      "http_status": 200,
+      "id": "hdfc-june-identity",
+      "sha256": "fdce04eb739855264fcbb7b7bcd7879d19b55d10c29a04e7d0237fa7565a0fa4",
+      "url": "https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_BANKING_175753_18072026160136_iXBRL_WEB.html"
+    },
+    {
+      "bytes": 63101,
+      "http_status": 200,
+      "id": "icici-identity",
+      "sha256": "1f15a76b59c08b019425fa9c15773d7f56d382692f3a52909dddeeeb9e913248",
+      "url": "https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_BANKING_151430_18042026180833_iXBRL_WEB.html"
+    },
+    {
+      "bytes": 890644,
+      "http_status": 200,
+      "id": "lt-identity",
+      "sha256": "b2d9e0098ceaee7918f065f5287f31d9cbe70a0d9c2d6a6b16dd6bca326ec760",
+      "url": "https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_155858_06052026192958_iXBRL_WEB.html"
+    },
+    {
+      "bytes": 51704,
+      "http_status": 200,
+      "id": "reliance-after",
+      "sha256": "d52ae37a9b374b207f43392d9478c4f4ba30df528a060a519cf203c0d1444a4e",
+      "url": "https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_175608_17072026195004_iXBRL_WEB.html"
+    },
+    {
+      "bytes": 49981,
+      "http_status": 200,
+      "id": "reliance-before",
+      "sha256": "315302eca9a19d19def50c011738818bea33038c7b692d092525708bae338285",
+      "url": "https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_135487_16012026193821_iXBRL_WEB.html"
+    },
+    {
+      "bytes": 268045,
+      "http_status": 200,
+      "id": "sbin-dividend",
+      "sha256": "7c0a01bab0847c48421ed2e8e4fdf5ce3ffad7a460dbc5519f4721b62ce18032",
+      "url": "https://nsearchives.nseindia.com/corporate/SBIN_08052026154613_BSE_NSE_DividendRecordDate_08052026.pdf"
+    },
+    {
+      "error": "HTTP Error 404: Not Found",
+      "id": "nse-format-55276",
+      "url": "https://nsearchives.nseindia.com/content/circulars/MSD55276.pdf"
+    },
+    {
+      "bytes": 93642,
+      "http_status": 200,
+      "id": "nse-format-54422",
+      "sha256": "900f65c95bc8a73cb9a1224eb37645edc812011160a6fdcb73205ab5597f3c1c",
+      "url": "https://nsearchives.nseindia.com/content/circulars/MSD54422.pdf"
+    },
+    {
+      "error": "Remote end closed connection without response",
+      "id": "nsdl-july2011",
+      "url": "https://nsdl.co.in/downloadables/July-2011.pdf"
+    },
+    {
+      "bytes": 2945,
+      "http_status": 200,
+      "id": "cdsl-issuer-list",
+      "semantic_access_result": "HTTP 200 error page: Internal Error Occurred Please try after some time; no issuer/ISIN records.",
+      "sha256": "b12da291c6001d7ba17da0ea13ed26ee7d5eb5c84ce3d15f9b4cf477142e1f9b",
+      "url": "https://www.cdslindia.com/Publications/IssuerList.aspx"
+    },
+    {
+      "bytes": 61980,
+      "http_status": 200,
+      "id": "hdfc-2011-record",
+      "sha256": "d896c0bb16a7a3554560cb1a8bd356b0606eb13e2637692b0d5709c0ecfe25d3",
+      "url": "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/pdf/press-release/2011/q3-jul-sep/july/hdfcbanklimitedfinancialresultsindiangaapforthequarterendedjune302011.pdf"
+    },
+    {
+      "error": "HTTP Error 404: Not Found",
+      "id": "nse-cm-format",
+      "url": "https://nsearchives.nseindia.com/content/circulars/CMTR73927.pdf"
+    },
+    {
+      "bytes": 2945,
+      "http_status": 200,
+      "id": "cdsl-isin-search",
+      "semantic_access_result": "HTTP 200 error page: Internal Error Occurred Please try after some time; no issuer/ISIN records.",
+      "sha256": "a8436a48b6e7285ca96e4c47a1ffdb64bf8176c25a75d447cb219fc699cf2fea",
+      "url": "https://www.cdslindia.com/isin/isinissuersearch.aspx"
+    },
+    {
+      "bytes": 1358630,
+      "first_attempt": "read timeout at 25 seconds",
+      "http_status": 200,
+      "id": "nse-cm-format-zip",
+      "members": [
+        "CMTR73927.pdf",
+        "PART E.docx",
+        "PART F.docx",
+        "PART-D.xlsx"
+      ],
+      "sha256": "11988491ecb0088222614ae240995b6ef8881628757c903a959dd79c910a7479",
+      "url": "https://nsearchives.nseindia.com/content/circulars/CMTR73927.zip"
+    }
+  ],
+  "note": "Operational access log is outside canonical certification identity. Public web reader internal request counts are not exposed. No claim that direct GET counts equal all web requests.",
+  "remaining_questions": [
+    "Depository endpoints unavailable; no depository coverage claimed.",
+    "Exact original NSE 2011 HDFCBANK and 2014 SBIN conversion notices were not located through bounded authoritative searches; historic ex-dates are not invented.",
+    "No authoritative correction explains why the corporate-action API reports predecessor ISINs. Daily NSE masters and original event records establish the target equity identities independently.",
+    "Full corporate-action taxonomy and earlier-announced effective-event review remain incomplete for all five."
+  ],
+  "safety": {
+    "broker_account_reads": 0,
+    "database_access": 0,
+    "halt_resume": 0,
+    "historical_candle_requests": 0,
+    "order_mutations": 0,
+    "strategy_evaluations": 0,
+    "token_mutations": 0
+  },
+  "web_access_limitations": [
+    {
+      "failure": "Web reader internal error; no master records",
+      "missing_record": "Dated depository ISIN status/change history for five equity identities at 2026-02-02 and 2026-06-30",
+      "url": "https://nsdl.co.in/master_search.php"
+    },
+    {
+      "failure": "Direct connection closed without response; web reader internal error",
+      "missing_record": "Legacy corroboration of equity denominations, not 2026 coverage",
+      "url": "https://nsdl.co.in/downloadables/Issuer%20Details%20May%202020.pdf"
+    },
+    {
+      "failure": "Web reader 502; direct connection closed without response",
+      "missing_record": "Historical depository corroboration; no 2011 conversion finding inferred",
+      "url": "https://nsdl.co.in/downloadables/July-2011.pdf"
+    },
+    {
+      "failure": "Web screenshot timed out; direct PDF succeeded, hashed and rendered locally",
+      "missing_record": null,
+      "url": "https://www.msei.in/SX-Content/Circulars/2014/November/Circular-2345.pdf"
+    },
+    {
+      "failure": "Web reader cannot parse ZIP; first direct read timeout; second direct download succeeded and PART-D.xlsx inspected",
+      "missing_record": null,
+      "url": "https://nsearchives.nseindia.com/content/circulars/CMTR73927.zip"
+    }
+  ]
+}

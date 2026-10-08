@@ -1,0 +1,1073 @@
+{
+  "daily_security_masters": [
+    {
+      "date": "2026-02-02",
+      "document_sha256": "bbf53b9294ec012606d31631c4e3e3d1dfcaaa5c5888cecd1ed6408f44c7292f",
+      "evidence_id": "nse-security-2026-02-02",
+      "retained_rows": 52,
+      "row_count": 33923,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_02022026.csv.gz"
+    },
+    {
+      "date": "2026-02-03",
+      "document_sha256": "9139c20fcfb7d6d06c6db60116987c79dd6c4850d0c5e967b3a19108bbf2c353",
+      "evidence_id": "nse-security-2026-02-03",
+      "retained_rows": 52,
+      "row_count": 33953,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_03022026.csv.gz"
+    },
+    {
+      "date": "2026-02-04",
+      "document_sha256": "96042e892d4f3bf6a333756f9ce7145aa9597a7e398100b3af8de1daa6561b1f",
+      "evidence_id": "nse-security-2026-02-04",
+      "retained_rows": 52,
+      "row_count": 33961,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_04022026.csv.gz"
+    },
+    {
+      "date": "2026-02-05",
+      "document_sha256": "75f1665481b0e1ee4025bc07a91de1beda29e62d383103c7aad8fd1536037bbc",
+      "evidence_id": "nse-security-2026-02-05",
+      "retained_rows": 52,
+      "row_count": 33994,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_05022026.csv.gz"
+    },
+    {
+      "date": "2026-02-06",
+      "document_sha256": "9f55c727b7636c80b7739585d4fb93c8caf8e8b221f9c71626cdd615d5284330",
+      "evidence_id": "nse-security-2026-02-06",
+      "retained_rows": 52,
+      "row_count": 33994,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_06022026.csv.gz"
+    },
+    {
+      "date": "2026-02-09",
+      "document_sha256": "ffe0805bdc2e047e7ddc1a150a2c3fc74dfb00b7c208d859cd7fcd3c39c05747",
+      "evidence_id": "nse-security-2026-02-09",
+      "retained_rows": 52,
+      "row_count": 34002,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_09022026.csv.gz"
+    },
+    {
+      "date": "2026-02-10",
+      "document_sha256": "f472fea91f5e236bc39e27eaa8e5ea36381ec581cdea1861453de364cc113715",
+      "evidence_id": "nse-security-2026-02-10",
+      "retained_rows": 52,
+      "row_count": 34018,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_10022026.csv.gz"
+    },
+    {
+      "date": "2026-02-11",
+      "document_sha256": "ee769aa3cd00495371c030a91cecc08f3b7d9cca1fe4b9d2d6a22220c839b944",
+      "evidence_id": "nse-security-2026-02-11",
+      "retained_rows": 52,
+      "row_count": 34018,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_11022026.csv.gz"
+    },
+    {
+      "date": "2026-02-12",
+      "document_sha256": "acc6a65dc0f554f19285df5b4af79d57ea31d55b87e9e62f8fdf8be1032ce4c9",
+      "evidence_id": "nse-security-2026-02-12",
+      "retained_rows": 52,
+      "row_count": 34050,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_12022026.csv.gz"
+    },
+    {
+      "date": "2026-02-13",
+      "document_sha256": "6244c49bf81d19eff86d657fac377e0a02b5bb6c700752317e1b943384aa36d3",
+      "evidence_id": "nse-security-2026-02-13",
+      "retained_rows": 52,
+      "row_count": 34071,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_13022026.csv.gz"
+    },
+    {
+      "date": "2026-02-16",
+      "document_sha256": "dc754a49ce8f31f87a456931bee548137bff845a1f586b44775c7a0faec88a31",
+      "evidence_id": "nse-security-2026-02-16",
+      "retained_rows": 52,
+      "row_count": 34089,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_16022026.csv.gz"
+    },
+    {
+      "date": "2026-02-17",
+      "document_sha256": "b6889039d62e72180d659a127012619b0bdb7d2dec93c01516b4fe7b4a7d21bd",
+      "evidence_id": "nse-security-2026-02-17",
+      "retained_rows": 52,
+      "row_count": 34103,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_17022026.csv.gz"
+    },
+    {
+      "date": "2026-02-18",
+      "document_sha256": "4132e2b0a624097bf9a5999119dc43d4e39a09f4266ef581914c210f01eb2f66",
+      "evidence_id": "nse-security-2026-02-18",
+      "retained_rows": 52,
+      "row_count": 34119,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_18022026.csv.gz"
+    },
+    {
+      "date": "2026-02-19",
+      "document_sha256": "6e9bd637d23d5183132e5ca298523846daae2733bbcfea7f3fefcc216bd52c89",
+      "evidence_id": "nse-security-2026-02-19",
+      "retained_rows": 52,
+      "row_count": 34155,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_19022026.csv.gz"
+    },
+    {
+      "date": "2026-02-20",
+      "document_sha256": "ea98fc7bb215513f27d0a4895fd1805bae3639af794363e11b3d920273199513",
+      "evidence_id": "nse-security-2026-02-20",
+      "retained_rows": 52,
+      "row_count": 34166,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_20022026.csv.gz"
+    },
+    {
+      "date": "2026-02-23",
+      "document_sha256": "6cab63ba869c28b728f2bd4421dd28ca2b0dae89b867659841eac9dbfd8e2122",
+      "evidence_id": "nse-security-2026-02-23",
+      "retained_rows": 52,
+      "row_count": 34168,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_23022026.csv.gz"
+    },
+    {
+      "date": "2026-02-24",
+      "document_sha256": "416e112ec2edb3b9c4caf59c55570aab47d940e70e4ae3d373a345f84fa69296",
+      "evidence_id": "nse-security-2026-02-24",
+      "retained_rows": 52,
+      "row_count": 34182,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_24022026.csv.gz"
+    },
+    {
+      "date": "2026-02-25",
+      "document_sha256": "5c813837fb26d41484928b4a7a2b4b40ddcb53c0f81bfe39d9671ffcc992eb59",
+      "evidence_id": "nse-security-2026-02-25",
+      "retained_rows": 52,
+      "row_count": 34193,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_25022026.csv.gz"
+    },
+    {
+      "date": "2026-02-26",
+      "document_sha256": "65e623384a0d9b580881b1a35f281d0b6591377353175bab140e3bab58032e2f",
+      "evidence_id": "nse-security-2026-02-26",
+      "retained_rows": 52,
+      "row_count": 34238,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_26022026.csv.gz"
+    },
+    {
+      "date": "2026-02-27",
+      "document_sha256": "db134086ba4e4d7585b3393e07e47b8688ff3d7abb2b3c5ab8423d1bec7b15b3",
+      "evidence_id": "nse-security-2026-02-27",
+      "retained_rows": 52,
+      "row_count": 34262,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_27022026.csv.gz"
+    },
+    {
+      "date": "2026-03-02",
+      "document_sha256": "d5579f8d08ef244ac6ab53b2271e63edcc2778ad075b2748a4b1420244f06ffc",
+      "evidence_id": "nse-security-2026-03-02",
+      "retained_rows": 52,
+      "row_count": 34293,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_02032026.csv.gz"
+    },
+    {
+      "date": "2026-03-04",
+      "document_sha256": "ee5f0bcdc759dbaefbe6a3a2a040271fb7a1b71ed34e30a201585d62f80b6cf8",
+      "evidence_id": "nse-security-2026-03-04",
+      "retained_rows": 52,
+      "row_count": 34314,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_04032026.csv.gz"
+    },
+    {
+      "date": "2026-03-05",
+      "document_sha256": "943db7555e4ba55a944d6bee191b6a3b6c2a67013e6b20310929248f3ab63370",
+      "evidence_id": "nse-security-2026-03-05",
+      "retained_rows": 52,
+      "row_count": 34378,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_05032026.csv.gz"
+    },
+    {
+      "date": "2026-03-06",
+      "document_sha256": "72670bade13cff82221dfe7d0708530c4d177f8dd5ac9d9b2174bf1f5cd6ab9d",
+      "evidence_id": "nse-security-2026-03-06",
+      "retained_rows": 52,
+      "row_count": 34413,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_06032026.csv.gz"
+    },
+    {
+      "date": "2026-03-09",
+      "document_sha256": "85d836a9116be3d3435cf259d3818d223b6b6ec52aad3d3c40b001c206c7beca",
+      "evidence_id": "nse-security-2026-03-09",
+      "retained_rows": 52,
+      "row_count": 34423,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_09032026.csv.gz"
+    },
+    {
+      "date": "2026-03-10",
+      "document_sha256": "771f92584e0a581894b4c893038713055f2827c2552a4af74d23fdc4758a8e81",
+      "evidence_id": "nse-security-2026-03-10",
+      "retained_rows": 52,
+      "row_count": 34438,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_10032026.csv.gz"
+    },
+    {
+      "date": "2026-03-11",
+      "document_sha256": "6a1434948beab5b3c4614f9598467a89d7c6cd06942e918d4d336ecdb5c483a2",
+      "evidence_id": "nse-security-2026-03-11",
+      "retained_rows": 52,
+      "row_count": 34462,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_11032026.csv.gz"
+    },
+    {
+      "date": "2026-03-12",
+      "document_sha256": "a924f7f54191cfa1955f8204f6825628faf73ede43a4195c15df0e6f45b709a6",
+      "evidence_id": "nse-security-2026-03-12",
+      "retained_rows": 52,
+      "row_count": 34502,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_12032026.csv.gz"
+    },
+    {
+      "date": "2026-03-13",
+      "document_sha256": "7067613340bd97802f411aeae5c8c069689522b9c6da4b778ddc0452e7dfec89",
+      "evidence_id": "nse-security-2026-03-13",
+      "retained_rows": 52,
+      "row_count": 34512,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_13032026.csv.gz"
+    },
+    {
+      "date": "2026-03-16",
+      "document_sha256": "ef7a7334be0ca979369b5afe532476f47db5a0fa3502735d5bbac01126999ce6",
+      "evidence_id": "nse-security-2026-03-16",
+      "retained_rows": 52,
+      "row_count": 34526,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_16032026.csv.gz"
+    },
+    {
+      "date": "2026-03-17",
+      "document_sha256": "7684eabbfbee4f8fd960dfd2d4487dd7727e447e281dc365f52ab45f2815ac24",
+      "evidence_id": "nse-security-2026-03-17",
+      "retained_rows": 52,
+      "row_count": 34538,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_17032026.csv.gz"
+    },
+    {
+      "date": "2026-03-18",
+      "document_sha256": "e9440e2796771c235ecc88f2957dd19cbc636853d331d66671e2fa65a6a9ba54",
+      "evidence_id": "nse-security-2026-03-18",
+      "retained_rows": 52,
+      "row_count": 34550,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_18032026.csv.gz"
+    },
+    {
+      "date": "2026-03-19",
+      "document_sha256": "5bdfb8285dfdb3648d25b225b8ea4beb32634a8cf59594d162596592e02a41b2",
+      "evidence_id": "nse-security-2026-03-19",
+      "retained_rows": 52,
+      "row_count": 34589,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_19032026.csv.gz"
+    },
+    {
+      "date": "2026-03-20",
+      "document_sha256": "5044ae364dffdd05f94aeda64e326507163cbcb3674cf155e0b5ce8403dc53b6",
+      "evidence_id": "nse-security-2026-03-20",
+      "retained_rows": 52,
+      "row_count": 34598,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_20032026.csv.gz"
+    },
+    {
+      "date": "2026-03-23",
+      "document_sha256": "14bcc80b12e172d42b9bb99b62903fef53c1299246eeaba01a292e6407141d2b",
+      "evidence_id": "nse-security-2026-03-23",
+      "retained_rows": 52,
+      "row_count": 34608,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_23032026.csv.gz"
+    },
+    {
+      "date": "2026-03-24",
+      "document_sha256": "8cbd42d5cd5754665b529c3b821ae0cff887d484d22abb4d73870ac3ffe20525",
+      "evidence_id": "nse-security-2026-03-24",
+      "retained_rows": 52,
+      "row_count": 34610,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_24032026.csv.gz"
+    },
+    {
+      "date": "2026-03-25",
+      "document_sha256": "92f9b05b9eeb380a387ba5333e93018bb22176115155234ea3b43bad820cab50",
+      "evidence_id": "nse-security-2026-03-25",
+      "retained_rows": 52,
+      "row_count": 34638,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_25032026.csv.gz"
+    },
+    {
+      "date": "2026-03-27",
+      "document_sha256": "96af1e51791d7b353c1c52bef518336b5ae6e8cb38264cb3db6671e64b32902e",
+      "evidence_id": "nse-security-2026-03-27",
+      "retained_rows": 52,
+      "row_count": 34708,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_27032026.csv.gz"
+    },
+    {
+      "date": "2026-03-30",
+      "document_sha256": "282fbe09931c0507662afa8c4540f293f37166a08b1fc2fe9da2bf47c6b9f877",
+      "evidence_id": "nse-security-2026-03-30",
+      "retained_rows": 52,
+      "row_count": 34718,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_30032026.csv.gz"
+    },
+    {
+      "date": "2026-04-01",
+      "document_sha256": "c05a91485a1698e9d4b73403f2dfceed70913e49839468f3c602d0d6942989be",
+      "evidence_id": "nse-security-2026-04-01",
+      "retained_rows": 52,
+      "row_count": 34742,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_01042026.csv.gz"
+    },
+    {
+      "date": "2026-04-02",
+      "document_sha256": "9fb96e1204e39adfb824d8a91b48a18acccc09fdde3a922049d8d57b59a58080",
+      "evidence_id": "nse-security-2026-04-02",
+      "retained_rows": 52,
+      "row_count": 34767,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_02042026.csv.gz"
+    },
+    {
+      "date": "2026-04-06",
+      "document_sha256": "76bbaa1bed844d9ee94373ae73be55ad50b8ac759080105604afac370da55443",
+      "evidence_id": "nse-security-2026-04-06",
+      "retained_rows": 52,
+      "row_count": 34798,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_06042026.csv.gz"
+    },
+    {
+      "date": "2026-04-07",
+      "document_sha256": "887cc7001f755639a6918d44b1e5026a9aa96bc77fce19b657f0e43beb92b42e",
+      "evidence_id": "nse-security-2026-04-07",
+      "retained_rows": 52,
+      "row_count": 34832,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_07042026.csv.gz"
+    },
+    {
+      "date": "2026-04-08",
+      "document_sha256": "cb39f82ec6a18aeab6b0c180925e4b3e7fa9f6c06ae0112e2449a88fee62332c",
+      "evidence_id": "nse-security-2026-04-08",
+      "retained_rows": 52,
+      "row_count": 34832,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_08042026.csv.gz"
+    },
+    {
+      "date": "2026-04-09",
+      "document_sha256": "75c85675863b75772ab8b7590565cf6b862599f29b71058dd32bb77857907baf",
+      "evidence_id": "nse-security-2026-04-09",
+      "retained_rows": 52,
+      "row_count": 34856,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_09042026.csv.gz"
+    },
+    {
+      "date": "2026-04-10",
+      "document_sha256": "668b8d550239804e09baf00c504d24eea8531b94712b69053362d910d56a6efb",
+      "evidence_id": "nse-security-2026-04-10",
+      "retained_rows": 52,
+      "row_count": 34859,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_10042026.csv.gz"
+    },
+    {
+      "date": "2026-04-13",
+      "document_sha256": "47d153eef8197312df7f76907136b36c6519bdb145f4d44b8f8d8170b1bfbe68",
+      "evidence_id": "nse-security-2026-04-13",
+      "retained_rows": 52,
+      "row_count": 34863,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_13042026.csv.gz"
+    },
+    {
+      "date": "2026-04-15",
+      "document_sha256": "898fd0446f273d62189f5d9412bd61e5b233a0c4bae8619675c86c39f8b1d5c7",
+      "evidence_id": "nse-security-2026-04-15",
+      "retained_rows": 52,
+      "row_count": 34866,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_15042026.csv.gz"
+    },
+    {
+      "date": "2026-04-16",
+      "document_sha256": "de115b1a864805dc731a62d931312a3f1002ccb527ffec6937981c97475482ea",
+      "evidence_id": "nse-security-2026-04-16",
+      "retained_rows": 52,
+      "row_count": 34883,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_16042026.csv.gz"
+    },
+    {
+      "date": "2026-04-17",
+      "document_sha256": "bc31a4c7a174c7ee2864a95f2a1ceb6da3890b01b6eaa23bd7fda085445571cf",
+      "evidence_id": "nse-security-2026-04-17",
+      "retained_rows": 52,
+      "row_count": 35361,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_17042026.csv.gz"
+    },
+    {
+      "date": "2026-04-20",
+      "document_sha256": "180c4ee7e1613f67492272c7564b3b6d67f13a6b8cf4115f0b45f71bcd4e080a",
+      "evidence_id": "nse-security-2026-04-20",
+      "retained_rows": 52,
+      "row_count": 35361,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_20042026.csv.gz"
+    },
+    {
+      "date": "2026-04-21",
+      "document_sha256": "41203040cc69e6941559b5430e51286ab5c70a1d3a0d759d1356ebdc4b484dbc",
+      "evidence_id": "nse-security-2026-04-21",
+      "retained_rows": 52,
+      "row_count": 35365,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_21042026.csv.gz"
+    },
+    {
+      "date": "2026-04-22",
+      "document_sha256": "abdefe91b85332e0bd46ccc7f6502f0414944d2a6c8bfb9348b294de289827b2",
+      "evidence_id": "nse-security-2026-04-22",
+      "retained_rows": 52,
+      "row_count": 35367,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_22042026.csv.gz"
+    },
+    {
+      "date": "2026-04-23",
+      "document_sha256": "89523152af15654359ca375fcd45b1cb97972bc3865d154459f500f8f0dfd34e",
+      "evidence_id": "nse-security-2026-04-23",
+      "retained_rows": 52,
+      "row_count": 35392,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_23042026.csv.gz"
+    },
+    {
+      "date": "2026-04-24",
+      "document_sha256": "c4a4b4a8fcebb696bc1ef554f469480a932272d02fc6681af4b2db65ffe35a69",
+      "evidence_id": "nse-security-2026-04-24",
+      "retained_rows": 52,
+      "row_count": 35392,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_24042026.csv.gz"
+    },
+    {
+      "date": "2026-04-27",
+      "document_sha256": "93c053b0bcb7530087321fbd8e4b47eb2050cd09a9e65776fe54ed5fbf8709b3",
+      "evidence_id": "nse-security-2026-04-27",
+      "retained_rows": 52,
+      "row_count": 35400,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_27042026.csv.gz"
+    },
+    {
+      "date": "2026-04-28",
+      "document_sha256": "52a89478f4349808173c36fef41ab855eb91bf354593a1c05aa52d155d1b7def",
+      "evidence_id": "nse-security-2026-04-28",
+      "retained_rows": 52,
+      "row_count": 35408,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_28042026.csv.gz"
+    },
+    {
+      "date": "2026-04-29",
+      "document_sha256": "fc30a8140ef37d7e56398ed4d6d27b19d891a96d9aff5489cf1fc28686dd3413",
+      "evidence_id": "nse-security-2026-04-29",
+      "retained_rows": 52,
+      "row_count": 35414,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_29042026.csv.gz"
+    },
+    {
+      "date": "2026-04-30",
+      "document_sha256": "5395ccb4543e7341824c17017f158f6deedef7567b54ba61a60a7363ea31cd80",
+      "evidence_id": "nse-security-2026-04-30",
+      "retained_rows": 52,
+      "row_count": 35433,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_30042026.csv.gz"
+    },
+    {
+      "date": "2026-05-04",
+      "document_sha256": "1d16f17dc1323193d69203dec607fb7cf3fc19b7449b4e216556c8de5e17d670",
+      "evidence_id": "nse-security-2026-05-04",
+      "retained_rows": 52,
+      "row_count": 35441,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_04052026.csv.gz"
+    },
+    {
+      "date": "2026-05-05",
+      "document_sha256": "e47be73ebe25d900f80895884aa6075ec5106b6ebc7d233417259dd4015be2cf",
+      "evidence_id": "nse-security-2026-05-05",
+      "retained_rows": 52,
+      "row_count": 35443,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_05052026.csv.gz"
+    },
+    {
+      "date": "2026-05-06",
+      "document_sha256": "38664dc6f11cfe8b7f7bb3ead98c09a9e7d0876f143e6977d60240dc5238a31e",
+      "evidence_id": "nse-security-2026-05-06",
+      "retained_rows": 52,
+      "row_count": 35445,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_06052026.csv.gz"
+    },
+    {
+      "date": "2026-05-07",
+      "document_sha256": "8c0c879452e89c3645b0040773f901b57f4b558f008af57229ba06824ade9143",
+      "evidence_id": "nse-security-2026-05-07",
+      "retained_rows": 52,
+      "row_count": 35466,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_07052026.csv.gz"
+    },
+    {
+      "date": "2026-05-08",
+      "document_sha256": "45a01aa1344a40828d3d5640cd726cf085995918c261ecc9e8a0eadbc8d9f14a",
+      "evidence_id": "nse-security-2026-05-08",
+      "retained_rows": 52,
+      "row_count": 35470,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_08052026.csv.gz"
+    },
+    {
+      "date": "2026-05-11",
+      "document_sha256": "79e093425b175f38dbf57a304ea242631ccad44cf46794420ea6c63535dd7361",
+      "evidence_id": "nse-security-2026-05-11",
+      "retained_rows": 52,
+      "row_count": 35470,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_11052026.csv.gz"
+    },
+    {
+      "date": "2026-05-12",
+      "document_sha256": "e25d48bc64f3da9dde0198c59e97e5d3ef188a8a089ac0d19e43eedd870316cc",
+      "evidence_id": "nse-security-2026-05-12",
+      "retained_rows": 52,
+      "row_count": 35480,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_12052026.csv.gz"
+    },
+    {
+      "date": "2026-05-13",
+      "document_sha256": "12463f3ae520c5d1970d830d866dbe8d7e2e7b5dc9ea17bbde3f8cb2645ae953",
+      "evidence_id": "nse-security-2026-05-13",
+      "retained_rows": 52,
+      "row_count": 35488,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_13052026.csv.gz"
+    },
+    {
+      "date": "2026-05-14",
+      "document_sha256": "bd43252ed95cd3f800b06ff11ac49dd927987474ea32d311e90ed9a752debd2d",
+      "evidence_id": "nse-security-2026-05-14",
+      "retained_rows": 52,
+      "row_count": 35498,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_14052026.csv.gz"
+    },
+    {
+      "date": "2026-05-15",
+      "document_sha256": "54a4040c3d87498bfb860197ac7df5aed22ef9182eeafceee03df36930df510d",
+      "evidence_id": "nse-security-2026-05-15",
+      "retained_rows": 52,
+      "row_count": 35502,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_15052026.csv.gz"
+    },
+    {
+      "date": "2026-05-18",
+      "document_sha256": "c2712fd2796128418b8a6fbd83328dc01adca10680fc2e06983d5a2353891980",
+      "evidence_id": "nse-security-2026-05-18",
+      "retained_rows": 52,
+      "row_count": 35508,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_18052026.csv.gz"
+    },
+    {
+      "date": "2026-05-19",
+      "document_sha256": "bcc0f977f83f9100e5aa51b16ae8a0ac63c7132650153f968fe27b352b5629f8",
+      "evidence_id": "nse-security-2026-05-19",
+      "retained_rows": 52,
+      "row_count": 35517,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_19052026.csv.gz"
+    },
+    {
+      "date": "2026-05-20",
+      "document_sha256": "8263c9ab157dc5cda0424cf8740824f6f0a43197b655db38b3e0a4376aecda06",
+      "evidence_id": "nse-security-2026-05-20",
+      "retained_rows": 52,
+      "row_count": 35521,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_20052026.csv.gz"
+    },
+    {
+      "date": "2026-05-21",
+      "document_sha256": "8c33e17a8cc0b84d1d59d8aec49ef368ce171eb438cc764285246d1ce9363378",
+      "evidence_id": "nse-security-2026-05-21",
+      "retained_rows": 52,
+      "row_count": 35533,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_21052026.csv.gz"
+    },
+    {
+      "date": "2026-05-22",
+      "document_sha256": "0e8a435bf51718c612aab18a685a49193c06f63296ffba4c4bb6731d9dc56ca1",
+      "evidence_id": "nse-security-2026-05-22",
+      "retained_rows": 52,
+      "row_count": 35551,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_22052026.csv.gz"
+    },
+    {
+      "date": "2026-05-25",
+      "document_sha256": "9e6a33bae4f95bd704f2b6c100a53e33ff48e0d3f9687d1b84f7ecc63ba00c66",
+      "evidence_id": "nse-security-2026-05-25",
+      "retained_rows": 52,
+      "row_count": 35561,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_25052026.csv.gz"
+    },
+    {
+      "date": "2026-05-26",
+      "document_sha256": "5cfcc507bfa66b5ccb7e45ee24c212d70abbef088e315f28397cc3fdcf402012",
+      "evidence_id": "nse-security-2026-05-26",
+      "retained_rows": 52,
+      "row_count": 35563,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_26052026.csv.gz"
+    },
+    {
+      "date": "2026-05-27",
+      "document_sha256": "cb307883575895434afacc35b6e2c7d20e94f6a837df224c4d3c7cd641842a0a",
+      "evidence_id": "nse-security-2026-05-27",
+      "retained_rows": 52,
+      "row_count": 35580,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_27052026.csv.gz"
+    },
+    {
+      "date": "2026-05-29",
+      "document_sha256": "ac8ea8099122a961b7e4b2b20a0a507cd1ff0e694e2692640e35a05a51665e93",
+      "evidence_id": "nse-security-2026-05-29",
+      "retained_rows": 52,
+      "row_count": 35595,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_29052026.csv.gz"
+    },
+    {
+      "date": "2026-06-01",
+      "document_sha256": "b932d876d9911938dec21bad5d2b72c67e788437fc7c8fc6c2d926e0476786dc",
+      "evidence_id": "nse-security-2026-06-01",
+      "retained_rows": 52,
+      "row_count": 35627,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_01062026.csv.gz"
+    },
+    {
+      "date": "2026-06-02",
+      "document_sha256": "0ea032aa0a9bdcbd3a5c60c33fcbc711a7d41cece576b2110f0e575be342ea86",
+      "evidence_id": "nse-security-2026-06-02",
+      "retained_rows": 52,
+      "row_count": 35665,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_02062026.csv.gz"
+    },
+    {
+      "date": "2026-06-03",
+      "document_sha256": "7825dc7d25e9a56b04782cb45edee28f8a92f666da7ee149d1859c92300cb726",
+      "evidence_id": "nse-security-2026-06-03",
+      "retained_rows": 52,
+      "row_count": 35665,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_03062026.csv.gz"
+    },
+    {
+      "date": "2026-06-04",
+      "document_sha256": "9eb73d6f437d7d53eab82d4760cc96b66b3d73fd0b3e751d4632d255eaad75c6",
+      "evidence_id": "nse-security-2026-06-04",
+      "retained_rows": 52,
+      "row_count": 35674,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_04062026.csv.gz"
+    },
+    {
+      "date": "2026-06-05",
+      "document_sha256": "82f6c73e9698a4183d87de8923c7c794395b5e0000d3b94b21b23b9e24680aef",
+      "evidence_id": "nse-security-2026-06-05",
+      "retained_rows": 52,
+      "row_count": 35680,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_05062026.csv.gz"
+    },
+    {
+      "date": "2026-06-08",
+      "document_sha256": "cb045b057ad740fb0db2f8c3f880ec103a9a01bd86b6dd7d176d23c3c8f5d703",
+      "evidence_id": "nse-security-2026-06-08",
+      "retained_rows": 52,
+      "row_count": 44400,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_08062026.csv.gz"
+    },
+    {
+      "date": "2026-06-09",
+      "document_sha256": "cda5188a5ac26bffcf5be369a755aa0327ae34ffddd7abef96445f7b78986357",
+      "evidence_id": "nse-security-2026-06-09",
+      "retained_rows": 52,
+      "row_count": 35693,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_09062026.csv.gz"
+    },
+    {
+      "date": "2026-06-10",
+      "document_sha256": "71a66f956baff9d5188eedd26ed4c8969deeed9d26b28e15431e2813e88253eb",
+      "evidence_id": "nse-security-2026-06-10",
+      "retained_rows": 52,
+      "row_count": 35700,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_10062026.csv.gz"
+    },
+    {
+      "date": "2026-06-11",
+      "document_sha256": "29c201d581cbd2ef729e8352305fe4529f078bc08b0b77b4bb1080ef1018c55d",
+      "evidence_id": "nse-security-2026-06-11",
+      "retained_rows": 52,
+      "row_count": 35725,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_11062026.csv.gz"
+    },
+    {
+      "date": "2026-06-12",
+      "document_sha256": "996ef642b4a07aaf3d4beac1aba0763956982a542448a8a66392efcc0696490c",
+      "evidence_id": "nse-security-2026-06-12",
+      "retained_rows": 52,
+      "row_count": 35749,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_12062026.csv.gz"
+    },
+    {
+      "date": "2026-06-15",
+      "document_sha256": "9578b68632686302acac319c3d300f81163e3868f2216db6edc90d4e1a3e4023",
+      "evidence_id": "nse-security-2026-06-15",
+      "retained_rows": 52,
+      "row_count": 35768,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_15062026.csv.gz"
+    },
+    {
+      "date": "2026-06-16",
+      "document_sha256": "efe055ec175a3095e366b0a0573acd70ca89c2831012851997b79ae18c1c0fac",
+      "evidence_id": "nse-security-2026-06-16",
+      "retained_rows": 52,
+      "row_count": 35774,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_16062026.csv.gz"
+    },
+    {
+      "date": "2026-06-17",
+      "document_sha256": "b0d69288b68237d5ba05c4b1107e2d7186184179518fabef52e9f8de288e4973",
+      "evidence_id": "nse-security-2026-06-17",
+      "retained_rows": 52,
+      "row_count": 35793,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_17062026.csv.gz"
+    },
+    {
+      "date": "2026-06-18",
+      "document_sha256": "a3f3b3e32841ddd6c050a13caa9758362e3365c78fc7c45adb1d68a04e03c48e",
+      "evidence_id": "nse-security-2026-06-18",
+      "retained_rows": 52,
+      "row_count": 35808,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_18062026.csv.gz"
+    },
+    {
+      "date": "2026-06-19",
+      "document_sha256": "ac94d7a7c1316243a3c0027f1bfe8ff6066e1d80df56ac177aa594fe4dad05a0",
+      "evidence_id": "nse-security-2026-06-19",
+      "retained_rows": 52,
+      "row_count": 35821,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_19062026.csv.gz"
+    },
+    {
+      "date": "2026-06-22",
+      "document_sha256": "41b5b2c9bcea732115016249090e554cd48e2b68aac81531391ce06db2132d25",
+      "evidence_id": "nse-security-2026-06-22",
+      "retained_rows": 52,
+      "row_count": 35821,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_22062026.csv.gz"
+    },
+    {
+      "date": "2026-06-23",
+      "document_sha256": "493d17add7ec0d386f43065497f29a97a731d95a8d30939fcf661d41028956ab",
+      "evidence_id": "nse-security-2026-06-23",
+      "retained_rows": 52,
+      "row_count": 35833,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_23062026.csv.gz"
+    },
+    {
+      "date": "2026-06-24",
+      "document_sha256": "a2d1824f6af6281fb5014cd2776dafac1e64cb526e29b9b855b67f0f9202444d",
+      "evidence_id": "nse-security-2026-06-24",
+      "retained_rows": 52,
+      "row_count": 35845,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_24062026.csv.gz"
+    },
+    {
+      "date": "2026-06-25",
+      "document_sha256": "fe8108a0a6e6c12b88f1fe0d9808ce11cebf20e22e2237a6921a8c8f73fe3cf6",
+      "evidence_id": "nse-security-2026-06-25",
+      "retained_rows": 52,
+      "row_count": 35876,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_25062026.csv.gz"
+    },
+    {
+      "date": "2026-06-29",
+      "document_sha256": "71a1f43a8e248de81ec3ce4dbf84f8d2bf0a92a8f95aa3f070bbd86eeb17538c",
+      "evidence_id": "nse-security-2026-06-29",
+      "retained_rows": 52,
+      "row_count": 35882,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_29062026.csv.gz"
+    },
+    {
+      "date": "2026-06-30",
+      "document_sha256": "f529e40eac8f86d705ffa7fffbc911818259cdfde5bec35860a9747849e31654",
+      "evidence_id": "nse-security-2026-06-30",
+      "retained_rows": 52,
+      "row_count": 35903,
+      "url": "https://nsearchives.nseindia.com/content/cm/NSE_CM_security_30062026.csv.gz"
+    }
+  ],
+  "documents": [
+    {
+      "document_sha256": "9187719705c1cb2494d3c48f3beb6e203fa7f4fbc0043f0891e6a046cb6c2520",
+      "effective_date": null,
+      "evidence_id": "a-hdfc-2008-report",
+      "finding": "PDF page 96 (printed 97): NSE symbol HDFCBANK; domestic equity ISIN INE040A01018, distinct from ADS CUSIP 40415F101.",
+      "limitation": "Legacy lineage only, not 2026 continuity.",
+      "organization": "HDFC Bank Limited",
+      "publication_date": null,
+      "quality": "ISSUER_PRIMARY",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "HDFC Bank FY2007-08 annual report",
+      "url": "https://v.hdfcbank.com/content/dam/hdfc-aem-microsites/common-pdfs/pdf/corporate/annual_report_07_08.pdf"
+    },
+    {
+      "document_sha256": "d896c0bb16a7a3554560cb1a8bd356b0606eb13e2637692b0d5709c0ecfe25d3",
+      "effective_date": "2011-07-16",
+      "evidence_id": "a-hdfc-2011-record",
+      "finding": "PDF page 2: shareholder approval July 6, 2011; INR10 to five INR2 equity shares; record date July 16, 2011.",
+      "limitation": "Record date is not asserted to be NSE ex-date. Historical lineage only.",
+      "organization": "HDFC Bank Limited",
+      "publication_date": null,
+      "quality": "ISSUER_PRIMARY",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "HDFC Bank June 2011 results split disclosure",
+      "url": "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/pdf/press-release/2011/q3-jul-sep/july/hdfcbanklimitedfinancialresultsindiangaapforthequarterendedjune302011.pdf"
+    },
+    {
+      "document_sha256": "89678f70370d1ea45d0e1d25bf19614756a880602a077b0c48edee1fbcfdc834",
+      "effective_date": null,
+      "evidence_id": "a-hdfc-2012-report",
+      "finding": "PDF page 157 (printed 155): July 6, 2011 AGM approved INR10 equity into five INR2 shares, effected in July 2011. PDF page 158 (printed 156): HDFCBANK domestic equity ISIN INE040A01026.",
+      "limitation": "Together with earlier issuer report establishes successor denomination; original 2011 exchange conversion notice and exact NSE ex-date not obtained.",
+      "organization": "HDFC Bank Limited",
+      "publication_date": null,
+      "quality": "ISSUER_PRIMARY",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "HDFC Bank FY2011-12 annual report",
+      "url": "https://www.hdfc.bank.in/content/dam/hdfcbankpws/in/en/pdf/annual-reports/2011-12/annual-report-2011-12.pdf"
+    },
+    {
+      "document_sha256": "ebf3cdba4227337ab7bbe851455d2dadc14b9016b2e606daa13213e7724bcadd",
+      "effective_date": "2019-09-19",
+      "evidence_id": "a-hdfc-2019-clearing",
+      "finding": "INR2 to INR1 split; September 20, 2019 record date; NSE normal-market ex-date September 19, 2019. Old ISIN INE040A01026; new ISIN to be issued by NSDL.",
+      "limitation": "New identifier is supplied by separate original MSE circular and corroborated by NSE listing/master records.",
+      "organization": "NSE Clearing Limited",
+      "publication_date": "2019-09-09",
+      "quality": "EXCHANGE_PRIMARY",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "NCL/CMPT/42091 HDFCBANK face-value split",
+      "url": "https://nsearchives.nseindia.com/content/circulars/CMPT42091.pdf"
+    },
+    {
+      "document_sha256": "05f4a92454541e1235e9fb0e60ec184bc1a7043412237ca2b1d8565a312b88cd",
+      "effective_date": "2019-09-20",
+      "evidence_id": "a-hdfc-2019-isin",
+      "finding": "Domestic equity INE040A01026 converts to INE040A01034 for INR2-to-INR1 subdivision. Effective September 20; trades from September 19, 2019.",
+      "limitation": "MSE event evidence only; NSE continuity rests on NSE daily masters and listing circular.",
+      "organization": "Metropolitan Stock Exchange of India Limited",
+      "publication_date": "2019-09-11",
+      "quality": "EXCHANGE_PRIMARY",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "MSE/LIST/8106/2019 HDFC Bank ISIN conversion",
+      "url": "https://www.msei.in/SX-Content/Circulars/2019/September/Circular-8106.pdf"
+    },
+    {
+      "document_sha256": "e5b9f56f66962b2c1a51b02fdf3eb0c040094dd4afddcd46495fb1f167f9b0c3",
+      "effective_date": "2026-04-27",
+      "evidence_id": "a-hdfc-2026-listing",
+      "finding": "HDFCBANK EQ, ISIN INE040A01034, face value INR 1, further ESOP shares pari passu. Conflicts with action-feed ISIN INE040A01018.",
+      "limitation": "Fresh original-document inspection; point observation only. Full-window security/symbol/series coverage comes from daily NSE security masters.",
+      "organization": "NSE",
+      "publication_date": "2026-04-24",
+      "quality": "EXCHANGE_PRIMARY",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "NSE listing circular 73892",
+      "url": "https://nsearchives.nseindia.com/content/circulars/CML73892.pdf"
+    },
+    {
+      "document_sha256": "fdce04eb739855264fcbb7b7bcd7879d19b55d10c29a04e7d0237fa7565a0fa4",
+      "effective_date": null,
+      "evidence_id": "a-hdfc-june-identity",
+      "finding": "HDFC Bank Limited, HDFCBANK, equity, ISIN INE040A01034. Period-end corroboration, not a series-change archive.",
+      "limitation": "Fresh original-document inspection; point observation only. Full-window security/symbol/series coverage comes from daily NSE security masters.",
+      "organization": "HDFC Bank Limited",
+      "publication_date": "2026-07-18",
+      "quality": "ISSUER_PRIMARY",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "June-quarter banking filing",
+      "url": "https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_BANKING_175753_18072026160136_iXBRL_WEB.html"
+    },
+    {
+      "document_sha256": "1f15a76b59c08b019425fa9c15773d7f56d382692f3a52909dddeeeb9e913248",
+      "effective_date": null,
+      "evidence_id": "a-icici-identity",
+      "finding": "ICICI Bank Limited, ICICIBANK, equity, ISIN INE090A01021.",
+      "limitation": "Fresh original-document inspection; point observation only. Full-window security/symbol/series coverage comes from daily NSE security masters.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-04-18",
+      "quality": "ISSUER_PRIMARY",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "March-quarter banking filing",
+      "url": "https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_BANKING_151430_18042026180833_iXBRL_WEB.html"
+    },
+    {
+      "document_sha256": "b2d9e0098ceaee7918f065f5287f31d9cbe70a0d9c2d6a6b16dd6bca326ec760",
+      "effective_date": null,
+      "evidence_id": "a-lt-identity",
+      "finding": "Larsen & Toubro Limited, NSE LT, equity, ISIN INE018A01030.",
+      "limitation": "Fresh original-document inspection; point observation only. Full-window security/symbol/series coverage comes from daily NSE security masters.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-05-06",
+      "quality": "ISSUER_PRIMARY",
+      "symbols": [
+        "LT"
+      ],
+      "title": "March-quarter IndAS filing",
+      "url": "https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_155858_06052026192958_iXBRL_WEB.html"
+    },
+    {
+      "document_sha256": "11988491ecb0088222614ae240995b6ef8881628757c903a959dd79c910a7479",
+      "effective_date": null,
+      "evidence_id": "a-nse-cm-format-zip",
+      "finding": "PART-D.xlsx Annexure 10 maps ISO tags; Annexure 1 defines instrument type 0 as equities, permitted-to-trade 0 as listed, eligibility 1 as normal-market eligible, N as not deleted.",
+      "limitation": "This is a schema source. Face-value raw units are retained; issuer/circular rupee values corroborate denominations.",
+      "organization": "NSE",
+      "publication_date": "2026-04-28",
+      "quality": "EXCHANGE_PRIMARY",
+      "symbols": [
+        "HDFCBANK",
+        "ICICIBANK",
+        "LT",
+        "RELIANCE",
+        "SBIN"
+      ],
+      "title": "NSE/CMTR/73927 Part-D reference field definitions",
+      "url": "https://nsearchives.nseindia.com/content/circulars/CMTR73927.zip"
+    },
+    {
+      "document_sha256": "8cff554cd21720ada13a9837f47e33f000f43974e1b8da480e49f200204c1786",
+      "effective_date": "2025-04-01",
+      "evidence_id": "a-nse-master-scope",
+      "finding": "Pages 2-3 distinguish NSE-listed versus BSE-exclusive masters; PrtdToTrad=2 identifies BSE exclusive securities, with dollar-suffixed symbols. Members load the appropriate master daily.",
+      "limitation": "No BSE identifier is substituted for NSE continuity.",
+      "organization": "NSE",
+      "publication_date": "2025-03-28",
+      "quality": "EXCHANGE_PRIMARY",
+      "symbols": [
+        "HDFCBANK",
+        "ICICIBANK",
+        "LT",
+        "RELIANCE",
+        "SBIN"
+      ],
+      "title": "NSE/MSD/67344 security master scope",
+      "url": "https://nsearchives.nseindia.com/content/circulars/MSD67344.pdf"
+    },
+    {
+      "document_sha256": "02d851cec85512d10440d47bf5c253545510711504cf53b35f67f3b134b02a35",
+      "effective_date": "2024-02-05",
+      "evidence_id": "a-nse-master-spec",
+      "finding": "NSE specifies daily NSE_CM_security_ddmmyyyy.csv.gz publication on its reports page.",
+      "limitation": "Establishes reference-file provenance, not individual identity.",
+      "organization": "NSE",
+      "publication_date": "2024-01-19",
+      "quality": "EXCHANGE_PRIMARY",
+      "symbols": [
+        "HDFCBANK",
+        "ICICIBANK",
+        "LT",
+        "RELIANCE",
+        "SBIN"
+      ],
+      "title": "NSE/MSD/60315 daily security-master dissemination",
+      "url": "https://nsearchives.nseindia.com/content/circulars/MSD60315.pdf"
+    },
+    {
+      "document_sha256": "d52ae37a9b374b207f43392d9478c4f4ba30df528a060a519cf203c0d1444a4e",
+      "effective_date": null,
+      "evidence_id": "a-reliance-after",
+      "finding": "End-period issuer identity: RELIANCE equity, Reliance Industries Limited, INE002A01018.",
+      "limitation": "Fresh original-document inspection; point observation only. Full-window security/symbol/series coverage comes from daily NSE security masters.",
+      "organization": "Reliance Industries Limited",
+      "publication_date": "2026-07-17",
+      "quality": "ISSUER_PRIMARY",
+      "symbols": [
+        "RELIANCE"
+      ],
+      "title": "June-quarter IndAS filing",
+      "url": "https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_175608_17072026195004_iXBRL_WEB.html"
+    },
+    {
+      "document_sha256": "315302eca9a19d19def50c011738818bea33038c7b692d092525708bae338285",
+      "effective_date": null,
+      "evidence_id": "a-reliance-before",
+      "finding": "Before-window issuer identity: RELIANCE equity, Reliance Industries Limited, INE002A01018.",
+      "limitation": "Fresh original-document inspection; point observation only. Full-window security/symbol/series coverage comes from daily NSE security masters.",
+      "organization": "Reliance Industries Limited",
+      "publication_date": "2026-01-16",
+      "quality": "ISSUER_PRIMARY",
+      "symbols": [
+        "RELIANCE"
+      ],
+      "title": "December-quarter IndAS filing",
+      "url": "https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_135487_16012026193821_iXBRL_WEB.html"
+    },
+    {
+      "document_sha256": "68034d6cf7b6e4b0a9f54b65d6769037c7ab6c01351b47207cac454de218bb3f",
+      "effective_date": "2014-11-21",
+      "evidence_id": "a-sbin-2014-isin",
+      "finding": "SBIN domestic equity INE062A01012 becomes INE062A01020 for INR10-to-INR1 subdivision. Record/effective November 21, 2014; this exchange trades ex from November 20.",
+      "limitation": "Does not establish NSE 2014 ex-date or NSE series. 2026 NSE identity independently established by 99 daily masters.",
+      "organization": "MCX Stock Exchange Limited (now MSE)",
+      "publication_date": "2014-11-12",
+      "quality": "EXCHANGE_PRIMARY",
+      "symbols": [
+        "SBIN"
+      ],
+      "title": "MCX-SX/LIST/2345/2014 SBI ISIN conversion",
+      "url": "https://www.msei.in/SX-Content/Circulars/2014/November/Circular-2345.pdf"
+    },
+    {
+      "document_sha256": "ff7b3211fc65f62b1a3f36694b821820c2189d4935dc62f16d497b510db0fb9f",
+      "effective_date": "2025-07-23",
+      "evidence_id": "a-sbin-2025-listing",
+      "finding": "SBIN EQ ISIN INE062A01020, INR 1 ordinary equity. Conflicts with INE062A01012 in action feed. Older listing used only to investigate this identity discrepancy.",
+      "limitation": "Fresh original-document inspection; point observation only. Full-window security/symbol/series coverage comes from daily NSE security masters.",
+      "organization": "NSE",
+      "publication_date": "2025-07-22",
+      "quality": "EXCHANGE_PRIMARY",
+      "symbols": [
+        "SBIN"
+      ],
+      "title": "NSE further listing circular 69252",
+      "url": "https://nsearchives.nseindia.com/content/circulars/CML69252.pdf"
+    },
+    {
+      "document_sha256": "7c0a01bab0847c48421ed2e8e4fdf5ce3ffad7a460dbc5519f4721b62ce18032",
+      "effective_date": null,
+      "evidence_id": "a-sbin-dividend",
+      "finding": "INR 17.35 dividend, May 16 record date, June 4 payment; NSE action feed independently supplies May 15 ex-date.",
+      "limitation": "Fresh original-document inspection; point observation only. Full-window security/symbol/series coverage comes from daily NSE security masters.",
+      "organization": "State Bank of India",
+      "publication_date": "2026-05-08",
+      "quality": "ISSUER_PRIMARY",
+      "symbols": [
+        "SBIN"
+      ],
+      "title": "Dividend and record date filing",
+      "url": "https://nsearchives.nseindia.com/corporate/SBIN_08052026154613_BSE_NSE_DividendRecordDate_08052026.pdf"
+    }
+  ],
+  "eq_rows": 495,
+  "full_file_isin_scan_other_eq_identities": [],
+  "new_daily_count": 99,
+  "new_document_observation_count": 17,
+  "reference_rows": 5148,
+  "retained_parent_source_count": 27,
+  "scope": "Identity columns only. No OHLC, price-band, return, holdings, trade or performance fields retained. Raw official downloads are ignored scratch files; hashes and normalized observations are retained.",
+  "version": "Phase121ASourceInventory.v1"
+}

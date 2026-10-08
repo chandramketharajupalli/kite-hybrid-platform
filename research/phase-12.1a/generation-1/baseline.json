@@ -1,0 +1,25 @@
+{
+  "branch": "develop",
+  "head": "0e71039705fc97f98cc25c747e05ba58f404444e",
+  "initial_worktree": [
+    "?? docs/operations/phase-12.1-revalidation.md"
+  ],
+  "origin_develop": "0e71039705fc97f98cc25c747e05ba58f404444e",
+  "protected_sha256": {
+    "docs/operations/phase-12.1-revalidation.md": "3d3e08713538288d1328843b0fe543c58bf6b560f0ae5b4a55020a2196138025",
+    "research/phase-12.1/access-log.json": "0a5d3b0b52b50153324fbdba68e083defee90f39a8297823e7db3d95d606c007",
+    "research/phase-12.1/acquisition-gate.json": "3bf530e20d6ffddfa63f8d00aa399725dcf39ae022c2257dc2505463fe449607",
+    "research/phase-12.1/certification-policy-v1.json": "1a741982b9eae1f54acd150693f903dbfbbebc9c44f962451dae9fa3360c660a",
+    "research/phase-12.1/continuity-boundaries.json": "7a70eb4641301bfc6bfb3c7ee6098134913e91bdbcb250d6ca0d71ba48eee437",
+    "research/phase-12.1/evidence-manifest.json": "ec1138ad69f05e30cd1306a328d7b646a19b7eefe5ad9b4290b3798bd07e5f11",
+    "research/phase-12.1/generation-1/acquisition-gate.json": "8ae1486d7f747ad856d5bbb5887860d60e52a6a5881cf29ea76521cbb3787a07",
+    "research/phase-12.1/generation-1/continuity-boundaries.json": "c599f4f76555a225823d5b5ccd25fcd57a616624ca2336d0dd6004b32c48c9f4",
+    "research/phase-12.1/generation-1/evidence-manifest.json": "b2ea6e7c36168722311ad47aa783249f7538730d0f93b61d902db9798fb8379b",
+    "research/phase-12.1/generation-1/instrument-certifications.json": "611216970e3ac7412a251b403ff161b3f64e363ff4ea44a06ff222c6946f3935",
+    "research/phase-12.1/implementation-verification.json": "af4c07bffcb628b79cc5348620a0528acc09bc589989d33022c54942d6faaec5",
+    "research/phase-12.1/instrument-certifications.json": "aa704ac8f8bbfc5d8a6f630f31a64b1b5e79ea0994454657d534c1de50732eb5"
+  },
+  "source_before_sha256": {
+    "apps/strategy-engine/src/strategy_engine/research/continuity.py": "fbc61e675077db9e47475ddaeacec5fe9ea9955728aea99d89298de0a5e8b66f"
+  }
+}
