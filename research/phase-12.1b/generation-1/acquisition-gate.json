@@ -1,0 +1,17 @@
+{
+  "fingerprint": "38f793940272d99758e684abcbbdd282e5cf1ff1ff745f52c6036ab9a791f8fc",
+  "gate": {
+    "acquisition_allowed": false,
+    "certification_fingerprint": "d23e50f52326a559119959797239eb6d19385c0a917e03f7e7dc2a6e1a34f1f6",
+    "reasons": [
+      "HDFCBANK:CORPORATE_ACTION_UNRESOLVED",
+      "ICICIBANK:CORPORATE_ACTION_UNRESOLVED",
+      "LT:CORPORATE_ACTION_UNRESOLVED",
+      "RELIANCE:CORPORATE_ACTION_UNRESOLVED",
+      "SBIN:CORPORATE_ACTION_UNRESOLVED"
+    ],
+    "strategy_evaluation_allowed": false,
+    "universe_fingerprint": "638f11d8805f8d45724e8ade9a74e37652564046b699acd03033988ea4150395",
+    "version": "UniverseAcquisitionCertification.v1"
+  }
+}

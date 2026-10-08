@@ -1,0 +1,13 @@
+{
+  "input_sha256": {
+    "announcement-review.json": "0b9f8379425d4f0187cc0fa9699dc73f91f9f1fcf47f2eb4f65daaed7bc5dca2",
+    "corporate-action-coverage.json": "292795eb4c9a56cd5045546ccd0e1a66609ae3d97a9c7586424ba45be9185e17",
+    "corporate-action-events.json": "724c2189e6a966b6dbb594705ef64c9f2ca02c231b6e57547210d0392a29d05b",
+    "evidence-manifest.json": "be4312f3041c6df346f8d2a6891eba14d87982bea99977c730ea7dad8820168b",
+    "research-plan.json": "6f760addabbf85ee5d0c2bba04bd19638f965abc67b1ea79d3a229536e0ee17d",
+    "source-inventory.json": "1a072c039a728d47f4b7c1c59e5e59a4ca2f0a405d07e12a958c380c0190d92c"
+  },
+  "operational_access_log_excluded_from_semantic_identity": true,
+  "research_plan_fingerprint": "ba79ad7e485b7bbfcbe9c1ea8b46ad82d8b0acf0723c1da726e43435db56f54a",
+  "version": "Phase121BEvidenceFreeze.v1"
+}

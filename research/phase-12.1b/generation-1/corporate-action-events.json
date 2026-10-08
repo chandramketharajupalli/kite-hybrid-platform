@@ -1,0 +1,527 @@
+{
+  "contextual_disclosures": [
+    {
+      "announcement_date": "2025-08-28",
+      "effective_date": "2025-08-28",
+      "event_id": "HDFCBANK-bonus-2025",
+      "evidence_ids": [
+        "b-nse-106353853"
+      ],
+      "kind": "BONUS_ISSUE",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "HDFC Bank INR1 equity 1:1 bonus, record August 27, allotted August 28, 2025; pre-window.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE040A01034",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "announcement_date": "2026-02-20",
+      "effective_date": "2026-02-20",
+      "event_id": "HDFCBANK-esop-feb20",
+      "evidence_ids": [
+        "b-nse-106541096"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "1360302 employee equity shares allotted; no proportionate change to existing holder shares.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE040A01034",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "announcement_date": "2026-03-16",
+      "effective_date": "2026-03-16",
+      "event_id": "HDFCBANK-esop-mar16",
+      "evidence_ids": [
+        "b-nse-106558336"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "1630554 employee equity shares allotted; no proportionate change to existing holder shares.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE040A01034",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "announcement_date": "2026-04-01",
+      "effective_date": "2026-04-01",
+      "event_id": "ICICIBANK-fund-rights-transfer",
+      "evidence_ids": [
+        "b-nse-106577631"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "ICICI Venture to ICICI Prudential AMC AIF management rights transfer; different rights/assets, not bank EQ.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE090A01021",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "announcement_date": "2026-03-25",
+      "effective_date": "2026-03-25",
+      "event_id": "ICICIBANK-fund-unit-redemption",
+      "evidence_ids": [
+        "b-nse-106568370"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "ICICI Strategic Investments Fund residual units redeemed; bank EQ not cancelled.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE090A01021",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "announcement_date": "2026-03-18",
+      "effective_date": "2026-03-18",
+      "event_id": "ICICIBANK-gmtn-redemption",
+      "evidence_ids": [
+        "b-nse-106560508"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "US45112FAJ57/US45112EAG44 debt notes redeemed; not bank EQ.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE090A01021",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "announcement_date": "2025-12-08",
+      "effective_date": null,
+      "event_id": "LT-realty-proposed",
+      "evidence_ids": [
+        "b-nse-106463447",
+        "b-lt-june-results"
+      ],
+      "kind": "SECURITY_RESTRUCTURING",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "L&T Realty Undertaking to wholly owned LTRPL; still approvals pending in July 28 report. Appointed April 1 is not effectiveness.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE018A01030",
+      "symbol": "LT"
+    },
+    {
+      "announcement_date": "2026-03-31",
+      "effective_date": "2026-03-31",
+      "event_id": "LT-sufin-transfer",
+      "evidence_ids": [
+        "b-nse-106576253"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "SuFin business to wholly owned SuFin Limited for cash; no LT share entitlement, cancellation or exchange described.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE018A01030",
+      "symbol": "LT"
+    },
+    {
+      "announcement_date": "2026-03-24",
+      "effective_date": "2026-03-24",
+      "event_id": "LT-siliconch-amalgamation",
+      "evidence_ids": [
+        "b-nse-106565795"
+      ],
+      "kind": "MERGER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "SiliConch into L&T Semiconductor Technologies, both subsidiaries; LT listed equity not merging. Appointed August 10, 2025 differs from effective March 24.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE018A01030",
+      "symbol": "LT"
+    },
+    {
+      "announcement_date": "2026-06-25",
+      "effective_date": "2026-06-25",
+      "event_id": "LT-nabha-divestment",
+      "evidence_ids": [
+        "b-nse-106675186"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "Nabha equity/convertibles sold by L&T PDL to Torrent for cash; not LT listed equity exchange.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE018A01030",
+      "symbol": "LT"
+    },
+    {
+      "announcement_date": "2026-04-29",
+      "effective_date": null,
+      "event_id": "LT-hyderabad-proposed",
+      "evidence_ids": [
+        "b-nse-106604308",
+        "b-lt-june-results"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "April 29 SPA for LTMRHL subsidiary stake; July 28 report still held for sale, expected September closing; no June closing inferred.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE018A01030",
+      "symbol": "LT"
+    },
+    {
+      "announcement_date": "2026-04-14",
+      "effective_date": "2026-04-13",
+      "event_id": "LT-igsl-acquisition",
+      "evidence_ids": [
+        "b-nse-106589080"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "LTRPL acquires International Green Scapes; subsidiary acquisition for cash.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE018A01030",
+      "symbol": "LT"
+    },
+    {
+      "announcement_date": "2026-06-19",
+      "effective_date": null,
+      "event_id": "RELIANCE-jio-proposed-ipo",
+      "evidence_ids": [
+        "b-nse-106667822"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "Jio Platforms proposed fresh-issue IPO/DRHP June 19; subsidiary security, not RELIANCE EQ demerger or holder distribution.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE002A01018",
+      "symbol": "RELIANCE"
+    },
+    {
+      "announcement_date": "2026-04-13",
+      "effective_date": "2026-04-13",
+      "event_id": "RELIANCE-rppmsl-sale",
+      "evidence_ids": [
+        "b-nse-106588915"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "Reliance Retail sale of RPPMSL subsidiary for cash; not parent security exchange.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE002A01018",
+      "symbol": "RELIANCE"
+    },
+    {
+      "announcement_date": "2026-02-03",
+      "effective_date": "2026-02-02",
+      "event_id": "RELIANCE-sepl-acquisition",
+      "evidence_ids": [
+        "b-nse-106516972"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "RSBVL acquisition of 50.1% Sikhya Entertainment for cash; distinct subsidiary security.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE002A01018",
+      "symbol": "RELIANCE"
+    },
+    {
+      "announcement_date": "2026-02-10",
+      "effective_date": "2026-02-09",
+      "event_id": "RELIANCE-shfpl-acquisition",
+      "evidence_ids": [
+        "b-nse-106528134"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "RCPL acquisition of Southern Health Foods for cash; distinct subsidiary security.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE002A01018",
+      "symbol": "RELIANCE"
+    },
+    {
+      "announcement_date": "2026-05-20",
+      "effective_date": "2026-05-19",
+      "event_id": "RELIANCE-bam-strikeoff",
+      "evidence_ids": [
+        "b-nse-106631294"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "BAM DLR Kolkata associate strike-off; not cancellation of RELIANCE EQ.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE002A01018",
+      "symbol": "RELIANCE"
+    },
+    {
+      "announcement_date": "2026-05-20",
+      "effective_date": null,
+      "event_id": "RELIANCE-roptonal-liquidation",
+      "evidence_ids": [
+        "b-nse-106631777"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "Roptonal winding-up report filed May 18; statutory dissolution later, not parent EQ cancellation.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE002A01018",
+      "symbol": "RELIANCE"
+    },
+    {
+      "announcement_date": "2026-05-07",
+      "effective_date": "2026-05-06",
+      "event_id": "RELIANCE-kgtl-abandoned",
+      "evidence_ids": [
+        "b-nse-106612734"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "Kandla GHA Transmission tender annulled; previously proposed purchase abandoned.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE002A01018",
+      "symbol": "RELIANCE"
+    },
+    {
+      "announcement_date": "2026-03-20",
+      "effective_date": "2026-03-20",
+      "event_id": "SBIN-tier2-allotment",
+      "evidence_ids": [
+        "b-nse-106562689"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "INE062A08496 Tier 2 bonds; not frozen INE062A01020 equity.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE062A01020",
+      "symbol": "SBIN"
+    },
+    {
+      "announcement_date": "2026-03-19",
+      "effective_date": null,
+      "event_id": "SBIN-sbifml-proposed-ipo",
+      "evidence_ids": [
+        "b-nse-106561681"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "SBI Funds Management proposed IPO and subsidiary bonus/ESOP quantities; no SBI EQ bonus entitlement.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE062A01020",
+      "symbol": "SBIN"
+    },
+    {
+      "announcement_date": "2025-07-21",
+      "effective_date": "2025-07-21",
+      "event_id": "SBIN-qip-2025",
+      "evidence_ids": [
+        "b-nse-106307054"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "305997552 INR1 equity shares allotted in July 2025 QIP; pre-window.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE062A01020",
+      "symbol": "SBIN"
+    }
+  ],
+  "count_semantics": "Five confirmed EQ dividend events, four effective in window and one later. Contextual disclosures are counted separately; unresolved history is not an invented event.",
+  "date_correction": "March 31 original SuFin completion is retained here; any earlier April 1 summary is not reused. Parent artifacts remain untouched.",
+  "eq_dividends": [
+    {
+      "amount_inr": "13",
+      "announcement_date": "2026-04-18",
+      "board_approval_date": "2026-04-18",
+      "effective_price_boundary": "2026-06-19",
+      "event_id": "HDFCBANK-dividend-2026",
+      "evidence_ids": [
+        "b-hdfc-dividend",
+        "b-HDFCBANK-actions"
+      ],
+      "ex_date": "2026-06-19",
+      "kind": "CASH_DIVIDEND",
+      "listing_date": null,
+      "matched_security": {
+        "description": "Listed fully paid common equity",
+        "feed_isin_as_received": "INE040A01018",
+        "issuer": "HDFC Bank Limited",
+        "match_basis": "Issuer name, NSE symbol, EQ, face value, dividend amount and record date joined to original issuer filing; active study identity comes from 99 dated NSE masters. Feed ISIN is not an identity substitute.",
+        "series": "EQ",
+        "study_period_isin": "INE040A01034",
+        "symbol": "HDFCBANK"
+      },
+      "raw_price_impact": "No local adjustment. Ordinary previous-close/open gap invalid at ex-session entry; intraday valid conditional on complete identity/action certification.",
+      "record_date": "2026-06-19",
+      "segmentation_required": false,
+      "shareholder_approval_date": null,
+      "status": "CONFIRMED",
+      "symbol": "HDFCBANK",
+      "timing": "EFFECTIVE_INSIDE",
+      "unavailable_date_reason": "Shareholder approval and listing date not established by selected proof and not substituted for NSE ex-date.",
+      "volume_history_eligible": true
+    },
+    {
+      "amount_inr": "12",
+      "announcement_date": "2026-04-18",
+      "board_approval_date": "2026-04-18",
+      "effective_price_boundary": "2026-08-03",
+      "event_id": "ICICIBANK-dividend-outside-window",
+      "evidence_ids": [
+        "b-icici-april-dividend",
+        "b-ICICIBANK-later-actions",
+        "b-icici-dividend"
+      ],
+      "ex_date": "2026-08-03",
+      "kind": "CASH_DIVIDEND",
+      "listing_date": null,
+      "matched_security": {
+        "description": "Listed fully paid common equity",
+        "feed_isin_as_received": "INE090A01013",
+        "issuer": "ICICI Bank Limited",
+        "match_basis": "Issuer name, NSE symbol, EQ, face value, dividend amount and record date joined to original issuer filing; active study identity comes from 99 dated NSE masters. Feed ISIN is not an identity substitute.",
+        "series": "EQ",
+        "study_period_isin": "INE090A01021",
+        "symbol": "ICICIBANK"
+      },
+      "raw_price_impact": "No local adjustment. Ordinary previous-close/open gap invalid at ex-session entry; intraday valid conditional on complete identity/action certification.",
+      "record_date": "2026-08-03",
+      "segmentation_required": false,
+      "shareholder_approval_date": null,
+      "status": "CONFIRMED",
+      "symbol": "ICICIBANK",
+      "timing": "ANNOUNCED_INSIDE_EFFECTIVE_LATER",
+      "unavailable_date_reason": "Shareholder approval and listing date not established by selected proof and not substituted for NSE ex-date.",
+      "volume_history_eligible": true
+    },
+    {
+      "amount_inr": "38",
+      "announcement_date": "2026-05-05",
+      "board_approval_date": "2026-05-05",
+      "effective_price_boundary": "2026-05-22",
+      "event_id": "LT-dividend-2026",
+      "evidence_ids": [
+        "b-lt-results",
+        "b-LT-actions"
+      ],
+      "ex_date": "2026-05-22",
+      "kind": "CASH_DIVIDEND",
+      "listing_date": null,
+      "matched_security": {
+        "description": "Listed fully paid common equity",
+        "feed_isin_as_received": "INE018A01030",
+        "issuer": "Larsen & Toubro Limited",
+        "match_basis": "Issuer name, NSE symbol, EQ, face value, dividend amount and record date joined to original issuer filing; active study identity comes from 99 dated NSE masters. Feed ISIN is not an identity substitute.",
+        "series": "EQ",
+        "study_period_isin": "INE018A01030",
+        "symbol": "LT"
+      },
+      "raw_price_impact": "No local adjustment. Ordinary previous-close/open gap invalid at ex-session entry; intraday valid conditional on complete identity/action certification.",
+      "record_date": "2026-05-22",
+      "segmentation_required": false,
+      "shareholder_approval_date": null,
+      "status": "CONFIRMED",
+      "symbol": "LT",
+      "timing": "EFFECTIVE_INSIDE",
+      "unavailable_date_reason": "Shareholder approval and listing date not established by selected proof and not substituted for NSE ex-date.",
+      "volume_history_eligible": true
+    },
+    {
+      "amount_inr": "6",
+      "announcement_date": "2026-04-24",
+      "board_approval_date": "2026-04-24",
+      "effective_price_boundary": "2026-06-05",
+      "event_id": "RELIANCE-dividend-2026",
+      "evidence_ids": [
+        "b-reliance-dividend",
+        "b-RELIANCE-actions"
+      ],
+      "ex_date": "2026-06-05",
+      "kind": "CASH_DIVIDEND",
+      "listing_date": null,
+      "matched_security": {
+        "description": "Listed fully paid common equity",
+        "feed_isin_as_received": "INE002A01018",
+        "issuer": "Reliance Industries Limited",
+        "match_basis": "Issuer name, NSE symbol, EQ, face value, dividend amount and record date joined to original issuer filing; active study identity comes from 99 dated NSE masters. Feed ISIN is not an identity substitute.",
+        "series": "EQ",
+        "study_period_isin": "INE002A01018",
+        "symbol": "RELIANCE"
+      },
+      "raw_price_impact": "No local adjustment. Ordinary previous-close/open gap invalid at ex-session entry; intraday valid conditional on complete identity/action certification.",
+      "record_date": "2026-06-05",
+      "segmentation_required": false,
+      "shareholder_approval_date": null,
+      "status": "CONFIRMED",
+      "symbol": "RELIANCE",
+      "timing": "EFFECTIVE_INSIDE",
+      "unavailable_date_reason": "Shareholder approval and listing date not established by selected proof and not substituted for NSE ex-date.",
+      "volume_history_eligible": true
+    },
+    {
+      "amount_inr": "17.35",
+      "announcement_date": "2026-05-08",
+      "board_approval_date": "2026-05-08",
+      "effective_price_boundary": "2026-05-15",
+      "event_id": "SBIN-dividend-2026",
+      "evidence_ids": [
+        "b-sbi-dividend",
+        "b-SBIN-actions"
+      ],
+      "ex_date": "2026-05-15",
+      "kind": "CASH_DIVIDEND",
+      "listing_date": null,
+      "matched_security": {
+        "description": "Listed fully paid common equity",
+        "feed_isin_as_received": "INE062A01012",
+        "issuer": "State Bank of India",
+        "match_basis": "Issuer name, NSE symbol, EQ, face value, dividend amount and record date joined to original issuer filing; active study identity comes from 99 dated NSE masters. Feed ISIN is not an identity substitute.",
+        "series": "EQ",
+        "study_period_isin": "INE062A01020",
+        "symbol": "SBIN"
+      },
+      "raw_price_impact": "No local adjustment. Ordinary previous-close/open gap invalid at ex-session entry; intraday valid conditional on complete identity/action certification.",
+      "record_date": "2026-05-16",
+      "segmentation_required": false,
+      "shareholder_approval_date": null,
+      "status": "CONFIRMED",
+      "symbol": "SBIN",
+      "timing": "EFFECTIVE_INSIDE",
+      "unavailable_date_reason": "Shareholder approval and listing date not established by selected proof and not substituted for NSE ex-date.",
+      "volume_history_eligible": true
+    }
+  ],
+  "full_period_completeness_blockers": 5,
+  "icici_feed_identifier_limitation": "INE090A01013 in later action feed is not active study EQ INE090A01021. No new lineage claim is made for that field. Ex/record match is established by issuer/NSE symbol, class, amount and record date; August security identity is outside this study.",
+  "identified_unresolved_eq_events": 0,
+  "version": "Phase121BEventReview.v1"
+}

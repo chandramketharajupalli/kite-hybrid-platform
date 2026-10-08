@@ -1,0 +1,118 @@
+{
+  "fingerprint": "ba79ad7e485b7bbfcbe9c1ea8b46ad82d8b0acf0723c1da726e43435db56f54a",
+  "plan": {
+    "additional_report_dimensions": [
+      "ORDINARY_DIVIDEND",
+      "SPECIAL_DIVIDEND",
+      "SERIES_CHANGE",
+      "ISIN_CHANGE"
+    ],
+    "baseline": "9193e0b1fe60f514fb867e5d887733ef81f42bbb",
+    "categories": [
+      "CASH_DIVIDEND",
+      "STOCK_SPLIT",
+      "BONUS_ISSUE",
+      "RIGHTS_ISSUE",
+      "MERGER",
+      "DEMERGER",
+      "SPINOFF",
+      "SECURITY_RESTRUCTURING",
+      "SYMBOL_CHANGE",
+      "FACE_VALUE_CHANGE",
+      "BUYBACK",
+      "OTHER"
+    ],
+    "completeness_standard": "Every category requires explicit authoritative scope and complete effective-date coverage. Empty query, snippet, current reference or single dividend announcement cannot prove absence. All general-update attachments relevant to action mechanics and earlier-announced pending events require review. Dated EQ masters prove symbol/series/ISIN and par-value observations only, not economic-action completeness. Finite lookback alone cannot exclude older pending schemes. Record exact residual gap instead of certifying by silence.",
+    "conflict_resolution": "Keep originals and superseding records; match issuer, equity class, EQ series, active ISIN and event dates. Legacy action-feed ISINs require original issuer and dated NSE reconciliation. Unresolved conflicts block; do not alter policy.",
+    "coverage_descriptors": [
+      "COVERED_WITH_EVENTS",
+      "COVERED_NO_EVENTS",
+      "INCOMPLETE",
+      "CONFLICTING"
+    ],
+    "date_semantics": "Separate announcement, board, shareholder, record, ex, appointed, effective and trading dates. Classify on effective trading impact, not announcement or proposed appointed date.",
+    "exchange": "NSE",
+    "existing_boundaries": {
+      "HDFCBANK": "2026-06-19",
+      "LT": "2026-05-22",
+      "RELIANCE": "2026-06-05",
+      "SBIN": "2026-05-15"
+    },
+    "existing_other_findings": [
+      "ICICIBANK record date 2026-08-03; NSE ex-date unresolved in parent",
+      "LT Realty scheme pending; appointed date is not effective trading boundary"
+    ],
+    "generation": "phase-12.1b-g1",
+    "members": {
+      "HDFCBANK": "INE040A01034",
+      "ICICIBANK": "INE090A01021",
+      "LT": "INE018A01030",
+      "RELIANCE": "INE002A01018",
+      "SBIN": "INE062A01020"
+    },
+    "offline_sequence": [
+      "freeze plan",
+      "retrieve and review official sources",
+      "freeze evidence manifest and supporting summaries",
+      "derive classifications and boundaries using existing classifier",
+      "derive existing gate",
+      "replay twice offline and compare all outputs"
+    ],
+    "outputs": [
+      "research-plan.json",
+      "source-inventory.json",
+      "access-log.json",
+      "corporate-action-coverage.json",
+      "corporate-action-events.json",
+      "evidence-manifest.json",
+      "evidence-freeze.json",
+      "instrument-certifications.json",
+      "continuity-boundaries.json",
+      "acquisition-gate.json",
+      "validation.json"
+    ],
+    "parent_certification_fingerprint": "e6322b88e23e85e57c4154b7907ef09f219135f918bd7510ad7e6cf9dd628c36",
+    "policy_fingerprint": "a350a24be35b6a844a0a769e8f14bd0821be3ca8bed44d4f8df5d32fc124f5f4",
+    "retrieval_budget": {
+      "official_document_attempts": 80,
+      "official_index_or_api_attempts": 25,
+      "per_request_timeout_seconds": 30,
+      "raw_download_storage": "ignored data/phase121b-reference only",
+      "raw_master_redownloads": 0,
+      "retries_per_url": 1,
+      "search_queries": 20
+    },
+    "retrieval_scope": {
+      "action_ex_date_queries": [
+        "2026-02-02",
+        "2026-06-30"
+      ],
+      "announcement_lookback": [
+        "2025-07-01",
+        "2026-06-30"
+      ],
+      "followup_constraint": "Only named events or period reconciliation; no July TEST market data",
+      "targeted_followup_through": "2026-10-08"
+    },
+    "safety": "Public metadata only. Zero candles, broker/account reads, orders, WebSockets, DB/token mutations, HALT/arm/execute, real strategy evaluation, commit or push.",
+    "series": "EQ",
+    "source_hierarchy": [
+      "NSE action and announcement archives, circulars and dated security references",
+      "Issuer original filings to NSE/BSE and investor relations",
+      "SEBI and depositories"
+    ],
+    "stop_conditions": [
+      "Frozen baseline, policy, universe or source hash mismatch",
+      "Need for broker/candle/account/DB/token/execution/strategy operations",
+      "Shared trading/auth/config/schema modifications",
+      "Retrieval budget exhausted: freeze bounded findings and unresolved gaps",
+      "Source restrictions: log failure and bounded official alternative; no bypass"
+    ],
+    "universe_fingerprint": "638f11d8805f8d45724e8ade9a74e37652564046b699acd03033988ea4150395",
+    "version": "Phase121BResearchPlan.v1",
+    "window": {
+      "end_date_exclusive": "2026-07-01",
+      "first_date": "2026-02-02"
+    }
+  }
+}

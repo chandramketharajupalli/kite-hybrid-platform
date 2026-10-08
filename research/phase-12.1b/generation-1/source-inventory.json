@@ -1,0 +1,2374 @@
+{
+  "new_source_count": 102,
+  "parent_evidence_fingerprint": "c981d1e10ed4a085adb5758213828fbcbf318f23736dc96315c200d6a71e08e8",
+  "retained_parent_sources": 143,
+  "sources": [
+    {
+      "access_date_record": "access-log.json#b-HDFCBANK-actions",
+      "categories_considered": [
+        "CASH_DIVIDEND"
+      ],
+      "document_id": "b-HDFCBANK-actions",
+      "document_sha256": "7411b655d69e74410334e6c33b10ad792afc37d2dd6c8fb6f6b69a2fa8679c74",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "No explicit exhaustive cross-category/source-completeness contract obtained. Query dates are requested scope, not independently certified absence.",
+      "organization": "NSE",
+      "publication_date": null,
+      "requested_or_document_coverage": {
+        "basis": "ex_date_query",
+        "from": "2026-02-02",
+        "through": "2026-06-30"
+      },
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-HDFCBANK-actions",
+      "supported_finding": "1 returned rows; bounded query findings retained, including all raw symbol/series/ISIN fields; empty result never establishes no action.",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "NSE HDFCBANK EQ corporate-action ex-date query",
+      "url": "https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=HDFCBANK&from_date=02-02-2026&to_date=30-06-2026"
+    },
+    {
+      "access_date_record": "access-log.json#b-HDFCBANK-announcements",
+      "categories_considered": [
+        "CASH_DIVIDEND",
+        "STOCK_SPLIT",
+        "BONUS_ISSUE",
+        "RIGHTS_ISSUE",
+        "MERGER",
+        "DEMERGER",
+        "SPINOFF",
+        "SECURITY_RESTRUCTURING",
+        "SYMBOL_CHANGE",
+        "FACE_VALUE_CHANGE",
+        "BUYBACK",
+        "OTHER"
+      ],
+      "document_id": "b-HDFCBANK-announcements",
+      "document_sha256": "709381406b442c7e129d581efc73d76ee13a5f6f2adc0eb9d20ee300b53b9ed0",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "No explicit exhaustive cross-category/source-completeness contract obtained. Query dates are requested scope, not independently certified absence.",
+      "organization": "NSE",
+      "publication_date": null,
+      "requested_or_document_coverage": {
+        "basis": "announcement_date",
+        "from": "2025-07-01",
+        "through": "2026-06-30"
+      },
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-HDFCBANK-announcements",
+      "supported_finding": "151 returned rows; announcement index is navigation to originals and does not prove all attachments or older effective events reviewed.",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "NSE HDFCBANK announcement archive",
+      "url": "https://www.nseindia.com/api/corporate-announcements?index=equities&symbol=HDFCBANK&from_date=01-07-2025&to_date=30-06-2026"
+    },
+    {
+      "access_date_record": "access-log.json#b-ICICIBANK-actions",
+      "categories_considered": [
+        "CASH_DIVIDEND"
+      ],
+      "document_id": "b-ICICIBANK-actions",
+      "document_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "No explicit exhaustive cross-category/source-completeness contract obtained. Query dates are requested scope, not independently certified absence.",
+      "organization": "NSE",
+      "publication_date": null,
+      "requested_or_document_coverage": {
+        "basis": "ex_date_query",
+        "from": "2026-02-02",
+        "through": "2026-06-30"
+      },
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-ICICIBANK-actions",
+      "supported_finding": "0 returned rows; bounded query findings retained, including all raw symbol/series/ISIN fields; empty result never establishes no action.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "NSE ICICIBANK EQ corporate-action ex-date query",
+      "url": "https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=ICICIBANK&from_date=02-02-2026&to_date=30-06-2026"
+    },
+    {
+      "access_date_record": "access-log.json#b-ICICIBANK-announcements",
+      "categories_considered": [
+        "CASH_DIVIDEND",
+        "STOCK_SPLIT",
+        "BONUS_ISSUE",
+        "RIGHTS_ISSUE",
+        "MERGER",
+        "DEMERGER",
+        "SPINOFF",
+        "SECURITY_RESTRUCTURING",
+        "SYMBOL_CHANGE",
+        "FACE_VALUE_CHANGE",
+        "BUYBACK",
+        "OTHER"
+      ],
+      "document_id": "b-ICICIBANK-announcements",
+      "document_sha256": "b7de88d3274dbf4b9df3ede6d5c4fa0958e60d79f1fb992489263c202ffec3cc",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "No explicit exhaustive cross-category/source-completeness contract obtained. Query dates are requested scope, not independently certified absence.",
+      "organization": "NSE",
+      "publication_date": null,
+      "requested_or_document_coverage": {
+        "basis": "announcement_date",
+        "from": "2025-07-01",
+        "through": "2026-06-30"
+      },
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-ICICIBANK-announcements",
+      "supported_finding": "224 returned rows; announcement index is navigation to originals and does not prove all attachments or older effective events reviewed.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "NSE ICICIBANK announcement archive",
+      "url": "https://www.nseindia.com/api/corporate-announcements?index=equities&symbol=ICICIBANK&from_date=01-07-2025&to_date=30-06-2026"
+    },
+    {
+      "access_date_record": "access-log.json#b-ICICIBANK-later-actions",
+      "categories_considered": [
+        "CASH_DIVIDEND"
+      ],
+      "document_id": "b-ICICIBANK-later-actions",
+      "document_sha256": "82053cdf0832b85b6fe9814085e720828f7ed9233747378cc9259b08970c466d",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "No explicit exhaustive cross-category/source-completeness contract obtained. Query dates are requested scope, not independently certified absence.",
+      "organization": "NSE",
+      "publication_date": null,
+      "requested_or_document_coverage": {
+        "basis": "ex_date_query",
+        "from": "2026-07-01",
+        "through": "2026-08-31"
+      },
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-ICICIBANK-later-actions",
+      "supported_finding": "1 returned rows; bounded query findings retained, including all raw symbol/series/ISIN fields; empty result never establishes no action.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "NSE ICICIBANK EQ corporate-action ex-date query",
+      "url": "https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=ICICIBANK&from_date=01-07-2026&to_date=31-08-2026"
+    },
+    {
+      "access_date_record": "access-log.json#b-LT-actions",
+      "categories_considered": [
+        "CASH_DIVIDEND"
+      ],
+      "document_id": "b-LT-actions",
+      "document_sha256": "c1e0400f934517833c8b153ed859de1e2e01ce8c4a6bb094bc1bb90784cf074b",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "No explicit exhaustive cross-category/source-completeness contract obtained. Query dates are requested scope, not independently certified absence.",
+      "organization": "NSE",
+      "publication_date": null,
+      "requested_or_document_coverage": {
+        "basis": "ex_date_query",
+        "from": "2026-02-02",
+        "through": "2026-06-30"
+      },
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-LT-actions",
+      "supported_finding": "1 returned rows; bounded query findings retained, including all raw symbol/series/ISIN fields; empty result never establishes no action.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "NSE LT EQ corporate-action ex-date query",
+      "url": "https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=LT&from_date=02-02-2026&to_date=30-06-2026"
+    },
+    {
+      "access_date_record": "access-log.json#b-LT-announcements",
+      "categories_considered": [
+        "CASH_DIVIDEND",
+        "STOCK_SPLIT",
+        "BONUS_ISSUE",
+        "RIGHTS_ISSUE",
+        "MERGER",
+        "DEMERGER",
+        "SPINOFF",
+        "SECURITY_RESTRUCTURING",
+        "SYMBOL_CHANGE",
+        "FACE_VALUE_CHANGE",
+        "BUYBACK",
+        "OTHER"
+      ],
+      "document_id": "b-LT-announcements",
+      "document_sha256": "fbcb96b0d4aec415e5f4373f99a2b2e3f9fbc0fbe9f7789b1cac35cd6a36309a",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "No explicit exhaustive cross-category/source-completeness contract obtained. Query dates are requested scope, not independently certified absence.",
+      "organization": "NSE",
+      "publication_date": null,
+      "requested_or_document_coverage": {
+        "basis": "announcement_date",
+        "from": "2025-07-01",
+        "through": "2026-06-30"
+      },
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-LT-announcements",
+      "supported_finding": "174 returned rows; announcement index is navigation to originals and does not prove all attachments or older effective events reviewed.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "NSE LT announcement archive",
+      "url": "https://www.nseindia.com/api/corporate-announcements?index=equities&symbol=LT&from_date=01-07-2025&to_date=30-06-2026"
+    },
+    {
+      "access_date_record": "access-log.json#b-RELIANCE-actions",
+      "categories_considered": [
+        "CASH_DIVIDEND"
+      ],
+      "document_id": "b-RELIANCE-actions",
+      "document_sha256": "1e27456011c2449033829c9665a2e5d20f2a27993639d23d10c9e99c685d88f5",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "No explicit exhaustive cross-category/source-completeness contract obtained. Query dates are requested scope, not independently certified absence.",
+      "organization": "NSE",
+      "publication_date": null,
+      "requested_or_document_coverage": {
+        "basis": "ex_date_query",
+        "from": "2026-02-02",
+        "through": "2026-06-30"
+      },
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-RELIANCE-actions",
+      "supported_finding": "1 returned rows; bounded query findings retained, including all raw symbol/series/ISIN fields; empty result never establishes no action.",
+      "symbols": [
+        "RELIANCE"
+      ],
+      "title": "NSE RELIANCE EQ corporate-action ex-date query",
+      "url": "https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=RELIANCE&from_date=02-02-2026&to_date=30-06-2026"
+    },
+    {
+      "access_date_record": "access-log.json#b-RELIANCE-announcements",
+      "categories_considered": [
+        "CASH_DIVIDEND",
+        "STOCK_SPLIT",
+        "BONUS_ISSUE",
+        "RIGHTS_ISSUE",
+        "MERGER",
+        "DEMERGER",
+        "SPINOFF",
+        "SECURITY_RESTRUCTURING",
+        "SYMBOL_CHANGE",
+        "FACE_VALUE_CHANGE",
+        "BUYBACK",
+        "OTHER"
+      ],
+      "document_id": "b-RELIANCE-announcements",
+      "document_sha256": "a2f5fdb6525648339ee564994b8009ce7be9fa0db30337f93e1abded3283424e",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "No explicit exhaustive cross-category/source-completeness contract obtained. Query dates are requested scope, not independently certified absence.",
+      "organization": "NSE",
+      "publication_date": null,
+      "requested_or_document_coverage": {
+        "basis": "announcement_date",
+        "from": "2025-07-01",
+        "through": "2026-06-30"
+      },
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-RELIANCE-announcements",
+      "supported_finding": "167 returned rows; announcement index is navigation to originals and does not prove all attachments or older effective events reviewed.",
+      "symbols": [
+        "RELIANCE"
+      ],
+      "title": "NSE RELIANCE announcement archive",
+      "url": "https://www.nseindia.com/api/corporate-announcements?index=equities&symbol=RELIANCE&from_date=01-07-2025&to_date=30-06-2026"
+    },
+    {
+      "access_date_record": "access-log.json#b-SBIN-actions",
+      "categories_considered": [
+        "CASH_DIVIDEND"
+      ],
+      "document_id": "b-SBIN-actions",
+      "document_sha256": "8890e8844b10dc22c9b94aa7105ea2ff9e47a377bf51449df1343f2bd8f1aac1",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "No explicit exhaustive cross-category/source-completeness contract obtained. Query dates are requested scope, not independently certified absence.",
+      "organization": "NSE",
+      "publication_date": null,
+      "requested_or_document_coverage": {
+        "basis": "ex_date_query",
+        "from": "2026-02-02",
+        "through": "2026-06-30"
+      },
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-SBIN-actions",
+      "supported_finding": "1 returned rows; bounded query findings retained, including all raw symbol/series/ISIN fields; empty result never establishes no action.",
+      "symbols": [
+        "SBIN"
+      ],
+      "title": "NSE SBIN EQ corporate-action ex-date query",
+      "url": "https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=SBIN&from_date=02-02-2026&to_date=30-06-2026"
+    },
+    {
+      "access_date_record": "access-log.json#b-SBIN-announcements",
+      "categories_considered": [
+        "CASH_DIVIDEND",
+        "STOCK_SPLIT",
+        "BONUS_ISSUE",
+        "RIGHTS_ISSUE",
+        "MERGER",
+        "DEMERGER",
+        "SPINOFF",
+        "SECURITY_RESTRUCTURING",
+        "SYMBOL_CHANGE",
+        "FACE_VALUE_CHANGE",
+        "BUYBACK",
+        "OTHER"
+      ],
+      "document_id": "b-SBIN-announcements",
+      "document_sha256": "f8fb44d5ad4200926a976e0aab11d7bb450bb2839d37b6b58f3a6be32cb79542",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "No explicit exhaustive cross-category/source-completeness contract obtained. Query dates are requested scope, not independently certified absence.",
+      "organization": "NSE",
+      "publication_date": null,
+      "requested_or_document_coverage": {
+        "basis": "announcement_date",
+        "from": "2025-07-01",
+        "through": "2026-06-30"
+      },
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-SBIN-announcements",
+      "supported_finding": "204 returned rows; announcement index is navigation to originals and does not prove all attachments or older effective events reviewed.",
+      "symbols": [
+        "SBIN"
+      ],
+      "title": "NSE SBIN announcement archive",
+      "url": "https://www.nseindia.com/api/corporate-announcements?index=equities&symbol=SBIN&from_date=01-07-2025&to_date=30-06-2026"
+    },
+    {
+      "access_date_record": "access-log.json#b-hdfc-dividend",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "HDFCBANK_18042026145701_SEResultOutcome18042026.pdf",
+      "document_sha256": "2d754667c7d562c9430b944d78999405b1f700073f63be76fb93384a261bd5c8",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "HDFC Bank Limited",
+      "publication_date": "2026-04-18",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-hdfc-dividend",
+      "supported_finding": "April 18 board recommends INR13 final dividend on INR1 equity; record June 19. Prior special interim payment was August 2025, outside window.",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "hdfc-dividend",
+      "url": "https://nsearchives.nseindia.com/corporate/HDFCBANK_18042026145701_SEResultOutcome18042026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-hdfc-issuer-index",
+      "categories_considered": [
+        "CASH_DIVIDEND",
+        "STOCK_SPLIT",
+        "BONUS_ISSUE",
+        "RIGHTS_ISSUE",
+        "MERGER",
+        "DEMERGER",
+        "SPINOFF",
+        "SECURITY_RESTRUCTURING",
+        "SYMBOL_CHANGE",
+        "FACE_VALUE_CHANGE",
+        "BUYBACK",
+        "OTHER"
+      ],
+      "document_id": "b-hdfc-issuer-index",
+      "document_sha256": null,
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Navigation/scope only. HTTP success does not prove all-category negative history. Raw HTML download hash retained operationally, outside semantic evidence identity.",
+      "organization": "Issuer investor relations",
+      "publication_date": null,
+      "requested_or_document_coverage": null,
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-hdfc-issuer-index",
+      "supported_finding": "Official archive/navigation page inspected; no explicit exhaustive effective-date coverage certification extracted.",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "b-hdfc-issuer-index",
+      "url": "https://www.hdfc.bank.in/about-us/stakeholders-information/other-stock-exchange-disclosures"
+    },
+    {
+      "access_date_record": "access-log.json#b-icici-april-dividend",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "ICICI2022_18042026145407_NSEBSE_18042026.pdf",
+      "document_sha256": "44317bd3945fc8e057864c0f12468d47523e8d2529fc915bcbc89d599e2d3a4b",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-04-18",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-icici-april-dividend",
+      "supported_finding": "April 18 board recommends INR12 dividend on INR2 equity subject to shareholder approval. Matched June 29 record-date notice and August NSE EQ ex-date row.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "Board outcome and dividend recommendation",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_18042026145407_NSEBSE_18042026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-icici-dividend",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "NSEBSE_29062026.pdf",
+      "document_sha256": "e213df7ce88a844898b96dd63e660d81e41e118160668b2aafdc8484c4be72df",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-06-29",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-icici-dividend",
+      "supported_finding": "June 29 board notice sets August 3 dividend record date and August 21 AGM; both later than window.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "icici-dividend",
+      "url": "https://www.icici.bank.in/content/dam/icicibank/india/managed-assets/docs/about-us/2026/NSEBSE_29062026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-icici-issuer-index",
+      "categories_considered": [
+        "CASH_DIVIDEND",
+        "STOCK_SPLIT",
+        "BONUS_ISSUE",
+        "RIGHTS_ISSUE",
+        "MERGER",
+        "DEMERGER",
+        "SPINOFF",
+        "SECURITY_RESTRUCTURING",
+        "SYMBOL_CHANGE",
+        "FACE_VALUE_CHANGE",
+        "BUYBACK",
+        "OTHER"
+      ],
+      "document_id": "b-icici-issuer-index",
+      "document_sha256": null,
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Navigation/scope only. HTTP success does not prove all-category negative history. Raw HTML download hash retained operationally, outside semantic evidence identity.",
+      "organization": "Issuer investor relations",
+      "publication_date": null,
+      "requested_or_document_coverage": null,
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-icici-issuer-index",
+      "supported_finding": "Official archive/navigation page inspected; no explicit exhaustive effective-date coverage certification extracted.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "b-icici-issuer-index",
+      "url": "https://www.icici.bank.in/about-us/disclosures-to-stock-exchanges/2026"
+    },
+    {
+      "access_date_record": "access-log.json#b-lt-issuer-index",
+      "categories_considered": [
+        "CASH_DIVIDEND",
+        "STOCK_SPLIT",
+        "BONUS_ISSUE",
+        "RIGHTS_ISSUE",
+        "MERGER",
+        "DEMERGER",
+        "SPINOFF",
+        "SECURITY_RESTRUCTURING",
+        "SYMBOL_CHANGE",
+        "FACE_VALUE_CHANGE",
+        "BUYBACK",
+        "OTHER"
+      ],
+      "document_id": "b-lt-issuer-index",
+      "document_sha256": null,
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Navigation/scope only. HTTP success does not prove all-category negative history. Raw HTML download hash retained operationally, outside semantic evidence identity.",
+      "organization": "Issuer investor relations",
+      "publication_date": null,
+      "requested_or_document_coverage": null,
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-lt-issuer-index",
+      "supported_finding": "Official archive/navigation page inspected; no explicit exhaustive effective-date coverage certification extracted.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "b-lt-issuer-index",
+      "url": "https://investors.larsentoubro.com/Listing-Compliance.aspx"
+    },
+    {
+      "access_date_record": "access-log.json#b-lt-june-results",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "FY2027QuarterlyLTJune2026-website.pdf",
+      "document_sha256": "a71aadd8b8470e680dde7e455d58595a014344bad7488495f34bd9b2eb5338b3",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-07-28",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-lt-june-results",
+      "supported_finding": "July 28 June-quarter report says Realty scheme approvals pending, undertaking retained; Hyderabad Metro still held for sale with closing expected September 30. ESOP 96988 INR2 shares disclosed.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "lt-june-results",
+      "url": "https://investors.larsentoubro.com/upload/Quarterly/FY2027QuarterlyLTJune2026-website.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-lt-results",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "FY2026QuarterlyLTResultMarch2026.pdf",
+      "document_sha256": "da180a271aa3f1c819c3f82e52ceafa565889984a082afa1bab9d6219960926e",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-05-05",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-lt-results",
+      "supported_finding": "May 5 approved March-year results recommend INR38 dividend on INR2 equity; ESOP allotments disclosed separately. Financial values are not strategy evidence.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "lt-results",
+      "url": "https://investors.larsentoubro.com/upload/Quarterly/FY2026QuarterlyLTResultMarch2026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-lt-statutory-index",
+      "categories_considered": [
+        "CASH_DIVIDEND",
+        "STOCK_SPLIT",
+        "BONUS_ISSUE",
+        "RIGHTS_ISSUE",
+        "MERGER",
+        "DEMERGER",
+        "SPINOFF",
+        "SECURITY_RESTRUCTURING",
+        "SYMBOL_CHANGE",
+        "FACE_VALUE_CHANGE",
+        "BUYBACK",
+        "OTHER"
+      ],
+      "document_id": "b-lt-statutory-index",
+      "document_sha256": null,
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Navigation/scope only. HTTP success does not prove all-category negative history. Raw HTML download hash retained operationally, outside semantic evidence identity.",
+      "organization": "Issuer investor relations",
+      "publication_date": null,
+      "requested_or_document_coverage": null,
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-lt-statutory-index",
+      "supported_finding": "Official archive/navigation page inspected; no explicit exhaustive effective-date coverage certification extracted.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "b-lt-statutory-index",
+      "url": "https://investors.larsentoubro.com/listing-compliance-disclosuresunderstatutes.aspx"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106307054",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106307054",
+      "document_sha256": "10570f268e602cb044b646413bbeffc60f2f7cbb281fc7b044a7364d044413e4",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "State Bank of India",
+      "publication_date": "2025-07-21",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106307054",
+      "supported_finding": "SBI QIP allotment of 305997552 INR1 equity shares completed July 21, 2025, before study window.",
+      "symbols": [
+        "SBIN"
+      ],
+      "title": "Allotment of Securities",
+      "url": "https://nsearchives.nseindia.com/corporate/SBIN_21072025234324_Allotment.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106353853",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106353853",
+      "document_sha256": "62674bb7d8f4b9f09eba645df14c6793f66114743fd8f48f73d1fca348b1fe94",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "HDFC Bank Limited",
+      "publication_date": "2025-08-28",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106353853",
+      "supported_finding": "HDFC Bank 1:1 INR1 bonus allotted August 28, 2025, record August 27, 2025. Completed before target window; not a 2026 boundary.",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "Allotment of Securities",
+      "url": "https://nsearchives.nseindia.com/corporate/HDFCBANK_28082025112521_SE_Disclosure_-_Allotment-_Aug_28_2025.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106463447",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106463447",
+      "document_sha256": "ccbd4290c33d72ea9f43c9c99f70ae8119d8a7c817a7b1ba03c6779dc4319c61",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2025-12-08",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106463447",
+      "supported_finding": "December 8, 2025 board approves proposed Realty Undertaking transfer to LTRPL. LTRPL share capital changes; required approvals remain outstanding in June-quarter report.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "Scheme of Arrangement",
+      "url": "https://nsearchives.nseindia.com/corporate/Subhodh_08122025190237_Regulation30disclosure08122025_sd.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106511490",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106511490",
+      "document_sha256": "4f1ea6d15c0ac1003f015cc05a02c8bee5dbea255e62bbdd10fa5479edfe135b",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Reliance Industries Limited",
+      "publication_date": "2026-01-29",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106511490",
+      "supported_finding": "January 19 NCLT resolution of SevenHills Healthcare with RIL/RSBVL as equity support provider; target is another entity, not listed RIL restructuring.",
+      "symbols": [
+        "RELIANCE"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/kavinavora_29012026165725_SE_29012026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106516972",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106516972",
+      "document_sha256": "e38a4764677d6f80f549587c156cda713e9e426a02431bf2e2776f119d7539a4",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Reliance Industries Limited",
+      "publication_date": "2026-02-03",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106516972",
+      "supported_finding": "RSBVL acquired 50.1% Sikhya Entertainment stake February 2 for cash; subsidiary investment, not RELIANCE EQ entitlement.",
+      "symbols": [
+        "RELIANCE"
+      ],
+      "title": "Acquisition",
+      "url": "https://nsearchives.nseindia.com/corporate/kavinavora_03022026091350_RIL_SE.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106519305",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106519305",
+      "document_sha256": "db8f0a731298cd3cc698e3cbb91889980197bd5468d111fa3d14590bf742b39b",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-02-04",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106519305",
+      "supported_finding": "Original attachment is an investor-meeting schedule using public documents; not an equity-action or complete negative-history certificate.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_04022026132615_BSENSE_Intimation.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106528134",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106528134",
+      "document_sha256": "2a51c1c89ce4885bff4e663329a0a9dac4f73a85ffbc4d2c83da088b148623ef",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Reliance Industries Limited",
+      "publication_date": "2026-02-10",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106528134",
+      "supported_finding": "Reliance Consumer Products acquired Southern Health Foods effective February 9 for cash; subsidiary acquisition, not RIL share conversion.",
+      "symbols": [
+        "RELIANCE"
+      ],
+      "title": "Acquisition",
+      "url": "https://nsearchives.nseindia.com/corporate/PVIVINMA_10022026154226_RIL_Reg30_RCPL.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106528378",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106528378",
+      "document_sha256": "abf78dc5b9f0eed5cb508efa2fce49d132e857c74a24d65d442a48af98cdacc2",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-02-10",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106528378",
+      "supported_finding": "L&T Energy Offshore Wind B.V. registered February 10 in Netherlands as wholly owned subsidiary; different legal security.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/PAM_10022026171434_IntimationLTEnergyOffshoreWindBV.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106530795",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106530795",
+      "document_sha256": "31e106c9d0e46d5f60a98314482bec44dd0ba25e6e6beea6328ef2fe13ee4e71",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-02-11",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106530795",
+      "supported_finding": "RBI approval for ICICI AMC and group holdings in eight banking companies; acquisition permission, not parent share conversion.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_11022026205922_BSENSE.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106530888",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106530888",
+      "document_sha256": "91eea41d23bc0941da14793dd842e489a1c5bef7c1bd7cfdcd4afc58ad236a9a",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "HDFC Bank Limited",
+      "publication_date": "2026-02-11",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106530888",
+      "supported_finding": "RBI approval for ICICI AMC/group aggregate holding up to 9.95% in HDFC Bank; not an equity conversion entitlement.",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/HDFCBANK_11022026223900_RBIapproval_MajorshareholderICICI.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106536518",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106536518",
+      "document_sha256": "79b903b18114b7ae5ad247cbaf12ead7da39be4739d285a923575a25724c60f2",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-02-16",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106536518",
+      "supported_finding": "February 16 agreement for divestment of Nabha Power equity/convertibles; June 25 notice proves closing. No listed LT share entitlement.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/PAM_16022026115205_NABHAIntimation16022026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106537831",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106537831",
+      "document_sha256": "0ea8c2c1475ddc7630250224a5a884c0e947dd8a2559c8224fe65df70fb658be",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-02-17",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106537831",
+      "supported_finding": "Original attachment is an investor-meeting schedule using public documents; not an equity-action or complete negative-history certificate.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_17022026124624_BSENSE.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106541096",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106541096",
+      "document_sha256": "53c8e17d01589045f8779e37fc4ac0ab160495422298aa9a1f74909b109a0c23",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "HDFC Bank Limited",
+      "publication_date": "2026-02-20",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106541096",
+      "supported_finding": "February 20 ESOP/RSU allotment of 1360302 INR1 equity shares. Additional employee shares, not proportionate split/bonus for existing holders.",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/HDFCBANK3_20022026160443_SELetterESOP20022026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106542012",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106542012",
+      "document_sha256": "cabfabfa23a1434bbb68f76cb806aee2efdb562e1a5a6ab17443348a6121b3f8",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-02-22",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106542012",
+      "supported_finding": "GST appeal order disclosure; not an equity action.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_22022026105651_NSEBSE_220226.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106543407",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106543407",
+      "document_sha256": "eef70972101b8230315d96c7d928e754084683d4698c752fc5a410213318f47a",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-02-24",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106543407",
+      "supported_finding": "February 24 SuFin business transfer agreement to wholly owned SuFin Limited for estimated INR60 crore, subject to closing adjustments; March 31 completion amount supersedes estimate.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/PAM_24022026142849_Intimation__Reg_30_Sufin_sgd.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106547303",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106547303",
+      "document_sha256": "4c13b24f04f924ccc5dbdb463fb109a89fba956447970e635b4e6915a501c202",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-02-28",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106547303",
+      "supported_finding": "February 28 board approval to buy up to 2% more ICICI Prudential Life shares, subject to approvals; target subsidiary equity.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_28022026113504_NSEBSE_28022026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106548561",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106548561",
+      "document_sha256": "c1832e3aab7e3e8f2aadfbe45b0d8bad00237cbe9d4e5dd0b3620345b9eebede",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-03-02",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106548561",
+      "supported_finding": "March 2 SEBI approval for change in manager/sponsor of five AIFs; follow-up April 1 reports completion. Not listed-bank merger.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_02032026215413_NSEBSE_02032026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106549585",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106549585",
+      "document_sha256": "02688f7946e8ca3d7e78f87a650df5c0660b4835e4a950d5fc777ccc6f6ca236",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-03-04",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106549585",
+      "supported_finding": "Original attachment is an investor-meeting schedule using public documents; not an equity-action or complete negative-history certificate.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_04032026170308_BSENSE.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106552974",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106552974",
+      "document_sha256": "86539609e28eb8a7aef24f575e5a9974ea2a0ee696af06ee4c46059a5cea3379",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-03-09",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106552974",
+      "supported_finding": "Original attachment is an investor-meeting schedule using public documents; not an equity-action or complete negative-history certificate.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_09032026174303_BSENSE.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106558336",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106558336",
+      "document_sha256": "dcdf1763dda0d9906206385e3e79ef728f07301069a3a4fdf18af21741fbf76f",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "HDFC Bank Limited",
+      "publication_date": "2026-03-16",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106558336",
+      "supported_finding": "March 16 ESOP/RSU allotment of 1630554 INR1 equity shares. Additional employee shares, not proportionate split/bonus for existing holders.",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/HDFCBANK3_16032026172631_SELetterESOP16032026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106558444",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106558444",
+      "document_sha256": "328e28296201410293214d0603857d9986adb58b6a866ee25db5ea552e11e297",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-03-16",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106558444",
+      "supported_finding": "Original attachment is an investor-meeting schedule using public documents; not an equity-action or complete negative-history certificate.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICIBANK1_16032026182455_BSENSE.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106560508",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106560508",
+      "document_sha256": "b27d7bf04cd348b04dd8cb4d192055b1775a82f8d97f459ca9600c3d12335097",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-03-18",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106560508",
+      "supported_finding": "GMTN notes US45112FAJ57/US45112EAG44 redeemed March 18, 2026. Debt notes, not NSE EQ INE090A01021.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_18032026175659_NSEBSE_18032026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106560977",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106560977",
+      "document_sha256": "b46847dbe8890e640848de3c1fa9b8aaf50f2a4dc2e91ae24599c08bb29ad8fa",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "HDFC Bank Limited",
+      "publication_date": "2026-03-19",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106560977",
+      "supported_finding": "Clarifies resignation letter receipt on March 18 despite March 17 letter date; governance matter.",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/HDFCBANK3_19032026023936_SE_intimation_-_AC_-_2nd.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106561386",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106561386",
+      "document_sha256": "6e22d26987570e9214e834df7a2c0c6960199091a475f7bff565fefd711d1667",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-03-19",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106561386",
+      "supported_finding": "GST demand and litigation disclosure; not an equity entitlement.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_19032026151044_NSEBSE_19032026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106561414",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106561414",
+      "document_sha256": "65e1f32e13786248255d33790db851c1847d1e228524d1290884c52ff9619604",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "HDFC Bank Limited",
+      "publication_date": "2026-03-19",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106561414",
+      "supported_finding": "Issuer encloses RBI statement about bank governance/developments; not action-history evidence.",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/HDFCBANK3_19032026154030_SE_Intimation-_RBI_Statement.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106561443",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106561443",
+      "document_sha256": "10be11dc31961b9072799d1b39bbc6ee906016378d07c76b0b7d344a64e27e06",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-03-19",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106561443",
+      "supported_finding": "BSE March 18 and NSE March 19 observations on proposed LT Realty scheme, subject to further approvals; no effective LT trading boundary established.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "Scheme of Arrangement",
+      "url": "https://nsearchives.nseindia.com/corporate/PAM_19032026161557_NSE_BSE_Response.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106561681",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106561681",
+      "document_sha256": "1dc12f86cfaa0fb1db84224577284d7bbc44c530e250642844da5bc1f1f1ccae",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "State Bank of India",
+      "publication_date": "2026-03-19",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106561681",
+      "supported_finding": "March 19 SBIFML IPO draft filed; SBI proposes sale of subsidiary shares. Subsidiary bonus/ESOP changes are not SBI EQ bonus.",
+      "symbols": [
+        "SBIN"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/SBIN_19032026213213_BSE_NSE_SBIMF_DRHP1_19032026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106562689",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106562689",
+      "document_sha256": "4312c6a432ff5e7774416fc56d419d7b7420edbd3c701d29b0c8b9e417db503c",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "State Bank of India",
+      "publication_date": "2026-03-20",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106562689",
+      "supported_finding": "March 20 Tier 2 debt allotment, ISIN INE062A08496, INR1 crore face value. Excluded from SBIN EQ INE062A01020 action attribution.",
+      "symbols": [
+        "SBIN"
+      ],
+      "title": "Allotment of Securities",
+      "url": "https://nsearchives.nseindia.com/corporate/SBIN1_20032026212415_SE_Allotment_T2_20032026dsc.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106563137",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106563137",
+      "document_sha256": "0f1df7a87741f20b6bf47860c512d358bdc248b03ac39fb4df82efdd99bdcfcf",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-03-21",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106563137",
+      "supported_finding": "Media interaction about Middle East projects and employee welfare; not an equity-action record.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/PAM_21032026175933_SEIntimation21032026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106564765",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106564765",
+      "document_sha256": "a68aa772d191379cf04ef9f70917dec00cb5fab0b80568706d38a7291d9b934c",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "HDFC Bank Limited",
+      "publication_date": "2026-03-24",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106564765",
+      "supported_finding": "External lawyers appointed to review chairman resignation; governance matter.",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/HDFCBANK3_24032026062730_SE_intimation_-_external_law_firm_review_-_Final.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106565795",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106565795",
+      "document_sha256": "351aa58863e5f4a76899c897da32df0c0f791b6b152a341327795af19f3bbc02",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-03-24",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106565795",
+      "supported_finding": "Issuer letter dated March 24, NSE posted March 25: SiliConch Systems amalgamated into L&T Semiconductor Technologies effective March 24; appointed August 10, 2025. Both subsidiaries, not listed LT equity.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/PAM_24032026170040_SiliconchIntimation240326.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106568370",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106568370",
+      "document_sha256": "098159c7c80893fcd9bd0691c270fc6e9b70dd3637bfcbde6a9570afaa304250",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-03-25",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106568370",
+      "supported_finding": "All residual units of ICICI Strategic Investments Fund redeemed March 25; fund ceases to be consolidated group entity. Fund units are not bank EQ shares.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICIBANK1_25032026183337_NSEBSE.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106568563",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106568563",
+      "document_sha256": "c5ff1bb6f1c11fdb1c0bea78fdd4be219b19f9ba7ffab6a1f50c8e026ce1184e",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-03-25",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106568563",
+      "supported_finding": "Original attachment is an investor-meeting schedule using public documents; not an equity-action or complete negative-history certificate.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICIBANK1_25032026194258_BSENSE.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106576253",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106576253",
+      "document_sha256": "e820b55086670f449e99bd071d13cc0fd76fdad916d0703610f08de8425a0e01",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-03-31",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106576253",
+      "supported_finding": "March 31 filing reports SuFin business slump-sale completion that day for INR42.9 crore subject to closing adjustments; not April 1 completion.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/PAM_31032026183506_SuFinIntimation31032026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106577631",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106577631",
+      "document_sha256": "549b1fb9cd2b613d8608894b00884dc9d2f1c912a7a1c4f6293ee232a38109d9",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-04-01",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106577631",
+      "supported_finding": "AIF investment-management rights transferred from ICICI Venture to ICICI Prudential AMC, effective April 1, 2026. Fund management rights, not ICICI Bank EQ shares.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_01042026193925_NSEBSE_01042026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106578630",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106578630",
+      "document_sha256": "a6894bc9b5ac5190d6696742e750f89852135b98a5379a1274116ab43cd28595",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "HDFC Bank Limited",
+      "publication_date": "2026-04-02",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106578630",
+      "supported_finding": "ESG rating disclosure; no security-action coverage assertion.",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/HDFCBANK_02042026181404_ESGrating2Apr2025.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106579500",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106579500",
+      "document_sha256": "aa8844441619455cfcae6dc1246e5a52942c2dd5c9984415270f9baf7d50fa69",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "HDFC Bank Limited",
+      "publication_date": "2026-04-04",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106579500",
+      "supported_finding": "Business-volume update for March quarter; not a security-action completeness certificate.",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/HDFCBANK_04042026083510_Mar2026initialfinancialdisclosure.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106586990",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106586990",
+      "document_sha256": "cccaf979464c7682c83b4cae3edb15d37951768d5b37df11c15b7f3b9a8b0de6",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-04-10",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106586990",
+      "supported_finding": "April 10 agreement for LTRPL acquisition of International Green Scapes; superseded on completion by April 14 filing.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/PAM_10042026185925_SE_Intimation_RealtyAcquisition_10042026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106588915",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106588915",
+      "document_sha256": "8ecc72d1916489d03fea93451f96c423132256614203678f60b233a756340871",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Reliance Industries Limited",
+      "publication_date": "2026-04-13",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106588915",
+      "supported_finding": "Reliance Retail sold RPPMSL subsidiary stake April 13 for INR274 crore; transaction concerns subsidiary equity.",
+      "symbols": [
+        "RELIANCE"
+      ],
+      "title": "Sale or disposal",
+      "url": "https://nsearchives.nseindia.com/corporate/kavinavora_13042026231724_RIL_SELetter_13042026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106589080",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106589080",
+      "document_sha256": "566186fbb795444b6f7c40d0cfaffd65a77c9b442d3f971bc2634c970d40edd2",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-04-14",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106589080",
+      "supported_finding": "April 14 notice reports LTRPL completed 100% International Green Scapes acquisition April 13. Subsidiary stake, not LT share exchange.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/PAM_14042026113145_IntimationCompletionofAcquisition.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106591667",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106591667",
+      "document_sha256": "a637fa6313b19db04211eb859c235f3a68510e0a02a43bbba4116d8b6e62e723",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "HDFC Bank Limited",
+      "publication_date": "2026-04-16",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106591667",
+      "supported_finding": "April 16 approval to invest up to INR1000 crore in preferential shares of HDFC Life, subject to approvals; target is subsidiary equity.",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/HDFCBANK_16042026163558_Outcome_of_BM-16APRIL2026_-_HDFC_Life.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106598170",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106598170",
+      "document_sha256": "138031ff5a154b1a9d09e69a2044e27fe71d9c1efe26ce570554bb6a09634a1e",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-04-23",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106598170",
+      "supported_finding": "Vyoma.AI incorporated April 22 as wholly owned subsidiary; no parent-holder entitlement described.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/PAM_23042026161907_IntimationVyomaAI.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106604308",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106604308",
+      "document_sha256": "aacdc9ea82e37f99aaa5a2de0de9e5850145480b21ad9f394de2da6579b97e58",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-04-29",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106604308",
+      "supported_finding": "April 29 SPA to sell L&T Metro Rail (Hyderabad) stake for INR1461.47 crore. Closing conditional; July quarter report still holds investment for sale.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/PAM_29042026172412_IntimationDivestmentLNTMRHLfinal.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106609636",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106609636",
+      "document_sha256": "6d8b483a143b373cd74edeb0ff9b35c41bd69bee43dacfe85ec174e46656eb55",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-05-05",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106609636",
+      "supported_finding": "Administrative warning concerning depository-participant compliance; no equity-action completeness claim.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_05052026160608_NSEBSE_05052026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106610006",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106610006",
+      "document_sha256": "9524f25bf6c764fb64d4e7ec7b908e8e6ffff30a31f5721382b3c88b819f3b6f",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-05-05",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106610006",
+      "supported_finding": "Quarter/year presentation; reviewed as issuer context, not exhaustive corporate-action coverage or strategy/performance evidence.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/PAM_05052026182003_AnalystPresentationMarch2026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106610241",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106610241",
+      "document_sha256": "0a8a911d181052d9c51ea9f90b77b0ac289a0995d65fd78d739e31da53d61825",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-05-05",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106610241",
+      "supported_finding": "CFO designated for materiality/disclosure decisions from July 1; governance event.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/PAM_05052026210809_IntimationKMP05052026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106612694",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106612694",
+      "document_sha256": "531d1b2126004673cd0c3dd482a1923438459c1b21238ddc8837ab51886b202a",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-05-07",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106612694",
+      "supported_finding": "RBI approval for HDFC Bank aggregate holding up to 9.95% in ICICI Bank within one year; permission is not completed restructuring.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_07052026143450_NSEBSE_07052026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106612734",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106612734",
+      "document_sha256": "a51c6e971b8e0d6a54e04d093793deb30411efb96d227dd521d758b175deb61c",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Reliance Industries Limited",
+      "publication_date": "2026-05-07",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106612734",
+      "supported_finding": "Kandla GHA Transmission acquisition abandoned after tender annulment May 6, disclosed May 7; supersedes prior April 2025 proposed acquisition.",
+      "symbols": [
+        "RELIANCE"
+      ],
+      "title": "Acquisition",
+      "url": "https://nsearchives.nseindia.com/corporate/kavinavora_07052026145902_SE_07052026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106618785",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106618785",
+      "document_sha256": "cbd52a840842e3764dd707128b42c0c69364f67f21ea3047c4126eba41e0df11",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-05-12",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106618785",
+      "supported_finding": "Original attachment is an investor-meeting schedule using public documents; not an equity-action or complete negative-history certificate.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_12052026170456_BSENSE_12052026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106626909",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106626909",
+      "document_sha256": "fb197ca16abdbaf6e213d9c9b94c634bba655fc9fb20ada4e871e60e759619ff",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-05-18",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106626909",
+      "supported_finding": "Bank states intent to retain majority ICICI Prudential Life stake after Prudential partner announcement; no ICICI Bank shareholder entitlement described.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_18052026075002_NSEBSE18052026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106631124",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106631124",
+      "document_sha256": "ec7265e15ebdb29789c671c25a74e4aa2bd90ffc32930cd6408b708bb4d389c3",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "State Bank of India",
+      "publication_date": "2026-05-20",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106631124",
+      "supported_finding": "Gazette notice about elected directors, terms beginning June 26; not share-entitlement notice.",
+      "symbols": [
+        "SBIN"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/SBIN_20052026123012_BSE_NSE_GP_20052026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106631294",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106631294",
+      "document_sha256": "729be3ce5b18608dffefad5db2346f10dd2a61e34b190d9ba74c8e0d47c685e7",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Reliance Industries Limited",
+      "publication_date": "2026-05-20",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106631294",
+      "supported_finding": "BAM DLR Kolkata associate voluntarily struck off May 19; not RELIANCE EQ cancellation.",
+      "symbols": [
+        "RELIANCE"
+      ],
+      "title": "Sale or disposal",
+      "url": "https://nsearchives.nseindia.com/corporate/kavinavora_20052026141606_SE_20052026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106631777",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106631777",
+      "document_sha256": "30c71ad23fa00d94b663060a3b809cd7f2853268bdab763b9f16d461dca0fb6f",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Reliance Industries Limited",
+      "publication_date": "2026-05-20",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106631777",
+      "supported_finding": "Roptonal Cyprus winding-up report filed May 18, dissolution expected three months after registration; subsidiary, not RIL equity.",
+      "symbols": [
+        "RELIANCE"
+      ],
+      "title": "Sale or disposal",
+      "url": "https://nsearchives.nseindia.com/corporate/kavinavora_20052026172637_SE_20052026_.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106632134",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106632134",
+      "document_sha256": "7a5430d85bae0694a3248942f889be3f458ff752b218aa21651560baf868851c",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-05-20",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106632134",
+      "supported_finding": "Original attachment is an investor-meeting schedule using public documents; not an equity-action or complete negative-history certificate.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_20052026184105_BSENSE.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106637179",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106637179",
+      "document_sha256": "30221e838208819385cb74fb9c82720a4023edf268450f8e1742344ad0f1bd6e",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-05-22",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106637179",
+      "supported_finding": "RBI approved managing director reappointment from October 4, 2026; management event.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_22052026214503_NSEBSE_22052026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106639345",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106639345",
+      "document_sha256": "610fdafbab444d8e4862897ad78ce2d3067bebd0e0a493cc31189aee1c1ffcfe",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-05-25",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106639345",
+      "supported_finding": "Original attachment is an investor-meeting schedule using public documents; not an equity-action or complete negative-history certificate.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_25052026165220_BSENSE_25052026[1].pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106641598",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106641598",
+      "document_sha256": "91103901d16657de68f38056b121f41798ab08af823e142b6981d86f4c879485",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-05-26",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106641598",
+      "supported_finding": "Original attachment is an investor-meeting schedule using public documents; not an equity-action or complete negative-history certificate.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICIBANK1_26052026171426_BSENSE.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106652580",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106652580",
+      "document_sha256": "15b4d263f09f3d65c54d0638a0ab3116336be467a6d6733de7684ed560543df6",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Reliance Industries Limited",
+      "publication_date": "2026-06-02",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106652580",
+      "supported_finding": "June 2 update on historical RPL derivatives enforcement litigation; not current RIL security restructuring.",
+      "symbols": [
+        "RELIANCE"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/kavinavora_02062026165644_SE_02062026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106652656",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106652656",
+      "document_sha256": "14c6ac7db3b4625e2bcd254f6206ba743685c286fabaa2491a5d55931cf1c4c5",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-06-02",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106652656",
+      "supported_finding": "Original attachment is an investor-meeting schedule using public documents; not an equity-action or complete negative-history certificate.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_02062026173637_BSENSE.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106655040",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106655040",
+      "document_sha256": "074c9979a7c3965810f8dbdc4a09dc6cd7c97222235605ace30351b03d25ed41",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-06-04",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106655040",
+      "supported_finding": "SEBI warning about FPI repatriation in custodian activity; issuer says no material impact on its activities.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICIBANK1_04062026175731_NSEBSE_04062026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106655897",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106655897",
+      "document_sha256": "b7feff3f46c6e1f16483071cf09e09232196fac056ee87db29bf836ee1eff8a6",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "State Bank of India",
+      "publication_date": "2026-06-05",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106655897",
+      "supported_finding": "Appointment of Group Chief Risk Officer; management disclosure.",
+      "symbols": [
+        "SBIN"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/SBIN_05062026134936_BSE_NSE_06062026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106664639",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106664639",
+      "document_sha256": "9fef234bdfa91b90c60f3c36bdc9869132a8f6f5c7ae6820704a46d95f2b3fd5",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-06-16",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106664639",
+      "supported_finding": "Original attachment is an investor-meeting schedule using public documents; not an equity-action or complete negative-history certificate.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICIBANK1_16062026171338_BSENSE.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106666835",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106666835",
+      "document_sha256": "5f921ea011f3f4c7339e398a4c32240a0225aede27c6bdbd96514f2fb23af805",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "HDFC Bank Limited",
+      "publication_date": "2026-06-18",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106666835",
+      "supported_finding": "June 18 board convened August 5 AGM; INR13 dividend payment on or after August 6 subject to approval. This does not move the June 19 record/ex boundary.",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/HDFCBANK_18062026164305_Outcome_Board_Meeting_18062026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106667143",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106667143",
+      "document_sha256": "301dc37d572486120b82b6b87ea7f87e4f8ad360efbdf50d70d1d5778db69801",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-06-18",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106667143",
+      "supported_finding": "Original attachment is an investor-meeting schedule using public documents; not an equity-action or complete negative-history certificate.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_18062026191609_BSENSE.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106667822",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106667822",
+      "document_sha256": "e8f1cc2b50df61cacd9e57ca579a5f92657227a50780493faadefaa9d223fc39",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Reliance Industries Limited",
+      "publication_date": "2026-06-19",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106667822",
+      "supported_finding": "Jio Platforms board approved proposed fresh issue of up to 270 million INR10 shares June 19. Subsidiary shares, not entitlement/cancellation of RELIANCE EQ.",
+      "symbols": [
+        "RELIANCE"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/kavinavora_19062026142004_SE_19062026_signed.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106668105",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106668105",
+      "document_sha256": "4f96b57c6087bd7c5bf1cfad57da46bdc941b062038cbdcb1022487aad73cf93",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Reliance Industries Limited",
+      "publication_date": "2026-06-19",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106668105",
+      "supported_finding": "June 19 Jio Platforms DRHP filing for proposed IPO subject to approvals. Same proposed event as earlier board filing, not Reliance equity demerger.",
+      "symbols": [
+        "RELIANCE"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/kavinavora_19062026171426_RIL_SE_19062026_JPL.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106668962",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106668962",
+      "document_sha256": "c5913995927bab3997f0d1d363ffa56fd828303203367b97239417143e8e53d2",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-06-20",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106668962",
+      "supported_finding": "LTN Compute incorporated June 20 under Vyoma.AI; subsidiary equity, not LT EQ conversion.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/PAM_20062026214334_Intimation_-_LTN_Compute.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106668979",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106668979",
+      "document_sha256": "eabd1982e136e96cc2f78e3b1afe34836a17227a75db4a5a2a687c7a56a831e1",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-06-21",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106668979",
+      "supported_finding": "June 21 further filing for LTN Compute incorporation on June 20; same subsidiary event as June 20 original, retained without double-counting.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/PAM_21062026000405_SEIntimationLTNCompute20062026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106673222",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106673222",
+      "document_sha256": "8afb707bf2dbf5fbec30861eb990dda9b16c4dfbed6d8c33220813c6b846c36d",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-06-24",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106673222",
+      "supported_finding": "June 24 filing encloses June 12/16 first-motion NCLT orders directing shareholder meeting; clerical order-date typo disclosed; not scheme effectiveness.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "Scheme of Arrangement",
+      "url": "https://nsearchives.nseindia.com/corporate/PAM_24062026190028_Reg3024062026signed1.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106673345",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106673345",
+      "document_sha256": "b59ef27e4022abfe76e87d31f41023c9fb363454b9913b09fad31a3cff609a23",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "ICICI Bank Limited",
+      "publication_date": "2026-06-24",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106673345",
+      "supported_finding": "June 24 RBI approval to acquire up to 2% additional ICICI Prudential Life shares, maintaining bank majority holding; subsidiary security.",
+      "symbols": [
+        "ICICIBANK"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/ICICI2022_24062026205125_NSEBSE_24062026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106674850",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106674850",
+      "document_sha256": "2e4a9fda9387e2049de54771fb7c8baa3051d8dbb4b2b541c60de3f05682ede1",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-06-25",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106674850",
+      "supported_finding": "LTA Data Centres incorporated June 20 under Vyoma.AI; wholly owned step-down subsidiary security.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/PAM_25062026162051_Intimation25062026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106675186",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106675186",
+      "document_sha256": "bf96ff4918e12b1179ac7542c0fd6787228c221aed21c150ccd395ceb4753858",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Larsen & Toubro Limited",
+      "publication_date": "2026-06-25",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106675186",
+      "supported_finding": "June 25 completion of Nabha Power equity/convertible-stake divestment by L&T Power Development to Torrent; parent LT equity not exchanged.",
+      "symbols": [
+        "LT"
+      ],
+      "title": "General Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/PAM_25062026174025_IntimationNABHA250626.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-106678068",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "106678068",
+      "document_sha256": "30fb9d8aad6091726df821a66389d650efc3fe1b55a3e19ab187a0106b3677e0",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "HDFC Bank Limited",
+      "publication_date": "2026-06-26",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-nse-106678068",
+      "supported_finding": "Conclusion of external legal review concerning former chairman resignation; governance disclosure, not an EQ entitlement notice.",
+      "symbols": [
+        "HDFCBANK"
+      ],
+      "title": "Updates",
+      "url": "https://nsearchives.nseindia.com/corporate/HDFCBANK_26062026212411_Outcome_legal_review_June232026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-nse-action-page",
+      "categories_considered": [
+        "CASH_DIVIDEND",
+        "STOCK_SPLIT",
+        "BONUS_ISSUE",
+        "RIGHTS_ISSUE",
+        "MERGER",
+        "DEMERGER",
+        "SPINOFF",
+        "SECURITY_RESTRUCTURING",
+        "SYMBOL_CHANGE",
+        "FACE_VALUE_CHANGE",
+        "BUYBACK",
+        "OTHER"
+      ],
+      "document_id": "b-nse-action-page",
+      "document_sha256": null,
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Navigation/scope only. HTTP success does not prove all-category negative history. Raw HTML download hash retained operationally, outside semantic evidence identity.",
+      "organization": "NSE",
+      "publication_date": null,
+      "requested_or_document_coverage": null,
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-nse-action-page",
+      "supported_finding": "Official archive/navigation page inspected; no explicit exhaustive effective-date coverage certification extracted.",
+      "symbols": [
+        "HDFCBANK",
+        "ICICIBANK",
+        "LT",
+        "RELIANCE",
+        "SBIN"
+      ],
+      "title": "b-nse-action-page",
+      "url": "https://www.nseindia.com/companies-listing/corporate-filings-actions"
+    },
+    {
+      "access_date_record": "access-log.json#b-reliance-dividend",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "SE_27052026.pdf",
+      "document_sha256": "4306989274628fdf591d1f15fe9b273258b5114773d17a491ced5d6ff1c664b5",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "Reliance Industries Limited",
+      "publication_date": "2026-05-27",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-reliance-dividend",
+      "supported_finding": "May 27 notice sets June 5 dividend record date and June 19 AGM; payment conditional on declaration at AGM.",
+      "symbols": [
+        "RELIANCE"
+      ],
+      "title": "reliance-dividend",
+      "url": "https://www.ril.com/sites/default/files/2026-05/SE_27052026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-reliance-issuer-index",
+      "categories_considered": [
+        "CASH_DIVIDEND",
+        "STOCK_SPLIT",
+        "BONUS_ISSUE",
+        "RIGHTS_ISSUE",
+        "MERGER",
+        "DEMERGER",
+        "SPINOFF",
+        "SECURITY_RESTRUCTURING",
+        "SYMBOL_CHANGE",
+        "FACE_VALUE_CHANGE",
+        "BUYBACK",
+        "OTHER"
+      ],
+      "document_id": "b-reliance-issuer-index",
+      "document_sha256": null,
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Navigation/scope only. HTTP success does not prove all-category negative history. Raw HTML download hash retained operationally, outside semantic evidence identity.",
+      "organization": "Issuer investor relations",
+      "publication_date": null,
+      "requested_or_document_coverage": null,
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-reliance-issuer-index",
+      "supported_finding": "Official archive/navigation page inspected; no explicit exhaustive effective-date coverage certification extracted.",
+      "symbols": [
+        "RELIANCE"
+      ],
+      "title": "b-reliance-issuer-index",
+      "url": "https://www.ril.com/investor/resource-center/corporate-announcements?page=2"
+    },
+    {
+      "access_date_record": "access-log.json#b-reliance-issuer-page3",
+      "categories_considered": [
+        "CASH_DIVIDEND",
+        "STOCK_SPLIT",
+        "BONUS_ISSUE",
+        "RIGHTS_ISSUE",
+        "MERGER",
+        "DEMERGER",
+        "SPINOFF",
+        "SECURITY_RESTRUCTURING",
+        "SYMBOL_CHANGE",
+        "FACE_VALUE_CHANGE",
+        "BUYBACK",
+        "OTHER"
+      ],
+      "document_id": "b-reliance-issuer-page3",
+      "document_sha256": null,
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Navigation/scope only. HTTP success does not prove all-category negative history. Raw HTML download hash retained operationally, outside semantic evidence identity.",
+      "organization": "Issuer investor relations",
+      "publication_date": null,
+      "requested_or_document_coverage": null,
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-reliance-issuer-page3",
+      "supported_finding": "Issuer paginated archive inspected. Retrieved pages 2-5 reach May-July 2026, not the entire February-June window; NSE expanded index supplies navigation for remaining dates.",
+      "symbols": [
+        "RELIANCE"
+      ],
+      "title": "b-reliance-issuer-page3",
+      "url": "https://www.ril.com/investor/resource-center/corporate-announcements?page=3"
+    },
+    {
+      "access_date_record": "access-log.json#b-reliance-issuer-page4",
+      "categories_considered": [
+        "CASH_DIVIDEND",
+        "STOCK_SPLIT",
+        "BONUS_ISSUE",
+        "RIGHTS_ISSUE",
+        "MERGER",
+        "DEMERGER",
+        "SPINOFF",
+        "SECURITY_RESTRUCTURING",
+        "SYMBOL_CHANGE",
+        "FACE_VALUE_CHANGE",
+        "BUYBACK",
+        "OTHER"
+      ],
+      "document_id": "b-reliance-issuer-page4",
+      "document_sha256": null,
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Navigation/scope only. HTTP success does not prove all-category negative history. Raw HTML download hash retained operationally, outside semantic evidence identity.",
+      "organization": "Issuer investor relations",
+      "publication_date": null,
+      "requested_or_document_coverage": null,
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-reliance-issuer-page4",
+      "supported_finding": "Issuer paginated archive inspected. Retrieved pages 2-5 reach May-July 2026, not the entire February-June window; NSE expanded index supplies navigation for remaining dates.",
+      "symbols": [
+        "RELIANCE"
+      ],
+      "title": "b-reliance-issuer-page4",
+      "url": "https://www.ril.com/investor/resource-center/corporate-announcements?page=4"
+    },
+    {
+      "access_date_record": "access-log.json#b-reliance-issuer-page5",
+      "categories_considered": [
+        "CASH_DIVIDEND",
+        "STOCK_SPLIT",
+        "BONUS_ISSUE",
+        "RIGHTS_ISSUE",
+        "MERGER",
+        "DEMERGER",
+        "SPINOFF",
+        "SECURITY_RESTRUCTURING",
+        "SYMBOL_CHANGE",
+        "FACE_VALUE_CHANGE",
+        "BUYBACK",
+        "OTHER"
+      ],
+      "document_id": "b-reliance-issuer-page5",
+      "document_sha256": null,
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Navigation/scope only. HTTP success does not prove all-category negative history. Raw HTML download hash retained operationally, outside semantic evidence identity.",
+      "organization": "Issuer investor relations",
+      "publication_date": null,
+      "requested_or_document_coverage": null,
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-reliance-issuer-page5",
+      "supported_finding": "Issuer paginated archive inspected. Retrieved pages 2-5 reach May-July 2026, not the entire February-June window; NSE expanded index supplies navigation for remaining dates.",
+      "symbols": [
+        "RELIANCE"
+      ],
+      "title": "b-reliance-issuer-page5",
+      "url": "https://www.ril.com/investor/resource-center/corporate-announcements?page=5"
+    },
+    {
+      "access_date_record": "access-log.json#b-sbi-dividend",
+      "categories_considered": [
+        "OTHER"
+      ],
+      "document_id": "SBIN_08052026154613_BSE_NSE_DividendRecordDate_08052026.pdf",
+      "document_sha256": "7c0a01bab0847c48421ed2e8e4fdf5ce3ffad7a460dbc5519f4721b62ce18032",
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Event-specific original/selected relevant passages reviewed; no blanket full-period negative conclusion.",
+      "organization": "State Bank of India",
+      "publication_date": "2026-05-08",
+      "requested_or_document_coverage": null,
+      "review_scope": "Relevant original passages",
+      "source_id": "b-sbi-dividend",
+      "supported_finding": "May 8 board declares INR17.35 on fully paid INR1 SBIN equity; record May 16, payment June 4. NSE feed independently sets May 15 ex-date.",
+      "symbols": [
+        "SBIN"
+      ],
+      "title": "sbi-dividend",
+      "url": "https://nsearchives.nseindia.com/corporate/SBIN_08052026154613_BSE_NSE_DividendRecordDate_08052026.pdf"
+    },
+    {
+      "access_date_record": "access-log.json#b-sbi-q1-index",
+      "categories_considered": [
+        "CASH_DIVIDEND",
+        "STOCK_SPLIT",
+        "BONUS_ISSUE",
+        "RIGHTS_ISSUE",
+        "MERGER",
+        "DEMERGER",
+        "SPINOFF",
+        "SECURITY_RESTRUCTURING",
+        "SYMBOL_CHANGE",
+        "FACE_VALUE_CHANGE",
+        "BUYBACK",
+        "OTHER"
+      ],
+      "document_id": "b-sbi-q1-index",
+      "document_sha256": null,
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Navigation/scope only. HTTP success does not prove all-category negative history. Raw HTML download hash retained operationally, outside semantic evidence identity.",
+      "organization": "Issuer investor relations",
+      "publication_date": null,
+      "requested_or_document_coverage": null,
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-sbi-q1-index",
+      "supported_finding": "Issuer quarter archive provides dated disclosure links for April-June 2026; underlying full action-category completeness not established.",
+      "symbols": [
+        "SBIN"
+      ],
+      "title": "b-sbi-q1-index",
+      "url": "https://sbi.bank.in/hi/web/corporate-governance/1st-quarter-2026-27"
+    },
+    {
+      "access_date_record": "access-log.json#b-sbi-q4-index",
+      "categories_considered": [
+        "CASH_DIVIDEND",
+        "STOCK_SPLIT",
+        "BONUS_ISSUE",
+        "RIGHTS_ISSUE",
+        "MERGER",
+        "DEMERGER",
+        "SPINOFF",
+        "SECURITY_RESTRUCTURING",
+        "SYMBOL_CHANGE",
+        "FACE_VALUE_CHANGE",
+        "BUYBACK",
+        "OTHER"
+      ],
+      "document_id": "b-sbi-q4-index",
+      "document_sha256": null,
+      "effective_dates": "See corporate-action-events.json; no date inferred from publication",
+      "limitations": "Navigation/scope only. HTTP success does not prove all-category negative history. Raw HTML download hash retained operationally, outside semantic evidence identity.",
+      "organization": "Issuer investor relations",
+      "publication_date": null,
+      "requested_or_document_coverage": null,
+      "review_scope": "Archive scope and returned metadata",
+      "source_id": "b-sbi-q4-index",
+      "supported_finding": "Issuer quarter archive provides dated disclosure links for January-March 2026; underlying full action-category completeness not established.",
+      "symbols": [
+        "SBIN"
+      ],
+      "title": "b-sbi-q4-index",
+      "url": "https://sbi.bank.in/web/corporate-governance/4th-quarter-2025-26"
+    }
+  ],
+  "version": "Phase121BSourceInventory.v1"
+}
