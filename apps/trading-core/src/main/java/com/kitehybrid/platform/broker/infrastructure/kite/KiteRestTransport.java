@@ -49,6 +49,10 @@ final class KiteRestTransport {
     static KiteRestTransport production(KiteSession session) {
         return new KiteRestTransport(productionClient(), session, true);
     }
+    static KiteRestTransport controlledEquity(KiteSession session, KiteEquityReadRequestFactory wire) {
+        return new KiteRestTransport(RestClient.builder().baseUrl(wire.origin().toString())
+                .requestFactory(wire).build(), session, wire.officialOrigin());
+    }
     boolean usesSession(KiteSession expected) { return session == expected; }
     /** Configuration provenance only; never account eligibility or independent attestation. */
     boolean officialOrigin() { return officialOrigin; }
