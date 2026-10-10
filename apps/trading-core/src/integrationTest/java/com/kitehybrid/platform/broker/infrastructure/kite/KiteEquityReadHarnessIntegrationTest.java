@@ -23,6 +23,87 @@ import static com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadH
 
 @Testcontainers @Isolated("UTC PostgreSQL startup; disposable roles and rows only")
 class KiteEquityReadHarnessIntegrationTest {
+    @Test void drainingOwnedDisposableWriterAndDenyingReconnectExcludesOnlyThatRole()throws Exception{
+        admin.execute("CREATE ROLE fixture_drained_writer LOGIN PASSWORD 'syntheticWriterOnly'");
+        admin.execute("GRANT USAGE ON SCHEMA trading TO fixture_drained_writer");
+        admin.execute("GRANT SELECT,UPDATE ON trading.kite_access_tokens TO fixture_drained_writer");
+        try(var connection=observer()){
+            var guard=new KiteEquityReadIntegrity(connection);var before=guard.capture();
+            try(var writer=DriverManager.getConnection(postgres.getJdbcUrl(),"fixture_drained_writer","syntheticWriterOnly")){
+                int ownedBackend;
+                try(var statement=writer.createStatement();var rows=statement.executeQuery("SELECT pg_backend_pid()")){
+                    assertTrue(rows.next());ownedBackend=rows.getInt(1);
+                }
+                // Only this Testcontainers-owned backend; never a host/development database.
+                admin.execute("ALTER ROLE fixture_drained_writer NOLOGIN");
+                assertTrue(Boolean.TRUE.equals(admin.queryForObject("SELECT pg_terminate_backend(?,5000)",Boolean.class,ownedBackend)));
+                assertThatThrownBy(()->{try(var statement=writer.createStatement()){statement.executeUpdate(
+                        "UPDATE trading.kite_access_tokens SET expires_at=expires_at+interval '1 second'");}})
+                        .isInstanceOf(SQLException.class);
+                var denied=org.junit.jupiter.api.Assertions.assertThrows(SQLException.class,()->{
+                    try(var unexpected=DriverManager.getConnection(postgres.getJdbcUrl(),"fixture_drained_writer","syntheticWriterOnly")){
+                        throw new AssertionError("Drained fixture role reconnected");
+                    }
+                });
+                assertThat(denied.getSQLState()).isEqualTo("28000");
+            }
+            assertTrue(before.matches(guard.capture()),"Draining fixture writer changed private state");
+            // A different privileged identity is NOT excluded by controlling this one role.
+            try(var privileged=DriverManager.getConnection(postgres.getJdbcUrl(),postgres.getUsername(),postgres.getPassword())){
+                assertThatThrownBy(guard::capture).isInstanceOf(RuntimeException.class);
+            }
+            assertTrue(before.matches(guard.capture()),"Private state changed");
+        }finally{
+            admin.execute("REVOKE SELECT,UPDATE ON trading.kite_access_tokens FROM fixture_drained_writer");
+            admin.execute("REVOKE USAGE ON SCHEMA trading FROM fixture_drained_writer");
+            admin.execute("DROP ROLE fixture_drained_writer");
+        }
+    }
+
+    @Test void permissionFingerprintDetectsDriftButNotRestorationBetweenCaptures()throws Exception{
+        try(var connection=observer();var wire=KiteEquityReadRequestFactory.loopback(URI.create("http://127.0.0.1:1"),Duration.ofMillis(100))){
+            var before=permissionFingerprint(connection);
+            assertTrue(java.security.MessageDigest.isEqual(before,permissionFingerprint(connection)),"Permission capture is unstable");
+            admin.execute("GRANT TRIGGER ON trading.kite_access_tokens TO controlled_observer");
+            org.junit.jupiter.api.Assertions.assertFalse(java.security.MessageDigest.isEqual(before,permissionFingerprint(connection)),"Privilege drift was missed");
+            var harness=new KiteEquityReadHarness(wire,session(),new KiteEquityReadIntegrity(connection),
+                    new RuntimeTradingHalt(()->true),Clock.fixed(NOW,ZoneOffset.UTC),Mode.SYNTHETIC);
+            assertThat(harness.run().outcome()).isEqualTo(Outcome.PRECONDITION_DENIED);
+            assertThat(wire.attempts()).isZero();
+            admin.execute("REVOKE TRIGGER ON trading.kite_access_tokens FROM controlled_observer");
+            assertTrue(java.security.MessageDigest.isEqual(before,permissionFingerprint(connection)),
+                    "Restored permissions match; equality does not prove no intervening grant");
+        }finally{admin.execute("REVOKE TRIGGER ON trading.kite_access_tokens FROM controlled_observer");}
+    }
+
+    // Private disposable-fixture evidence only: canonical effective ACLs, no passwords or row values.
+    // Multiple SELECTs are deliberately not represented as an atomic or preventive live control.
+    private static byte[] permissionFingerprint(Connection connection)throws Exception{
+        var digest=java.security.MessageDigest.getInstance("SHA-256");
+        var queries=List.of(
+                "SELECT rolsuper,rolinherit,rolcreaterole,rolcreatedb,rolcanlogin,rolreplication,rolbypassrls FROM pg_roles WHERE rolname=current_user",
+                "SELECT rolname,pg_has_role(current_user,oid,'MEMBER'),pg_has_role(current_user,oid,'USAGE') FROM pg_roles ORDER BY rolname",
+                "SELECT has_database_privilege(current_user,current_database(),'CREATE'),has_database_privilege(current_user,current_database(),'TEMP')",
+                "SELECT nspname,has_schema_privilege(current_user,oid,'USAGE'),has_schema_privilege(current_user,oid,'CREATE') FROM pg_namespace WHERE nspname NOT LIKE 'pg_%' AND nspname<>'information_schema' ORDER BY nspname",
+                "SELECT n.nspname,c.relname,p.privilege,has_table_privilege(current_user,c.oid,p.privilege) FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace CROSS JOIN (VALUES ('SELECT'),('INSERT'),('UPDATE'),('DELETE'),('TRUNCATE'),('REFERENCES'),('TRIGGER')) p(privilege) WHERE n.nspname='trading' AND c.relkind IN ('r','p') ORDER BY n.nspname,c.relname,p.privilege",
+                "SELECT n.nspname,c.relname,p.privilege,CASE WHEN c.relkind='S' THEN has_sequence_privilege(current_user,c.oid,p.privilege) ELSE false END FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace CROSS JOIN (VALUES ('USAGE'),('UPDATE'),('SELECT')) p(privilege) WHERE n.nspname='trading' AND c.relkind='S' ORDER BY n.nspname,c.relname,p.privilege",
+                "SELECT n.nspname,p.proname,pg_get_function_identity_arguments(p.oid),has_function_privilege(current_user,p.oid,'EXECUTE') FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname NOT LIKE 'pg_%' AND n.nspname<>'information_schema' ORDER BY n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)");
+        for(int query=0;query<queries.size();query++){
+            digest.update(java.nio.ByteBuffer.allocate(4).putInt(query).array());
+            try(var statement=connection.createStatement()){
+                statement.setQueryTimeout(10);
+                try(var rows=statement.executeQuery(queries.get(query))){
+                    while(rows.next())for(int column=1;column<=rows.getMetaData().getColumnCount();column++){
+                        var value=rows.getString(column);
+                        var bytes=value==null?new byte[0]:value.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+                        digest.update(java.nio.ByteBuffer.allocate(4).putInt(value==null?-1:bytes.length).array());digest.update(bytes);
+                    }
+                }
+            }
+        }
+        return digest.digest();
+    }
+
     @ParameterizedTest @ValueSource(strings={"trigger","inherited-update","inherited-trigger"})
     void effectiveInheritedAndTriggerPrivilegesDenyBeforeHttp(String fault)throws Exception{
         boolean inherited=fault.startsWith("inherited");String privilege=fault.endsWith("update")?"UPDATE":"TRIGGER";
