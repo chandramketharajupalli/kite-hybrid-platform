@@ -9,6 +9,18 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ConservativeValuationArchitectureTest {
+    @Test void fundingDiagnosticsCannotObtainExecutionOrStorageCapabilities() {
+        var classes = new ClassFileImporter().withImportOption(new ImportOption.DoNotIncludeTests())
+                .importPackages("com.kitehybrid.platform");
+        noClasses().that().haveNameMatching(".*IntradayFundingEvidence.*").should().dependOnClassesThat()
+                .resideInAnyPackage("..application..", "..infrastructure..", "org.springframework..",
+                        "java.net..", "java.sql..", "java.io..").check(classes);
+        for (var type : classes) if (type.getName().contains("IntradayFundingEvidence"))
+            for (var dependency : type.getDirectDependenciesFromSelf())
+                assertFalse(Set.of("OrderExecutionGateway", "OperatorExecutionService", "RuntimeExecutionArming",
+                        "RuntimeTradingHalt", "OrderApplicationService", "RiskDecisionStore", "OrderRepository",
+                        "RiskDecision", "ExecutionPermit").contains(dependency.getTargetClass().getSimpleName()), dependency.toString());
+    }
     @Test void accountCapacityAndRevalidationCanOnlyUseReadPorts() {
         var classes = new ClassFileImporter().withImportOption(new ImportOption.DoNotIncludeTests())
                 .importPackages("com.kitehybrid.platform");

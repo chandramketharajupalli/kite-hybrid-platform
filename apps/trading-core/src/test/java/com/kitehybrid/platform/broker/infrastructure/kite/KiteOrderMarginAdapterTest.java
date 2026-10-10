@@ -60,7 +60,7 @@ class KiteOrderMarginAdapterTest {
         assertEquals(BrokerReadException.Category.AUTHENTICATION,failure.category());
         assertTrue(requests.isEmpty());server.verify();
     }
-    @ParameterizedTest @ValueSource(strings={"missing","string","negative","zero","huge","identity","duplicate","credit","pnl","offset","array","error","redirect","timeout","auth"})
+    @ParameterizedTest @ValueSource(strings={"missing","string","negative","zero","huge","identity","duplicate","credit","pnl","offset","array","error","redirect","timeout","auth","trailing","nan","infinite","charges-negative","segment"})
     void unsupportedEvidenceFailsBoundedlyWithoutRetries(String change) {
         var adapter=adapter();var expected=server.expect(requestTo(BASE+"/margins/orders")).andExpect(method(HttpMethod.POST));
         if(change.equals("error")) expected.andRespond(withServerError().body("syntheticNeverExpose"));
@@ -79,10 +79,27 @@ class KiteOrderMarginAdapterTest {
                 case "credit"->BODY.replace("\"cash\":0","\"cash\":100");
                 case "pnl"->BODY.replace("\"realised\":0","\"realised\":100");
                 case "offset"->BODY.replace("\"var\":2000.125","\"var\":3000");
+                case "trailing"->BODY+" {}";
+                case "nan"->BODY.replace("2000.125","NaN");
+                case "infinite"->BODY.replace("2000.125","Infinity");
+                case "charges-negative"->BODY.replace("1.25","-1.25");
+                case "segment"->BODY.replace("equity","commodity");
                 default->"{\"status\":\"success\",\"data\":[]}";
             };expected.andRespond(withSuccess(body,MediaType.APPLICATION_JSON));
         }
         var failure=assertThrows(BrokerReadException.class,()->adapter.estimate(request));
         assertFalse(failure.getMessage().contains("syntheticNeverExpose"));server.verify();assertCalculationOnly();
+    }
+    @ParameterizedTest @ValueSource(ints={401,403,429,500,503})
+    void calculatorErrorsAreSingleReadFailuresAndOnlyAuthenticationRejectionsInvalidateMemory(int status) {
+        var adapter=adapter();
+        server.expect(requestTo(BASE+"/margins/orders")).andExpect(method(HttpMethod.POST))
+                .andRespond(withStatus(HttpStatusCode.valueOf(status)).body("syntheticNeverExpose"));
+        var failure=assertThrows(BrokerReadException.class,()->adapter.estimate(request));
+        assertEquals(status==401 || status==403 ? BrokerReadException.Category.AUTHENTICATION : BrokerReadException.Category.BROKER_API,
+                failure.category());
+        assertEquals(status!=401 && status!=403,session.authenticated());
+        assertFalse(failure.getMessage().contains("syntheticNeverExpose"));
+        server.verify();assertCalculationOnly();
     }
 }

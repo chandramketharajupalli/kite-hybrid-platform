@@ -50,7 +50,29 @@ class IntradayMarginRehearsalIntegrationTest {
                 OrderProduct.INTRADAY,OrderValidity.DAY,Optional.empty(),Optional.empty(),0,OrderVariety.REGULAR)).id();
         assertTrue(f.context.getBean(RiskService.class).evaluate(f.id).approved());f.arm();
     }
-    @ParameterizedTest @ValueSource(strings={"unchanged","cash","required-margin"})
+    @Test void syntheticDiagnosticHasNoOrderPermitOrHaltEffectsInDisposableRuntime() throws Exception {
+        try(var f=fixture()) {
+            var halt=f.context.getBean(com.kitehybrid.platform.shared.application.RuntimeTradingHalt.class);
+            assertTrue(halt.getAsBoolean());
+            var before=f.operator.status();
+            var request=new OrderMarginQuote.Request(f.instrument.id(),"NSE",f.instrument.tradingSymbol(),
+                    TradingReadTypes.Side.BUY,TradingReadTypes.OrderType.MARKET,TradingReadTypes.Product.INTRADAY,
+                    TradingReadTypes.Validity.DAY,TradingReadTypes.Variety.REGULAR,1);
+            var input=new com.kitehybrid.platform.risk.domain.OrderRiskInput(f.registry.snapshot(),
+                    f.market.snapshot(Set.of(f.instrument.id())),true,f.reads.positions(),f.reads.holdings(),
+                    margins("2002.25","0"),f.reads.orders(),Optional.of(new OrderMarginQuote(request,d("2000"),d("1.25"),Optional.empty(),NOW)));
+            var result=com.kitehybrid.platform.risk.domain.IntradayFundingEvidence.summarizeSynthetic(input,request,
+                    f.context.getBean(com.kitehybrid.platform.risk.domain.RiskLimits.class),d("10000"),NOW,NOW,f.session.authenticated(),halt.getAsBoolean());
+            assertEquals(com.kitehybrid.platform.risk.domain.RiskReason.APPROVED,result.funding().cashOnlyFunding());
+            assertEquals(com.kitehybrid.platform.risk.domain.IntradayFundingEvidence.State.BLOCKED,
+                    result.checks().get(com.kitehybrid.platform.risk.domain.IntradayFundingEvidence.Check.AUTHORIZATION));
+            assertEquals(before,f.operator.status());assertTrue(halt.getAsBoolean());f.assertCounts(0);
+            assertEquals(0,f.gatewayCalls.get());
+            assertEquals(0,f.jdbc.queryForObject("SELECT count(*) FROM trading.orders",Integer.class));
+            assertEquals(0,f.jdbc.queryForObject("SELECT count(*) FROM trading.execution_authorizations",Integer.class));
+        }
+    }
+    @ParameterizedTest @ValueSource(strings={"unchanged","cash","required-margin","charges"})
     void cashOnlyMisEqualityMustSurviveFinalRefreshIncludingChargesAndReserve(String change) throws Exception {
         try(var f=fixture()) {
             when(f.reads.margins()).thenReturn(margins("2002.25","0"));
@@ -61,6 +83,8 @@ class IntradayMarginRehearsalIntegrationTest {
                 if(change.equals("cash")) when(f.reads.margins()).thenReturn(margins("2002.24","0"));
                 if(change.equals("required-margin")) f.marginEstimator.set(r->
                         new OrderMarginQuote(r,d("2000.01"),d("1.25"),Optional.empty(),NOW));
+                if(change.equals("charges")) f.marginEstimator.set(r->
+                        new OrderMarginQuote(r,d("2000"),d("1.26"),Optional.empty(),NOW));
             };
             if(change.equals("unchanged")) {f.operator.execute(f.id);f.assertCounts(1);}
             else {
@@ -81,7 +105,7 @@ class IntradayMarginRehearsalIntegrationTest {
             FinalReadinessEvidenceIntegrationTest.assertReads(f,3);f.consumed();
         }
     }
-    @ParameterizedTest @ValueSource(strings={"collateral","cash","required-margin","estimate-outage","unknown-terms","wrong-quantity","open-order","position","price","stale","initialization","session","reference","halt"})
+    @ParameterizedTest @ValueSource(strings={"collateral","cash","required-margin","estimate-outage","unknown-terms","wrong-quantity","open-order","position","price","stale","initialization","session","reference","halt","stale-quote","future-quote","auth-loss"})
     void changedFinalEvidenceNeverDispatchesOrRewritesRisk(String change) throws Exception {
         try(var f=fixture()) {
             approve(f);var risk=f.jdbc.queryForList("SELECT * FROM trading.risk_decisions");
@@ -106,6 +130,9 @@ class IntradayMarginRehearsalIntegrationTest {
                     case "session"->{f.session.install(new KiteAccessToken("syntheticReplacement",NOW,NOW.plusSeconds(3600)));f.session.profileValidated();}
                     case "reference"->f.registry.replace(List.of(INSTRUMENT),NOW);
                     case "halt"->f.operator.halt();
+                    case "auth-loss"->f.session.invalidate();
+                    case "stale-quote","future-quote"->f.marginEstimator.set(r->new OrderMarginQuote(r,d("2000"),BigDecimal.ZERO,
+                            Optional.empty(),change.equals("stale-quote")?NOW.minusSeconds(60):NOW.plusNanos(1)));
                     default->fail(change);
                 }
             };
@@ -113,7 +140,7 @@ class IntradayMarginRehearsalIntegrationTest {
             assertEquals(risk,f.jdbc.queryForList("SELECT * FROM trading.risk_decisions"));
             if(List.of("collateral","cash","required-margin").contains(change)) assertEquals("MIS_MARGIN_INSUFFICIENT",denied.getMessage());
             if(change.equals("unknown-terms")) assertEquals("COLLATERAL_UNSUPPORTED",denied.getMessage());
-            if(List.of("estimate-outage","wrong-quantity").contains(change)) assertEquals("MARGIN_ESTIMATE_UNAVAILABLE",denied.getMessage());
+            if(List.of("estimate-outage","wrong-quantity","stale-quote","future-quote").contains(change)) assertEquals("MARGIN_ESTIMATE_UNAVAILABLE",denied.getMessage());
         }
     }
     @Test void haltRemainsImmediateDuringBlockedMarginCalculation() throws Exception {
