@@ -1,0 +1,13 @@
+{
+  "closure_plan_fingerprint": "19cb9a8fc18bedaf8a22422354cef65913b90f8f44be49f2e8d32ad90e95c679",
+  "input_sha256": {
+    "closure-plan.json": "86263f8bca801befcc29c2eb6523f52060c193ee2521186e89c303371f7662a8",
+    "corporate-action-coverage.json": "86226b40d4c137481d69cc114d92832c7b35207f13ddf57a0f31ffa2f978ddab",
+    "corporate-action-events.json": "789b1c091bd138e391eaf1cbd5ce9249d22bff70ca4b343f336f45195778fcdf",
+    "evidence-manifest.json": "45af6683ff1b2c925e66da87abf651770a645239707b70333e2af5d7671f01fd",
+    "pending-event-review.json": "f6eb2baeabf77fa1b6962af6c10e9d8097cf283e49c9d1460d2b06e0bc90e5b4",
+    "source-inventory.json": "ff93e189ab84351e9277c79c86686a29d642a90b243fd0a88c272a7cf1f25713"
+  },
+  "operational_access_log_excluded_from_semantic_identity": true,
+  "version": "Phase121CEvidenceFreeze.v1"
+}

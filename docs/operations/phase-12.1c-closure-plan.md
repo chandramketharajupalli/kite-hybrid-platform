@@ -1,0 +1,13 @@
+# Phase 12.1C targeted closure plan
+
+Baseline `1624d34` passed clean preflight before file creation. All prior canonical replays, Phase 12.1B artifact/source hashes and all 18 H1/H2 frozen sources pass. Policy and frozen identities are unchanged.
+
+Plan fingerprint: `19cb9a8fc18bedaf8a22422354cef65913b90f8f44be49f2e8d32ad90e95c679`. [Machine plan](../../research/phase-12.1c/generation-1/closure-plan.json) freezes all 844 exact parent pending IDs, 836 distinct usable original URLs, eight missing-URL records and all 80 coverage cells before retrieval. Each item records security, filed category, candidate policy categories, publication date, source URL, question and stop criterion. Exact URLs are deduplicated for retrieval, never document/cell identity.
+
+Priority: restructuring, bonus, suspension, dividend/record and transaction notices; then board/capital/shareholder, generic updates and depository certificates; then routine index categories. In-window and older records both remain in scope. The first 420 deduplicated URLs form the fixed base queue; remaining URLs stay explicitly deferred. A 20-request correction reserve permits only failed-original alternatives or named conflict/older-pending follow-up. Total maximum 440 requests, no broad announcement recrawl. Per host: at least 0.5 seconds between starts, at most two concurrent requests, 30-second timeout, 32 MiB maximum per original. No automatic retries or budget extension.
+
+A document closes only from inspected original mechanics and dates; original author and host remain distinct. Generic index titles do not close records. Named routine disclosures can close a document question without proving full-period negative coverage. Every economic category still requires explicit authoritative effective-date/category coverage, including older pending events. Empty feeds, stable identities and reaching the document budget are insufficient. Preserve originals/corrections and distinguish appointed, approval, ex, record, effective and listing dates.
+
+Sources: official NSE records first, then issuer NSE/BSE and IR originals, SEBI/depositories. Missing originals and ambiguous security/date mechanics remain unresolved. All 80 prior states/windows/source IDs remain traceable. LT Realty, SuFin and Hyderabad Metro receive separate EQ-segmentation decisions.
+
+Sequence: freeze plan; retrieve only fixed URLs and bounded corrections; review originals; freeze new evidence; existing-policy certification/gate; two offline replays and synthetic validation. Earlier generations remain immutable. Zero candles, accounts, orders, WebSockets, DB/token writes, HALT/arm/execute, strategies or P&L. H1/H2 frozen; July sealed. No acquisition even if ALLOW. No commit/push.

@@ -116,7 +116,7 @@ class Review(Frozen):
 class EvidenceManifest(Frozen):
     version: Literal["HistoricalContinuityEvidence.v1"] = "HistoricalContinuityEvidence.v1"
     generation: Literal[
-        "phase-12.1-g1", "phase-12.1-g2", "phase-12.1a-g1", "phase-12.1b-g1"
+        "phase-12.1-g1", "phase-12.1-g2", "phase-12.1a-g1", "phase-12.1b-g1", "phase-12.1c-g1"
     ] = "phase-12.1-g2"
     policy_fingerprint: Hash
     universe_fingerprint: Hash

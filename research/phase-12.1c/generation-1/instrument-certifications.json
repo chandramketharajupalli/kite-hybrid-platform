@@ -1,0 +1,168 @@
+{
+  "certification": {
+    "aggregate_status": "UNIVERSE_CERTIFICATION_UNRESOLVED",
+    "end_exclusive": "2026-07-01",
+    "evidence_fingerprint": "1f7a6101102a64b29756fbd4277888bfd213f7d2de56d3e5dcd7bdd151b07a36",
+    "first": "2026-02-02",
+    "members": [
+      {
+        "boundaries": [
+          {
+            "action": "CASH_DIVIDEND",
+            "action_id": "HDFCBANK-dividend-2026",
+            "date": "2026-06-19",
+            "instrument_id": "0dce64b8-7a7f-3960-bb69-725f2c4a456a",
+            "intraday_session_valid": true,
+            "price_continuity": false,
+            "segment_reset": false,
+            "volume_continuity": true
+          }
+        ],
+        "classification": "CORPORATE_ACTION_UNRESOLVED",
+        "corporate_action_completeness": "UNRESOLVED",
+        "cross_session_continuity": "UNRESOLVED",
+        "evidence_quality": "UNRESOLVED",
+        "identity": {
+          "broker": "ZERODHA",
+          "broker_id": "341249",
+          "exchange": "NSE",
+          "instrument_id": "0dce64b8-7a7f-3960-bb69-725f2c4a456a",
+          "instrument_type": "CASH",
+          "lot_size": 1,
+          "reference_fingerprint": "86a03cd5f5cdeda7c3f1c2d2bc1280e25e10b0abcfd2850fd7adc8a7e4a797c2",
+          "segment": "CASH",
+          "symbol": "HDFCBANK"
+        },
+        "intraday_price_continuity": "UNRESOLVED",
+        "security_identity": "CERTIFIED",
+        "series_continuity": "CERTIFIED",
+        "symbol_continuity": "CERTIFIED"
+      },
+      {
+        "boundaries": [],
+        "classification": "CORPORATE_ACTION_UNRESOLVED",
+        "corporate_action_completeness": "UNRESOLVED",
+        "cross_session_continuity": "UNRESOLVED",
+        "evidence_quality": "UNRESOLVED",
+        "identity": {
+          "broker": "ZERODHA",
+          "broker_id": "1270529",
+          "exchange": "NSE",
+          "instrument_id": "b940f917-be88-36d4-85dc-89d747386c53",
+          "instrument_type": "CASH",
+          "lot_size": 1,
+          "reference_fingerprint": "86a03cd5f5cdeda7c3f1c2d2bc1280e25e10b0abcfd2850fd7adc8a7e4a797c2",
+          "segment": "CASH",
+          "symbol": "ICICIBANK"
+        },
+        "intraday_price_continuity": "UNRESOLVED",
+        "security_identity": "CERTIFIED",
+        "series_continuity": "CERTIFIED",
+        "symbol_continuity": "CERTIFIED"
+      },
+      {
+        "boundaries": [
+          {
+            "action": "CASH_DIVIDEND",
+            "action_id": "LT-dividend-2026",
+            "date": "2026-05-22",
+            "instrument_id": "12d53f0d-2e49-3374-83f9-82c91bf01a50",
+            "intraday_session_valid": true,
+            "price_continuity": false,
+            "segment_reset": false,
+            "volume_continuity": true
+          }
+        ],
+        "classification": "CORPORATE_ACTION_UNRESOLVED",
+        "corporate_action_completeness": "UNRESOLVED",
+        "cross_session_continuity": "UNRESOLVED",
+        "evidence_quality": "UNRESOLVED",
+        "identity": {
+          "broker": "ZERODHA",
+          "broker_id": "2939649",
+          "exchange": "NSE",
+          "instrument_id": "12d53f0d-2e49-3374-83f9-82c91bf01a50",
+          "instrument_type": "CASH",
+          "lot_size": 1,
+          "reference_fingerprint": "86a03cd5f5cdeda7c3f1c2d2bc1280e25e10b0abcfd2850fd7adc8a7e4a797c2",
+          "segment": "CASH",
+          "symbol": "LT"
+        },
+        "intraday_price_continuity": "UNRESOLVED",
+        "security_identity": "CERTIFIED",
+        "series_continuity": "CERTIFIED",
+        "symbol_continuity": "CERTIFIED"
+      },
+      {
+        "boundaries": [
+          {
+            "action": "CASH_DIVIDEND",
+            "action_id": "RELIANCE-dividend-2026",
+            "date": "2026-06-05",
+            "instrument_id": "31b3a1e4-ab49-3447-8b8c-fbef31c1b7af",
+            "intraday_session_valid": true,
+            "price_continuity": false,
+            "segment_reset": false,
+            "volume_continuity": true
+          }
+        ],
+        "classification": "CORPORATE_ACTION_UNRESOLVED",
+        "corporate_action_completeness": "UNRESOLVED",
+        "cross_session_continuity": "UNRESOLVED",
+        "evidence_quality": "UNRESOLVED",
+        "identity": {
+          "broker": "ZERODHA",
+          "broker_id": "738561",
+          "exchange": "NSE",
+          "instrument_id": "31b3a1e4-ab49-3447-8b8c-fbef31c1b7af",
+          "instrument_type": "CASH",
+          "lot_size": 1,
+          "reference_fingerprint": "86a03cd5f5cdeda7c3f1c2d2bc1280e25e10b0abcfd2850fd7adc8a7e4a797c2",
+          "segment": "CASH",
+          "symbol": "RELIANCE"
+        },
+        "intraday_price_continuity": "UNRESOLVED",
+        "security_identity": "CERTIFIED",
+        "series_continuity": "CERTIFIED",
+        "symbol_continuity": "CERTIFIED"
+      },
+      {
+        "boundaries": [
+          {
+            "action": "CASH_DIVIDEND",
+            "action_id": "SBIN-dividend-2026",
+            "date": "2026-05-15",
+            "instrument_id": "050f94dd-e639-364f-97a6-595594de6543",
+            "intraday_session_valid": true,
+            "price_continuity": false,
+            "segment_reset": false,
+            "volume_continuity": true
+          }
+        ],
+        "classification": "CORPORATE_ACTION_UNRESOLVED",
+        "corporate_action_completeness": "UNRESOLVED",
+        "cross_session_continuity": "UNRESOLVED",
+        "evidence_quality": "UNRESOLVED",
+        "identity": {
+          "broker": "ZERODHA",
+          "broker_id": "779521",
+          "exchange": "NSE",
+          "instrument_id": "050f94dd-e639-364f-97a6-595594de6543",
+          "instrument_type": "CASH",
+          "lot_size": 1,
+          "reference_fingerprint": "86a03cd5f5cdeda7c3f1c2d2bc1280e25e10b0abcfd2850fd7adc8a7e4a797c2",
+          "segment": "CASH",
+          "symbol": "SBIN"
+        },
+        "intraday_price_continuity": "UNRESOLVED",
+        "security_identity": "CERTIFIED",
+        "series_continuity": "CERTIFIED",
+        "symbol_continuity": "CERTIFIED"
+      }
+    ],
+    "policy_fingerprint": "a350a24be35b6a844a0a769e8f14bd0821be3ca8bed44d4f8df5d32fc124f5f4",
+    "universe_fingerprint": "638f11d8805f8d45724e8ade9a74e37652564046b699acd03033988ea4150395",
+    "version": "HistoricalIdentityCertification.v1"
+  },
+  "fingerprint": "777612acd9dffb6fc8f3ca8994e0478b77401637ecea7ce50f106b577686f662"
+}

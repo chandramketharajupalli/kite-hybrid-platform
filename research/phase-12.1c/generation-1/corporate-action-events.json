@@ -1,0 +1,4271 @@
+{
+  "contextual_disclosures": [
+    {
+      "announcement_date": "2025-08-28",
+      "effective_date": "2025-08-28",
+      "event_id": "HDFCBANK-bonus-2025",
+      "evidence_ids": [
+        "b-nse-106353853"
+      ],
+      "kind": "BONUS_ISSUE",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "HDFC Bank INR1 equity 1:1 bonus, record August 27, allotted August 28, 2025; pre-window.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE040A01034",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "announcement_date": "2026-02-20",
+      "effective_date": "2026-02-20",
+      "event_id": "HDFCBANK-esop-feb20",
+      "evidence_ids": [
+        "b-nse-106541096"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "1360302 employee equity shares allotted; no proportionate change to existing holder shares.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE040A01034",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "announcement_date": "2026-03-16",
+      "effective_date": "2026-03-16",
+      "event_id": "HDFCBANK-esop-mar16",
+      "evidence_ids": [
+        "b-nse-106558336"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "1630554 employee equity shares allotted; no proportionate change to existing holder shares.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE040A01034",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "announcement_date": "2026-04-01",
+      "effective_date": "2026-04-01",
+      "event_id": "ICICIBANK-fund-rights-transfer",
+      "evidence_ids": [
+        "b-nse-106577631"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "ICICI Venture to ICICI Prudential AMC AIF management rights transfer; different rights/assets, not bank EQ.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE090A01021",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "announcement_date": "2026-03-25",
+      "effective_date": "2026-03-25",
+      "event_id": "ICICIBANK-fund-unit-redemption",
+      "evidence_ids": [
+        "b-nse-106568370"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "ICICI Strategic Investments Fund residual units redeemed; bank EQ not cancelled.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE090A01021",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "announcement_date": "2026-03-18",
+      "effective_date": "2026-03-18",
+      "event_id": "ICICIBANK-gmtn-redemption",
+      "evidence_ids": [
+        "b-nse-106560508"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "US45112FAJ57/US45112EAG44 debt notes redeemed; not bank EQ.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE090A01021",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "announcement_date": "2025-12-08",
+      "effective_date": null,
+      "event_id": "LT-realty-proposed",
+      "evidence_ids": [
+        "b-nse-106463447",
+        "b-lt-june-results"
+      ],
+      "kind": "SECURITY_RESTRUCTURING",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "L&T Realty Undertaking to wholly owned LTRPL; still approvals pending in July 28 report. Appointed April 1 is not effectiveness.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE018A01030",
+      "symbol": "LT"
+    },
+    {
+      "announcement_date": "2026-03-31",
+      "effective_date": "2026-03-31",
+      "event_id": "LT-sufin-transfer",
+      "evidence_ids": [
+        "b-nse-106576253"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "SuFin business to wholly owned SuFin Limited for cash; no LT share entitlement, cancellation or exchange described.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE018A01030",
+      "symbol": "LT"
+    },
+    {
+      "announcement_date": "2026-03-24",
+      "effective_date": "2026-03-24",
+      "event_id": "LT-siliconch-amalgamation",
+      "evidence_ids": [
+        "b-nse-106565795"
+      ],
+      "kind": "MERGER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "SiliConch into L&T Semiconductor Technologies, both subsidiaries; LT listed equity not merging. Appointed August 10, 2025 differs from effective March 24.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE018A01030",
+      "symbol": "LT"
+    },
+    {
+      "announcement_date": "2026-06-25",
+      "effective_date": "2026-06-25",
+      "event_id": "LT-nabha-divestment",
+      "evidence_ids": [
+        "b-nse-106675186"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "Nabha equity/convertibles sold by L&T PDL to Torrent for cash; not LT listed equity exchange.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE018A01030",
+      "symbol": "LT"
+    },
+    {
+      "announcement_date": "2026-04-29",
+      "effective_date": null,
+      "event_id": "LT-hyderabad-proposed",
+      "evidence_ids": [
+        "b-nse-106604308",
+        "b-lt-june-results"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "April 29 SPA for LTMRHL subsidiary stake; July 28 report still held for sale, expected September closing; no June closing inferred.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE018A01030",
+      "symbol": "LT"
+    },
+    {
+      "announcement_date": "2026-04-14",
+      "effective_date": "2026-04-13",
+      "event_id": "LT-igsl-acquisition",
+      "evidence_ids": [
+        "b-nse-106589080"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "LTRPL acquires International Green Scapes; subsidiary acquisition for cash.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE018A01030",
+      "symbol": "LT"
+    },
+    {
+      "announcement_date": "2026-06-19",
+      "effective_date": null,
+      "event_id": "RELIANCE-jio-proposed-ipo",
+      "evidence_ids": [
+        "b-nse-106667822"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "Jio Platforms proposed fresh-issue IPO/DRHP June 19; subsidiary security, not RELIANCE EQ demerger or holder distribution.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE002A01018",
+      "symbol": "RELIANCE"
+    },
+    {
+      "announcement_date": "2026-04-13",
+      "effective_date": "2026-04-13",
+      "event_id": "RELIANCE-rppmsl-sale",
+      "evidence_ids": [
+        "b-nse-106588915"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "Reliance Retail sale of RPPMSL subsidiary for cash; not parent security exchange.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE002A01018",
+      "symbol": "RELIANCE"
+    },
+    {
+      "announcement_date": "2026-02-03",
+      "effective_date": "2026-02-02",
+      "event_id": "RELIANCE-sepl-acquisition",
+      "evidence_ids": [
+        "b-nse-106516972"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "RSBVL acquisition of 50.1% Sikhya Entertainment for cash; distinct subsidiary security.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE002A01018",
+      "symbol": "RELIANCE"
+    },
+    {
+      "announcement_date": "2026-02-10",
+      "effective_date": "2026-02-09",
+      "event_id": "RELIANCE-shfpl-acquisition",
+      "evidence_ids": [
+        "b-nse-106528134"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "RCPL acquisition of Southern Health Foods for cash; distinct subsidiary security.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE002A01018",
+      "symbol": "RELIANCE"
+    },
+    {
+      "announcement_date": "2026-05-20",
+      "effective_date": "2026-05-19",
+      "event_id": "RELIANCE-bam-strikeoff",
+      "evidence_ids": [
+        "b-nse-106631294"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "BAM DLR Kolkata associate strike-off; not cancellation of RELIANCE EQ.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE002A01018",
+      "symbol": "RELIANCE"
+    },
+    {
+      "announcement_date": "2026-05-20",
+      "effective_date": null,
+      "event_id": "RELIANCE-roptonal-liquidation",
+      "evidence_ids": [
+        "b-nse-106631777"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "Roptonal winding-up report filed May 18; statutory dissolution later, not parent EQ cancellation.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE002A01018",
+      "symbol": "RELIANCE"
+    },
+    {
+      "announcement_date": "2026-05-07",
+      "effective_date": "2026-05-06",
+      "event_id": "RELIANCE-kgtl-abandoned",
+      "evidence_ids": [
+        "b-nse-106612734"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "Kandla GHA Transmission tender annulled; previously proposed purchase abandoned.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE002A01018",
+      "symbol": "RELIANCE"
+    },
+    {
+      "announcement_date": "2026-03-20",
+      "effective_date": "2026-03-20",
+      "event_id": "SBIN-tier2-allotment",
+      "evidence_ids": [
+        "b-nse-106562689"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "INE062A08496 Tier 2 bonds; not frozen INE062A01020 equity.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE062A01020",
+      "symbol": "SBIN"
+    },
+    {
+      "announcement_date": "2026-03-19",
+      "effective_date": null,
+      "event_id": "SBIN-sbifml-proposed-ipo",
+      "evidence_ids": [
+        "b-nse-106561681"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "SBI Funds Management proposed IPO and subsidiary bonus/ESOP quantities; no SBI EQ bonus entitlement.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE062A01020",
+      "symbol": "SBIN"
+    },
+    {
+      "announcement_date": "2025-07-21",
+      "effective_date": "2025-07-21",
+      "event_id": "SBIN-qip-2025",
+      "evidence_ids": [
+        "b-nse-106307054"
+      ],
+      "kind": "OTHER",
+      "limitation": "Conclusion applies to this named transaction only; no full-category absence claim.",
+      "scope": "CONTEXTUAL_NOT_ADDITIONAL_IN_WINDOW_EQ_PRICE_BOUNDARY",
+      "security_match": "305997552 INR1 equity shares allotted in July 2025 QIP; pre-window.",
+      "segmentation_required_for_frozen_eq": false,
+      "status": "CONFIRMED_DISCLOSURE",
+      "study_eq_isin": "INE062A01020",
+      "symbol": "SBIN"
+    }
+  ],
+  "count_semantics": "Five confirmed EQ dividend events, four effective in window and one later. Contextual disclosures are counted separately; unresolved history is not an invented event.",
+  "date_correction": "March 31 original SuFin completion is retained here; any earlier April 1 summary is not reused. Parent artifacts remain untouched.",
+  "eq_dividends": [
+    {
+      "amount_inr": "13",
+      "announcement_date": "2026-04-18",
+      "board_approval_date": "2026-04-18",
+      "effective_price_boundary": "2026-06-19",
+      "event_id": "HDFCBANK-dividend-2026",
+      "evidence_ids": [
+        "b-hdfc-dividend",
+        "b-HDFCBANK-actions"
+      ],
+      "ex_date": "2026-06-19",
+      "kind": "CASH_DIVIDEND",
+      "listing_date": null,
+      "matched_security": {
+        "description": "Listed fully paid common equity",
+        "feed_isin_as_received": "INE040A01018",
+        "issuer": "HDFC Bank Limited",
+        "match_basis": "Issuer name, NSE symbol, EQ, face value, dividend amount and record date joined to original issuer filing; active study identity comes from 99 dated NSE masters. Feed ISIN is not an identity substitute.",
+        "series": "EQ",
+        "study_period_isin": "INE040A01034",
+        "symbol": "HDFCBANK"
+      },
+      "raw_price_impact": "No local adjustment. Ordinary previous-close/open gap invalid at ex-session entry; intraday valid conditional on complete identity/action certification.",
+      "record_date": "2026-06-19",
+      "segmentation_required": false,
+      "shareholder_approval_date": null,
+      "status": "CONFIRMED",
+      "symbol": "HDFCBANK",
+      "timing": "EFFECTIVE_INSIDE",
+      "unavailable_date_reason": "Shareholder approval and listing date not established by selected proof and not substituted for NSE ex-date.",
+      "volume_history_eligible": true
+    },
+    {
+      "amount_inr": "12",
+      "announcement_date": "2026-04-18",
+      "board_approval_date": "2026-04-18",
+      "effective_price_boundary": "2026-08-03",
+      "event_id": "ICICIBANK-dividend-outside-window",
+      "evidence_ids": [
+        "b-icici-april-dividend",
+        "b-ICICIBANK-later-actions",
+        "b-icici-dividend"
+      ],
+      "ex_date": "2026-08-03",
+      "kind": "CASH_DIVIDEND",
+      "listing_date": null,
+      "matched_security": {
+        "description": "Listed fully paid common equity",
+        "feed_isin_as_received": "INE090A01013",
+        "issuer": "ICICI Bank Limited",
+        "match_basis": "Issuer name, NSE symbol, EQ, face value, dividend amount and record date joined to original issuer filing; active study identity comes from 99 dated NSE masters. Feed ISIN is not an identity substitute.",
+        "series": "EQ",
+        "study_period_isin": "INE090A01021",
+        "symbol": "ICICIBANK"
+      },
+      "raw_price_impact": "No local adjustment. Ordinary previous-close/open gap invalid at ex-session entry; intraday valid conditional on complete identity/action certification.",
+      "record_date": "2026-08-03",
+      "segmentation_required": false,
+      "shareholder_approval_date": null,
+      "status": "CONFIRMED",
+      "symbol": "ICICIBANK",
+      "timing": "ANNOUNCED_INSIDE_EFFECTIVE_LATER",
+      "unavailable_date_reason": "Shareholder approval and listing date not established by selected proof and not substituted for NSE ex-date.",
+      "volume_history_eligible": true
+    },
+    {
+      "amount_inr": "38",
+      "announcement_date": "2026-05-05",
+      "board_approval_date": "2026-05-05",
+      "effective_price_boundary": "2026-05-22",
+      "event_id": "LT-dividend-2026",
+      "evidence_ids": [
+        "b-lt-results",
+        "b-LT-actions"
+      ],
+      "ex_date": "2026-05-22",
+      "kind": "CASH_DIVIDEND",
+      "listing_date": null,
+      "matched_security": {
+        "description": "Listed fully paid common equity",
+        "feed_isin_as_received": "INE018A01030",
+        "issuer": "Larsen & Toubro Limited",
+        "match_basis": "Issuer name, NSE symbol, EQ, face value, dividend amount and record date joined to original issuer filing; active study identity comes from 99 dated NSE masters. Feed ISIN is not an identity substitute.",
+        "series": "EQ",
+        "study_period_isin": "INE018A01030",
+        "symbol": "LT"
+      },
+      "raw_price_impact": "No local adjustment. Ordinary previous-close/open gap invalid at ex-session entry; intraday valid conditional on complete identity/action certification.",
+      "record_date": "2026-05-22",
+      "segmentation_required": false,
+      "shareholder_approval_date": null,
+      "status": "CONFIRMED",
+      "symbol": "LT",
+      "timing": "EFFECTIVE_INSIDE",
+      "unavailable_date_reason": "Shareholder approval and listing date not established by selected proof and not substituted for NSE ex-date.",
+      "volume_history_eligible": true
+    },
+    {
+      "amount_inr": "6",
+      "announcement_date": "2026-04-24",
+      "board_approval_date": "2026-04-24",
+      "effective_price_boundary": "2026-06-05",
+      "event_id": "RELIANCE-dividend-2026",
+      "evidence_ids": [
+        "b-reliance-dividend",
+        "b-RELIANCE-actions"
+      ],
+      "ex_date": "2026-06-05",
+      "kind": "CASH_DIVIDEND",
+      "listing_date": null,
+      "matched_security": {
+        "description": "Listed fully paid common equity",
+        "feed_isin_as_received": "INE002A01018",
+        "issuer": "Reliance Industries Limited",
+        "match_basis": "Issuer name, NSE symbol, EQ, face value, dividend amount and record date joined to original issuer filing; active study identity comes from 99 dated NSE masters. Feed ISIN is not an identity substitute.",
+        "series": "EQ",
+        "study_period_isin": "INE002A01018",
+        "symbol": "RELIANCE"
+      },
+      "raw_price_impact": "No local adjustment. Ordinary previous-close/open gap invalid at ex-session entry; intraday valid conditional on complete identity/action certification.",
+      "record_date": "2026-06-05",
+      "segmentation_required": false,
+      "shareholder_approval_date": null,
+      "status": "CONFIRMED",
+      "symbol": "RELIANCE",
+      "timing": "EFFECTIVE_INSIDE",
+      "unavailable_date_reason": "Shareholder approval and listing date not established by selected proof and not substituted for NSE ex-date.",
+      "volume_history_eligible": true
+    },
+    {
+      "amount_inr": "17.35",
+      "announcement_date": "2026-05-08",
+      "board_approval_date": "2026-05-08",
+      "effective_price_boundary": "2026-05-15",
+      "event_id": "SBIN-dividend-2026",
+      "evidence_ids": [
+        "b-sbi-dividend",
+        "b-SBIN-actions"
+      ],
+      "ex_date": "2026-05-15",
+      "kind": "CASH_DIVIDEND",
+      "listing_date": null,
+      "matched_security": {
+        "description": "Listed fully paid common equity",
+        "feed_isin_as_received": "INE062A01012",
+        "issuer": "State Bank of India",
+        "match_basis": "Issuer name, NSE symbol, EQ, face value, dividend amount and record date joined to original issuer filing; active study identity comes from 99 dated NSE masters. Feed ISIN is not an identity substitute.",
+        "series": "EQ",
+        "study_period_isin": "INE062A01020",
+        "symbol": "SBIN"
+      },
+      "raw_price_impact": "No local adjustment. Ordinary previous-close/open gap invalid at ex-session entry; intraday valid conditional on complete identity/action certification.",
+      "record_date": "2026-05-16",
+      "segmentation_required": false,
+      "shareholder_approval_date": null,
+      "status": "CONFIRMED",
+      "symbol": "SBIN",
+      "timing": "EFFECTIVE_INSIDE",
+      "unavailable_date_reason": "Shareholder approval and listing date not established by selected proof and not substituted for NSE ex-date.",
+      "volume_history_eligible": true
+    }
+  ],
+  "full_period_completeness_blockers": 5,
+  "icici_feed_identifier_limitation": "INE090A01013 in later action feed is not active study EQ INE090A01021. No new lineage claim is made for that field. Ex/record match is established by issuer/NSE symbol, class, amount and record date; August security identity is outside this study.",
+  "identified_unresolved_eq_events": 0,
+  "lt_named_event_closure": [
+    {
+      "appointed_date": "2026-04-01",
+      "effective_date": null,
+      "eq_segmentation": "NO",
+      "event": "Realty",
+      "evidence_ids": [
+        "c-nse-106678629",
+        "b-lt-june-results"
+      ],
+      "finding": "August 4 meeting still prospective at June 30; LTRPL capital/consideration, not public LT share exchange. No effective LT EQ break.",
+      "status_as_of_june30": "PENDING_APPROVAL"
+    },
+    {
+      "appointed_date": null,
+      "effective_date": "2026-03-31",
+      "eq_segmentation": "NO",
+      "event": "SuFin",
+      "evidence_ids": [
+        "b-nse-106543407",
+        "b-nse-106576253",
+        "b-lt-june-results"
+      ],
+      "finding": "Slump-sale business transfer to wholly-owned subsidiary, completed March 31 for INR42.9 crore. Earlier INR60 crore estimate and April 1 interpretation retained as superseded/conflicting context, not silently overwritten. No LT shareholder entitlement.",
+      "status_as_of_june30": "COMPLETED"
+    },
+    {
+      "appointed_date": null,
+      "effective_date": null,
+      "eq_segmentation": "NO",
+      "event": "Hyderabad Metro",
+      "evidence_ids": [
+        "b-lt-june-results"
+      ],
+      "finding": "April 29 agreement concerns subsidiary disposal. June-quarter original reports pending completion; no in-window LT EQ share exchange/cancellation established for this named transaction.",
+      "status_as_of_june30": "SALE_AGREEMENT_PENDING_COMPLETION"
+    }
+  ],
+  "phase121c_reviewed_originals": [
+    {
+      "action_category": "BONUS_ISSUE",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-19",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106305285",
+      "effective_date": "2025-08-28",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106305285"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-19",
+      "record_date": null,
+      "related_parent_evidence": [
+        "b-nse-106353853"
+      ],
+      "shareholder_approval_date": null,
+      "supported_finding": "July 19, 2025 board approval: INR5 raw special interim dividend (July 25 record; August 11 payment) and 1:1 bonus subject to approvals. Parent original 106353853 confirms bonus allotment August 28 after August 27 record. Pre-window completion; adjusted annual-report INR2.50 is not an additional 2026 dividend.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "BONUS_ISSUE",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-19",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106305287",
+      "effective_date": "2025-08-28",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106305287"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-19",
+      "record_date": null,
+      "related_parent_evidence": [
+        "b-nse-106353853"
+      ],
+      "shareholder_approval_date": null,
+      "supported_finding": "July 19, 2025 board approval: INR5 raw special interim dividend (July 25 record; August 11 payment) and 1:1 bonus subject to approvals. Parent original 106353853 confirms bonus allotment August 28 after August 27 record. Pre-window completion; adjusted annual-report INR2.50 is not an additional 2026 dividend.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "BONUS_ISSUE",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-19",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106305292",
+      "effective_date": "2025-08-28",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106305292"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-19",
+      "record_date": null,
+      "related_parent_evidence": [
+        "b-nse-106353853"
+      ],
+      "shareholder_approval_date": null,
+      "supported_finding": "July 19, 2025 board approval: INR5 raw special interim dividend (July 25 record; August 11 payment) and 1:1 bonus subject to approvals. Parent original 106353853 confirms bonus allotment August 28 after August 27 record. Pre-window completion; adjusted annual-report INR2.50 is not an additional 2026 dividend.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "BONUS_ISSUE",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-19",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106305295",
+      "effective_date": "2025-08-28",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106305295"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-19",
+      "record_date": null,
+      "related_parent_evidence": [
+        "b-nse-106353853"
+      ],
+      "shareholder_approval_date": null,
+      "supported_finding": "July 19, 2025 board approval: INR5 raw special interim dividend (July 25 record; August 11 payment) and 1:1 bonus subject to approvals. Parent original 106353853 confirms bonus allotment August 28 after August 27 record. Pre-window completion; adjusted annual-report INR2.50 is not an additional 2026 dividend.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-22",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106308182",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106308182"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-22",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-31",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106319319",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106319319"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-31",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-08-19",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106345270",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106345270"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-08-19",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-09-16",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106374826",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106374826"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-09-16",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-09-30",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106393108",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106393108"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-09-30",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-10-28",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106417971",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106417971"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-10-28",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-10-30",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106420453",
+      "effective_date": "2026-04-19",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106420453"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-10-30",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Kaizad Bharucha reappointment governance chain: October 30, 2025 board, January 20, 2026 RBI approval and February 3 board; tenure April 19, 2026 to April 18, 2029. Related postal approval reviewed separately.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-11-14",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106444536",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106444536"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-11-14",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-11-27",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106455848",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106455848"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-11-27",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-12-18",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106471419",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106471419"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-12-18",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-01-20",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106502641",
+      "effective_date": "2026-04-19",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106502641"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-01-20",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Kaizad Bharucha reappointment governance chain: October 30, 2025 board, January 20, 2026 RBI approval and February 3 board; tenure April 19, 2026 to April 18, 2029. Related postal approval reviewed separately.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-01-21",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106503639",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106503639"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-01-21",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-02-03",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106517910",
+      "effective_date": "2026-04-19",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106517910"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-02-03",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Kaizad Bharucha reappointment governance chain: October 30, 2025 board, January 20, 2026 RBI approval and February 3 board; tenure April 19, 2026 to April 18, 2029. Related postal approval reviewed separately.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-02-11",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106529970",
+      "effective_date": "2026-03-13",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106529970"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-02-11",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "February 3 postal notice covers four related-party transaction approvals (HDB, HDFC Securities, HDFC Life, HDFC ERGO) and Kaizad Bharucha reappointment. March 14 result confirms approval March 13. Voting cutoff is not EQ entitlement record date.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-02-27",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106546603",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106546603"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-02-27",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-03-14",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106557498",
+      "effective_date": "2026-03-13",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106557498"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-03-14",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "February 3 postal notice covers four related-party transaction approvals (HDB, HDFC Securities, HDFC Life, HDFC ERGO) and Kaizad Bharucha reappointment. March 14 result confirms approval March 13. Voting cutoff is not EQ entitlement record date.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-03-18",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106560909",
+      "effective_date": "2026-03-18",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106560909"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-03-18",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Issuer XBRL identifies Atanu Chakraborty resignation effective March 18, 2026. Embedded signed March 17 letter visually inspected: governance resignation; historical merger mentioned, not a newly effective 2026 EQ merger. Original ZIP retained by SHA256.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-03-24",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106565296",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106565296"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-03-24",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-03-27",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106570615",
+      "effective_date": "2026-04-26",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106570615"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-03-27",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "March 26 postal notice concerns Sunita Maheshwari independent-director reappointment. April 27 result confirms approval April 26; no share conversion or entitlement.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "CASH_DIVIDEND",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-04-18",
+      "appointed_date": null,
+      "board_approval_date": "2026-04-18",
+      "document_id": "106593451",
+      "effective_date": "2026-06-19",
+      "eq_boundary": "YES",
+      "evidence_ids": [
+        "c-nse-106593451"
+      ],
+      "ex_date": "2026-06-19",
+      "listing_date": null,
+      "publication_date": "2026-04-18",
+      "record_date": "2026-06-19",
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "April 18 board recommends INR13 per INR1 EQ share; record June 19. Prior INR2.50 bonus-adjusted special interim dividend was paid August 11, 2025, outside window. INR60000 crore financing permission concerns debt. Ex-date independently retained from NSE action evidence.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "CASH_DIVIDEND",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-04-18",
+      "appointed_date": null,
+      "board_approval_date": "2026-04-18",
+      "document_id": "106593455",
+      "effective_date": "2026-06-19",
+      "eq_boundary": "YES",
+      "evidence_ids": [
+        "c-nse-106593455"
+      ],
+      "ex_date": "2026-06-19",
+      "listing_date": null,
+      "publication_date": "2026-04-18",
+      "record_date": "2026-06-19",
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "April 18 board recommends INR13 per INR1 EQ share; record June 19. Prior INR2.50 bonus-adjusted special interim dividend was paid August 11, 2025, outside window. INR60000 crore financing permission concerns debt. Ex-date independently retained from NSE action evidence.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "CASH_DIVIDEND",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-04-18",
+      "appointed_date": null,
+      "board_approval_date": "2026-04-18",
+      "document_id": "106593462",
+      "effective_date": "2026-06-19",
+      "eq_boundary": "YES",
+      "evidence_ids": [
+        "c-nse-106593462"
+      ],
+      "ex_date": "2026-06-19",
+      "listing_date": null,
+      "publication_date": "2026-04-18",
+      "record_date": "2026-06-19",
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "April 18 board recommends INR13 per INR1 EQ share; record June 19. Prior INR2.50 bonus-adjusted special interim dividend was paid August 11, 2025, outside window. INR60000 crore financing permission concerns debt. Ex-date independently retained from NSE action evidence.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-04-20",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106593949",
+      "effective_date": "2026-05-20",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106593949"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-04-20",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "April 18 postal notice amends Employee Stock Incentive Plan 2022; May 20 result confirms approval. Employee compensation terms do not proportionately split/cancel existing public EQ.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-04-22",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106596832",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106596832"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-04-22",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-04-27",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106601048",
+      "effective_date": "2026-04-26",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106601048"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-04-27",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "March 26 postal notice concerns Sunita Maheshwari independent-director reappointment. April 27 result confirms approval April 26; no share conversion or entitlement.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-04-29",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106603869",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106603869"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-04-29",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-06",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106611949",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106611949"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-05-06",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "RBI permission for HDFC group aggregate holdings up to 9.95% in ICICI/Kotak concerns investments in other banks, not HDFCBANK EQ conversion.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-19",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106629524",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106629524"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-05-19",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-20",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106632512",
+      "effective_date": "2026-05-20",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106632512"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-05-20",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "April 18 postal notice amends Employee Stock Incentive Plan 2022; May 20 result confirms approval. Employee compensation terms do not proportionately split/cancel existing public EQ.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-29",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106646644",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106646644"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-05-29",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-06-16",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106664411",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106664411"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-06-16",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "HDFC Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-06-25",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106674120",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106674120"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-06-25",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "HDFCBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-01",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106286218",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106286218"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-01",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-04",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106289627",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106289627"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-04",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-08",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106292608",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106292608"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-08",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-11",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106296813",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106296813"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-11",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-15",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106299834",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106299834"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-15",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-18",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106303833",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106303833"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-18",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-22",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106307157",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106307157"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-22",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-25",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106311525",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106311525"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-25",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-29",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106315262",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106315262"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-29",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-31",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106319044",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106319044"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-31",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-08-04",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106323325",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106323325"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-08-04",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-08-07",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106329057",
+      "effective_date": "2025-08-07",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106329057-retry"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-08-07",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original August 7, 2025 allotment of 132624 INR2 employee stock units; before window, no existing-share conversion.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-08-07",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106329063",
+      "effective_date": "2025-06-20",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106329063-retry"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-08-07",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original is dated June 20, 2025 and allots 211414 INR2 employee stock units. NSE index publication August 7, 2025 is not the allotment date; both are pre-window.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-08-08",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106332919",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106332919-retry"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-08-08",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "August 8, 2025 issuer filing reports INR75 lakh RBI penalty for mortgage valuation/current-account compliance; does not change listed equity identity.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-08-19",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106345093",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106345093"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-08-19",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-08-25",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106350655",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106350655"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-08-25",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-08-28",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106353737",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106353737"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-08-28",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-09-02",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106359415",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106359415"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-09-02",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-09-05",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106364400",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106364400"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-09-05",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-09-12",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106371883",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106371883"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-09-12",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-09-16",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106374481",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106374481"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-09-16",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-09-18",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106376738",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106376738"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-09-18",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-09-22",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106379490",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106379490"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-09-22",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-09-25",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106383737",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106383737"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-09-25",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-10-06",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106398578",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106398578"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-10-06",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-10-09",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106402841",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106402841"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-10-09",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-10-14",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106406668",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106406668"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-10-14",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-10-16",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106409295",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106409295"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-10-16",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-10-23",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106414417",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106414417"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-10-23",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-10-29",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106418986",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106418986"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-10-29",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-10-31",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106422031",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106422031"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-10-31",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-11-04",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106425793",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106425793"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-11-04",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-11-07",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106431292",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106431292"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-11-07",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-11-13",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106441998",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106441998"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-11-13",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-11-19",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106450022",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106450022"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-11-19",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-11-21",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106451653",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106451653"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-11-21",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-11-25",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106454197",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106454197"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-11-25",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-12-02",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106458936",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106458936"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-12-02",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-12-05",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106461662",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106461662"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-12-05",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-12-09",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106463908",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106463908"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-12-09",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-12-11",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106466237",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106466237"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-12-11",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-12-16",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106469110",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106469110"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-12-16",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-12-18",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106471483",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106471483"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-12-18",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-12-23",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106475342",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106475342"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-12-23",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-01-02",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106485791",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106485791"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-01-02",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-01-06",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106488445",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106488445"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-01-06",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-01-08",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106491830",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106491830"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-01-08",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-01-13",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106495661",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106495661"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-01-13",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-01-19",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106500992",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106500992"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-01-19",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-01-22",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106504993",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106504993"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-01-22",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-01-30",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106512579",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106512579"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-01-30",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-02-03",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106517092",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106517092"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-02-03",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-02-06",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106523009",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106523009"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-02-06",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-02-10",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106527708",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106527708"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-02-10",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-02-13",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106533346",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106533346"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-02-13",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-02-17",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106537718",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106537718"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-02-17",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-02-20",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106540828",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106540828"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-02-20",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-02-24",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106543201",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106543201"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-02-24",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-02-25",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106544801",
+      "effective_date": "2025-12-01",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106544801"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-02-25",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "February 25 voting result approves Vijayalakshmi Iyer independent-director appointment from December 1, 2025 to May 31, 2030. Governance only.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-02-27",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106546407",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106546407"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-02-27",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-02-28",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106547301",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106547301"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-02-28",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "February 28 board permits up to 2% additional ICICI Prudential Life stake purchase subject to approvals; subsidiary investment to retain majority, not ICICIBANK EQ entitlement.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-03-04",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106549376",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106549376"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-03-04",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-03-09",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106552955",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106552955"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-03-09",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-03-13",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106556630",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106556630"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-03-13",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-03-17",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106559062",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106559062"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-03-17",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-03-20",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106562026",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106562026"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-03-20",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-03-25",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106566902",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106566902"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-03-25",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-04-02",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106578021",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106578021"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-04-02",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-04-07",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106581734",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106581734"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-04-07",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-04-10",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106586088",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106586088"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-04-10",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-04-17",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106592507",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106592507"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-04-17",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "CASH_DIVIDEND",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-04-18",
+      "appointed_date": null,
+      "board_approval_date": "2026-04-18",
+      "document_id": "106593463",
+      "effective_date": "2026-08-03",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106593463"
+      ],
+      "ex_date": "2026-08-03",
+      "listing_date": null,
+      "publication_date": "2026-04-18",
+      "record_date": "2026-08-03",
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "April 18 board recommends INR12 per INR2 EQ share. June 29 original fixes August 3 dividend record date and August 21 AGM; separate NSE evidence establishes August 3 ex-date. In-window announcement, later boundary; no February-June boundary for this dividend.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "CASH_DIVIDEND",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-04-18",
+      "appointed_date": null,
+      "board_approval_date": "2026-04-18",
+      "document_id": "106593469",
+      "effective_date": "2026-08-03",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106593469"
+      ],
+      "ex_date": "2026-08-03",
+      "listing_date": null,
+      "publication_date": "2026-04-18",
+      "record_date": "2026-08-03",
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "April 18 board recommends INR12 per INR2 EQ share. June 29 original fixes August 3 dividend record date and August 21 AGM; separate NSE evidence establishes August 3 ex-date. In-window announcement, later boundary; no February-June boundary for this dividend.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-04-21",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106595311",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106595311"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-04-21",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-04-24",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106599110",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106599110"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-04-24",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-04-28",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106602269",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106602269"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-04-28",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-04-30",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106605271",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106605271"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-04-30",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-05",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106609481",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106609481"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-05-05",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-08",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106614285",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106614285"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-05-08",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-12",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106618097",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106618097"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-05-12",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-15",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106624011",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106624011"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-05-15",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-19",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106628905",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106628905"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-05-19",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-21",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106633544",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106633544"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-05-21",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-25",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106639178",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106639178"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-05-25",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-06-02",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106652156",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106652156"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-06-02",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-06-05",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106655753",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106655753"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-06-05",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-06-09",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106658277",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106658277"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-06-09",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-06-12",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106661724",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106661724"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-06-12",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-06-16",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106664177",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106664177"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-06-16",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICM58 / INE090A08SP8 / non-convertible debenture",
+      "announcement_date": "2026-06-16",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106664698",
+      "effective_date": "2026-06-19",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-CML74725"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-06-16",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "NSE/CML/74725, June 16, suspends ICICM58 NCD INE090A08SP8 on June 19 for maturity. Distinct from ICICIBANK EQ INE090A01021. Original exchange circular closes the missing-attachment identity question.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-06-18",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106666576",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106666576"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-06-18",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-06-22",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106669420",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106669420"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-06-22",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-06-24",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106672148",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106672148"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-06-24",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "CASH_DIVIDEND",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-06-29",
+      "appointed_date": null,
+      "board_approval_date": "2026-04-18",
+      "document_id": "106679506",
+      "effective_date": "2026-08-03",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106679506"
+      ],
+      "ex_date": "2026-08-03",
+      "listing_date": null,
+      "publication_date": "2026-06-29",
+      "record_date": "2026-08-03",
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "April 18 board recommends INR12 per INR2 EQ share. June 29 original fixes August 3 dividend record date and August 21 AGM; separate NSE evidence establishes August 3 ex-date. In-window announcement, later boundary; no February-June boundary for this dividend.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "CASH_DIVIDEND",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-06-29",
+      "appointed_date": null,
+      "board_approval_date": "2026-04-18",
+      "document_id": "106679530",
+      "effective_date": "2026-08-03",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106679530"
+      ],
+      "ex_date": "2026-08-03",
+      "listing_date": null,
+      "publication_date": "2026-06-29",
+      "record_date": "2026-08-03",
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "April 18 board recommends INR12 per INR2 EQ share. June 29 original fixes August 3 dividend record date and August 21 AGM; separate NSE evidence establishes August 3 ex-date. In-window announcement, later boundary; no February-June boundary for this dividend.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "CASH_DIVIDEND",
+      "actual_security": "ICICI Bank Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-06-29",
+      "appointed_date": null,
+      "board_approval_date": "2026-04-18",
+      "document_id": "106679559",
+      "effective_date": "2026-08-03",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106679559"
+      ],
+      "ex_date": "2026-08-03",
+      "listing_date": null,
+      "publication_date": "2026-06-29",
+      "record_date": "2026-08-03",
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "April 18 board recommends INR12 per INR2 EQ share. June 29 original fixes August 3 dividend record date and August 21 AGM; separate NSE evidence establishes August 3 ex-date. In-window announcement, later boundary; no February-June boundary for this dividend.",
+      "symbol": "ICICIBANK"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "Larsen & Toubro Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-29",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106315325",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106315325"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-29",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "LT"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "Larsen & Toubro Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-09-13",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106372879",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106372879"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-09-13",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "LT"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "Larsen & Toubro Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-10-29",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106419111",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106419111"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-10-29",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "LT"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "Larsen & Toubro Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-01-28",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106509086",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106509086"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-01-28",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "LT"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "Larsen & Toubro Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-03-24",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106565018",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106565018"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-03-24",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "LT"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "Larsen & Toubro Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-05",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106609307",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106609307"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-05-05",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "LT"
+    },
+    {
+      "action_category": "CASH_DIVIDEND",
+      "actual_security": "Larsen & Toubro Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-05",
+      "appointed_date": null,
+      "board_approval_date": "2026-05-05",
+      "document_id": "106609798",
+      "effective_date": "2026-05-22",
+      "eq_boundary": "YES",
+      "evidence_ids": [
+        "c-nse-106609798"
+      ],
+      "ex_date": "2026-05-22",
+      "listing_date": null,
+      "publication_date": "2026-05-05",
+      "record_date": "2026-05-22",
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "May 5 board recommends INR38 per INR2 LT EQ share; May 22 record date, June 5 AGM, tentative payment June 10. Retained NSE source establishes May 22 ex-date. This named dividend creates a price-gap boundary, not a volume-history reset.",
+      "symbol": "LT"
+    },
+    {
+      "action_category": "CASH_DIVIDEND",
+      "actual_security": "Larsen & Toubro Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-05",
+      "appointed_date": null,
+      "board_approval_date": "2026-05-05",
+      "document_id": "106609817",
+      "effective_date": "2026-05-22",
+      "eq_boundary": "YES",
+      "evidence_ids": [
+        "c-nse-106609817"
+      ],
+      "ex_date": "2026-05-22",
+      "listing_date": null,
+      "publication_date": "2026-05-05",
+      "record_date": "2026-05-22",
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "May 5 board recommends INR38 per INR2 LT EQ share; May 22 record date, June 5 AGM, tentative payment June 10. Retained NSE source establishes May 22 ex-date. This named dividend creates a price-gap boundary, not a volume-history reset.",
+      "symbol": "LT"
+    },
+    {
+      "action_category": "CASH_DIVIDEND",
+      "actual_security": "Larsen & Toubro Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-05",
+      "appointed_date": null,
+      "board_approval_date": "2026-05-05",
+      "document_id": "106609826",
+      "effective_date": "2026-05-22",
+      "eq_boundary": "YES",
+      "evidence_ids": [
+        "c-nse-106609826"
+      ],
+      "ex_date": "2026-05-22",
+      "listing_date": null,
+      "publication_date": "2026-05-05",
+      "record_date": "2026-05-22",
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "May 5 board recommends INR38 per INR2 LT EQ share; May 22 record date, June 5 AGM, tentative payment June 10. Retained NSE source establishes May 22 ex-date. This named dividend creates a price-gap boundary, not a volume-history reset.",
+      "symbol": "LT"
+    },
+    {
+      "action_category": "CASH_DIVIDEND",
+      "actual_security": "Larsen & Toubro Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-05",
+      "appointed_date": null,
+      "board_approval_date": "2026-05-05",
+      "document_id": "106609847",
+      "effective_date": "2026-05-22",
+      "eq_boundary": "YES",
+      "evidence_ids": [
+        "c-nse-106609847"
+      ],
+      "ex_date": "2026-05-22",
+      "listing_date": null,
+      "publication_date": "2026-05-05",
+      "record_date": "2026-05-22",
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "May 5 board recommends INR38 per INR2 LT EQ share; May 22 record date, June 5 AGM, tentative payment June 10. Retained NSE source establishes May 22 ex-date. This named dividend creates a price-gap boundary, not a volume-history reset.",
+      "symbol": "LT"
+    },
+    {
+      "action_category": "CASH_DIVIDEND",
+      "actual_security": "Larsen & Toubro Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-05",
+      "appointed_date": null,
+      "board_approval_date": "2026-05-05",
+      "document_id": "106609853",
+      "effective_date": "2026-05-22",
+      "eq_boundary": "YES",
+      "evidence_ids": [
+        "c-nse-106609853"
+      ],
+      "ex_date": "2026-05-22",
+      "listing_date": null,
+      "publication_date": "2026-05-05",
+      "record_date": "2026-05-22",
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "May 5 board recommends INR38 per INR2 LT EQ share; May 22 record date, June 5 AGM, tentative payment June 10. Retained NSE source establishes May 22 ex-date. This named dividend creates a price-gap boundary, not a volume-history reset.",
+      "symbol": "LT"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "Larsen & Toubro Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-15",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106625425",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106625425"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-05-15",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Original reports additional employee equity allotment under stock option/unit scheme. Existing shares are not proportionately converted; no mechanical price-gap or volume reset established by this named allotment. This does not establish absence of other capital actions.",
+      "symbol": "LT"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "Larsen & Toubro Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-06-24",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106672281",
+      "effective_date": "2026-06-23",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106672281"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-06-24",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "CRISIL ESG score revised from 62 to 67 June 23; rating disclosure, no security transformation.",
+      "symbol": "LT"
+    },
+    {
+      "action_category": "SECURITY_RESTRUCTURING",
+      "actual_security": "Larsen & Toubro Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-06-27",
+      "appointed_date": "2026-04-01",
+      "board_approval_date": null,
+      "document_id": "106678629",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106678629"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-06-27",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "June 27 notice (CA(CAA)59/MB-III/2026) schedules equity vote August 4 after June 12/16/25 NCLT orders. Scheme clauses 1(g)/26 distinguish April 1 appointed date from effectiveness after conditions. Realty undertaking transfers from L&T to wholly-owned unlisted LTRPL; consideration is LTRPL shares issued to L&T, not LT public holders. LTRPL capital consolidation/reduction is not LT EQ capital change. Pending at June 30; no in-window LT EQ segmentation.",
+      "symbol": "LT"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "Reliance Industries Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-23",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106309639",
+      "effective_date": "2025-07-23",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106309639"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-23",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "RIL buys another 9.9% of Nauyaan for cash July 23, 2025; August 22 original closes remaining 6.1% purchase. No parent equity exchange ratio.",
+      "symbol": "RELIANCE"
+    },
+    {
+      "action_category": "CASH_DIVIDEND",
+      "actual_security": "Reliance Industries Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-31",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106320104",
+      "effective_date": "2025-08-14",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106320104"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-31",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "July 31, 2025 notice fixes August 14, 2025 dividend record date and August 29 AGM; outside study window.",
+      "symbol": "RELIANCE"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "Reliance Industries Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-08-19",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106345842",
+      "effective_date": "2025-08-18",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106345842"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-08-19",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Reliance NeuComm LLC termination effective August 18, 2025; not dissolution of listed RIL.",
+      "symbol": "RELIANCE"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "Reliance Industries Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-08-20",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106346881",
+      "effective_date": "2025-08-19",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106346881"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-08-20",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Reliance TerraTech Holdings LLC termination effective August 19, 2025; not dissolution of listed RIL.",
+      "symbol": "RELIANCE"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "Reliance Industries Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-08-22",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106349544",
+      "effective_date": "2025-08-22",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106349544"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-08-22",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Remaining 6.1% Nauyaan cash acquisition completed August 22, 2025, making it wholly owned; closes older March/April acquisition references before window.",
+      "symbol": "RELIANCE"
+    },
+    {
+      "action_category": "MERGER",
+      "actual_security": "Reliance Industries Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-09-18",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106377066",
+      "effective_date": "2025-09-16",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106377066"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-09-18",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Reliance Exploration and Production DMCC merged into Reliance Industries (Middle East) DMCC effective September 16, 2025; certificate September 17. Subsidiary merger completed before window.",
+      "symbol": "RELIANCE"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "Reliance Industries Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-09-22",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106380114",
+      "effective_date": "2025-09-20",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106380114"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-09-22",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Reliance Global Project Services Pte Ltd dissolved September 20, 2025; closes April 17 liquidation reference. Distinct subsidiary.",
+      "symbol": "RELIANCE"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "Reliance Industries Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-10-25",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106415982",
+      "effective_date": "2025-10-24",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106415982"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-10-25",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "REIL incorporated October 24, 2025 for Meta venture. February 25, 2026 allotment is separately reviewed; parent listed equity unaffected mechanically.",
+      "symbol": "RELIANCE"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "Reliance Industries Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-10-30",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106420882",
+      "effective_date": "2025-10-29",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106420882"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-10-30",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "REC Systems (Thailand) liquidation completed October 29, 2025. Subsidiary completion before window.",
+      "symbol": "RELIANCE"
+    },
+    {
+      "action_category": "MERGER",
+      "actual_security": "Reliance Industries Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-12-01",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106458344",
+      "effective_date": "2025-11-30",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106458344"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-12-01",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Star Television Productions Limited merged into Star India (now Jiostar India) effective November 30, 2025, closing older November 14, 2024 scheme reference. Subsidiary securities, not RELIANCE EQ.",
+      "symbol": "RELIANCE"
+    },
+    {
+      "action_category": "SECURITY_RESTRUCTURING",
+      "actual_security": "Reliance Industries Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-12-01",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106458666",
+      "effective_date": "2025-12-01",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106458666"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-12-01",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "RRL/RRVL/RCPL/Tira Beauty composite scheme effective December 1, 2025. New RCPL entitlement of one share per two RRVL shares belongs to RRVL holders; prior New RCPL capital cancelled. RIL holds 83.56% of New RCPL. No RELIANCE EQ shareholder entitlement; pre-window subsidiary scheme.",
+      "symbol": "RELIANCE"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "Reliance Industries Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-12-03",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106460547",
+      "effective_date": "2025-12-03",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106460547"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-12-03",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "RSBVL cash acquisition of 49% Oval Invincibles for GBP60.27 million on December 3, 2025. Separate investee; no parent EQ exchange.",
+      "symbol": "RELIANCE"
+    },
+    {
+      "action_category": "RIGHTS_ISSUE",
+      "actual_security": "Reliance Industries Limited; see finding for issuer versus security scope",
+      "announcement_date": "2025-12-19",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106472909",
+      "effective_date": "2025-12-19",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106472909"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-12-19",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Abraham and Thakore Exports rights allotment to founders changes control to 50.91% and subsidiary status on December 19, 2025. Separate subsidiary rights, not RELIANCE EQ rights.",
+      "symbol": "RELIANCE"
+    },
+    {
+      "action_category": "MERGER",
+      "actual_security": "Reliance Industries Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-01-22",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106505314",
+      "effective_date": "2026-01-21",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106505314"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-01-22",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "Sixteen step-down subsidiaries amalgamated into Reliance New Energy Limited effective January 21, 2026 under Regional Director MCA order. Completed before window, not merger of listed RIL equity.",
+      "symbol": "RELIANCE"
+    },
+    {
+      "action_category": "SECURITY_RESTRUCTURING",
+      "actual_security": "Reliance Enterprise Intelligence Limited subsidiary equity",
+      "announcement_date": "2026-02-25",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106544803",
+      "effective_date": "2026-02-25",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106544803"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-02-25",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "REIL issues shares to Reliance Intelligence and Facebook Overseas, becoming 70/30 venture on February 25. REIL ceases wholly-owned status; no entitlement or cancellation of RELIANCE listed EQ.",
+      "symbol": "RELIANCE"
+    },
+    {
+      "action_category": "MERGER",
+      "actual_security": "Reliance Industries Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-04-22",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106597365",
+      "effective_date": "2026-04-21",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106597365"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-04-22",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "IndiaCast Media Distribution Private Limited amalgamated into Jiostar India Private Limited effective April 21 under Regional Director MCA order. Both are RIL subsidiaries; parent RELIANCE EQ is not amalgamated.",
+      "symbol": "RELIANCE"
+    },
+    {
+      "action_category": "CASH_DIVIDEND",
+      "actual_security": "Reliance Industries Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-04-24",
+      "appointed_date": null,
+      "board_approval_date": "2026-04-24",
+      "document_id": "106599911",
+      "effective_date": "2026-06-05",
+      "eq_boundary": "YES",
+      "evidence_ids": [
+        "c-nse-106599911"
+      ],
+      "ex_date": "2026-06-05",
+      "listing_date": null,
+      "publication_date": "2026-04-24",
+      "record_date": "2026-06-05",
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "April 24 board recommends INR6 per INR10 RELIANCE EQ share. May 27 original fixes June 5 dividend record date, June 19 AGM and payment within seven days of AGM. NSE source independently establishes June 5 ex-date.",
+      "symbol": "RELIANCE"
+    },
+    {
+      "action_category": "CASH_DIVIDEND",
+      "actual_security": "Reliance Industries Limited; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-27",
+      "appointed_date": null,
+      "board_approval_date": "2026-04-24",
+      "document_id": "106643844",
+      "effective_date": "2026-06-05",
+      "eq_boundary": "YES",
+      "evidence_ids": [
+        "c-nse-106643844"
+      ],
+      "ex_date": "2026-06-05",
+      "listing_date": null,
+      "publication_date": "2026-05-27",
+      "record_date": "2026-06-05",
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "April 24 board recommends INR6 per INR10 RELIANCE EQ share. May 27 original fixes June 5 dividend record date, June 19 AGM and payment within seven days of AGM. NSE source independently establishes June 5 ex-date.",
+      "symbol": "RELIANCE"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "State Bank of India; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-16",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106301801",
+      "effective_date": "2025-07-21",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106301801"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-16",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "SBI QIP opened July 16 and closed July 21, 2025: 305997552 shares at INR817. Parent July 21 allotment confirms pre-window closure; not a 2026 split/bonus or cancellation.",
+      "symbol": "SBIN"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "State Bank of India; see finding for issuer versus security scope",
+      "announcement_date": "2025-07-21",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106306381",
+      "effective_date": "2025-07-21",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106306381"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2025-07-21",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "SBI QIP opened July 16 and closed July 21, 2025: 305997552 shares at INR817. Parent July 21 allotment confirms pre-window closure; not a 2026 split/bonus or cancellation.",
+      "symbol": "SBIN"
+    },
+    {
+      "action_category": "CASH_DIVIDEND",
+      "actual_security": "State Bank of India; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-08",
+      "appointed_date": null,
+      "board_approval_date": "2026-05-08",
+      "document_id": "106614619",
+      "effective_date": "2026-05-15",
+      "eq_boundary": "YES",
+      "evidence_ids": [
+        "c-nse-106614619"
+      ],
+      "ex_date": "2026-05-15",
+      "listing_date": null,
+      "publication_date": "2026-05-08",
+      "record_date": "2026-05-16",
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "May 8 Central Board declares INR17.35 per INR1 SBIN EQ share, record May 16, payment June 4. NSE ex-date is May 15; record date is not substituted for ex-date.",
+      "symbol": "SBIN"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "State Bank of India; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-11",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106617136",
+      "effective_date": "2026-06-26",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106617136"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-05-11",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "May 15 shareholder meeting elects four directors; May 11 candidate withdrawal and May 16 result relate to governance. Director term June 26, 2026 to June 25, 2029; no EQ transformation.",
+      "symbol": "SBIN"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "State Bank of India; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-12",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106618401",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106618401"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-05-12",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "May 12 Executive Committee authorizes up to USD2 billion fixed/floating-rate bonds in FY2026-27. Debt funding approval, not EQ shareholder action.",
+      "symbol": "SBIN"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "State Bank of India; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-14",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106623197",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106623197"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-05-14",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "June 18 SBI AGM business is adoption of FY2026 accounts and board/auditor reports; not an entitlement or security conversion. May 14 notice and June 18 proceedings matched.",
+      "symbol": "SBIN"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "State Bank of India; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-15",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106625275",
+      "effective_date": "2026-06-26",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106625275"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-05-15",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "May 15 shareholder meeting elects four directors; May 11 candidate withdrawal and May 16 result relate to governance. Director term June 26, 2026 to June 25, 2029; no EQ transformation.",
+      "symbol": "SBIN"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "State Bank of India; see finding for issuer versus security scope",
+      "announcement_date": "2026-05-16",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106626347",
+      "effective_date": "2026-06-26",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106626347"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-05-16",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "May 15 shareholder meeting elects four directors; May 11 candidate withdrawal and May 16 result relate to governance. Director term June 26, 2026 to June 25, 2029; no EQ transformation.",
+      "symbol": "SBIN"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "XS3176783986 / senior unsecured notes",
+      "announcement_date": "2026-05-29",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106647331",
+      "effective_date": "2026-06-05",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106647331"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-05-29",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "USD200 million tap of senior unsecured notes XS3176783986, issuance June 5, 2026, maturity September 9, 2030; London branch, SGX/NSE-IX listing, distinct from NSE cash EQ.",
+      "symbol": "SBIN"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "State Bank of India; see finding for issuer versus security scope",
+      "announcement_date": "2026-06-18",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106666636",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106666636"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-06-18",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "June 18 board approves up to INR60000 crore long-term/AT1/Tier2 debt funding during FY27 subject to applicable government approval; no SBIN EQ split or entitlement.",
+      "symbol": "SBIN"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "State Bank of India; see finding for issuer versus security scope",
+      "announcement_date": "2026-06-18",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106667082",
+      "effective_date": null,
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106667082"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-06-18",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "June 18 SBI AGM business is adoption of FY2026 accounts and board/auditor reports; not an entitlement or security conversion. May 14 notice and June 18 proceedings matched.",
+      "symbol": "SBIN"
+    },
+    {
+      "action_category": "OTHER",
+      "actual_security": "State Bank of India; see finding for issuer versus security scope",
+      "announcement_date": "2026-06-29",
+      "appointed_date": null,
+      "board_approval_date": null,
+      "document_id": "106679689",
+      "effective_date": "2026-07-06",
+      "eq_boundary": "NO",
+      "evidence_ids": [
+        "c-nse-106679689"
+      ],
+      "ex_date": null,
+      "listing_date": null,
+      "publication_date": "2026-06-29",
+      "record_date": null,
+      "related_parent_evidence": [],
+      "shareholder_approval_date": null,
+      "supported_finding": "June 29 announcement of USD300 million floating-rate notes, issue July 6, 2026, three-year maturity. Debt, and issue date outside window.",
+      "symbol": "SBIN"
+    }
+  ],
+  "version": "Phase121BEventReview.v1"
+}
