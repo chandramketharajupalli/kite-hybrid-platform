@@ -102,6 +102,103 @@ public final class IntradayFundingEvidence {
         public Summary { checks = Collections.unmodifiableMap(new EnumMap<>(checks)); }
     }
 
+    public enum Proof { PROVEN, UNKNOWN, STALE, CONFLICTING }
+    public enum Question { ELIGIBLE_ADJUSTED_COLLATERAL, ACTUALLY_AVAILABLE_COLLATERAL,
+        CASH_COMPONENT_REQUIREMENT, CASH_FIELD_ELIGIBILITY }
+    /** Stable catalog identifiers, not assertions that an endpoint was called. */
+    public enum SourceIdentifier { KITE_V3_FUNDS_SCHEMA, KITE_V3_ORDER_MARGIN_SCHEMA,
+        APPLICATION_CASH_POLICY, NO_ACCOUNT_ATTESTATION }
+    public enum EvidenceDenial { INDEPENDENT_EVIDENCE_MISSING, AUTH_REQUIRED, INPUT_UNAVAILABLE,
+        INPUT_STALE, FUTURE_OBSERVATION, REQUEST_OR_REFERENCE_CONFLICT }
+    public record ContractField(Evidence classification, SourceIdentifier schemaSource, Proof independentAuthority) {}
+    /** effectiveAt is absent until an independently verified broker assertion supplies it. */
+    public record Term(Proof status, SourceIdentifier source, Instant effectiveAt, EvidenceDenial denial) {}
+    public record Scope(TradingReadTypes.MarginSegment segment, TradingReadTypes.Product product,
+            String requestFingerprint, String instrumentMappingFingerprint, Binding requestBinding,
+            Binding referenceBinding, Instant accountObservedAt, Instant quoteReceivedAt, Instant referenceObservedAt,
+            Freshness accountFreshness, Freshness quoteFreshness, Freshness referenceFreshness) {}
+    public record CollateralContract(String version, Readiness collateralAssistedReadiness,
+            RiskReason cashOnlyFunding, Origin origin, Scope scope,
+            Map<String, ContractField> observations, Map<Question, Term> questions) {
+        public CollateralContract {
+            observations = Collections.unmodifiableMap(new LinkedHashMap<>(observations));
+            questions = Collections.unmodifiableMap(new EnumMap<>(questions));
+        }
+    }
+
+    /**
+     * Versioned redacted contract for unverified normalized inputs. No caller switch or numeric term
+     * can establish independent broker authority. This method has no PROVEN-producing path.
+     * A future authoritative provider requires separate review, not a boolean added to this API.
+     */
+    public static CollateralContract collateralContract(CashAccountCapacity.Capacity account, BrokerMargins margins,
+            OrderMarginQuote quote, OrderMarginQuote.Request expected,
+            com.kitehybrid.platform.instrument.domain.Instrument reference, RiskLimits limits,
+            Instant accountObservedAt, Instant referenceObservedAt, Instant now, boolean authenticated, Origin origin) {
+        var detail = detail(account, margins, quote, expected, limits, accountObservedAt, now, authenticated, origin);
+        var referenceAge = freshness(referenceObservedAt, now, limits == null ? null : limits.registryMaxAge());
+        Binding referenceBinding = Binding.UNKNOWN;
+        String mapping = null;
+        if (reference != null && expected != null) {
+            referenceBinding = reference.id().equals(expected.instrumentId())
+                    && reference.exchange().equals(expected.exchange()) && reference.tradingSymbol().equals(expected.symbol())
+                    && reference.type() == InstrumentType.CASH && reference.brokerId().broker().equals("ZERODHA")
+                    ? Binding.MATCHED : Binding.CONFLICTING;
+            // The stable platform ID alone does not bind a changing broker token mapping.
+            // Tokens here are instrument reference identifiers, never authentication credentials.
+            mapping = mappingFingerprint(detail.requestFingerprint(), reference.brokerId().broker(), reference.brokerId().value());
+        }
+        EvidenceDenial denial = EvidenceDenial.INDEPENDENT_EVIDENCE_MISSING;
+        Proof status = Proof.UNKNOWN;
+        if (detail.requestBinding() == Binding.CONFLICTING || referenceBinding == Binding.CONFLICTING) {
+            status = Proof.CONFLICTING; denial = EvidenceDenial.REQUEST_OR_REFERENCE_CONFLICT;
+        } else if (detail.accountFreshness() == Freshness.FUTURE || detail.quoteFreshness() == Freshness.FUTURE
+                || referenceAge == Freshness.FUTURE) {
+            status = Proof.CONFLICTING; denial = EvidenceDenial.FUTURE_OBSERVATION;
+        } else if (!authenticated) {
+            denial = EvidenceDenial.AUTH_REQUIRED;
+        } else if (detail.accountFreshness() == Freshness.STALE || detail.quoteFreshness() == Freshness.STALE
+                || referenceAge == Freshness.STALE) {
+            status = Proof.STALE; denial = EvidenceDenial.INPUT_STALE;
+        } else if (detail.cashOnlyFunding() == RiskReason.MIS_MARGIN_UNAVAILABLE || referenceBinding == Binding.UNKNOWN
+                || referenceAge == Freshness.UNKNOWN) {
+            denial = EvidenceDenial.INPUT_UNAVAILABLE;
+        }
+        var observations = new LinkedHashMap<String, ContractField>();
+        for (var entry : detail.fields().entrySet()) {
+            var field = entry.getValue();
+            // Legacy label describes a calculator contract, not authentication of caller-supplied values.
+            var classification = field.evidence() == Evidence.BROKER_AUTHORITATIVE ? Evidence.OBSERVED : field.evidence();
+            var schema = switch (field.source()) {
+                case ACCOUNT_FIELDS -> SourceIdentifier.KITE_V3_FUNDS_SCHEMA;
+                case EXACT_REQUEST_CALCULATION -> SourceIdentifier.KITE_V3_ORDER_MARGIN_SCHEMA;
+                case APPLICATION_POLICY -> SourceIdentifier.APPLICATION_CASH_POLICY;
+                case UNESTABLISHED -> SourceIdentifier.NO_ACCOUNT_ATTESTATION;
+            };
+            observations.put(entry.getKey(), new ContractField(classification, schema, Proof.UNKNOWN));
+        }
+        var questions = new EnumMap<Question, Term>(Question.class);
+        for (var question : Question.values())
+            questions.put(question, new Term(status, SourceIdentifier.NO_ACCOUNT_ATTESTATION, null, denial));
+        var scope = new Scope(TradingReadTypes.MarginSegment.EQUITY, TradingReadTypes.Product.INTRADAY,
+                detail.requestFingerprint(), mapping, detail.requestBinding(), referenceBinding,
+                accountObservedAt, detail.quoteReceivedAt(), referenceObservedAt,
+                detail.accountFreshness(), detail.quoteFreshness(), referenceAge);
+        return new CollateralContract("KiteMisCollateralEvidence.v1", Readiness.NOT_READY,
+                referenceBinding == Binding.MATCHED && referenceAge == Freshness.CURRENT
+                        ? detail.cashOnlyFunding() : RiskReason.MIS_MARGIN_UNAVAILABLE,
+                detail.origin(), scope, observations, questions);
+    }
+
+    private static String mappingFingerprint(String request, String broker, String instrumentToken) {
+        try {
+            var text = "mis-mapping-v1|" + request + "|" + broker.length() + ":" + broker
+                    + "|" + instrumentToken.length() + ":" + instrumentToken;
+            return java.util.HexFormat.of().formatHex(java.security.MessageDigest.getInstance("SHA-256")
+                    .digest(text.getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+        } catch (java.security.NoSuchAlgorithmException impossible) { throw new IllegalStateException(impossible); }
+    }
+
     /**
      * Synthetic-only composition of existing domain checks. No fetch, cache, risk approval or permit.
      * Caller booleans are observations, never authority; authorization is unconditionally absent.

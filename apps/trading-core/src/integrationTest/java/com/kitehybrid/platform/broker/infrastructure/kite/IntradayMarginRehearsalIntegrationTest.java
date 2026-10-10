@@ -66,6 +66,14 @@ class IntradayMarginRehearsalIntegrationTest {
             assertEquals(com.kitehybrid.platform.risk.domain.RiskReason.APPROVED,result.funding().cashOnlyFunding());
             assertEquals(com.kitehybrid.platform.risk.domain.IntradayFundingEvidence.State.BLOCKED,
                     result.checks().get(com.kitehybrid.platform.risk.domain.IntradayFundingEvidence.Check.AUTHORIZATION));
+            var limits=f.context.getBean(com.kitehybrid.platform.risk.domain.RiskLimits.class);
+            var capacity=com.kitehybrid.platform.risk.domain.CashAccountCapacity.inspectIntraday(input,limits,request.instrumentId(),NOW);
+            var contract=com.kitehybrid.platform.risk.domain.IntradayFundingEvidence.collateralContract(capacity,input.margins(),
+                    input.marginQuote().orElseThrow(),request,f.instrument,limits,NOW,NOW,NOW,f.session.authenticated(),
+                    com.kitehybrid.platform.risk.domain.IntradayFundingEvidence.Origin.SYNTHETIC);
+            assertEquals("KiteMisCollateralEvidence.v1",contract.version());
+            assertTrue(contract.questions().values().stream().allMatch(t->t.status()==com.kitehybrid.platform.risk.domain.IntradayFundingEvidence.Proof.UNKNOWN));
+            assertTrue(contract.observations().values().stream().noneMatch(v->v.classification()==com.kitehybrid.platform.risk.domain.IntradayFundingEvidence.Evidence.BROKER_AUTHORITATIVE));
             assertEquals(before,f.operator.status());assertTrue(halt.getAsBoolean());f.assertCounts(0);
             assertEquals(0,f.gatewayCalls.get());
             assertEquals(0,f.jdbc.queryForObject("SELECT count(*) FROM trading.orders",Integer.class));
