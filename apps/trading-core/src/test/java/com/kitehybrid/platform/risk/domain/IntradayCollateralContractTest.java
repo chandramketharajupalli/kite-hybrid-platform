@@ -49,6 +49,23 @@ class IntradayCollateralContractTest {
         assertThat(result.questions().values()).allMatch(t -> t.status() == Proof.UNKNOWN);
     }
 
+    @ParameterizedTest @CsvSource({"0,0", "0,2000", "800,0", "800,1000", "1000,1000", "1000,2000"})
+    void changingUnverifiedAdjustedAmountOrCashRuleCannotRepairCashDeficitOrSupplyCategoryProof(
+            String adjusted, String minimumCash) {
+        // Synthetic candidate terms: changed haircut/category or cash-rule assumptions are not attestations.
+        // The API has no authenticated category input; even a zero claimed cash requirement is unverified.
+        var baseline = contract("2002.24",quote("2000","1.25",NOW,false),NOW,NOW,true,Origin.SYNTHETIC);
+        var supplied = new OrderMarginQuote(request,d("2000"),d("1.25"),
+                Optional.of(new OrderMarginQuote.CollateralTerms(d(adjusted),d(minimumCash))),NOW);
+        var result = contract("2002.24",supplied,NOW,NOW,true,Origin.CALLER_SUPPLIED_NORMALIZED);
+        assertThat(result.cashOnlyFunding()).isEqualTo(RiskReason.COLLATERAL_UNSUPPORTED);
+        assertThat(result.questions()).isEqualTo(baseline.questions());
+        assertThat(result.questions().values()).allMatch(t -> t.status() == Proof.UNKNOWN && t.effectiveAt() == null);
+        assertThat(result.observations()).isEqualTo(baseline.observations());
+        assertThat(result.collateralAssistedReadiness()).isEqualTo(Readiness.NOT_READY);
+        assertThat(result.scope().requestFingerprint()).isEqualTo(baseline.scope().requestFingerprint());
+    }
+
     @ParameterizedTest @ValueSource(strings={"account-stale","quote-stale","reference-stale","account-future","quote-future","reference-future"})
     void validitySeparatesStaleAndConflictingContextFromMissingAuthority(String fault) {
         Instant accountAt = fault.equals("account-stale") ? NOW.minusSeconds(5) : fault.equals("account-future") ? NOW.plusNanos(1) : NOW;
