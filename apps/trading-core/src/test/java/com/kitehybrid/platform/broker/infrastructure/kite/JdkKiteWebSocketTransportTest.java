@@ -81,7 +81,9 @@ class JdkKiteWebSocketTransportTest {
                 gateway.start();
                 await().atMost(Duration.ofSeconds(5)).untilAsserted(() -> {
                     assertThat(gateway.state()).isEqualTo(MarketDataGateway.State.CONNECTED);
-                    assertThat(store.latest(instrument.id()).orElseThrow().lastPrice()).isEqualByComparingTo("123.45");
+                    // CONNECTED precedes asynchronous tick publication; absence must remain a polled assertion.
+                    assertThat(store.latest(instrument.id())).hasValueSatisfying(
+                            tick -> assertThat(tick.lastPrice()).isEqualByComparingTo("123.45"));
                     assertThat(gateway.health().status()).isEqualTo(MarketDataHealth.Status.FRESH);
                 });
                 disconnectFirst.countDown();
@@ -91,7 +93,8 @@ class JdkKiteWebSocketTransportTest {
                     assertThat(gateway.health().status()).isEqualTo(MarketDataHealth.Status.FRESH);
                     assertThat(gateway.health().activeSubscriptions()).isEqualTo(1);
                     assertThat(gateway.health().reconnectAttempts()).isZero();
-                    assertThat(store.latest(instrument.id()).orElseThrow().lastPrice()).isEqualByComparingTo("123.46");
+                    assertThat(store.latest(instrument.id())).hasValueSatisfying(
+                            tick -> assertThat(tick.lastPrice()).isEqualByComparingTo("123.46"));
                 });
                 assertThat(store.latest(instrument.id()).orElseThrow().quote().orElseThrow().volume()).hasValue(100);
                 assertThat(metrics.get("marketdata.reconnects").counter().count()).isEqualTo(1);
