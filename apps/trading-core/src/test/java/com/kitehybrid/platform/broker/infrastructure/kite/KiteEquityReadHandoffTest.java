@@ -43,13 +43,14 @@ class KiteEquityReadHandoffTest {
             }
         }
     }
-    @ParameterizedTest @ValueSource(strings={"owner","epoch","session"})
+    @ParameterizedTest @ValueSource(strings={"owner","epoch","session","resume"})
     void concurrentInvalidationDuringResponseDiscardsReceiptAndStillChecksIntegrity(String reason)throws Exception{
         try(var f=new Fixture();var pool=Executors.newSingleThreadExecutor()){
             f.base.onResponse=()->{
                 try{pool.submit(()->{
                     switch(reason){case "owner"->f.owner.close();case "epoch"->f.base.halt.halt();
-                        case "session"->f.base.session.rejectMarketData(f.base.session.marketDataStatus().generation());}
+                        case "session"->f.base.session.rejectMarketData(f.base.session.marketDataStatus().generation());
+                        case "resume"->{f.base.startup.set(false);assertThat(f.base.halt.resume(f.base.halt.epoch())).isTrue();}}
                 }).get(5,TimeUnit.SECONDS);}catch(Exception failure){throw new IllegalStateException(failure);}
             };
             var result=f.consume();assertThat(result.observation()).isNull();
@@ -66,6 +67,28 @@ class KiteEquityReadHandoffTest {
             assertThatThrownBy(f::consume).isInstanceOf(RuntimeException.class);
             assertThat(f.base.calls).hasValue(1);
             // The detached timestamp/provenance receipt is historical, not a live capability or funding proof.
+        }
+    }
+    @Test void locallyAuthenticatedKiteSessionIsSyntheticScopeNotIndependentBrokerProof()throws Exception{
+        try(var f=new Fixture()){
+            assertThat(f.base.session.authenticated()).isTrue();
+            var privateIdentity=f.base.session.executionIdentity().orElseThrow().toString();
+            var result=f.consume();
+            assertThat(result.observation().provenance()).isEqualTo(KiteEquityMarginReadAdapter.Provenance.SYNTHETIC_TRANSPORT);
+            var contract=com.kitehybrid.platform.risk.domain.IntradayFundingEvidence.equityObservation(
+                    KiteEquityMarginReadAdapterTest.quote(),KiteEquityMarginReadAdapterTest.REQUEST,
+                    KiteEquityMarginReadAdapterTest.REF,KiteEquityMarginReadAdapterTest.LIMITS,
+                    result.observation().receivedAt(),f.base.clock.instant(),f.base.clock.instant(),true,
+                    com.kitehybrid.platform.risk.domain.IntradayFundingEvidence.Origin.SYNTHETIC);
+            assertThat(contract.questions().values()).allMatch(term->term.status()==
+                    com.kitehybrid.platform.risk.domain.IntradayFundingEvidence.Proof.UNKNOWN);
+            assertThat(java.util.Arrays.stream(KiteEquityMarginReadAdapter.Observation.class.getRecordComponents())
+                    .map(java.lang.reflect.RecordComponent::getName)).containsExactly("provenance","receivedAt");
+            var mapper=new com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()
+                    .setVisibility(com.fasterxml.jackson.annotation.PropertyAccessor.ALL,com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY);
+            assertThat(mapper.writeValueAsString(result)).doesNotContain(privateIdentity,"syntheticToken","syntheticKey","245431.6");
+            assertThat(mapper.writeValueAsString(f.handoff)).isEqualTo("{}");
+            assertThat(f.base.calls).hasValue(1);
         }
     }
     static final String PATH="/user/margins/equity";

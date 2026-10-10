@@ -23,6 +23,59 @@ import static com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadH
 
 @Testcontainers @Isolated("UTC PostgreSQL startup; disposable roles and rows only")
 class KiteEquityReadHarnessIntegrationTest {
+    @ParameterizedTest @ValueSource(strings={"trigger","inherited-update","inherited-trigger"})
+    void effectiveInheritedAndTriggerPrivilegesDenyBeforeHttp(String fault)throws Exception{
+        boolean inherited=fault.startsWith("inherited");String privilege=fault.endsWith("update")?"UPDATE":"TRIGGER";
+        if(inherited){
+            admin.execute("CREATE ROLE fixture_parent INHERIT");admin.execute("CREATE ROLE fixture_child INHERIT");
+            admin.execute("GRANT fixture_parent TO fixture_child");admin.execute("GRANT fixture_child TO controlled_observer");
+        }
+        String grantee=inherited?"fixture_parent":"controlled_observer";
+        admin.execute("GRANT "+privilege+" ON trading.kite_access_tokens TO "+grantee);
+        try(var connection=observer();var wire=KiteEquityReadRequestFactory.loopback(URI.create("http://127.0.0.1:1"),Duration.ofMillis(100));
+            var statement=connection.createStatement()){
+            try(var rows=statement.executeQuery("SELECT has_table_privilege(current_user,'trading.kite_access_tokens','"+privilege+"')")){
+                assertThat(rows.next()).isTrue();assertThat(rows.getBoolean(1)).isTrue();
+            }
+            var harness=new KiteEquityReadHarness(wire,session(),new KiteEquityReadIntegrity(connection),
+                    new RuntimeTradingHalt(()->true),Clock.fixed(NOW,ZoneOffset.UTC),Mode.SYNTHETIC);
+            assertThat(harness.run().outcome()).isEqualTo(Outcome.PRECONDITION_DENIED);
+            assertThat(wire.attempts()).isZero();
+        }finally{
+            admin.execute("REVOKE "+privilege+" ON trading.kite_access_tokens FROM "+grantee);
+            if(inherited){
+                admin.execute("REVOKE fixture_child FROM controlled_observer");admin.execute("REVOKE fixture_parent FROM fixture_child");
+                admin.execute("DROP ROLE fixture_child");admin.execute("DROP ROLE fixture_parent");
+            }
+        }
+    }
+
+    @Test void disablingFutureLoginsDoesNotExcludeAlreadyConnectedWriter()throws Exception{
+        admin.execute("CREATE ROLE fixture_writer LOGIN PASSWORD 'syntheticWriterOnly'");
+        admin.execute("GRANT USAGE ON SCHEMA trading TO fixture_writer");
+        admin.execute("GRANT SELECT,UPDATE ON trading.kite_access_tokens TO fixture_writer");
+        try(var connection=observer()){
+            var guard=new KiteEquityReadIntegrity(connection);var before=guard.capture();
+            try(var writer=DriverManager.getConnection(postgres.getJdbcUrl(),"fixture_writer","syntheticWriterOnly")){
+                admin.execute("ALTER ROLE fixture_writer NOLOGIN");
+                var denied=org.junit.jupiter.api.Assertions.assertThrows(SQLException.class,()->{
+                    try(var unexpected=DriverManager.getConnection(postgres.getJdbcUrl(),"fixture_writer","syntheticWriterOnly")){
+                        throw new AssertionError("Fixture writer unexpectedly connected");
+                    }
+                });
+                assertThat(denied.getSQLState()).isEqualTo("28000");
+                try(var statement=writer.createStatement()){
+                    assertThat(statement.executeUpdate("UPDATE trading.kite_access_tokens SET expires_at=expires_at+interval '1 second'")).isEqualTo(1);
+                }
+                assertThatThrownBy(guard::capture).isInstanceOf(RuntimeException.class);
+            }
+            org.junit.jupiter.api.Assertions.assertFalse(before.matches(guard.capture()),"Existing writer changed private fixture evidence");
+        }finally{
+            admin.execute("REVOKE SELECT,UPDATE ON trading.kite_access_tokens FROM fixture_writer");
+            admin.execute("REVOKE USAGE ON SCHEMA trading FROM fixture_writer");
+            admin.execute("DROP ROLE fixture_writer");
+        }
+    }
     @Container static final PostgreSQLContainer<?> postgres=new PostgreSQLContainer<>("postgres:17.6")
             .withCommand("postgres","-c","fsync=off","-c","timezone=UTC");
     static final Instant NOW=Instant.parse("2026-10-10T05:00:00Z");

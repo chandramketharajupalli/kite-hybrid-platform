@@ -8,6 +8,12 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ControlledEquityReadArchitectureTest {
+    @Test void diagnosticCapabilitiesHaveNoMetricsOrTracingExportDependency() {
+        var classes=new ClassFileImporter().withImportOption(new ImportOption.DoNotIncludeTests()).importPackages("com.kitehybrid.platform");
+        noClasses().that().haveNameMatching(".*KiteEquity(Read.*|MarginReadAdapter.*)").should()
+                .dependOnClassesThat().resideInAnyPackage("io.micrometer..","io.opentelemetry..")
+                .check(classes);
+    }
     @Test void isolatedHarnessCannotReachExecutionAuthenticationLifecycleOrStartup() {
         var classes=new ClassFileImporter().withImportOption(new ImportOption.DoNotIncludeTests()).importPackages("com.kitehybrid.platform");
         noClasses().that().haveNameMatching(".*KiteEquityRead.*").should().dependOnClassesThat()

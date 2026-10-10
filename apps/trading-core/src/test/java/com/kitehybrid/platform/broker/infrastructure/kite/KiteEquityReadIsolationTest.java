@@ -10,6 +10,27 @@ import static org.assertj.core.api.Assertions.*;
 
 class KiteEquityReadIsolationTest {
     @TempDir Path temporary;
+    public static class NonCooperatingPeer {
+        public static void main(String[] args)throws Exception{
+            // This process never consults the cooperative lock; both files are disposable test resources.
+            Files.writeString(Path.of(args[0]),"synthetic-change");
+        }
+    }
+    @Test void heldCooperativeLockCannotPreventAnIndependentNonParticipantFromActing()throws Exception{
+        var lockPath=temporary.resolve("cooperative.lock");var statePath=temporary.resolve("synthetic-state");
+        Files.writeString(statePath,"initial");
+        try(var channel=FileChannel.open(lockPath,StandardOpenOption.WRITE,StandardOpenOption.CREATE);var lock=channel.lock();
+            var lease=new KiteEquityReadIsolation(Clock.fixed(KiteEquityReadHarnessTest.NOW,ZoneOffset.UTC),Duration.ofSeconds(10),lock::isValid)){
+            var java=Path.of(System.getProperty("java.home"),"bin","java.exe").toString();
+            var child=new ProcessBuilder(java,"-cp",System.getProperty("surefire.test.class.path",System.getProperty("java.class.path")),
+                    NonCooperatingPeer.class.getName(),statePath.toString()).redirectError(ProcessBuilder.Redirect.DISCARD).start();
+            try{
+                assertThat(child.waitFor(10,TimeUnit.SECONDS)).isTrue();assertThat(child.exitValue()).isZero();
+                assertThat(Files.readString(statePath)).isEqualTo("synthetic-change");
+                assertThat(lease.valid()).isTrue(); // Valid cooperative lease is not global exclusion.
+            }finally{child.destroyForcibly();}
+        }
+    }
     public static class LockPeer {
         public static void main(String[] args)throws Exception{
             try(var channel=FileChannel.open(Path.of(args[0]),StandardOpenOption.WRITE,StandardOpenOption.CREATE)){
