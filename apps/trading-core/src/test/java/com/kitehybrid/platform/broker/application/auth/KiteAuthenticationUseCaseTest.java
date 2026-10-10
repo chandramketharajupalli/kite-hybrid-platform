@@ -256,16 +256,23 @@ class KiteAuthenticationUseCaseTest {
         fixture.clock.now = TOKEN.expiresAt();
 
         assertThat(fixture.useCase.status().code()).isEqualTo("KITE_AUTH_REQUIRED");
-        assertThat(fixture.store.token).isNull();
+        assertThat(fixture.store.token).isSameAs(TOKEN);
+        assertThat(fixture.store.clears).isZero();
         assertSafe(assertThrows(KiteAuthenticationException.class, fixture::complete), REQUEST_TOKEN_ALREADY_USED);
     }
 
-    @Test void runtimeBrokerRejectionClearsTheDurableTokenOnStatus() {
+    @Test void runtimeBrokerRejectionStatusPreservesDurableTokenUntilExplicitRestore() {
         Fixture fixture = new Fixture();
         fixture.complete();
         fixture.session.validated = false;
 
         assertThat(fixture.useCase.status().code()).isEqualTo("KITE_AUTH_REQUIRED");
+        assertThat(fixture.useCase.status().initializationReady()).isFalse();
+        assertThat(fixture.store.token).isSameAs(TOKEN);
+        assertThat(fixture.store.clears).isZero();
+        assertThat(fixture.store.saves).isEqualTo(1);
+        assertThat(fixture.store.loads).isZero();
+        fixture.useCase.restore();
         assertThat(fixture.store.token).isNull();
     }
 

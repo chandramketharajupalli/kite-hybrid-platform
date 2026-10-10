@@ -57,6 +57,28 @@ class KiteTradingReadMapperTest {
         assertTrue(order.exchangeUpdatedAt().isEmpty());
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"COMPLETE", "CANCELLED", "REJECTED", "OPEN", "VALIDATION PENDING", "FUTURE_STATUS"})
+    void normalizedTerminalOrdersDoNotBecomeActiveBecauseOfBrokerTerminology(String status) throws Exception {
+        var node = row(ORDER);
+        node.put("status", status).put("filled_quantity", status.equals("COMPLETE") ? 10 : 0)
+                .put("pending_quantity", status.equals("COMPLETE") ? 0 : 10);
+        var orders = mapper.orders(envelope("[" + node + "]"));
+        var limits = new com.kitehybrid.platform.risk.domain.RiskLimits(true, 10, new BigDecimal("10000"),
+                10, new BigDecimal("10000"), java.time.Duration.ofSeconds(5), java.time.Duration.ofMinutes(1),
+                BigDecimal.ONE, BigDecimal.ONE);
+        var input = new com.kitehybrid.platform.risk.domain.OrderRiskInput(registry.snapshot(), java.util.Map.of(), true,
+                new BrokerPositions(List.of(), List.of()), List.of(), mapper.margins(MARGINS), orders);
+        if (List.of("COMPLETE", "CANCELLED", "REJECTED").contains(status)) {
+            assertDoesNotThrow(() -> com.kitehybrid.platform.risk.domain.CashAccountCapacity
+                    .inspectIntraday(input, limits, INFY.id(), NOW));
+        } else {
+            var denied = assertThrows(com.kitehybrid.platform.risk.domain.CashAccountCapacity.Denied.class,
+                    () -> com.kitehybrid.platform.risk.domain.CashAccountCapacity.inspectIntraday(input, limits, INFY.id(), NOW));
+            assertEquals(com.kitehybrid.platform.risk.domain.RiskReason.OPEN_BROKER_ORDERS, denied.reason());
+        }
+    }
+
     @Test void mapsOptionalBoundedCorrelationTagAndIgnoresMalformedForeignTag() throws Exception {
         var tagged = row(ORDER); tagged.put("tag", "0123456789abcdef0123");
         assertEquals(Optional.of(new BrokerCorrelationId("0123456789abcdef0123")),

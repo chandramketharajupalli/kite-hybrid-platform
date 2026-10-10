@@ -26,6 +26,27 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class TradingReadArchitectureTest {
     @Test
+    void readAdaptersCannotCallSharedTransportOrderMutations() {
+        var classes = new ClassFileImporter().withImportOption(new ImportOption.DoNotIncludeTests())
+                .importPackages("com.kitehybrid.platform");
+        var allowed = Map.of("KiteTradingReadAdapter", Set.of("get"),
+                "KiteProfileAdapter", Set.of("get"), "KiteInstrumentMasterAdapter", Set.of("get"),
+                "KiteHistoricalAdapter", Set.of("historicalMinute", "production"),
+                "KiteOrderMarginAdapter", Set.of("calculateOrderMargin"));
+        for (var entry : allowed.entrySet()) {
+            var adapter = classes.get("com.kitehybrid.platform.broker.infrastructure.kite." + entry.getKey());
+            for (var call : adapter.getMethodCallsFromSelf())
+                if (call.getTargetOwner().getSimpleName().equals("KiteRestTransport"))
+                    assertThat(entry.getValue()).as(call.toString()).contains(call.getTarget().getName());
+        }
+        var status = classes.get("com.kitehybrid.platform.broker.application.auth.KiteAuthenticationUseCase")
+                .getMethod("status");
+        assertThat(status.getMethodCallsFromSelf()).noneMatch(call ->
+                Set.of("reconcileSession", "clearStoredSession", "restore", "save", "loadCurrent")
+                        .contains(call.getTarget().getName()));
+    }
+
+    @Test
     void readPortsAndModelsStayIndependentOfKiteTransportAndTradingDecisions() {
         var classes = new ClassFileImporter().withImportOption(new ImportOption.DoNotIncludeTests())
                 .importPackages("com.kitehybrid.platform");

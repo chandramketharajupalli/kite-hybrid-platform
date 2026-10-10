@@ -88,8 +88,9 @@ public final class KiteAuthenticationUseCase implements com.kitehybrid.platform.
         return currentStatus();
     }
 
+    /** Passive observation: storage cleanup belongs to explicit restore/reset, never a status GET. */
     public synchronized Status status() {
-        if (session.enabled()) reconcileSession();
+        if (activeToken != null && !activeToken.isUsableAt(clock.instant())) clearSession();
         return currentStatus();
     }
 

@@ -23,7 +23,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /** Official Kite endpoint, asynchronous JDK 21 I/O, bounded message assembly and sanitized errors. */
 public final class JdkKiteWebSocketTransport implements KiteWebSocketTransport {
     private static final URI ENDPOINT = URI.create("wss://ws.kite.trade");
-    private static final JsonMapper JSON = JsonMapper.builder().build();
+    private static final JsonMapper JSON = JsonMapper.builder()
+            .enable(com.fasterxml.jackson.core.JsonParser.Feature.STRICT_DUPLICATE_DETECTION)
+            .enable(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_TRAILING_TOKENS).build();
     private final KiteSession session;
     private final Duration connectTimeout;
     private final int maxMessageBytes;

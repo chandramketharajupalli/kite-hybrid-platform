@@ -126,6 +126,35 @@ class KiteRestReadTest {
         fixture.server().verify();
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "{\"status\":\"error\",\"error_type\":\"TokenException\"} {}",
+            "{\"status\":\"success\",\"status\":\"error\",\"error_type\":\"TokenException\"}",
+            "{\"status\":\"error\",\"error_type\":\"GeneralException\",\"error_type\":\"TokenException\"}",
+            "{\"error_type\":\"TokenException\"}"
+    })
+    void ambiguousTokenEnvelopesCannotInvalidateAnAuthenticatedSession(String body) {
+        Fixture fixture = fixture(enabledProperties());
+        fixture.session().profileValidated();
+        var identity = fixture.session().executionIdentity();
+        expectGet(fixture, "/user/profile").andRespond(withSuccess(body, MediaType.APPLICATION_JSON));
+        assertSafe(assertThrows(BrokerReadException.class, fixture.adapter()::currentProfile), INVALID_RESPONSE);
+        assertThat(fixture.session().authenticated()).isTrue();
+        assertThat(fixture.session().executionIdentity()).isEqualTo(identity);
+        fixture.server().verify();
+    }
+
+    @Test
+    void successWithAnUnrelatedErrorTypeDoesNotRejectAuthentication() {
+        Fixture fixture = fixture(enabledProperties());
+        expectGet(fixture, "/user/profile").andRespond(withSuccess(
+                PROFILE.replace("\"status\":\"success\"", "\"status\":\"success\",\"error_type\":\"TokenException\""),
+                MediaType.APPLICATION_JSON));
+        fixture.adapter().currentProfile();
+        assertThat(fixture.session().authenticated()).isTrue();
+        fixture.server().verify();
+    }
+
     @Test
     void localIoFailureDoesNotRetainSensitiveMessageOrCause() {
         Fixture fixture = fixture(enabledProperties());

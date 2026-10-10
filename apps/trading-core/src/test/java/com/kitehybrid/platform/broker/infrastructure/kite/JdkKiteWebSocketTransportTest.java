@@ -231,6 +231,34 @@ class JdkKiteWebSocketTransportTest {
         } finally { send.countDown(); }
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "{\"type\":\"error\",\"data\":\"TokenException\"} {}",
+            "{\"type\":\"notice\",\"type\":\"error\",\"data\":\"TokenException\"}"
+    })
+    void ambiguousTextCannotInvalidateSession(String message) throws Exception {
+        var send = new CountDownLatch(1);
+        try (var server = new LocalPeer(socket -> {
+            handshake(socket);
+            assertThat(send.await(5, TimeUnit.SECONDS)).isTrue();
+            sendFrame(socket, 1, true, message.getBytes(StandardCharsets.UTF_8));
+            assertThat(socket.getInputStream().read()).isEqualTo(-1);
+        })) {
+            var session = session();
+            var identity = session.executionIdentity();
+            var listener = new RecordingListener();
+            var connection = transport(session, server, 1024).connect(listener).get(5, TimeUnit.SECONDS);
+            try {
+                send.countDown();
+                assertThat(listener.text.poll(5, TimeUnit.SECONDS)).isEqualTo(message);
+                assertThat(listener.failures).isEmpty();
+                assertThat(session.authenticated()).isTrue();
+                assertThat(session.executionIdentity()).isEqualTo(identity);
+            } finally { connection.abort(); }
+            server.await();
+        } finally { send.countDown(); }
+    }
+
     @Test void recognizedAuthenticationCloseInvalidatesSession() throws Exception {
         var send = new CountDownLatch(1);
         try (var server = new LocalPeer(socket -> {

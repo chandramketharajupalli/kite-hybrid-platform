@@ -223,6 +223,33 @@ class KiteAuthenticationRestartIntegrationTest {
         }
     }
 
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.ValueSource(ints = {401, 403, 429, 500, 503})
+    void passiveStatusAfterReadRejectionPreservesEncryptedRowAndHalt(int status) {
+        try (ConfigurableApplicationContext app = startApplication()) {
+            var auth = app.getBean(KiteAuthenticationUseCase.class);
+            auth.complete("syntheticRequestToken", "success", "login", null);
+            var jdbc = app.getBean(JdbcTemplate.class);
+            var before = jdbc.queryForObject("SELECT md5(row_to_json(t)::text) FROM trading.kite_access_tokens t", String.class);
+            var http = app.getBean(FakeTradingHttp.class);
+            http.server.expect(requestTo("https://api.kite.trade/user/margins"))
+                    .andExpect(method(HttpMethod.GET))
+                    .andRespond(withStatus(org.springframework.http.HttpStatus.valueOf(status)));
+            assertThatThrownBy(() -> app.getBean(BrokerMarginsProvider.class).margins())
+                    .isInstanceOf(BrokerReadException.class);
+            assertThat(auth.status().authenticated()).isEqualTo(status != 401 && status != 403);
+            assertThat(auth.status().initializationReady()).isEqualTo(status != 401 && status != 403);
+            assertThat(jdbc.queryForObject("SELECT md5(row_to_json(t)::text) FROM trading.kite_access_tokens t", String.class))
+                    .isEqualTo(before);
+            assertThat(app.getBean(com.kitehybrid.platform.shared.application.RuntimeTradingHalt.class).getAsBoolean()).isTrue();
+            assertThat(app.getBean(com.kitehybrid.platform.health.TradingStatusEndpoint.class).status())
+                    .containsEntry("ready", false);
+            assertThat(jdbc.queryForObject("SELECT count(*) FROM trading.orders", Integer.class)).isZero();
+            assertThat(jdbc.queryForObject("SELECT count(*) FROM trading.execution_authorizations", Integer.class)).isZero();
+            http.server.verify();
+        }
+    }
+
     private static ConfigurableApplicationContext startApplication() {
         return new SpringApplicationBuilder(TradingCoreApplication.class, FakeBrokerConfiguration.class)
                 .web(WebApplicationType.NONE)

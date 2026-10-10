@@ -32,7 +32,9 @@ final class KiteRestTransport {
     }
     private final RestClient client;
     private final KiteSession session;
-    private final ObjectMapper json = new ObjectMapper();
+    private final ObjectMapper json = new ObjectMapper()
+            .enable(com.fasterxml.jackson.core.JsonParser.Feature.STRICT_DUPLICATE_DETECTION)
+            .enable(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
 
     KiteRestTransport(RestClient client, KiteSession session) {
         this.client = client;
@@ -195,7 +197,11 @@ final class KiteRestTransport {
     }
     private boolean isTokenError(String body) {
         if (!body.stripLeading().startsWith("{")) return false;
-        try { return "TokenException".equals(json.readTree(body).path("error_type").asText()); }
+        try {
+            var root = json.readTree(body);
+            return root != null && "error".equals(root.path("status").textValue())
+                    && "TokenException".equals(root.path("error_type").textValue());
+        }
         catch (IOException ignored) { return false; }
     }
 }

@@ -12,7 +12,7 @@ class ConservativeValuationArchitectureTest {
     @Test void accountCapacityAndRevalidationCanOnlyUseReadPorts() {
         var classes = new ClassFileImporter().withImportOption(new ImportOption.DoNotIncludeTests())
                 .importPackages("com.kitehybrid.platform");
-        noClasses().that().haveNameMatching(".*(CashAccountCapacity|IntradayAccountCapacity).*" ).should().dependOnClassesThat()
+        noClasses().that().haveNameMatching(".*(CashAccountCapacity|IntradayAccountCapacity|IntradayFundingEvidence).*" ).should().dependOnClassesThat()
                 .resideInAnyPackage("..infrastructure..", "..application..", "org.springframework..", "java.net..", "java.sql..")
                 .check(classes);
         noClasses().that().haveSimpleName("CurrentAccountExecutionChecks").should().dependOnClassesThat()
