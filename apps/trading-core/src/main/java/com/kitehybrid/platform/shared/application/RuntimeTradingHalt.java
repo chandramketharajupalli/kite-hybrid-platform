@@ -30,6 +30,12 @@ public final class RuntimeTradingHalt implements BooleanSupplier {
     /** Always changes identity: even repeated HALT invalidates outstanding resume confirmations. */
     public boolean halt() { return current.getAndSet(new Epoch(State.HALTED)).state != State.HALTED; }
     public Epoch epoch() { return current.get(); }
+    /** Diagnostic evidence only: unknown startup state denies observation, while execution stays halted. */
+    public boolean knownHaltedAt(Epoch observed) {
+        if (observed == null || observed.state != State.HALTED || current.get() != observed) return false;
+        try { return startupHalt.getAsBoolean() && current.get() == observed; }
+        catch (RuntimeException unavailable) { return false; }
+    }
     public boolean runningAt(Epoch observed) {
         return observed != null && observed.state == State.RUNNING && current.get() == observed && !startupHalted();
     }

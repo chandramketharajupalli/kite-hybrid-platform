@@ -52,7 +52,7 @@ class KiteEquityReadHarnessIntegrationTest {
         session.profileValidated();return session; // Test-only prior authentication; no broker profile call.
     }
 
-    @ParameterizedTest @ValueSource(strings={"success","401","403","429","500","503","timeout","malformed","duplicate","trailing","oversized","session","isolation-loss","response-loss"})
+    @ParameterizedTest @ValueSource(strings={"success","301","302","307","308","401","403","429","500","503","timeout","malformed","duplicate","trailing","oversized","session","isolation-loss","response-loss"})
     void isolatedReadPreservesTokensEveryTableAndHaltOnAllBrokerOutcomes(String response)throws Exception{
         exercise(response,false);
     }
@@ -80,6 +80,7 @@ class KiteEquityReadHarnessIntegrationTest {
             if(response.equals("trailing"))body+="{}";
             if(response.equals("oversized"))body=" ".repeat(65537);
             int status=response.matches("[0-9]{3}")?Integer.parseInt(response):200;
+            if(status>=300 && status<400)exchange.getResponseHeaders().set("Location","/orders");
             byte[] bytes=body.getBytes(java.nio.charset.StandardCharsets.UTF_8);
             try{exchange.sendResponseHeaders(status,bytes.length);exchange.getResponseBody().write(bytes);}finally{exchange.close();}
         });peer.start();
@@ -159,6 +160,68 @@ class KiteEquityReadHarnessIntegrationTest {
             assertThatThrownBy(()->statement.execute("CREATE TABLE trading.fixture_forbidden(x integer)")).isInstanceOf(SQLException.class);
             assertThatThrownBy(()->statement.execute("SET ROLE "+postgres.getUsername())).isInstanceOf(SQLException.class);
             assertThat(new KiteEquityReadIntegrity(connection).capture().toString()).isEqualTo("EquityReadIntegrity[REDACTED]");
+        }
+    }
+
+    @Test void committedWriteAndRestorationBetweenSnapshotsCannotCertifyWriterExclusion()throws Exception{
+        try(var connection=observer()){
+            var guard=new KiteEquityReadIntegrity(connection);var before=guard.capture();
+            // Two committed transactions, completely between observations; no cooperative lock is consulted.
+            try(var writer=DriverManager.getConnection(postgres.getJdbcUrl(),postgres.getUsername(),postgres.getPassword());
+                var statement=writer.createStatement()){
+                assertThat(statement.executeUpdate("UPDATE trading.kite_access_tokens SET expires_at=expires_at+interval '1 second'")).isEqualTo(1);
+                assertThat(statement.executeUpdate("UPDATE trading.kite_access_tokens SET expires_at=expires_at-interval '1 second'")).isEqualTo(1);
+            }
+            assertTrue(before.matches(guard.capture()),"Equal snapshots do not establish absence of intervening writes");
+        }
+    }
+
+    @ParameterizedTest @ValueSource(strings={"insert","update","delete","truncate","ddl","sequence","role","function"})
+    void observerPrivilegesDenyMutationEvenWithoutTransactionReadOnlyFallback(String operation)throws Exception{
+        admin.execute("CREATE SEQUENCE trading.fixture_sequence");
+        admin.execute("CREATE FUNCTION public.fixture_write() RETURNS void LANGUAGE sql SECURITY DEFINER AS 'UPDATE trading.kite_access_tokens SET expires_at=expires_at+interval ''1 second''' ");
+        admin.execute("REVOKE ALL ON FUNCTION public.fixture_write() FROM PUBLIC");
+        try(var connection=observer();var statement=connection.createStatement()){
+            var guard=new KiteEquityReadIntegrity(connection);var before=guard.capture();
+            // Fixture only: prove ACL denial independently of transaction_read_only.
+            statement.execute("SET default_transaction_read_only=off");
+            String sql=switch(operation){
+                case "insert"->"INSERT INTO trading.kite_access_tokens SELECT * FROM trading.kite_access_tokens WHERE false";
+                case "update"->"UPDATE trading.kite_access_tokens SET expires_at=expires_at";
+                case "delete"->"DELETE FROM trading.kite_access_tokens";
+                case "truncate"->"TRUNCATE trading.kite_access_tokens";
+                case "ddl"->"CREATE TABLE trading.fixture_forbidden(x integer)";
+                case "sequence"->"SELECT nextval('trading.fixture_sequence')";
+                case "role"->"SET ROLE "+postgres.getUsername();
+                case "function"->"SELECT public.fixture_write()";
+                default->throw new IllegalArgumentException();
+            };
+            var denied=org.junit.jupiter.api.Assertions.assertThrows(SQLException.class,()->statement.execute(sql));
+            assertThat(denied.getSQLState()).isEqualTo("42501");
+            statement.execute("SET default_transaction_read_only=on");
+            assertTrue(before.matches(guard.capture()),"Mutation attempt changed private evidence");
+        }finally{
+            admin.execute("DROP FUNCTION public.fixture_write()");
+            admin.execute("DROP SEQUENCE trading.fixture_sequence");
+        }
+    }
+
+    @ParameterizedTest @ValueSource(strings={"sequence","write-function"})
+    void newlyGrantedMutatingPrivilegeAbortsBeforeHttp(String privilege)throws Exception{
+        if(privilege.equals("sequence")){
+            admin.execute("CREATE SEQUENCE trading.fixture_sequence");
+            admin.execute("GRANT USAGE ON SEQUENCE trading.fixture_sequence TO controlled_observer");
+        }else{
+            admin.execute("CREATE FUNCTION public.fixture_write() RETURNS void LANGUAGE sql SECURITY DEFINER AS 'UPDATE trading.kite_access_tokens SET expires_at=expires_at+interval ''1 second''' ");
+        }
+        try(var connection=observer();var wire=KiteEquityReadRequestFactory.loopback(URI.create("http://127.0.0.1:1"),Duration.ofMillis(100))){
+            var harness=new KiteEquityReadHarness(wire,session(),new KiteEquityReadIntegrity(connection),
+                    new RuntimeTradingHalt(()->true),Clock.fixed(NOW,ZoneOffset.UTC),Mode.SYNTHETIC);
+            assertThat(harness.run().outcome()).isEqualTo(Outcome.PRECONDITION_DENIED);
+            assertThat(wire.attempts()).isZero();
+        }finally{
+            if(privilege.equals("sequence"))admin.execute("DROP SEQUENCE trading.fixture_sequence");
+            else admin.execute("DROP FUNCTION public.fixture_write()");
         }
     }
 

@@ -21,6 +21,22 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class RuntimeTradingHaltTest {
+    @Test void diagnosticEvidenceDistinguishesUnknownFromExecutionFailSafe() {
+        var unavailable=new RuntimeTradingHalt(()->{throw new IllegalStateException("private");});
+        assertTrue(unavailable.status().effectiveHalted());
+        assertFalse(unavailable.knownHaltedAt(unavailable.epoch()));
+        var startup=new java.util.concurrent.atomic.AtomicBoolean(true);
+        var halt=new RuntimeTradingHalt(startup::get);var epoch=halt.epoch();
+        assertTrue(halt.knownHaltedAt(epoch));
+        startup.set(false);assertFalse(halt.knownHaltedAt(epoch));assertTrue(halt.getAsBoolean());
+        startup.set(true);halt.halt();assertFalse(halt.knownHaltedAt(epoch));
+        assertTrue(halt.knownHaltedAt(halt.epoch()));assertFalse(halt.knownHaltedAt(null));
+    }
+    @Test void epochChangeWhileReadingStartupEvidenceDeniesDiagnostic() {
+        var ref=new java.util.concurrent.atomic.AtomicReference<RuntimeTradingHalt>();
+        var halt=new RuntimeTradingHalt(()->{ref.get().halt();return true;});ref.set(halt);
+        assertFalse(halt.knownHaltedAt(halt.epoch()));assertTrue(halt.getAsBoolean());
+    }
     static final Instant NOW=Instant.parse("2026-09-28T06:00:00Z");
     @Configuration @EnableConfigurationProperties(TradingProperties.class) static class Properties {}
 

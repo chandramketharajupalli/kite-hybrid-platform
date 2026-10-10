@@ -66,12 +66,11 @@ final class KiteEquityReadHandoff implements AutoCloseable {
     }
     private synchronized void requireValid() {
         try {
-            var now=clock.instant(); var status=halt.status();
+            var now=clock.instant();
             if (revoked || !owner.alive.get() || now.isBefore(last) || !now.isBefore(expires)
                     || !isolation.valid() || !session.authenticated()
                     || !session.executionIdentity().orElseThrow().equals(identity)
-                    || halt.epoch()!=epoch || !status.startupHalted() || !status.effectiveHalted()
-                    || status.runtimeState()!=RuntimeTradingHalt.State.HALTED) throw denied();
+                    || !halt.knownHaltedAt(epoch)) throw denied();
             last=now;
         } catch (RuntimeException unavailable) { revoked=true; throw denied(); }
     }

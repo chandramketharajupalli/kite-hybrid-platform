@@ -42,7 +42,7 @@ class KiteEquityReadRequestFactoryTest {
             assertThrows(BrokerReadException.class,()->wire.createRequest(wire.origin().resolve(KiteEquityReadRequestFactory.PATH),HttpMethod.GET));
         }
     }
-    @ParameterizedTest @ValueSource(ints={200,302,401,403,429,500,503})
+    @ParameterizedTest @ValueSource(ints={200,301,302,307,308,401,403,429,500,503})
     void oneLoopbackRequestNoRedirectOrRetry(int status) throws Exception {
         var calls=new AtomicInteger();
         var server=HttpServer.create(new InetSocketAddress("127.0.0.1",0),0);
@@ -51,7 +51,7 @@ class KiteEquityReadRequestFactoryTest {
             assertThat(exchange.getRequestMethod()).isEqualTo("GET");
             assertThat(exchange.getRequestURI().toString()).isEqualTo(KiteEquityReadRequestFactory.PATH);
             assertThat(exchange.getRequestHeaders().getFirst("Authorization")).isEqualTo("token syntheticKey:syntheticToken");
-            if(status==302)exchange.getResponseHeaders().set("Location","/orders");
+            if(status>=300 && status<400)exchange.getResponseHeaders().set("Location","/orders");
             var body=KiteTradingReadFixtures.envelope(KiteTradingReadFixtures.SEGMENT).getBytes(java.nio.charset.StandardCharsets.UTF_8);
             exchange.sendResponseHeaders(status,body.length);exchange.getResponseBody().write(body);exchange.close();
         });server.start();
@@ -87,6 +87,20 @@ class KiteEquityReadRequestFactoryTest {
             assertThat(wire.origin()).isEqualTo(URI.create("https://api.kite.trade"));
             assertThat(wire.officialOrigin()).isTrue();assertThat(wire.attempts()).isZero();
         }
+    }
+    @ParameterizedTest @ValueSource(strings={"org.apache.hc.client5.http.wire","org.apache.hc.client5.http.headers"})
+    void loggingChangeAfterRequestCreationBurnsAttemptWithoutDispatch(String name) throws Exception {
+        var logger=(ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger(name);var old=logger.getLevel();
+        var calls=new AtomicInteger();var peer=HttpServer.create(new InetSocketAddress("127.0.0.1",0),0);
+        peer.createContext("/",e->{calls.incrementAndGet();e.sendResponseHeaders(200,-1);e.close();});peer.start();
+        try(var wire=KiteEquityReadRequestFactory.loopback(URI.create("http://127.0.0.1:"+peer.getAddress().getPort()),Duration.ofSeconds(1))) {
+            var request=wire.createRequest(wire.origin().resolve(KiteEquityReadRequestFactory.PATH),HttpMethod.GET);
+            logger.setLevel(ch.qos.logback.classic.Level.DEBUG);
+            assertThrows(BrokerReadException.class,request::execute);
+            logger.setLevel(old);
+            assertThrows(BrokerReadException.class,request::execute);
+            assertThat(calls).hasValue(0);assertThat(wire.attempts()).isEqualTo(1);
+        }finally{logger.setLevel(old);peer.stop(0);}
     }
     @Test void officialFactoriesShareProcessBudgetWithoutExecutingAnyRequest() throws Exception {
         try(var first=KiteEquityReadRequestFactory.official();var second=KiteEquityReadRequestFactory.official()) {

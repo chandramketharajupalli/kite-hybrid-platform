@@ -92,9 +92,7 @@ final class KiteEquityReadHarness implements AutoCloseable {
         } catch (RuntimeException changed) { return result(Outcome.STATE_CHANGED,false,null); }
     }
     private void requireHalt(RuntimeTradingHalt.Epoch epoch) {
-        var status=halt.status();
-        if (halt.epoch()!=epoch || !status.startupHalted() || !status.effectiveHalted()
-                || status.runtimeState()!=RuntimeTradingHalt.State.HALTED) throw new IllegalStateException();
+        if (!halt.knownHaltedAt(epoch)) throw new IllegalStateException();
     }
     private Result result(Outcome outcome,boolean preserved,KiteEquityMarginReadAdapter.Observation observation) {
         return new Result(outcome,wire.attempts(),preserved,observation);

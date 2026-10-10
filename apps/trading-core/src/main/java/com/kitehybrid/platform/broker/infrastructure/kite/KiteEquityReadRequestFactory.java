@@ -55,6 +55,7 @@ final class KiteEquityReadRequestFactory implements ClientHttpRequestFactory, Au
         delegate = new HttpComponentsClientHttpRequestFactory(client);
     }
     @Override public ClientHttpRequest createRequest(URI uri, HttpMethod method) throws IOException {
+        requireSafeLogging();
         syntheticGuard.run();
         if (closed.get() || method != HttpMethod.GET || !origin.resolve(PATH).equals(uri)) {
             close(); throw denied();
@@ -71,6 +72,7 @@ final class KiteEquityReadRequestFactory implements ClientHttpRequestFactory, Au
             @Override public java.io.OutputStream getBody() throws IOException { return request.getBody(); }
             @Override public ClientHttpResponse execute() throws IOException {
                 if (closed.get() || !executed.compareAndSet(false,true)) throw denied();
+                requireSafeLogging();
                 syntheticGuard.run();
                 return request.execute();
             }
@@ -79,6 +81,12 @@ final class KiteEquityReadRequestFactory implements ClientHttpRequestFactory, Au
     URI origin() { return origin; }
     boolean officialOrigin() { return official; }
     int attempts() { return attempted.get() ? 1 : 0; }
+    private void requireSafeLogging() {
+        if (org.slf4j.LoggerFactory.getLogger("org.apache.hc.client5.http.wire").isDebugEnabled()
+                || org.slf4j.LoggerFactory.getLogger("org.apache.hc.client5.http.headers").isDebugEnabled()) {
+            close(); throw denied();
+        }
+    }
     @Override public void close() {
         closed.set(true);
         try { client.close(); } catch (IOException ignored) { /* Never expose a wire exception. */ }

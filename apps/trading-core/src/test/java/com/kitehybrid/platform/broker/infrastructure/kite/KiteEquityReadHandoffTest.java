@@ -10,6 +10,64 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class KiteEquityReadHandoffTest {
+    @ParameterizedTest @ValueSource(strings={"issue","admission","response"})
+    void unknownHaltEvidenceNeverProducesAnObservation(String stage)throws Exception{
+        try(var f=new KiteEquityReadHarnessTest.Fixture();var owner=new KiteEquityReadHandoff.Owner();
+            var isolation=new KiteEquityReadIsolation(f.clock,Duration.ofSeconds(10),()->true)){
+            var known=new AtomicBoolean(!stage.equals("issue"));
+            var halt=new com.kitehybrid.platform.shared.application.RuntimeTradingHalt(()->{
+                if(!known.get())throw new IllegalStateException("privateHaltMarker");return true;
+            });
+            var recipient=new KiteEquityReadHandoff.Recipient();
+            if(stage.equals("issue")){
+                assertThatThrownBy(()->new KiteEquityReadHandoff(owner,recipient,f.session,halt,isolation,f.clock,
+                        Duration.ofSeconds(5),f.wire,f.integrity)).hasMessageNotContaining("privateHaltMarker");
+                var direct=new KiteEquityReadHarness(f.wire,f.session,f.integrity,halt,f.clock,KiteEquityReadHarness.Mode.SYNTHETIC);
+                assertThat(direct.run().outcome()).isEqualTo(KiteEquityReadHarness.Outcome.PRECONDITION_DENIED);
+                assertThat(f.calls).hasValue(0);return;
+            }
+            try(var handoff=new KiteEquityReadHandoff(owner,recipient,f.session,halt,isolation,f.clock,
+                    Duration.ofSeconds(5),f.wire,f.integrity)){
+                if(stage.equals("admission")){
+                    known.set(false);
+                    assertThatThrownBy(()->handoff.consume(owner,recipient,"GET",PATH)).isInstanceOf(RuntimeException.class);
+                    assertThat(f.calls).hasValue(0);
+                }else{
+                    f.onResponse=()->known.set(false);
+                    var result=handoff.consume(owner,recipient,"GET",PATH);
+                    assertThat(result.outcome()).isEqualTo(KiteEquityReadHarness.Outcome.STATE_CHANGED);
+                    assertThat(result.observation()).isNull();verify(f.integrity,times(2)).capture();
+                    assertThat(f.calls).hasValue(1);
+                }
+                assertThat(halt.getAsBoolean()).isTrue();
+            }
+        }
+    }
+    @ParameterizedTest @ValueSource(strings={"owner","epoch","session"})
+    void concurrentInvalidationDuringResponseDiscardsReceiptAndStillChecksIntegrity(String reason)throws Exception{
+        try(var f=new Fixture();var pool=Executors.newSingleThreadExecutor()){
+            f.base.onResponse=()->{
+                try{pool.submit(()->{
+                    switch(reason){case "owner"->f.owner.close();case "epoch"->f.base.halt.halt();
+                        case "session"->f.base.session.rejectMarketData(f.base.session.marketDataStatus().generation());}
+                }).get(5,TimeUnit.SECONDS);}catch(Exception failure){throw new IllegalStateException(failure);}
+            };
+            var result=f.consume();assertThat(result.observation()).isNull();
+            assertThat(result.outcome()).isEqualTo(KiteEquityReadHarness.Outcome.STATE_CHANGED);
+            verify(f.base.integrity,times(2)).capture();assertThat(f.base.calls).hasValue(1);
+            assertThatThrownBy(f::consume).isInstanceOf(RuntimeException.class);
+        }
+    }
+    @Test void historicalReceiptDoesNotPreserveCapabilityAfterSessionInvalidation()throws Exception{
+        try(var f=new Fixture()){
+            var receipt=f.consume();f.base.session.clear();
+            assertThat(receipt.observation().provenance()).isEqualTo(KiteEquityMarginReadAdapter.Provenance.SYNTHETIC_TRANSPORT);
+            assertThat(f.handoff.inspect(f.owner,f.recipient)).isFalse();
+            assertThatThrownBy(f::consume).isInstanceOf(RuntimeException.class);
+            assertThat(f.base.calls).hasValue(1);
+            // The detached timestamp/provenance receipt is historical, not a live capability or funding proof.
+        }
+    }
     static final String PATH="/user/margins/equity";
     static final class Fixture implements AutoCloseable {
         final KiteEquityReadHarnessTest.Fixture base=new KiteEquityReadHarnessTest.Fixture();
