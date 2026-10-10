@@ -20,6 +20,7 @@ final class KiteEquityReadHarness implements AutoCloseable {
     private final RuntimeTradingHalt halt;
     private final Clock clock;
     private final Mode mode;
+    private final Runnable guard;
     private final AtomicBoolean used = new AtomicBoolean();
 
     KiteEquityReadHarness(KiteEquityReadRequestFactory wire, KiteSession session, KiteEquityReadIntegrity integrity,
@@ -28,9 +29,14 @@ final class KiteEquityReadHarness implements AutoCloseable {
     }
     KiteEquityReadHarness(KiteEquityReadRequestFactory wire, KiteSession session, KiteEquityReadIntegrity integrity,
                          RuntimeTradingHalt halt, Clock clock, Mode mode) {
+        this(wire,session,integrity,halt,clock,mode,()->{});
+    }
+    KiteEquityReadHarness(KiteEquityReadRequestFactory wire, KiteSession session, KiteEquityReadIntegrity integrity,
+                         RuntimeTradingHalt halt, Clock clock, Mode mode, Runnable guard) {
         this.wire=Objects.requireNonNull(wire); this.session=Objects.requireNonNull(session);
         this.integrity=Objects.requireNonNull(integrity); this.halt=Objects.requireNonNull(halt);
         this.clock=Objects.requireNonNull(clock); this.mode=Objects.requireNonNull(mode);
+        this.guard=Objects.requireNonNull(guard);
         adapter=new KiteEquityMarginReadAdapter(KiteRestTransport.controlledEquity(session,wire),session,clock,true);
     }
     Result run() {
@@ -41,6 +47,7 @@ final class KiteEquityReadHarness implements AutoCloseable {
         KiteEquityReadIntegrity.Fingerprint before;
         java.util.UUID identity;
         try {
+            guard.run();
             requireHalt(epoch);
             if (org.slf4j.LoggerFactory.getLogger("org.apache.hc.client5.http.wire").isDebugEnabled()
                     || org.slf4j.LoggerFactory.getLogger("org.apache.hc.client5.http.headers").isDebugEnabled())
@@ -48,6 +55,7 @@ final class KiteEquityReadHarness implements AutoCloseable {
             if (!session.authenticated()) return result(Outcome.AUTHENTICATION,false,null);
             identity=session.executionIdentity().orElseThrow();
             before=integrity.capture();
+            guard.run();
             requireHalt(epoch);
             if (!session.authenticated() || !session.executionIdentity().orElseThrow().equals(identity))
                 return result(Outcome.AUTHENTICATION,false,null);
@@ -69,8 +77,8 @@ final class KiteEquityReadHarness implements AutoCloseable {
             };
         } catch (RuntimeException failure) { outcome=Outcome.INVALID_RESPONSE; }
         try {
-            requireHalt(epoch);
             if (!before.matches(integrity.capture())) return result(Outcome.STATE_CHANGED,false,null);
+            guard.run();
             requireHalt(epoch);
             if (session.executionIdentity().isPresent() && !session.executionIdentity().orElseThrow().equals(identity))
                 outcome=Outcome.AUTHENTICATION;

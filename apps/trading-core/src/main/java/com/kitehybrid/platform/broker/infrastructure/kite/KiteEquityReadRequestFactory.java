@@ -24,6 +24,13 @@ final class KiteEquityReadRequestFactory implements ClientHttpRequestFactory, Au
     private final AtomicBoolean closed = new AtomicBoolean();
     private final CloseableHttpClient client;
     private final HttpComponentsClientHttpRequestFactory delegate;
+    private Runnable syntheticGuard=()->{};
+    private boolean guardBound;
+
+    synchronized void bindSyntheticGuard(Runnable guard) {
+        if (official || guardBound || attempted.get() || closed.get() || guard==null) throw denied();
+        guardBound=true; syntheticGuard=guard;
+    }
 
     static KiteEquityReadRequestFactory official() {
         return new KiteEquityReadRequestFactory(OFFICIAL, true, Duration.ofSeconds(30));
@@ -48,12 +55,26 @@ final class KiteEquityReadRequestFactory implements ClientHttpRequestFactory, Au
         delegate = new HttpComponentsClientHttpRequestFactory(client);
     }
     @Override public ClientHttpRequest createRequest(URI uri, HttpMethod method) throws IOException {
+        syntheticGuard.run();
         if (closed.get() || method != HttpMethod.GET || !origin.resolve(PATH).equals(uri)) {
             close(); throw denied();
         }
         if (!attempted.compareAndSet(false, true)
                 || (official && !REAL_PROCESS_ATTEMPT.compareAndSet(false, true))) throw denied();
-        return delegate.createRequest(uri, method);
+        var request=delegate.createRequest(uri, method);
+        return new ClientHttpRequest() {
+            private final AtomicBoolean executed=new AtomicBoolean();
+            @Override public HttpMethod getMethod() { return request.getMethod(); }
+            @Override public URI getURI() { return request.getURI(); }
+            @Override public java.util.Map<String,Object> getAttributes() { return request.getAttributes(); }
+            @Override public org.springframework.http.HttpHeaders getHeaders() { return request.getHeaders(); }
+            @Override public java.io.OutputStream getBody() throws IOException { return request.getBody(); }
+            @Override public ClientHttpResponse execute() throws IOException {
+                if (closed.get() || !executed.compareAndSet(false,true)) throw denied();
+                syntheticGuard.run();
+                return request.execute();
+            }
+        };
     }
     URI origin() { return origin; }
     boolean officialOrigin() { return official; }

@@ -26,6 +26,11 @@ final class KiteEquityReadIntegrity {
                     || !"on".equals(scalar("SHOW transaction_read_only"))) throw denied();
             if (!"0".equals(scalar("SELECT count(*) FROM pg_roles WHERE rolname=current_user AND (rolsuper OR rolcreaterole OR rolcreatedb OR rolreplication OR rolbypassrls)"))) throw denied();
             if (!"true".equals(scalar("SELECT pg_has_role(current_user,'pg_read_all_stats','USAGE')::text"))) throw denied();
+            if (!"0".equals(scalar("SELECT count(*) FROM pg_roles WHERE rolname<>current_user AND rolname<>'pg_read_all_stats' AND pg_has_role(current_user,oid,'MEMBER')"))) throw denied();
+            if (!"0".equals(scalar("SELECT count(*) FROM pg_database WHERE datname=current_database() AND has_database_privilege(oid,'CREATE,TEMP')"))) throw denied();
+            if (!"0".equals(scalar("SELECT count(*) FROM pg_namespace WHERE left(nspname,3)<>'pg_' AND nspname<>'information_schema' AND has_schema_privilege(oid,'CREATE')"))) throw denied();
+            // Conservative: no executable application-defined function, including SECURITY DEFINER.
+            if (!"0".equals(scalar("SELECT count(*) FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE left(n.nspname,3)<>'pg_' AND n.nspname<>'information_schema' AND has_function_privilege(p.oid,'EXECUTE')"))) throw denied();
             if (!"0".equals(scalar("SELECT count(*) FROM pg_stat_activity WHERE datname=current_database() AND backend_type='client backend' AND pid<>pg_backend_pid()"))) throw denied();
             if (!"0".equals(scalar("SELECT count(*) FROM pg_prepared_xacts WHERE database=current_database()"))) throw denied();
             if (!"0".equals(scalar("SELECT count(*) FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='trading' AND c.relkind IN ('r','p') AND (has_table_privilege(c.oid,'INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER') OR NOT has_table_privilege(c.oid,'SELECT'))"))) throw denied();
@@ -39,6 +44,8 @@ final class KiteEquityReadIntegrity {
             if (!names.containsAll(REQUIRED) || !"1".equals(scalar("SELECT count(*) FROM trading.kite_access_tokens"))
                     || !"0".equals(scalar("SELECT count(*) FROM trading.execution_authorizations WHERE allowed"))) throw denied();
             var result = new TreeMap<String,String>();
+            String schema=scalar("SELECT coalesce(string_agg(c.relname||':'||a.attnum||':'||a.attname||':'||a.atttypid||':'||a.atttypmod||':'||a.attnotnull,',' ORDER BY c.relname,a.attnum),'') FROM pg_attribute a JOIN pg_class c ON c.oid=a.attrelid JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='trading' AND c.relkind IN ('r','p') AND a.attnum>0 AND NOT a.attisdropped");
+            result.put("@schema",HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(schema.getBytes(StandardCharsets.UTF_8))));
             for (var name : names) {
                 var hash = MessageDigest.getInstance("SHA-256"); long count=0;
                 try (var statement = statement(); var rows = statement.executeQuery("SELECT row_to_json(t)::text FROM trading.\""+name+"\" t ORDER BY row_to_json(t)::text")) {
@@ -52,6 +59,7 @@ final class KiteEquityReadIntegrity {
                 }
                 result.put(name,count+":"+HexFormat.of().formatHex(hash.digest()));
             }
+            if (!"0".equals(scalar("SELECT count(*) FROM pg_stat_activity WHERE datname=current_database() AND backend_type='client backend' AND pid<>pg_backend_pid()"))) throw denied();
             return new Fingerprint(result);
         } catch (Exception failure) { throw denied(); }
     }

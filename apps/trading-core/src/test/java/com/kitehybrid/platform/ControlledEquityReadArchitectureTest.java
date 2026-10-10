@@ -28,7 +28,17 @@ class ControlledEquityReadArchitectureTest {
                     assertThat(call.getTarget().getName()).isEqualTo("controlledEquity");
                 if(call.getTargetOwner().getName().startsWith("java.sql."))
                     assertThat(call.getTarget().getName()).isNotEqualTo("execute");
+                if(type.getSimpleName().startsWith("KiteEquityReadHandoff")
+                        && call.getTargetOwner().getSimpleName().equals("KiteSession"))
+                    assertThat(call.getTarget().getName()).isIn("authenticated","executionIdentity");
             }
         }
+    }
+    @Test void handoffAndIsolationCannotAcquireNetworkCredentialsOrPersistCapabilities() {
+        var classes=new ClassFileImporter().withImportOption(new ImportOption.DoNotIncludeTests()).importPackages("com.kitehybrid.platform");
+        noClasses().that().haveNameMatching(".*KiteEquityRead(Handoff|Isolation).*" ).should()
+                .dependOnClassesThat().resideInAnyPackage("java.io..","java.nio.file..","java.net..",
+                        "javax.sql..","java.sql..","org.springframework..","com.fasterxml.jackson.databind..")
+                .check(classes);
     }
 }

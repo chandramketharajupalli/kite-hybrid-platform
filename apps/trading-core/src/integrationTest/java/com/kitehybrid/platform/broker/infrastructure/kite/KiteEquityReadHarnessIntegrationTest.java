@@ -34,6 +34,7 @@ class KiteEquityReadHarnessIntegrationTest {
                 .locations("classpath:db/migration").load().migrate();
         admin=new JdbcTemplate(new DriverManagerDataSource(postgres.getJdbcUrl(),postgres.getUsername(),postgres.getPassword()));
         admin.execute("CREATE ROLE controlled_observer LOGIN PASSWORD 'syntheticDisposableOnly'");
+        admin.execute("REVOKE TEMP ON DATABASE "+postgres.getDatabaseName()+" FROM PUBLIC");
         admin.execute("GRANT pg_read_all_stats TO controlled_observer");
         admin.execute("GRANT USAGE ON SCHEMA trading TO controlled_observer");
         admin.execute("GRANT SELECT ON ALL TABLES IN SCHEMA trading TO controlled_observer");
@@ -51,7 +52,7 @@ class KiteEquityReadHarnessIntegrationTest {
         session.profileValidated();return session; // Test-only prior authentication; no broker profile call.
     }
 
-    @ParameterizedTest @ValueSource(strings={"success","401","403","429","500","503","timeout","malformed","duplicate","trailing","oversized","session"})
+    @ParameterizedTest @ValueSource(strings={"success","401","403","429","500","503","timeout","malformed","duplicate","trailing","oversized","session","isolation-loss","response-loss"})
     void isolatedReadPreservesTokensEveryTableAndHaltOnAllBrokerOutcomes(String response)throws Exception{
         exercise(response,false);
     }
@@ -60,10 +61,13 @@ class KiteEquityReadHarnessIntegrationTest {
         exercise(response,true);
     }
     void exercise(String response,boolean changed)throws Exception{
+        var isolated=new java.util.concurrent.atomic.AtomicBoolean(true);
         var calls=new AtomicInteger();var session=session();var halt=new RuntimeTradingHalt(()->true);var epoch=halt.epoch();
         var peer=HttpServer.create(new InetSocketAddress("127.0.0.1",0),0);
         peer.createContext("/",exchange->{
             calls.incrementAndGet();
+            if(response.equals("isolation-loss"))isolated.set(false);
+            if(response.equals("response-loss")){exchange.close();return;}
             assertThat(exchange.getRequestMethod()).isEqualTo("GET");
             assertThat(exchange.getRequestURI().toString()).isEqualTo("/user/margins/equity");
             if(response.equals("session"))session.rejectMarketData(session.marketDataStatus().generation());
@@ -82,29 +86,41 @@ class KiteEquityReadHarnessIntegrationTest {
         try(var connection=observer();var wire=KiteEquityReadRequestFactory.loopback(
                 URI.create("http://127.0.0.1:"+peer.getAddress().getPort()),Duration.ofMillis(300))){
             var guard=new KiteEquityReadIntegrity(connection);var before=guard.capture();
-            try(var harness=new KiteEquityReadHarness(wire,session,guard,halt,Clock.fixed(NOW,ZoneOffset.UTC),Mode.SYNTHETIC)){
-                var result=harness.run();
-                if(changed)assertThat(result.outcome()).isEqualTo(Outcome.STATE_CHANGED);
+            try(var owner=new KiteEquityReadHandoff.Owner();
+                var isolation=new KiteEquityReadIsolation(Clock.fixed(NOW,ZoneOffset.UTC),Duration.ofSeconds(10),isolated::get)){
+                var recipient=new KiteEquityReadHandoff.Recipient();
+                var handoff=new KiteEquityReadHandoff(owner,recipient,session,halt,isolation,Clock.fixed(NOW,ZoneOffset.UTC),Duration.ofSeconds(5),wire,guard);
+                var result=handoff.consume(owner,recipient,"GET","/user/margins/equity");
+                if(changed || java.util.Set.of("isolation-loss","session","401","403").contains(response))assertThat(result.outcome()).isEqualTo(Outcome.STATE_CHANGED);
                 else{
                     assertThat(result.statePreserved()).isTrue();assertTrue(before.matches(guard.capture()),"Private integrity fingerprint changed");
                     assertThat(halt.epoch()).isSameAs(epoch);
                     assertThat(result.outcome()==Outcome.OBSERVED).isEqualTo(response.equals("success"));
                 }
+                if(!changed)assertTrue(before.matches(guard.capture()),"Private integrity fingerprint changed");
                 assertThat(result.requestAttempts()).isEqualTo(1);assertThat(calls).hasValue(1);
                 assertThat(result.toString()).doesNotContain("9000","syntheticPrivateText","syntheticHarnessToken");
                 assertThat(halt.getAsBoolean()).isTrue();
-                assertThat(harness.run().outcome()).isEqualTo(Outcome.ALREADY_USED);
+                assertThatThrownBy(()->handoff.consume(owner,recipient,"GET","/user/margins/equity")).isInstanceOf(RuntimeException.class);
             }
         }finally{peer.stop(0);}
     }
-    @ParameterizedTest @ValueSource(strings={"superuser","other-connection","repeatable-read","transaction","missing-token","write-role","stats-hidden"})
+    @ParameterizedTest @ValueSource(strings={"superuser","other-connection","repeatable-read","transaction","missing-token","write-role","stats-hidden","function","role-member","schema-create","temp","missing-table","select-denied","read-write"})
     void unverifiableIsolationAbortsWithoutHttp(String fault)throws Exception{
+        if(fault.equals("function"))admin.execute("CREATE FUNCTION public.fixture_mutator() RETURNS integer LANGUAGE sql SECURITY DEFINER AS 'SELECT 1'");
+        if(fault.equals("role-member")){admin.execute("CREATE ROLE fixture_escalation");admin.execute("GRANT fixture_escalation TO controlled_observer");}
+        if(fault.equals("schema-create"))admin.execute("GRANT CREATE ON SCHEMA public TO controlled_observer");
+        if(fault.equals("temp"))admin.execute("GRANT TEMP ON DATABASE "+postgres.getDatabaseName()+" TO controlled_observer");
+        if(fault.equals("missing-table"))admin.execute("ALTER TABLE trading.reconciliation_trades RENAME TO fixture_hidden");
+        if(fault.equals("select-denied"))admin.execute("REVOKE SELECT ON trading.orders FROM controlled_observer");
         if(fault.equals("stats-hidden"))admin.execute("REVOKE pg_read_all_stats FROM controlled_observer");
         if(fault.equals("missing-token"))admin.update("DELETE FROM trading.kite_access_tokens");
         if(fault.equals("write-role"))admin.execute("GRANT UPDATE ON trading.kite_access_tokens TO controlled_observer");
         var extra=fault.equals("other-connection")?observer():null;
         try(var connection=fault.equals("superuser")?DriverManager.getConnection(postgres.getJdbcUrl(),postgres.getUsername(),postgres.getPassword()):observer();
             var wire=KiteEquityReadRequestFactory.loopback(URI.create("http://127.0.0.1:1"),Duration.ofMillis(100))){
+            if(fault.equals("read-write"))connection.setReadOnly(false);
+            if(fault.equals("read-write"))connection.createStatement().execute("SET default_transaction_read_only=off");
             if(fault.equals("repeatable-read"))connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
             if(fault.equals("transaction"))connection.setAutoCommit(false);
             var harness=new KiteEquityReadHarness(wire,session(),new KiteEquityReadIntegrity(connection),
@@ -112,8 +128,38 @@ class KiteEquityReadHarnessIntegrationTest {
             assertThat(harness.run().outcome()).isEqualTo(Outcome.PRECONDITION_DENIED);assertThat(wire.attempts()).isZero();
         }finally{
             if(extra!=null)extra.close();
+            if(fault.equals("function"))admin.execute("DROP FUNCTION public.fixture_mutator()");
+            if(fault.equals("role-member")){admin.execute("REVOKE fixture_escalation FROM controlled_observer");admin.execute("DROP ROLE fixture_escalation");}
+            if(fault.equals("schema-create"))admin.execute("REVOKE CREATE ON SCHEMA public FROM controlled_observer");
+            if(fault.equals("temp"))admin.execute("REVOKE TEMP ON DATABASE "+postgres.getDatabaseName()+" FROM controlled_observer");
+            if(fault.equals("missing-table"))admin.execute("ALTER TABLE trading.fixture_hidden RENAME TO reconciliation_trades");
+            if(fault.equals("select-denied"))admin.execute("GRANT SELECT ON trading.orders TO controlled_observer");
             if(fault.equals("stats-hidden"))admin.execute("GRANT pg_read_all_stats TO controlled_observer");
             if(fault.equals("write-role"))admin.execute("REVOKE UPDATE ON trading.kite_access_tokens FROM controlled_observer");
         }
     }
+    @ParameterizedTest @ValueSource(strings={"same-count-write","empty-schema-change","rollback"})
+    void canonicalFingerprintDetectsWritesAndSchemaButNotRolledBackChanges(String fault)throws Exception{
+        try(var connection=observer()){
+            var guard=new KiteEquityReadIntegrity(connection);var before=guard.capture();
+            try(var writer=DriverManager.getConnection(postgres.getJdbcUrl(),postgres.getUsername(),postgres.getPassword())){
+                writer.setAutoCommit(false);
+                try(var statement=writer.createStatement()){
+                    statement.execute(fault.equals("empty-schema-change")?"ALTER TABLE trading.orders ADD COLUMN fixture_marker integer":"UPDATE trading.kite_access_tokens SET expires_at=expires_at+interval '1 second'");
+                }
+                assertThatThrownBy(guard::capture).isInstanceOf(RuntimeException.class);
+                if(fault.equals("rollback"))writer.rollback();else writer.commit();
+            }
+            org.junit.jupiter.api.Assertions.assertEquals(fault.equals("rollback"),before.matches(guard.capture()),"Private fingerprint comparison");
+        }finally{if(fault.equals("empty-schema-change"))admin.execute("ALTER TABLE trading.orders DROP COLUMN fixture_marker");}
+    }
+    @Test void observerCannotWriteEvenIfItAttemptsDirectSql()throws Exception{
+        try(var connection=observer();var statement=connection.createStatement()){
+            assertThatThrownBy(()->statement.executeUpdate("UPDATE trading.kite_access_tokens SET expires_at=expires_at")).isInstanceOf(SQLException.class);
+            assertThatThrownBy(()->statement.execute("CREATE TABLE trading.fixture_forbidden(x integer)")).isInstanceOf(SQLException.class);
+            assertThatThrownBy(()->statement.execute("SET ROLE "+postgres.getUsername())).isInstanceOf(SQLException.class);
+            assertThat(new KiteEquityReadIntegrity(connection).capture().toString()).isEqualTo("EquityReadIntegrity[REDACTED]");
+        }
+    }
+
 }
