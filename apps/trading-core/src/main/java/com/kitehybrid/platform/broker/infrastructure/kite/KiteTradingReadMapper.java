@@ -270,7 +270,18 @@ public final class KiteTradingReadMapper {
             this.field = field;
         }
     }
-    private BrokerMargins.SegmentMargin margin(JsonNode row) {
+    /** Single-segment route only: never accept a multi-segment wrapper or invent missing segments. */
+    static BrokerMargins.SegmentMargin equityMargin(String body) {
+        if (body == null || body.length() > 64 * 1024) throw invalid();
+        return map(body, data -> {
+            object(data);
+            if (data.has("equity") || data.has("commodity") || data.has("segments")) throw invalid();
+            if (data.has("segment") && !"EQUITY".equals(text(data, "segment", 32))) throw invalid();
+            return margin(data);
+        });
+    }
+
+    private static BrokerMargins.SegmentMargin margin(JsonNode row) {
         object(row);
         JsonNode available = object(required(row, "available"));
         JsonNode utilised = object(required(row, "utilised"));

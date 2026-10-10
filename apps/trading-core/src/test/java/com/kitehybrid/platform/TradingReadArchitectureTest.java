@@ -32,7 +32,8 @@ class TradingReadArchitectureTest {
         var allowed = Map.of("KiteTradingReadAdapter", Set.of("get"),
                 "KiteProfileAdapter", Set.of("get"), "KiteInstrumentMasterAdapter", Set.of("get"),
                 "KiteHistoricalAdapter", Set.of("historicalMinute", "production"),
-                "KiteOrderMarginAdapter", Set.of("calculateOrderMargin"));
+                "KiteOrderMarginAdapter", Set.of("calculateOrderMargin"),
+                "KiteEquityMarginReadAdapter", Set.of("get", "usesSession", "officialOrigin"));
         for (var entry : allowed.entrySet()) {
             var adapter = classes.get("com.kitehybrid.platform.broker.infrastructure.kite." + entry.getKey());
             for (var call : adapter.getMethodCallsFromSelf())
@@ -44,6 +45,26 @@ class TradingReadArchitectureTest {
         assertThat(status.getMethodCallsFromSelf()).noneMatch(call ->
                 Set.of("reconcileSession", "clearStoredSession", "restore", "save", "loadCurrent")
                         .contains(call.getTarget().getName()));
+    }
+
+    @Test
+    void equityObservationHasNoWriteOrStartupCapabilities() {
+        var classes = new ClassFileImporter().withImportOption(new ImportOption.DoNotIncludeTests())
+                .importPackages("com.kitehybrid.platform");
+        noClasses().that().haveNameMatching(".*KiteEquityMarginReadAdapter.*").should().dependOnClassesThat()
+                .resideInAnyPackage("..order..", "..operator..", "..risk.application..", "..config..",
+                        "..bootstrap..", "java.sql..", "java.net..", "org.springframework..")
+                .check(classes);
+        for (var type : classes) if (type.getName().contains("KiteEquityMarginReadAdapter")) {
+            for (var dependency : type.getDirectDependenciesFromSelf())
+                assertThat(Set.of("KiteAccessTokenStore", "PostgresKiteAccessTokenStore", "KiteAuthenticationUseCase",
+                        "OrderExecutionGateway", "RuntimeTradingHalt", "ExecutionPermit", "RuntimeExecutionArming"))
+                        .doesNotContain(dependency.getTargetClass().getSimpleName());
+            for (var call : type.getMethodCallsFromSelf())
+                assertThat(Set.of("install", "profileValidated", "clear", "invalidate", "restore", "reset", "save",
+                        "resume", "arm", "execute", "claim", "postRegularOrder", "putRegularOrder", "deleteRegularOrder"))
+                        .doesNotContain(call.getTarget().getName());
+        }
     }
 
     @Test

@@ -127,6 +127,24 @@ public final class IntradayFundingEvidence {
     }
 
     /**
+     * Pure projection of a single equity receipt. Inputs remain caller-supplied and unverified.
+     * No full account/positions/orders capacity is fabricated, and no term becomes PROVEN.
+     */
+    public static CollateralContract equityObservation(OrderMarginQuote quote, OrderMarginQuote.Request expected,
+            com.kitehybrid.platform.instrument.domain.Instrument reference, RiskLimits limits,
+            Instant receivedAt, Instant referenceObservedAt, Instant now, boolean authenticated, Origin origin) {
+        var base = collateralContract(null, null, quote, expected, reference, limits,
+                receivedAt, referenceObservedAt, now, authenticated, origin);
+        var fields = new LinkedHashMap<>(base.observations());
+        if (authenticated && receivedAt != null) {
+            for (var name : List.of("equityCashFields", "aggregateNet", "availableCollateral", "utilisedCollateral"))
+                fields.put(name, new ContractField(Evidence.OBSERVED, SourceIdentifier.KITE_V3_FUNDS_SCHEMA, Proof.UNKNOWN));
+        }
+        return new CollateralContract(base.version(), base.collateralAssistedReadiness(),
+                base.cashOnlyFunding(), base.origin(), base.scope(), fields, base.questions());
+    }
+
+    /**
      * Versioned redacted contract for unverified normalized inputs. No caller switch or numeric term
      * can establish independent broker authority. This method has no PROVEN-producing path.
      * A future authoritative provider requires separate review, not a boolean added to this API.

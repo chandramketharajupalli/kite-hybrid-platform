@@ -25,24 +25,33 @@ final class KiteRestTransport {
         TRADES("/trades", 4 * 1024 * 1024),
         POSITIONS("/portfolio/positions", 4 * 1024 * 1024),
         HOLDINGS("/portfolio/holdings", 4 * 1024 * 1024),
-        MARGINS("/user/margins", 64 * 1024);
+        MARGINS("/user/margins", 64 * 1024),
+        EQUITY_MARGINS("/user/margins/equity", 64 * 1024);
         final String path;
         final int limit;
         Endpoint(String path, int limit) { this.path = path; this.limit = limit; }
     }
     private final RestClient client;
     private final KiteSession session;
+    private final boolean officialOrigin;
     private final ObjectMapper json = new ObjectMapper()
             .enable(com.fasterxml.jackson.core.JsonParser.Feature.STRICT_DUPLICATE_DETECTION)
             .enable(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
 
     KiteRestTransport(RestClient client, KiteSession session) {
+        this(client, session, false);
+    }
+    private KiteRestTransport(RestClient client, KiteSession session, boolean officialOrigin) {
         this.client = client;
         this.session = session;
+        this.officialOrigin = officialOrigin;
     }
     static KiteRestTransport production(KiteSession session) {
-        return new KiteRestTransport(productionClient(), session);
+        return new KiteRestTransport(productionClient(), session, true);
     }
+    boolean usesSession(KiteSession expected) { return session == expected; }
+    /** Configuration provenance only; never account eligibility or independent attestation. */
+    boolean officialOrigin() { return officialOrigin; }
     static RestClient productionClient() {
         var factory = new SimpleClientHttpRequestFactory() {
             @Override protected void prepareConnection(HttpURLConnection connection, String method) throws IOException {
