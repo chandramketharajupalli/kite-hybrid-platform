@@ -1,0 +1,144 @@
+# Phase 13.5E validation and deployment decision
+
+Review date: 2026-10-10. Engineering result:
+MINIMAL_READ_ONLY_DEPLOYMENT_DESIGN_VALIDATED. Operational decision: **NO_GO**.
+This validates a documentation-only architecture decision and relevant existing
+synthetic controls. It does not claim a standalone process was implemented or
+packaged. The explicit documentation-only option in user section 7 was used.
+Prior Phase 13.5 Stage B ZERO_CALL_ABORT remains unchanged.
+
+## Baseline and registered scope
+
+Initial status clean; develop; HEAD and origin/develop both
+3b7dafdc32834e963e68e4cdaacd9c8972dd037f. Required status/branch/revisions/log/diff
+preflight passed before edits. No Git repair, fetch/pull, commit or push.
+JDK 21.0.12, Maven wrapper 3.9.11, uv 0.12.10, Docker client/server 29.8.0.
+
+Plan created before test execution. Frozen SHA-256:
+`590BBFD524DC0A4191D5A5DBC317F61A69B41D25A60D967FA4F0061FAC9BD6F5`.
+Hash reverified; criteria not changed after results. Only five new documents are
+allowed/changed. No source, test, dependency, configuration or migration changes.
+
+## Concrete outcome beyond earlier test cycles
+
+Selected B as the future minimal DB-free process target, C as current executable
+fixture scope, and rejected A's shared trading startup/authority. The ADR explicitly
+separates **no diagnostic-caused database writes** from **no other writer changed
+state**. Removing database access can address the former; it cannot prove the
+latter. The old approved harness requires the latter and token/table baselines.
+Consequently the target design needs a new assurance-contract review before any
+guard could change; existing approval is not transferable.
+
+Implementation was not safely justified: current harness requires integrity
+capture, same-process handoff cannot transfer an authenticated session into another
+JVM, full application packaging includes broader capabilities, and complete
+log-sink allowlisting is absent. Calling the adapter directly, substituting a
+constant integrity witness, or copying a token would evade the boundary. None was
+done. No standalone exit codes, process-wide synthetic launcher budget, filesystem
+isolation or sink allowlist are claimed implemented. Proposed lifecycle/exit codes
+are labeled design only.
+
+The executable proof is the existing loopback/disposable Maven fixture and child
+process tests. It is not a minimal standalone distribution. No additional duplicate
+tests were added; fresh required runs verify the specific existing controls used
+by the decision. Missing deployment controls are exposed in the certification matrix,
+not disguised as test passes. No independent live evidence was collected.
+
+## Fresh tests and security checks
+
+| Run | Passed | Failed | Errors | Skipped |
+|---|---:|---:|---:|---:|
+| Focused handoff/isolation/harness/request-factory/architecture/HALT selector | 136 | 0 | 0 | 0 |
+| Full Java unit/architecture in selected integration verify | 1508 | 0 | 0 | 0 |
+| Disposable KiteEquityReadHarnessIntegrationTest | 55 | 0 | 0 | 0 |
+
+Commands: focused selector in runbook; `./mvnw.cmd -Pintegration
+-Dit.test=KiteEquityReadHarnessIntegrationTest verify`; standalone `./mvnw.cmd test`.
+The standalone run is recorded in the final audit below. Totals are fresh executions
+on this baseline; matching prior counts reflects unchanged source, not recycled
+evidence. Repeated unit executions are not added into a unique total. No stale
+unselected Failsafe reports counted. No failures, corrections or test reruns were
+needed for the selected integration run.
+
+Full unfiltered integration not run because shared production transport/auth/risk/
+HALT/startup/persistence/configuration did not change. Python source unchanged:
+pytest/Ruff/strict mypy not applicable and not run. No tests were skipped and
+represented as passed.
+
+Relevant proof: same-process ownership/replay/expiry/epoch fencing; known versus
+unknown HALT; lost isolation/session during response; post-read integrity attempt;
+strict route, no retry/redirect, response-loss and one-execute behavior; redaction
+and serialization; restricted observer ACL/statistics; schema/content/permission
+drift; existing writer after NOLOGIN, privileged alternative after scoped drain,
+non-cooperative lock user and transient write/restore counterexamples.
+
+Not proven: cross-process authenticated ownership, minimal artifact/loadability,
+global writer exclusion, actual log sinks, arbitrary sink-change rejection,
+standalone synthetic process-wide budget, live account schema or funding eligibility.
+The official budget test reserves request objects without HTTP execution; the
+synthetic handoff still rejects official-origin factories.
+
+Project verifier PASS; secret scan PASS with zero potential secret locations;
+diff check PASS. Ignored local tmp/phase135e-focused.log, phase135e-integration.log,
+phase135e-unit.log and Maven XML are synthetic test evidence only. No raw real
+responses, token/account fingerprints or generated bytecode are deliverables.
+
+## Protected evidence and inventory
+
+G1 SHA remains
+`56A1BD05BBBEC36F639450F2F52C491C8C5436C16094F86BCF0C2818D4F63656`.
+Existing run_phase116.verify_freeze passed all 18 sources. All 63 protected research
+files match the starting SHA-256 byte inventory and path-normalized HEAD blobs.
+Phase 12 acquisition/evaluation remains BLOCK; July TEST unopened. Initial and
+post-test audits passed; plan bytes unchanged. No protected evidence rewritten.
+
+No modified tracked files. Exact new/untracked inventory:
+
+- docs/operations/phase-13.5e-plan.md
+- docs/architecture/kite-minimal-read-only-deployment.md
+- docs/operations/phase-13.5e-certification-matrix.md
+- docs/operations/phase-13.5e-runbook.md
+- docs/operations/phase-13.5e-validation.md
+
+Git diff/stat/name-status and production/resource diffs are empty because all
+changes are new documents; status and untracked inventory enumerate them separately.
+No .env, safety defaults, migration, risk/funding/reserve/CNC, strategy, research or
+sealed-data changes. No staged files, commit or push.
+
+## Remaining evidence owners and next bounded action
+
+- Authentication/security authority: legitimate existing account-bound session
+  provenance and non-exporting ownership mechanism; LIVE NOT_ESTABLISHED.
+- Runtime controller: independent fresh all-runtime HALT/epoch and execution
+  exclusion; LIVE NOT_ESTABLISHED.
+- Architecture/security reviewer: accept or reject the narrower DB-free assurance
+  contract, retaining original guards pending review.
+- Deployment/database authority: enforce all-writer exclusion if original invariance
+  claim is retained; LIVE NOT_ESTABLISHED. Observer ACLs/baselines LIVE NOT_VERIFIED.
+- Packaging/host/log owner: minimal artifact, environment/filesystem/egress, sink
+  allowlist, dump controls, retention and incident response; LIVE NOT_VERIFIED.
+- Broker evidence owner: eligible adjusted/free collateral, applicable NSE MIS
+  cash rule and qualifying field; unproven, MIS NOT_READY.
+
+Next action is a bounded contract/ownership/packaging design review, not another
+unfocused test expansion or a real GET. No real session acquisition is authorized.
+No automatic read or trading promotion follows engineering completion.
+
+Real Kite HTTP/GETs/WebSockets/order mutations: 0. Real token loading/restoration/
+exchange and development DB access/mutations: 0. Operational HALT resume/arm/permit/
+execute: 0. Synthetic test fixtures exercise fake safety behavior only. INR 10,000
+buffered-notional ceiling unchanged; Phase 12 BLOCK; H1/H2 FROZEN; July TEST SEALED.
+
+## Final audit
+
+Standalone `./mvnw.cmd test` completed 2026-10-10T23:14:36+05:30: 1508 passed,
+0 failures, 0 errors, 0 skipped, BUILD SUCCESS (1m11s). Selected integration verify
+completed 23:13:05+05:30: 55 disposable cases passed, 0 failures/errors/skips;
+its unit phase separately passed 1508. Focused run completed 23:09:53+05:30 with
+136 passed and no failures/errors/skips. All are newly executed Phase E results.
+No test failure or correction occurred. Final XML totals corroborate these counts.
+
+Required status/diff/check/stat/name-status, untracked and staged inventories were
+reviewed; five new documents only, no tracked/staged changes. Project and secret
+checks passed, with zero potential secret locations. Final freeze and plan checks
+passed after tests. No commits/pushes or automatic operational actions followed.
