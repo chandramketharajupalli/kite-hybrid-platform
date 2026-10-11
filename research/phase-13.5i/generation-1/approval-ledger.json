@@ -1,0 +1,232 @@
+{
+  "fingerprint": "6a8d7fed0485713e35933f255c443ba190b4637973fd2fcacf518416dbf22a99",
+  "ledger": {
+    "approval_evidence_received": 0,
+    "authority": {
+      "contract_approved": false,
+      "implementation_authorized": false,
+      "real_read_authorized": false,
+      "trading_authorized": false
+    },
+    "contract": {
+      "draft": 1,
+      "sha256": "5B9F1E717DD444CE5BBF6697012BF11887DBA780FB8C1099AC24D0A5D7D79CE7",
+      "version": "DiagnosticAssuranceContract.v2"
+    },
+    "controlling_sources": {
+      "docs/architecture/kite-authenticated-session-ownership.md": {
+        "committed_sha256": "0a12c3be007b270674df2a904139199ea7ce98a19aad3ab5f46850bafe580e9c",
+        "comparison": "IDENTICAL_BYTES",
+        "working_byte_sha256": "0a12c3be007b270674df2a904139199ea7ce98a19aad3ab5f46850bafe580e9c"
+      },
+      "docs/architecture/kite-credential-owner-security-review.md": {
+        "committed_sha256": "3ecf6559e4f64dbf66d9c229b28ebe88c29d55e7acccada0a3bdd95c0cb2f7ae",
+        "comparison": "IDENTICAL_BYTES",
+        "working_byte_sha256": "3ecf6559e4f64dbf66d9c229b28ebe88c29d55e7acccada0a3bdd95c0cb2f7ae"
+      },
+      "docs/architecture/kite-credential-owner-service-boundary.md": {
+        "committed_sha256": "16deb0fcc4acdf07ac2cf080e598345a668437b09eb06cd53064231905a7a2f1",
+        "comparison": "IDENTICAL_BYTES",
+        "working_byte_sha256": "16deb0fcc4acdf07ac2cf080e598345a668437b09eb06cd53064231905a7a2f1"
+      },
+      "docs/architecture/kite-db-free-assurance-contract-v2-proposal.md": {
+        "committed_sha256": "5b9f1e717dd444ce5bbf6697012bf11887dba780fb8c1099ac24d0a5d7d79ce7",
+        "comparison": "IDENTICAL_BYTES",
+        "working_byte_sha256": "5b9f1e717dd444ce5bbf6697012bf11887dba780fb8c1099ac24d0a5d7d79ce7"
+      },
+      "docs/operations/phase-13.5-real-read-approval.md": {
+        "committed_sha256": "a2dc65a0ecfdefe3913e5e2bcd6140018ad736ef1e092f3966410a7fc29cb32c",
+        "comparison": "IDENTICAL_BYTES",
+        "working_byte_sha256": "a2dc65a0ecfdefe3913e5e2bcd6140018ad736ef1e092f3966410a7fc29cb32c"
+      },
+      "docs/operations/phase-13.5-validation.md": {
+        "committed_sha256": "7d0b5e376b4e4b15d852c8becfa5f5d2965325dcc611c8aa9a158dc06b6dac48",
+        "comparison": "IDENTICAL_TEXT_CRLF_TO_LF",
+        "working_byte_sha256": "7ae6bdc0b777e52889ebc5cab6f284c01ec4e53112122e7a22b02e2c2301ced5"
+      },
+      "docs/operations/phase-13.5g-security-decision-matrix.md": {
+        "committed_sha256": "8b2d102141b378ac153a740042f80a260776b0653a94cef2cbc2b47cd1fca536",
+        "comparison": "IDENTICAL_BYTES",
+        "working_byte_sha256": "8b2d102141b378ac153a740042f80a260776b0653a94cef2cbc2b47cd1fca536"
+      },
+      "docs/operations/phase-13.5g-validation.md": {
+        "committed_sha256": "12299d2685f2d9c068c5fa090b71ce0dde8fa349415fab42478f84b669f7488a",
+        "comparison": "IDENTICAL_BYTES",
+        "working_byte_sha256": "12299d2685f2d9c068c5fa090b71ce0dde8fa349415fab42478f84b669f7488a"
+      },
+      "docs/operations/phase-13.5h-approval-matrix.md": {
+        "committed_sha256": "88eb6017f34b31a1a529e792078c58f491dc77b9e96c000ded2a2d117f417f66",
+        "comparison": "IDENTICAL_BYTES",
+        "working_byte_sha256": "88eb6017f34b31a1a529e792078c58f491dc77b9e96c000ded2a2d117f417f66"
+      },
+      "docs/operations/phase-13.5h-implementation-readiness.md": {
+        "committed_sha256": "c33c9617fa956e8b240e31575ea2e4a4aee9c48ba702edd76c16e4998ba7fbf5",
+        "comparison": "IDENTICAL_BYTES",
+        "working_byte_sha256": "c33c9617fa956e8b240e31575ea2e4a4aee9c48ba702edd76c16e4998ba7fbf5"
+      },
+      "docs/operations/phase-13.5h-plan.md": {
+        "committed_sha256": "154f1c721eb9e9034ec97f87169483720cb783649b50db581f4f4d38542e0bed",
+        "comparison": "IDENTICAL_BYTES",
+        "working_byte_sha256": "154f1c721eb9e9034ec97f87169483720cb783649b50db581f4f4d38542e0bed"
+      },
+      "docs/operations/phase-13.5h-review-request-draft.md": {
+        "committed_sha256": "b2ec1d1398171bb47e72060db7c605e5b00459b9815c98618be7163eebe13d7c",
+        "comparison": "IDENTICAL_BYTES",
+        "working_byte_sha256": "b2ec1d1398171bb47e72060db7c605e5b00459b9815c98618be7163eebe13d7c"
+      },
+      "docs/operations/phase-13.5h-validation.md": {
+        "committed_sha256": "c6307c013cd5ad825868f9c2de72898a7f9b4a521edf0858593eba673f39669e",
+        "comparison": "IDENTICAL_BYTES",
+        "working_byte_sha256": "c6307c013cd5ad825868f9c2de72898a7f9b4a521edf0858593eba673f39669e"
+      }
+    },
+    "evidence_search_scope": "User context and committed controlling G/H documents; no external inbox accessed.",
+    "generation": 1,
+    "parent_commit": "2ea8d50cf776b83584ef5cc4f38954a434ae1ad7",
+    "previous_stage_b": "ZERO_CALL_ABORT",
+    "protocol": {
+      "path": "docs/operations/phase-13.5i-plan.md",
+      "sha256": "028f28839fd554581550bda0f82eb0127c6b1e4daa187b4a17e5e79e3fa89b41"
+    },
+    "purpose": "Documentary review evidence; not runtime one-use persistence.",
+    "roles": [
+      {
+        "authenticity_verification": {
+          "method": null,
+          "status": "NOT_VERIFIED",
+          "timestamp_utc": null,
+          "verifier_reference": null
+        },
+        "authority_verification": "UNKNOWN",
+        "conditions": null,
+        "conflict_of_interest": "UNKNOWN",
+        "contract": {
+          "draft": 1,
+          "sha256": "5B9F1E717DD444CE5BBF6697012BF11887DBA780FB8C1099AC24D0A5D7D79CE7",
+          "version": "DiagnosticAssuranceContract.v2"
+        },
+        "decision": null,
+        "decision_timestamp_utc": null,
+        "delegation": null,
+        "evidence_sha256": null,
+        "evidence_uri": null,
+        "identity_evidence_reference": null,
+        "rationale": null,
+        "receipt_timestamp_utc": null,
+        "reviewer_authority": null,
+        "reviewer_identity": null,
+        "risk_acceptance": null,
+        "role": "Security/authentication",
+        "source_reference": "docs/operations/phase-13.5h-approval-matrix.md",
+        "source_status": "PENDING",
+        "status": "PENDING",
+        "supersession_reference": null,
+        "timestamp_provenance": null,
+        "withdrawal_reference": null
+      },
+      {
+        "authenticity_verification": {
+          "method": null,
+          "status": "NOT_VERIFIED",
+          "timestamp_utc": null,
+          "verifier_reference": null
+        },
+        "authority_verification": "UNKNOWN",
+        "conditions": null,
+        "conflict_of_interest": "UNKNOWN",
+        "contract": {
+          "draft": 1,
+          "sha256": "5B9F1E717DD444CE5BBF6697012BF11887DBA780FB8C1099AC24D0A5D7D79CE7",
+          "version": "DiagnosticAssuranceContract.v2"
+        },
+        "decision": null,
+        "decision_timestamp_utc": null,
+        "delegation": null,
+        "evidence_sha256": null,
+        "evidence_uri": null,
+        "identity_evidence_reference": null,
+        "rationale": null,
+        "receipt_timestamp_utc": null,
+        "reviewer_authority": null,
+        "reviewer_identity": null,
+        "risk_acceptance": null,
+        "role": "Runtime/DB",
+        "source_reference": "docs/operations/phase-13.5h-approval-matrix.md",
+        "source_status": "PENDING",
+        "status": "PENDING",
+        "supersession_reference": null,
+        "timestamp_provenance": null,
+        "withdrawal_reference": null
+      },
+      {
+        "authenticity_verification": {
+          "method": null,
+          "status": "NOT_VERIFIED",
+          "timestamp_utc": null,
+          "verifier_reference": null
+        },
+        "authority_verification": "UNKNOWN",
+        "conditions": null,
+        "conflict_of_interest": "UNKNOWN",
+        "contract": {
+          "draft": 1,
+          "sha256": "5B9F1E717DD444CE5BBF6697012BF11887DBA780FB8C1099AC24D0A5D7D79CE7",
+          "version": "DiagnosticAssuranceContract.v2"
+        },
+        "decision": null,
+        "decision_timestamp_utc": null,
+        "delegation": null,
+        "evidence_sha256": null,
+        "evidence_uri": null,
+        "identity_evidence_reference": null,
+        "rationale": null,
+        "receipt_timestamp_utc": null,
+        "reviewer_authority": null,
+        "reviewer_identity": null,
+        "risk_acceptance": null,
+        "role": "Packaging/logging",
+        "source_reference": "docs/operations/phase-13.5h-approval-matrix.md",
+        "source_status": "PENDING",
+        "status": "PENDING",
+        "supersession_reference": null,
+        "timestamp_provenance": null,
+        "withdrawal_reference": null
+      },
+      {
+        "authenticity_verification": {
+          "method": null,
+          "status": "NOT_VERIFIED",
+          "timestamp_utc": null,
+          "verifier_reference": null
+        },
+        "authority_verification": "UNKNOWN",
+        "conditions": null,
+        "conflict_of_interest": "UNKNOWN",
+        "contract": {
+          "draft": 1,
+          "sha256": "5B9F1E717DD444CE5BBF6697012BF11887DBA780FB8C1099AC24D0A5D7D79CE7",
+          "version": "DiagnosticAssuranceContract.v2"
+        },
+        "decision": null,
+        "decision_timestamp_utc": null,
+        "delegation": null,
+        "evidence_sha256": null,
+        "evidence_uri": null,
+        "identity_evidence_reference": null,
+        "rationale": null,
+        "receipt_timestamp_utc": null,
+        "reviewer_authority": null,
+        "reviewer_identity": null,
+        "risk_acceptance": null,
+        "role": "User/operator",
+        "source_reference": "docs/operations/phase-13.5h-approval-matrix.md",
+        "source_status": "PENDING",
+        "status": "PENDING",
+        "supersession_reference": null,
+        "timestamp_provenance": null,
+        "withdrawal_reference": null
+      }
+    ],
+    "schema": "Phase135IApprovalLedger.v1"
+  }
+}

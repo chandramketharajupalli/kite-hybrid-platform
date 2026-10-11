@@ -1,0 +1,57 @@
+{
+  "fingerprint": "e58da2f4d25140d94f0ac1505a27650b77f4f2bf391bab313e56ed977e6acb20",
+  "replay": {
+    "approval_evidence_received": 0,
+    "authority_granted": false,
+    "contract": {
+      "draft": 1,
+      "sha256": "5B9F1E717DD444CE5BBF6697012BF11887DBA780FB8C1099AC24D0A5D7D79CE7",
+      "version": "DiagnosticAssuranceContract.v2"
+    },
+    "contract_result": "CONTRACT_APPROVAL_PENDING",
+    "general_decision_engine_tests": "NOT_RUN",
+    "generation": 1,
+    "implementation_readiness": "IMPLEMENTATION_NOT_AUTHORIZED / GAPS_OPEN",
+    "ledger_file_sha256": "f644462b6a172d18175b5c5d883ca64b5c2132be6834cc6e1693d5e133342212",
+    "ledger_semantic_fingerprint": "6a8d7fed0485713e35933f255c443ba190b4637973fd2fcacf518416dbf22a99",
+    "negative_structural_probes_passed": [
+      "fingerprint tamper",
+      "wrong contract",
+      "wrong role",
+      "duplicate role",
+      "invented identity in absent evidence",
+      "false authority",
+      "duplicate JSON key",
+      "nonfinite JSON"
+    ],
+    "operational_go_no_go": "NO_GO",
+    "protocol": {
+      "path": "docs/operations/phase-13.5i-plan.md",
+      "sha256": "028f28839fd554581550bda0f82eb0127c6b1e4daa187b4a17e5e79e3fa89b41"
+    },
+    "reason": "NO_ATTRIBUTABLE_DECISIONS",
+    "replay_repeat_identical": true,
+    "review_requests": "DRAFT / NOT_SENT",
+    "roles": [
+      {
+        "role": "Security/authentication",
+        "status": "PENDING"
+      },
+      {
+        "role": "Runtime/DB",
+        "status": "PENDING"
+      },
+      {
+        "role": "Packaging/logging",
+        "status": "PENDING"
+      },
+      {
+        "role": "User/operator",
+        "status": "PENDING"
+      }
+    ],
+    "schema": "Phase135IDecisionReplay.v1",
+    "scope": "Offline absent-evidence structural validation only; not general approval-engine or reviewer-authenticity validation.",
+    "source_artifacts_checked": 13
+  }
+}
