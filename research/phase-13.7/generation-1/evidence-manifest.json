@@ -1,0 +1,1414 @@
+{
+  "fingerprint": "cb87e01cfccf84698f5290ef293b4d5893ea774b9e608f7d131365503e7b2c5d",
+  "manifest": {
+    "baseline": {
+      "branch": "develop",
+      "head": "34cc3e5b242547774a5225d30aa460699db2b2d9",
+      "initial_tracked_untracked_clean": true,
+      "origin_develop": "34cc3e5b242547774a5225d30aa460699db2b2d9",
+      "remote_refresh_performed": false
+    },
+    "canonicalization": "Sorted compact JSON, ensure_ascii=True, allow_nan=False, UTF-8, no body newline; SHA256 body in fingerprint/manifest envelope",
+    "commands": [
+      ".\\mvnw.cmd -o -f apps/synthetic-credential-owner/pom.xml test",
+      ".\\mvnw.cmd -o -f apps/synthetic-credential-owner/pom.xml -Pintegration \"-DskipUnitTests=true\" \"-Dit.test=LedgerIT,RecoveryLedgerIT\" verify",
+      ".\\mvnw.cmd -o -f apps/synthetic-credential-owner/pom.xml -Pintegration \"-Dit.test=OwnerIT,RecoveryOwnerIT\" verify",
+      ".\\mvnw.cmd -o -f apps/synthetic-credential-owner/pom.xml -Pintegration \"-DskipUnitTests=true\" \"-Dit.test=OwnerIT,RecoveryOwnerIT\" verify",
+      ".\\mvnw.cmd -o -f apps/synthetic-credential-owner/pom.xml -Pintegration verify",
+      ".\\mvnw.cmd -o test",
+      "uv run --offline python scripts/verify-project.py",
+      "uv run --offline python scripts/check-secrets.py",
+      "git diff --check"
+    ],
+    "crash_windows": [
+      {
+        "delivery": "NOT_DISPATCHED",
+        "mechanism": "INJECTED_OR_CONNECTION_FAILURE",
+        "persistent_result": "JOURNAL_RETIRED; DB ABSENT",
+        "test": "RecoveryLedgerIT.everyPersistenceWindowIsRetiredAcrossAdapterRestart / connectionFailureBeforeReservationCannotBeReissued",
+        "window": "BEFORE_RESERVATION"
+      },
+      {
+        "delivery": "NOT_DISPATCHED",
+        "mechanism": "INJECTED_ROLLBACK_AND_PARTIAL_MARKER",
+        "persistent_result": "JOURNAL_RETIRED; DB ABSENT",
+        "test": "RecoveryLedgerIT.everyPersistenceWindowIsRetiredAcrossAdapterRestart",
+        "window": "DURING_RESERVATION"
+      },
+      {
+        "delivery": "NOT_DISPATCHED",
+        "mechanism": "INJECTED_LOST_ACK",
+        "persistent_result": "RESERVED or CONSUMED; journal spent",
+        "test": "RecoveryLedgerIT.everyPersistenceWindowIsRetiredAcrossAdapterRestart",
+        "window": "BEFORE_DURABLE_ACK"
+      },
+      {
+        "delivery": "NOT_DISPATCHED",
+        "mechanism": "ACTUAL_SUBPROCESS_TERMINATION_AND_INJECTED_OWNER_FAULT",
+        "persistent_result": "CONSUMED",
+        "test": "LedgerIT.competingProcessesAndCrashAfterAckRemainSpentAcrossRestart; RecoveryOwnerIT.ownerProcessDiesAfterConsumptionWithoutSendAndRestartCannotRevive",
+        "window": "AFTER_CONSUMPTION"
+      },
+      {
+        "delivery": "NOT_DISPATCHED",
+        "mechanism": "INJECTED",
+        "persistent_result": "CONSUMED",
+        "test": "RecoveryOwnerIT.dispatchCrashWindowsRemainSpentAndClassified",
+        "window": "BEFORE_SOCKET"
+      },
+      {
+        "delivery": "NOT_DISPATCHED",
+        "mechanism": "INJECTED",
+        "persistent_result": "CONSUMED",
+        "test": "RecoveryOwnerIT.dispatchCrashWindowsRemainSpentAndClassified",
+        "window": "SOCKET_BEFORE_SEND"
+      },
+      {
+        "delivery": "MAY_HAVE_DISPATCHED",
+        "mechanism": "INJECTED_PARTIAL_WRITE_WITH_FIXTURE_OBSERVATION",
+        "persistent_result": "CONSUMED; no retry",
+        "test": "RecoveryOwnerIT.dispatchCrashWindowsRemainSpentAndClassified",
+        "window": "DURING_SEND"
+      },
+      {
+        "delivery": "MAY_HAVE_DISPATCHED",
+        "mechanism": "LOOPBACK_CONFIRMED_HEADER_RECEIPT_NO_RESPONSE",
+        "persistent_result": "CONSUMED; OUTCOME_UNKNOWN",
+        "test": "RecoveryOwnerIT.fixtureConfirmedReceiptWithNoResponseRemainsUnknown",
+        "window": "REMOTE_RECEIPT_BEFORE_RESPONSE"
+      },
+      {
+        "delivery": "MAY_HAVE_DISPATCHED",
+        "mechanism": "INJECTED_AND_LOOPBACK_FAILURES",
+        "persistent_result": "CONSUMED; OUTCOME_UNKNOWN",
+        "test": "RecoveryOwnerIT.dispatchCrashWindowsRemainSpentAndClassified; OwnerIT invalid/truncated/timeout cases",
+        "window": "DURING_PARSING"
+      },
+      {
+        "delivery": "OBSERVED_COMPLETED",
+        "mechanism": "INJECTED",
+        "persistent_result": "CONSUMED; OUTCOME_UNKNOWN",
+        "test": "RecoveryOwnerIT.dispatchCrashWindowsRemainSpentAndClassified; OwnerIT.connectionRefusalAndTerminalWriteFailureDoNotReopenAttempt",
+        "window": "BEFORE_OUTCOME_PERSISTENCE"
+      }
+    ],
+    "current_source_and_docs_raw_sha256": {
+      "apps/synthetic-credential-owner/src/main/java/com/kitehybrid/synthetic/LoopbackPeer.java": "370dc853a69df2139ff3c172e9d9a87e41864a970936efb47dc560ca6159c10a",
+      "apps/synthetic-credential-owner/src/main/java/com/kitehybrid/synthetic/SyntheticHalt.java": "ebe73e69cf2b873b21a125a54a1e0ddfc75faa336ec80c337b8c6fae3f7aaa15",
+      "apps/synthetic-credential-owner/src/main/java/com/kitehybrid/synthetic/SyntheticOwner.java": "1e4f70f0aa483a2bc3b5daeef70798ac24056fa5c44517c0e28392aab8ac39f5",
+      "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/AttemptJournal.java": "4d57054b76d217bcbe0a8475c580c23fceae1ab5854ddf52c9626d494c32e467",
+      "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/DisposableLedger.java": "37d5a497f3e52a68e443d208da03ec9b87dc2cc2eff6bcfe0df6f1c9d80debbe",
+      "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/LedgerIT.java": "fb9fcaf3a17a4040e0b3a7376b450b10ae081bb3c6ce6e329566970cf6b948e3",
+      "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/OwnerIT.java": "5b652b87a954ad766717aa79d5b5a5ba05ca5701c3998ed41f3e5002d4580c2c",
+      "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/OwnerWorker.java": "6a71b901da4a3ebacf6e58fe01bc80091b89f876e9e6293cff66859a9302861e",
+      "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/RecoveryLedgerIT.java": "5fb7cd3aff03b8a8ab9f5f0152f54a63ae70ecbb1039c050d4b2d9f808b09487",
+      "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/RecoveryOwnerIT.java": "5fc591365f0d50126de74d09bb2cb37b0d99de5b0346d7f93fc0ccb932ff3582",
+      "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/RecoverySecurityTest.java": "7689c0cf5320245a764dcd9284c97a7abcdcc5b7a2a882105acd8b8fe98ea50f",
+      "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/SyntheticSecurityTest.java": "03ef8be92bed51fd8f0c85e4c616a661f702afddc6f4dd8da1fd38c4a42af2f1",
+      "docs/architecture/kite-synthetic-owner-failure-recovery.md": "4f28e9f933945d56c9966361b8bb6b08d1eafe1ca3d4e72eb86f867096964749",
+      "docs/operations/phase-13.7-plan-amendment-1.md": "66ad85aaee27b0205c5f941c2e5d49684f4b7924cae25ddb6e65392fde52c30f",
+      "docs/operations/phase-13.7-plan.md": "d79f7251482a1a8529c47cfd9b877da607aefddc163be3c82179e541fe274e81",
+      "docs/operations/phase-13.7-runbook.md": "71bbe8ae785d9e9571a17a7e3a1bb23f38e4bc2b7021f758473a8cb60f826314",
+      "docs/operations/phase-13.7-validation.md": "ba5d11f82143fb799bde18dac47c31fe41fee461034549e7592df93f7f1abe30"
+    },
+    "evidence_class": "SYNTHETIC_TEST_ONLY",
+    "failure_history": {
+      "execution_note": "skipUnitTests property inert in standalone POM; units actually reran. Native SLF4J warnings not test failures.",
+      "test_failures": [],
+      "validation_finding": {
+        "correction": "Synthetic RSA-3072/SHA256withRSA profile, new payload domain, wrong/short key denial, actual provider and java.base restricted-JVM guards",
+        "disposition": "RESOLVED_BY_PLAN_AMENDMENT_1",
+        "finding": "Inherited Ed25519 provider dynamically loads jdk.crypto.ec despite jdeps java.base",
+        "initial_runs_retained": true,
+        "source": "Local JDK21 Signature.getInstance(Ed25519) provider/module inspection"
+      }
+    },
+    "fresh_report_raw_sha256": {
+      "apps/synthetic-credential-owner/target/failsafe-reports/TEST-com.kitehybrid.synthetic.LedgerIT.xml": "a29c2624d115b7653a6e8adea516a20018a1d9ac93924dff7d3cecae4d2e52ce",
+      "apps/synthetic-credential-owner/target/failsafe-reports/TEST-com.kitehybrid.synthetic.OwnerIT.xml": "f9a8f4886143af9d1892d28006aaf10bd790cb20eb408ac3d57c2d0b24687cb9",
+      "apps/synthetic-credential-owner/target/failsafe-reports/TEST-com.kitehybrid.synthetic.RecoveryLedgerIT.xml": "09a40090db080a8b0848dc98231636cd034995a93bf783e655195d5cd2fd5a64",
+      "apps/synthetic-credential-owner/target/failsafe-reports/TEST-com.kitehybrid.synthetic.RecoveryOwnerIT.xml": "430477ef5f6d9f010fc3d3d273af9c9f34331ee2842199c365f745362910d366",
+      "apps/synthetic-credential-owner/target/surefire-reports/TEST-com.kitehybrid.synthetic.PackagingTest.xml": "2ec4ce23cf56ef76d8224280541fa1a37f2969ed116a3454ba0662bd8b02990b",
+      "apps/synthetic-credential-owner/target/surefire-reports/TEST-com.kitehybrid.synthetic.RecoverySecurityTest.xml": "2ed09058dd2b4cf2a190a3c6e922ae76ef842b6e7669ff477517ca4bf5455a8a",
+      "apps/synthetic-credential-owner/target/surefire-reports/TEST-com.kitehybrid.synthetic.SyntheticSecurityTest.xml": "1c329c4bd309527aca299e22b784462fe0faed63e6522dd06afd3a4d80061760",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.ApplicationTest.xml": "5af6e18976876e20053aec6664df3e3232e42932d3ee26db636f87da3fb07c9a",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.ArchitectureTest.xml": "973da4424395273090eba1a15d95c61a0f2c07b9805a3f07af62d5cc9a3979ff",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.ConservativeValuationArchitectureTest.xml": "57db1813c8a119e3628788d6d130ac790aba68b90110333453215b5f4aa13178",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.ControlledEquityReadArchitectureTest.xml": "46b23d700807ecc033c7c8203ed78a4e2ffd1493ead1ef0dd5f7ed26a868b38d",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.FirstLiveCandidatePlannerTest.xml": "7fad5ce3580bf68a8fe26146b58fd7001c6b04df0a381a0de484b3cdb588de28",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.HaltConsoleTest.xml": "de63f9cb375f137972ac0db1ce0bff388c20ab7c7ec879de56b4357d761172c5",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.HistoricalArchitectureTest.xml": "cff37eeb1b2128967f8fba94f9da27b5d5b513c46449f2fe247ffff0ac44e713",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.HistoricalContinuityGateTest.xml": "b8cfce760b10013c85517b718d57918cc180bce6eda4c77bc5e5d8fb0c96a11e",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.HistoricalCorpusPlanTest.xml": "8ac7b4da52bf8a8033d867738830ca178503417ae065f1857ef18b937ba933a2",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.HistoricalDataTest.xml": "72c7a741d5a4f03bab635e20a77e972247975e069fea5af5b1a3d226610fb30c",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.HistoricalResearchExporterTest.xml": "83cee0038d95fae525dcba9f29d725e629af0a0a649b340f93349a26740988dd",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.IntradayCandidatePlannerTest.xml": "4da2d01de1e6578bd74aab711311aa0eea97351b494f18b87dbfcb24bf596806",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.KiteApplicationSafetyTest.xml": "6951a38b88702dfabf8f97ffd9d6a993160ed121dd09029c0bd01b559acbbaa3",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.KiteObservabilityTest.xml": "5edada82d4c8291abfb7eddd6656f715540a44bd424f596eeead8dbc17bee1c1",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.KitePhase2SafetyTest.xml": "76090a51503f26e0d132df4da520ad68bd3a71e8eb73d8a76c43b80fc8696c03",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.MarketDataArchitectureTest.xml": "f10617f58fdf5c9b6189302832de8b14ae9a71cddc7c0aba25144f9cd59f2599",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.MarketDataConfigurationTest.xml": "ac71b3f0e68337d022f5db0d4c60af99fa59f0129063affd30301538cd5416b0",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.MultiInstrumentCorpusTest.xml": "65b30830ac0e30defbc33ed3f5e470c2c8faf511f4c5273c5f34ba6b738f9609",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.OneOrderPermitTest.xml": "e513020e80253c3c8c7d211dd5b6e41522d30e2ee8dbac9b75bf923986e983b2",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.OperatorControlArchitectureTest.xml": "93b4a2996bf46ebaa7c1b80199e3e87100b9f69c2bad2c7525d5a66b70095a4e",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.OperatorControlTest.xml": "828d3e59907da158a4540ed57c6497cf1b0fd63dbdd37c5a12a300f1e5f230c6",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.OrderArchitectureTest.xml": "06cdbd037385d549dd2d36006b97a8d1bd1530613929f1f9309af5e026f45684",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.OrderStateTest.xml": "992b73e58edb195fb33937f27380c45b41bf3eb9bfad773738ef5cc66d5a9c5b",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.ReconciliationArchitectureTest.xml": "4e9a745520e3a5ef25af00673e2cfa15e69f4307c6e62c1e38f372c06876ec75",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.RiskArchitectureTest.xml": "61b276103ce085e7166568484169ce424341c766624ed01c36d4c89918748a22",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.RiskEngineTest.xml": "f25787760c525c7699cdb2a345cae6c72dc57cd0c34461c6032af707739fc51d",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.RuntimeTradingHaltTest.xml": "691703836fb2f38db58ce48c0bcc7d0bbaab8249843da84929a72f09059dc81e",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.SafetyConfigurationTest.xml": "22285d0a1303bedec182c6ddb32f197a0d59153faaf5f4f5e49740e500d06168",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.SignalContractTest.xml": "8e179c5eb9efa7be7d12e4dfa56c80dde0dc295c6bafd87ad4644e67beae194b",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.StrategyArchitectureTest.xml": "99818c66d36bfc544db533453f96ba88196487fe88bd41e0ee916a8fe69255d2",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.TradingReadArchitectureTest.xml": "29cad2aa749732b34e5de6e319591b4e59da066de60ba40819963f1ee1e74c60",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.TrustedOperatorConsoleTest.xml": "dda2fb1169fc3fc85e1bb88e8864a4b3dee8872b8b03e74af3c6a2b34c1ba08d",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.UniverseValidationArchitectureTest.xml": "fe355c7de1378c2a30befd1247ff195ba82946c4f0c38cdfcee1414516ab7074",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.application.auth.KiteAuthenticationUseCaseTest.xml": "ea59959063fb773df6e8eb28387e71fdaa27c025faa5fb1c2285c0bcdd0991ad",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.application.auth.KiteLoginAttemptUseCaseTest.xml": "f662d30c9edbe43765d53321c65904fa7cb4f24c597e746d6c56de38a04c1803",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.JdkKiteWebSocketTransportTest.xml": "429b4e216bd8abd05a5d74e58412a8a974d5c037c061cd5c6711897207b033ce",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteAuthenticationAdapterTest.xml": "5e0d813dd07d28f15efd8e8bfab8bbc2af552b49464a482593e9c85bf21016b6",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteAuthenticationCookieTest.xml": "de0aa5b325fcc50ff9ff87869eda3971b8b173bd993592f37661151144a482ed",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteAuthenticationHttpTest.xml": "67f96f41e3efd421adea1977317a847d8966dfae1075ded073e9ebf46710b5be",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteConfigurationTest.xml": "9e97bfb7f822c7f380d2d8654cbc788f10dd1ccace21f45f6958d27c046e45b1",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityMarginReadAdapterTest.xml": "4146f502357afa63d8e341d8eab701e0cf2712a6c120c51dbbbe84f770fccdea",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadHandoffTest.xml": "c1bad486d74cdd9419bff914e2966bec7830ba6a851f77a4db186119b86084f7",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadHarnessTest.xml": "7a0af3058527d326c33edd9da818287a7653ee60fe38f3c7621e5deaa2d98e47",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadIsolationTest.xml": "f857b640b5b685b1894dc0b1242734848be1827d0a3ba4b951adb413be3c9996",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadRequestFactoryTest.xml": "dd7d901d50be47f2e384ceb81a8451f43ff181d8cfba792d3949810e2d0c13c6",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteHistoricalAdapterTest.xml": "450e319dda5a5ad3a67dc1398477576d32b4e783064c10e011d84eb34795b94b",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteInstrumentMappingTest.xml": "ad7e5c22c7b6b44c4acf3c5f71524f5c5c0712a79def9d2f0fc3dbecb0f02192",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataAdapterTest.xml": "ea57936499499ce580814dae5fba85bd67a173824cf53988379220bf24a696c9",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataBackpressureTest.xml": "fe5a5320a413aa88b923e2daebe14cda386a820d285c57252fbca22c07d15655",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataDecoderTest.xml": "399036167242a4c7cf3c536c0f21f9f19eedfe7cd599265160a50c6ed5fe9b83",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataHealthTest.xml": "70ba8593883a3b9c6caf6fa9291d8adef2ace83dc908706133f5b63edcc589ff",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataInstrumentMappingTest.xml": "34775e1f77242ab058139bc72b0b736a8b7a28eeb5cd218c17dd0409c28c61c7",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataNormalizerTest.xml": "b085497387087d1ed4755a4759bdf4eac6b98f58adfe5ee3a61e8eda9d27172e",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteOrderAdapterTest.xml": "63873f2bc9517437e04e40a764b0b0c1c1c5010c94c0dc41696bd6f4ea0382fb",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteOrderMarginAdapterTest.xml": "464b358913610dbd242aa54a16f72dfb7394628a850595d2d7e5ff1ed84cb2f3",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteRestReadTest.xml": "9407b4d2efd81fcceb78bbfb2cfebfee00979158f778f6e8d67d0af447b83b24",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteSessionConcurrencyTest.xml": "8fe403f30fdbdfe1c32497c6fd7d1a5548168aa9469d6412e58579b2f6905a3a",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteSessionMarketDataTest.xml": "c964bb1f3e7dd16c6f09756105c2628d4596cf6dba14a04f699371794ea1958e",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadAdapterTest.xml": "f09ec6686ce9bbba09b1bcb9e195aa625f017d7183e22100b37bd25fd4c79f76",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadConfigurationTest.xml": "a58d61521aacad5af5d86ca700b2e543f631cb1a9a87c73aa3d93ec553eae5c0",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadDiagnosticControllerTest.xml": "7329a74c3db59aadb18adcdedffecae58cf21a8f8032c3786b292ff585afa6a8",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadMapperTest.xml": "73a5744aa2dcc697835480274ed72c2d642a8bd4d949106b147de04028865c6d",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.PostgresKiteAccessTokenStoreTest.xml": "46069d41a21c460c98eb0a945287b1d8436968cf4376e85277617cc0a03ca1b5",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.PostgresKiteLoginAttemptStoreTest.xml": "b994f56c1f7918eb9d6a1200f02a500ec12965134ea73fcc3326bfe272c49ce0",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.instrument.InstrumentRegistryTest.xml": "92067ebb183bf39b47ed9f733da754a472024797ccb436b08c3d7b1a627d4fa2",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.instrument.InstrumentTest.xml": "7fb8a07d7998811c4a2aa68a7429448d6a1146716054c721caaa39b8a825c826",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.instrument.RefreshInstrumentRegistryTest.xml": "4a3a6c75c93b5240d6c1e031ca0006a1be4f8be9bcd37cf933e4823ca123750f",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.instrument.UniverseCsvImporterTest.xml": "29ebf5e3484e7e8cf1c050eef80dfed7ec096b23987aff2968f18a3d9b09a094",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.instrument.UniverseValidationDiagnosticControllerTest.xml": "75087470e50d0bfc8e4b186af072455f61126e366b127c77246137b7fd04846f",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.instrument.application.UniverseValidationServiceTest.xml": "9580269069d61b10d7c9eb3f9653b6c3040e7379692fba663f902f69f1e56a48",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.marketdata.LatestMarketDataStoreTest.xml": "99c996f21c8b99f426137a084464daf1b585d9151d21f2b88246e47b59bb1cfb",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.marketdata.TickTest.xml": "57ee36e07db71c2e53947e1fbb7a041fd44601d5498df2ae3db7eb5858cdce97",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.order.ConservativeOrderQuantitySizerTest.xml": "0c066aa5294548a96cad67f04daf9c0e10d282a222ccdedd6c0935b7c002f57d",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.order.ConservativeOrderValuationTest.xml": "78af88af26aa365cabfe87922c68edee65686c969303f3d005bc7c7a1b5a0b96",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.order.ExecutionFreshnessAuditTest.xml": "909f578236cf6fe94ea65de1f6077c054e8a9ca2681b0dbb64dafe20c8fbe638",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.order.ExecutionSafetyPolicyTest.xml": "da09a3d657052afae0bc8c16693c9c3eed928654509de5b38860200a5e8a04d1",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.order.OrderApplicationServiceTest.xml": "127adb7520b933f0ff503d383fdb4c5bd9541b8526d034a77080cb692719a4ca",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.reconciliation.OrderReconciliationServiceTest.xml": "5b11c9cb576701ccbd36f98bb1d7d37dc062b0a4336cb33e4238f6508d8f71b9",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.risk.RiskConfigurationTest.xml": "0a24fca5ff9d0158872e358d9f2873aa21410fb62209ab7c865212dcc9452b16",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.risk.domain.CashRiskArithmeticTest.xml": "317c668a2830270f6c51c53053250aceff6ef3ac3d4de9f0bef2b94ea57f5a54",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.risk.domain.ConservativeNotionalRegressionTest.xml": "eebb5ebe1550cc2c5c8074754327e9757dce7d165d96ff11d1bd560d62edbf6c",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.risk.domain.IntradayAccountCapacityTest.xml": "b3c4f9368c744a11c793618954ae370848834b6a9e00746ac37b564e92902a44",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.risk.domain.IntradayCollateralContractTest.xml": "a45f37097182e887a3d358167d1b5dbecdd81553d0ca9ee0f9440fe92d70e151",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.risk.domain.IntradayFundingDiagnosticsTest.xml": "d32e8dcf4f52de06a51331e9da128b3893694babad5731c3d4ef13a6acb14b25",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.risk.domain.IntradayFundingEvidenceTest.xml": "5858509323e166ac10edf58cdbcdd97b541785dc4e7ff96cb2ba579f93a92fd1",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.strategy.ReferenceThresholdStrategyTest.xml": "4f05a419c6a5bb7cd58540a6a9ba0e8ff33a28f411d34164909dd15e6b288b67",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.strategy.StrategyReplayAuditTest.xml": "316a4020a5a3708daed807874b10f91bf95a6673e936d0d8ac68282ab0f586fd"
+    },
+    "frozen_source_registered_text_sha256": {
+      "apps/strategy-engine/src/strategy_engine/backtest/__init__.py": "ea28bbd29e0eb8690d08834c856a77afcd4024053673dae02e4f653089a6c0d2",
+      "apps/strategy-engine/src/strategy_engine/backtest/corpus.py": "a2d5bf5766ac388b285d2952283fae70c6a56651dd0493b6a878b2744c066f5f",
+      "apps/strategy-engine/src/strategy_engine/backtest/costs.py": "d0807a36a9f84eef1076b6e45ae00b4861de69c43a5de48bfa43cd1922ab01d2",
+      "apps/strategy-engine/src/strategy_engine/backtest/dataset.py": "6f0f574d598306401f587c26733448a33200735d2e23c33c51212dede8bd0e1a",
+      "apps/strategy-engine/src/strategy_engine/backtest/engine.py": "2bc667e5639f52a7000cc689622961439312d41c21dd0292c1f6d04a31872153",
+      "apps/strategy-engine/src/strategy_engine/research/candidate_evaluation.py": "a1485b5bcd768a48268776c159ceb8c8b83dac420e03db2a29d777fca50eb358",
+      "apps/strategy-engine/src/strategy_engine/research/candidate_features.py": "4cf4660e7f00cf27a07dc364b48928fbd630213065d1627869efe98a808a43ac",
+      "apps/strategy-engine/src/strategy_engine/research/candidates.py": "dc80b4bac87d74d24d5d360fe4a38d111e8390d52216668ae55afeaef67e44ca",
+      "apps/strategy-engine/src/strategy_engine/research/costs.py": "933cebfefe8a4a4e4fdb653086bfb86d173d9fb6f756f5516842047349f86508",
+      "apps/strategy-engine/src/strategy_engine/research/diagnostics.py": "f9e492367788b268a627c45197a00b8b31424ebe15ac973c035fd99cfd44f189",
+      "apps/strategy-engine/src/strategy_engine/research/experiments.py": "df699ee25e764b43e39e1b3295acca8dec8fdc66e642a771bdb78008a07c265b",
+      "apps/strategy-engine/src/strategy_engine/research/features.py": "b509a9cb0298463e60676da212721deb5ea16fa0abef079dca7a8c28452d6645",
+      "apps/strategy-engine/src/strategy_engine/research/opening_features.py": "9726e1993bbfa55b12d1cf0913709c77a9ab0a48f3d00701b7c7e7403d719db3",
+      "apps/strategy-engine/src/strategy_engine/research/strategy.py": "37fdedcc427135741f1abd9138662637937edd1ed3c278a8d840c95bf547ece5",
+      "apps/strategy-engine/src/strategy_engine/research/walkforward.py": "9862b83db8ad172df6d673ad03114f2094ffc048b82983be0f7e51e48dbe52b4",
+      "docs/operations/phase-11.6-implementation-plan.md": "f64d45d520b73b192087ddafb83643be5616025dd07367f82d5c9642c7d52260",
+      "scripts/research/run_phase114.py": "e4ce559c1c65dc11f6f59e51b0b4cc94d5037ca85488e56473bc9dd6eead210c",
+      "scripts/research/run_phase116.py": "2b9acab4d23f1284fb130106bcbe6650d69095ff2a839bf2560b6490f24fd195"
+    },
+    "generation": 1,
+    "git_inventory": {
+      "modified": [
+        "apps/synthetic-credential-owner/src/main/java/com/kitehybrid/synthetic/LoopbackPeer.java",
+        "apps/synthetic-credential-owner/src/main/java/com/kitehybrid/synthetic/SyntheticHalt.java",
+        "apps/synthetic-credential-owner/src/main/java/com/kitehybrid/synthetic/SyntheticOwner.java",
+        "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/DisposableLedger.java",
+        "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/LedgerIT.java",
+        "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/OwnerIT.java",
+        "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/SyntheticSecurityTest.java"
+      ],
+      "new": [
+        "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/AttemptJournal.java",
+        "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/OwnerWorker.java",
+        "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/RecoveryLedgerIT.java",
+        "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/RecoveryOwnerIT.java",
+        "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/RecoverySecurityTest.java",
+        "docs/architecture/kite-synthetic-owner-failure-recovery.md",
+        "docs/operations/phase-13.7-plan-amendment-1.md",
+        "docs/operations/phase-13.7-plan.md",
+        "docs/operations/phase-13.7-runbook.md",
+        "docs/operations/phase-13.7-validation.md",
+        "research/phase-13.7/generation-1/evidence-manifest.json"
+      ],
+      "self_raw_hash_excluded_to_avoid_cycle": true,
+      "staged": []
+    },
+    "ledger_invariants": [
+      "Immutable forced CREATE_NEW journal marker before DB I/O",
+      "Missing/conflicting/partial journal denies; never recreate on adapter startup",
+      "Shared journal across workers and restarts; no retry/reissue after any marker",
+      "Unique PostgreSQL RESERVED then acknowledged CONSUMED before private ticket",
+      "Request digest and exact signed HALT digest bound",
+      "Unknown reservation/consume ACK grants no send",
+      "Terminal only once on CONSUMED; no grant from any outcome",
+      "Eight-worker/two-process and two-owner send tests; no claim of replicated failover"
+    ],
+    "limits": [
+      "Trusted synthetic identity/incarnation/key/clock fixtures; no live authentication",
+      "Shared honest local journal and single durable PostgreSQL primary only",
+      "No physical power-loss directory durability or replicated filesystem/failover proof",
+      "No privileged deletion/replacement/rollback of both stores certified",
+      "No OS egress sandbox or independent complete live sink inspection",
+      "Native serialization denial does not defeat hostile reflection/agents",
+      "Synthetic HALT is not independent live HALT; no real broker or funding readiness"
+    ],
+    "packaging": {
+      "actual_signature_provider_module": "java.base",
+      "jdeps": [
+        "java.base"
+      ],
+      "main_class": null,
+      "restricted_java_base_signature_probe": "PASS",
+      "root_reactor_or_trading_dependency_change": false,
+      "runtime_classes": [
+        "com/kitehybrid/synthetic/LoopbackPeer$Exchange.class",
+        "com/kitehybrid/synthetic/LoopbackPeer.class",
+        "com/kitehybrid/synthetic/SyntheticHalt$Assertion.class",
+        "com/kitehybrid/synthetic/SyntheticHalt$Lease.class",
+        "com/kitehybrid/synthetic/SyntheticHalt.class",
+        "com/kitehybrid/synthetic/SyntheticOwner$Credential.class",
+        "com/kitehybrid/synthetic/SyntheticOwner$Delivery.class",
+        "com/kitehybrid/synthetic/SyntheticOwner$DispatchTicket.class",
+        "com/kitehybrid/synthetic/SyntheticOwner$Fault.class",
+        "com/kitehybrid/synthetic/SyntheticOwner$Ledger.class",
+        "com/kitehybrid/synthetic/SyntheticOwner$Outcome.class",
+        "com/kitehybrid/synthetic/SyntheticOwner$Request.class",
+        "com/kitehybrid/synthetic/SyntheticOwner$Result.class",
+        "com/kitehybrid/synthetic/SyntheticOwner$SinkPolicy.class",
+        "com/kitehybrid/synthetic/SyntheticOwner.class"
+      ],
+      "runtime_dependency_tree": [
+        "com.kitehybrid:synthetic-credential-owner:jar:0.1.0-SNAPSHOT"
+      ],
+      "runtime_jar_raw_sha256": "c7eb2f100787eb92c6ea7c2dd152aaa66c421922db1abbc886cdd330694f83c5",
+      "runtime_test_adapters": false,
+      "synthetic_profile": "SYNTHETIC_HALT_V2_RSA3072 / SHA256withRSA"
+    },
+    "plan_raw_sha256": {
+      "docs/operations/phase-13.7-plan-amendment-1.md": "66ad85aaee27b0205c5f941c2e5d49684f4b7924cae25ddb6e65392fde52c30f",
+      "docs/operations/phase-13.7-plan.md": "d79f7251482a1a8529c47cfd9b877da607aefddc163be3c82179e541fe274e81"
+    },
+    "preservation": {
+      "g1_raw": "56a1bd05bbbec36f639450f2f52c491c8c5436c16094f86bcf0c2818d4f63656",
+      "historical_parent_inputs": 132,
+      "historical_phase136_docs_and_manifest": "UNCHANGED",
+      "k_semantic_envelopes": 11,
+      "kl_raw_files": 25,
+      "normalized_only": [
+        "candidates.py",
+        "diagnostics.py",
+        "opening_features.py"
+      ],
+      "normalized_sources": 18,
+      "original_research": 63,
+      "raw_source_matches": 15
+    },
+    "project_checks": {
+      "diff_and_new_whitespace": "PASS",
+      "existing_trading_integration": "NOT_RUN_NO_SHARED_TRADING_CODE_CHANGE",
+      "project": "PASS",
+      "python_tests_ruff_mypy": "NOT_APPLICABLE_NO_PYTHON_SOURCE_CHANGE",
+      "secret_scan_findings": 0,
+      "secret_scan_text_files": 1827,
+      "secrets": "PASS_ZERO_FINDINGS"
+    },
+    "protected_raw_sha256": {
+      "docs/architecture/kite-authenticated-session-ownership.md": "0a12c3be007b270674df2a904139199ea7ce98a19aad3ab5f46850bafe580e9c",
+      "docs/architecture/kite-connect-runtime-hardening.md": "aed2479bea1ebc498730f13ce0a6eb2d6f18107df7aab2d715d92ceace750954",
+      "docs/architecture/kite-credential-owner-security-review.md": "3ecf6559e4f64dbf66d9c229b28ebe88c29d55e7acccada0a3bdd95c0cb2f7ae",
+      "docs/architecture/kite-credential-owner-service-boundary.md": "16deb0fcc4acdf07ac2cf080e598345a668437b09eb06cd53064231905a7a2f1",
+      "docs/architecture/kite-db-free-assurance-contract-v2-proposal.md": "5b9f1e717dd444ce5bbf6697012bf11887dba780fb8c1099ac24d0a5d7d79ce7",
+      "docs/architecture/kite-db-free-assurance-contract.md": "afed3be4ee615f8b6c7030d116b21e2d179ba1a0ec393bdd06a9e2e4dd47b9f9",
+      "docs/architecture/kite-market-data.md": "877a02036ed6efc3be7939e871f1ed4ff8d3d2aa6de7e2d6f354db6c37ca1799",
+      "docs/architecture/kite-minimal-read-only-deployment.md": "c5acf92f499ef6b36cd759c1620b7b256ada3c2c1bc02555b68e2022d47f1ae9",
+      "docs/architecture/kite-mis-authoritative-evidence.md": "9e309db6f01889f1af6a088f5bb78ec9f1917f9a6fd8dc22998a383421900ad5",
+      "docs/architecture/kite-mis-collateral-contract.md": "4ad58a8641ccc9f6bae2ef295baa3a6cb561dadfafb132d1fa24ac8f58cf5a81",
+      "docs/architecture/kite-mis-funding-evidence.md": "eeaadedcbb7997621c716442f136531d81c0e0b72da7131a81ac0ea40e4b1e83",
+      "docs/architecture/kite-operational-session-provenance.md": "dc164f87950fd0ac8807b7b3df3e1a35d96cc3d1386cd5265e103ff8f65a0ae6",
+      "docs/architecture/kite-read-only-deployment-isolation.md": "66ebb10e614bf7c220e0ff46f96e4db063ab1fd47ad297ad3a9b767aa8fa7e7d",
+      "docs/architecture/kite-read-only-equity-margins.md": "6ae36a679d8a6b118f1244bc871f07f6f09fd7829f75f1c2ae2e3358db990ede",
+      "docs/architecture/kite-real-session-composition-review.md": "e47d57469dfb919c13957676b54f05013d454a8b97f62fd9e4abbb5cec568f46",
+      "docs/architecture/kite-rest-and-instruments.md": "05a668e9ce4fada79c035405b2140522c77b4f0a41b3e4ca8695e4ba5759dee8",
+      "docs/architecture/kite-secure-session-handoff.md": "b3781bb4a6f7bfaaa321d7dcb05587995c3005a18acab1f17926a7b0cb413211",
+      "docs/architecture/kite-solo-operator-governance-amendment-v1-proposal.md": "24f3fbd86e6fb662edb6890c5150ab03c3e9fce23d7b7b5da709f43b1f636edb",
+      "docs/architecture/kite-synthetic-credential-owner.md": "a9ca9fe08e1a58aa219a00dca2bfb1055b5fc539d79629df14a04e9d2e8b6ac1",
+      "docs/architecture/kite-trading-read.md": "a2daf4e3ed593a7239fc55693b39751f9824755c7a66e8d6b02e3a10859666ad",
+      "docs/operations/four-role-decision-collection-plan.md": "9eef5f2be9474b1088632aabb37a1d1b94ea0973c90af5ff27b9247530b9fac4",
+      "docs/operations/four-role-decision-matrix.md": "aac74f20e0516bcae247313318f03f71329aed794f02686e1e37e31322baf34f",
+      "docs/operations/four-role-decision-validation.md": "c3db438a5eecf8e3cee3d6cadb207074452d26d7847259ca9cedc6a66d37974a",
+      "docs/operations/four-role-implementation-readiness.md": "4e293b17e5afcaa7b8c021eadc87c7f65a9d6401d02033b37418a06ff30136bc",
+      "docs/operations/four-role-review-packets.md": "6ebd3456394be7afbb26ae9137931f9414b9d4203369757df5a1ace6f27b94be",
+      "docs/operations/phase-13.5-plan.md": "40a83d54a06eae035e893478738e9c84e974ceb73bd65658509f26bff5c25cbf",
+      "docs/operations/phase-13.5-real-read-approval.md": "a2dc65a0ecfdefe3913e5e2bcd6140018ad736ef1e092f3966410a7fc29cb32c",
+      "docs/operations/phase-13.5-runbook.md": "ff9befa48a7510522ddf07038e22555f704b41935caff00c480f894c6fce33c7",
+      "docs/operations/phase-13.5-validation.md": "7ae6bdc0b777e52889ebc5cab6f284c01ec4e53112122e7a22b02e2c2301ced5",
+      "docs/operations/phase-13.5a-plan.md": "4c9a3d3163f77ec811a2e95099e63193ec95fe81dc69986f5d1eeb71a191bf2e",
+      "docs/operations/phase-13.5a-runbook.md": "b4094c9ace9f81598e75616f22d57ce72b471770d03292fa65e137bc0c9189c7",
+      "docs/operations/phase-13.5a-validation.md": "8e5f24dc050ea55274cb3e608c43c3932b5fd9b0a63449d5d227f155889012e7",
+      "docs/operations/phase-13.5b-operational-isolation.md": "8f0d2986f65bd50a24a28c2a4f7b47dad1a70cecfd66be7fbef9c4d5d22996ac",
+      "docs/operations/phase-13.5b-plan.md": "12fd1b1c8bc36e146275782ac33d9422c07ac2553ff3eac7d4d2af872fa1e289",
+      "docs/operations/phase-13.5b-validation.md": "1f84e14cd066cb0de13cedd7d608f2009e89ad366f3f2546db6ffbb6460c9314",
+      "docs/operations/phase-13.5c-plan.md": "a06489f53b8b70ec3269ea716e0c29e71b04323d84de9a6154ded13674820931",
+      "docs/operations/phase-13.5c-prerequisite-matrix.md": "2c40e766d0e29a670dff6f78d6feb0c4e25f4bffe6cf356d5b61be784d3d562f",
+      "docs/operations/phase-13.5c-runbook.md": "e57a833bcab620bb052fe2f6089f3ee6a6e6ead13ad0d73f007e4fa7ad37a3ec",
+      "docs/operations/phase-13.5c-validation.md": "72b9dafc450528f34a3e30ef21220c7a6eaf86465c2624f33a4f316f82782c54",
+      "docs/operations/phase-13.5d-certification-matrix.md": "699c56a40da25425bf0a6b53890806c8d93ed89da83fdf0e4ca88bc9c5e08e74",
+      "docs/operations/phase-13.5d-plan.md": "641e205d4902d770397227e77c5e2150d2ca98447d1bcf108d6dd58a955d5165",
+      "docs/operations/phase-13.5d-runbook.md": "f98abd439f66783a4485e1b8cb8bf964c47dfc104bb08ab78907302492688fec",
+      "docs/operations/phase-13.5d-validation.md": "a11ac411bb8b8209caae27a13cedd8ce8e5f0592bf730274668ab4db53d635de",
+      "docs/operations/phase-13.5e-certification-matrix.md": "fc60ad12914372b6d5b2f2e1a48969ff1f128e31fd9b09578102e223be555a8f",
+      "docs/operations/phase-13.5e-plan.md": "590bbfd524dc0a4191d5a5dbc317f61a69b41d25a60d967fa4f0061fac9bd6f5",
+      "docs/operations/phase-13.5e-runbook.md": "279b370d3961d9fe58edfbee43cd0a8f774c301a73a2f4633d2bf8189ff61df5",
+      "docs/operations/phase-13.5e-validation.md": "4ecad21765f0ac7bbb1f3886ddcbe42b7594241172d4abf261dd31a40fd7308d",
+      "docs/operations/phase-13.5f-decision-matrix.md": "f239446fa26211b4223b504acc113abc8e4150f3a5b94cc9a1a33564b571847b",
+      "docs/operations/phase-13.5f-plan.md": "182be2cfbb8c3c0b8fab8b26a35e475b96cef1799117436c681ab51c7a94802f",
+      "docs/operations/phase-13.5f-runbook.md": "46ebcdfbf3302886048b44924005c062158c85b0be3fc8b1b344d47748d7d2fe",
+      "docs/operations/phase-13.5f-validation.md": "a9ae19a10205c71b6309cd713d43e32cc51c66ea964e4df371568224c14a18ba",
+      "docs/operations/phase-13.5f-websocket-test-synchronization.md": "f64a280422d20afd63c510570448e927467ff05b1931797c5230e91abd83b110",
+      "docs/operations/phase-13.5g-review-plan.md": "87280b462de86036dbccd537b8c09630e645a35f5165bd3ddbee268467eb2bb2",
+      "docs/operations/phase-13.5g-runbook.md": "d78b837aa9bcd176542a67585af9103043b30f0c75d87bbf67d6e6b49480911b",
+      "docs/operations/phase-13.5g-security-decision-matrix.md": "8b2d102141b378ac153a740042f80a260776b0653a94cef2cbc2b47cd1fca536",
+      "docs/operations/phase-13.5g-validation.md": "12299d2685f2d9c068c5fa090b71ce0dde8fa349415fab42478f84b669f7488a",
+      "docs/operations/phase-13.5h-approval-matrix.md": "88eb6017f34b31a1a529e792078c58f491dc77b9e96c000ded2a2d117f417f66",
+      "docs/operations/phase-13.5h-implementation-readiness.md": "c33c9617fa956e8b240e31575ea2e4a4aee9c48ba702edd76c16e4998ba7fbf5",
+      "docs/operations/phase-13.5h-plan.md": "154f1c721eb9e9034ec97f87169483720cb783649b50db581f4f4d38542e0bed",
+      "docs/operations/phase-13.5h-review-request-draft.md": "b2ec1d1398171bb47e72060db7c605e5b00459b9815c98618be7163eebe13d7c",
+      "docs/operations/phase-13.5h-validation.md": "c6307c013cd5ad825868f9c2de72898a7f9b4a521edf0858593eba673f39669e",
+      "docs/operations/phase-13.5i-decision-matrix.md": "4c5326d49813aec75927aa630eca5ae1dd0184aaa754b90454496e0623216356",
+      "docs/operations/phase-13.5i-implementation-readiness.md": "06d5c8a1da0a48f71bceba369e2551cf5997741627f85b837ac8f3d9098120d6",
+      "docs/operations/phase-13.5i-plan.md": "028f28839fd554581550bda0f82eb0127c6b1e4daa187b4a17e5e79e3fa89b41",
+      "docs/operations/phase-13.5i-review-requests.md": "30fe816eba6fa2f187f5e4d39a11d6570cfac694bfb8fa7ccdd76ab85e4bdfed",
+      "docs/operations/phase-13.5i-validation.md": "df5e7f194d52aeca7dd4ac66ed3f53f6e65ad0a22a3dc687003a7410ca4ef638",
+      "docs/operations/phase-13.5k-owner-decision-packet.md": "9561735fa9850e098c9e5ac4bceb2ea470261497e325e3a4b83f1565b3c05a51",
+      "docs/operations/phase-13.5k-plan.md": "50f42ce00b4f939135c3bdb55cc6ecb3ad02bc9c0ce7fb82005c819b114ce5b4",
+      "docs/operations/phase-13.5k-residual-risk-register.md": "454b1d829c509095507c3381ff92e4704d086b247e560a61ea205e5529a036f3",
+      "docs/operations/phase-13.5k-validation.md": "67e13bdaa104fd4f456f1474b200d1cedad4b617f91140efb74d4f63eed532a5",
+      "docs/operations/phase-13.5l-adoption-assessment.md": "be0d0bac076d47feaae1b630e19ccd7930b7a9634ee55a0eebf3b296fc780604",
+      "docs/operations/phase-13.5l-plan.md": "0e16b902096ed1c1090b99019ffe6125cd571b8432eb08e2009c05f307df1412",
+      "docs/operations/phase-13.5l-second-review-packet.md": "7243330ca6fad01a18a975d1abbd72ec6ba9114dc23288d04245a9992bd25290",
+      "docs/operations/phase-13.5l-validation.md": "472cac2465a26ea60a7923a78bb12d626c41ff68f0ea9fc3dec1aa9753597301",
+      "docs/operations/phase-13.6-plan.md": "c945ca56a77ef199efe02b19b86ecd92a1e5fcba644e01610c50cc9b2a828392",
+      "docs/operations/phase-13.6-runbook.md": "fe6bcfe4657628d40938559a7a4bba10816da5183d702daabd8850cabcbac3c8",
+      "docs/operations/phase-13.6-validation.md": "c76776833630900a1d20a4ca9c7ed2bbc54d103adb37d832ad5aebdcc1ab61d4",
+      "research/phase-11.4/acquisition-summary.json": "1627def2dfd956ce9ed510aa1c6397f4620f21d1a254c4231c491ff857d7e41b",
+      "research/phase-11.4/calendar.json": "33f99f8004a5388e7c3c534bd1f1e8262c71e06384086ffa7b5c2741ed6985e0",
+      "research/phase-11.4/development-report.json": "ae497b05d9fed7475c3d30f0f2bdc04c975c8c3c7a9057ad4c924175417de110",
+      "research/phase-11.4/manifest.json": "2ee12383fd1e8c9bac7b22ebb6ada0df70dc885cab971f6ba2afae3e595e87a0",
+      "research/phase-11.4/walkforward-spec.json": "613ae9b2d06879206b1dfdae2c7e14444408efc49e0002d81e50ab7559f2ace0",
+      "research/phase-11.5/evidence-index.json": "b4c7d3127a72bb6fb669484a44b2653484592222f7ecb07c20bbdbf9d04fb5de",
+      "research/phase-11.5/f2b20e24137c9453a40f7296fa6e5f70451b5e94873364b976aa910d4959664c.json": "f2b20e24137c9453a40f7296fa6e5f70451b5e94873364b976aa910d4959664c",
+      "research/phase-11.5/hypotheses-v1.json": "c80a8122ca30e275ad299c48941f8ab8877795b2049b3ab956caf40eb6508d53",
+      "research/phase-11.6/6191638161b8bab6c1131946ce1c5bd2d6b41609bee779287b4ee80ae522bcf1.json": "6191638161b8bab6c1131946ce1c5bd2d6b41609bee779287b4ee80ae522bcf1",
+      "research/phase-11.6/eb3d64548362afe813834e85ff714ae1b42c3dabdc082b01536ca76299907ade.json": "eb3d64548362afe813834e85ff714ae1b42c3dabdc082b01536ca76299907ade",
+      "research/phase-11.6/implementation-freeze-g1.json": "56a1bd05bbbec36f639450f2f52c491c8c5436c16094f86bcf0c2818d4f63656",
+      "research/phase-12.0/acquisition-plan.json": "db95ab96ff884e46264c94f2d662f5be86d023e1ce5f7778195f83bd7f9e3f30",
+      "research/phase-12.0/corpus-manifest.json": "c465d9fdde18fe19d7c1213323c21c44c288c2a9272893e054a4b7a856b422b5",
+      "research/phase-12.0/implementation-verification.json": "18a7bd5e23365a3496e85d437c520ebd966143f137670b02292710bb23cf773f",
+      "research/phase-12.0/java-plan-verification.json": "647c3c6a27d5e17e31c67e78957db04864a59b972bf599e94d2693a99d97e109",
+      "research/phase-12.0/readiness.json": "de72889403aa9bf490f20e0fd7ad255c0d39afba9e8ae1d9f8dc800e8485d76a",
+      "research/phase-12.0/universe.json": "638f11d8805f8d45724e8ade9a74e37652564046b699acd03033988ea4150395",
+      "research/phase-12.1/access-log.json": "0a5d3b0b52b50153324fbdba68e083defee90f39a8297823e7db3d95d606c007",
+      "research/phase-12.1/acquisition-gate.json": "3bf530e20d6ffddfa63f8d00aa399725dcf39ae022c2257dc2505463fe449607",
+      "research/phase-12.1/certification-policy-v1.json": "1a741982b9eae1f54acd150693f903dbfbbebc9c44f962451dae9fa3360c660a",
+      "research/phase-12.1/continuity-boundaries.json": "7a70eb4641301bfc6bfb3c7ee6098134913e91bdbcb250d6ca0d71ba48eee437",
+      "research/phase-12.1/evidence-manifest.json": "ec1138ad69f05e30cd1306a328d7b646a19b7eefe5ad9b4290b3798bd07e5f11",
+      "research/phase-12.1/generation-1/acquisition-gate.json": "8ae1486d7f747ad856d5bbb5887860d60e52a6a5881cf29ea76521cbb3787a07",
+      "research/phase-12.1/generation-1/continuity-boundaries.json": "c599f4f76555a225823d5b5ccd25fcd57a616624ca2336d0dd6004b32c48c9f4",
+      "research/phase-12.1/generation-1/evidence-manifest.json": "b2ea6e7c36168722311ad47aa783249f7538730d0f93b61d902db9798fb8379b",
+      "research/phase-12.1/generation-1/instrument-certifications.json": "611216970e3ac7412a251b403ff161b3f64e363ff4ea44a06ff222c6946f3935",
+      "research/phase-12.1/implementation-verification.json": "af4c07bffcb628b79cc5348620a0528acc09bc589989d33022c54942d6faaec5",
+      "research/phase-12.1/instrument-certifications.json": "aa704ac8f8bbfc5d8a6f630f31a64b1b5e79ea0994454657d534c1de50732eb5",
+      "research/phase-12.1a/generation-1/access-log.json": "ec5e2e22f4f7b15b3de09cac385ccd4c0a2e04990c89fa32f127af8a6efe50e5",
+      "research/phase-12.1a/generation-1/acquisition-gate.json": "e8dcdd78adff3f8d17d52d2097f9571456b7e49a22cb1b61fd9111ddbb47808e",
+      "research/phase-12.1a/generation-1/baseline.json": "b73003c7e40abfc0e0b29b6f76c7ea99f5542715ba810da6e2a0d5899c8e33cc",
+      "research/phase-12.1a/generation-1/continuity-boundaries.json": "1888100051bb088fafd35328875249fa5c2f882c635407ab853cea5d8bc1cacd",
+      "research/phase-12.1a/generation-1/evidence-freeze.json": "0ef497571222123ee1e17a3e6361f95b3a1844a4f57dbef22e13f6ff757149f3",
+      "research/phase-12.1a/generation-1/evidence-manifest.json": "fd0932796e1b43c919cda0c0984bc4925c7db86010eb55379364c50d01754242",
+      "research/phase-12.1a/generation-1/instrument-certifications.json": "5dc1880ff82ceb231e0eb375ca8d7d8414f627680f33b522ef4b0d27eac8fe43",
+      "research/phase-12.1a/generation-1/isin-reconciliation.json": "49deae007fdfbb76f74ade5b1e40be853fbe2915bdae182c73e196545938bafa",
+      "research/phase-12.1a/generation-1/security-reference.csv": "b4e000fcb37b5123933cb74cd5c0fd3de30babd5448f1177514ca8de02669ec9",
+      "research/phase-12.1a/generation-1/source-inventory.json": "c43d2ed63a7bd0d3cac1c8d3446b7f508282dbfb11a3bc09e3acc047bd41b846",
+      "research/phase-12.1a/generation-1/validation.json": "cb899d17504b63ed353d2b252e43fd84de623719ea23b65286d90ac5c316841c",
+      "research/phase-12.1b/generation-1/access-log.json": "5d09197306ac6ed71f0749acc9ad109f769dce8bb5a7b8d0a4676f48953ddc90",
+      "research/phase-12.1b/generation-1/acquisition-gate.json": "404d0d1542c288566489d4792a942eaffaa685b797334b67aa98b3777151f7a3",
+      "research/phase-12.1b/generation-1/announcement-review.json": "0b9f8379425d4f0187cc0fa9699dc73f91f9f1fcf47f2eb4f65daaed7bc5dca2",
+      "research/phase-12.1b/generation-1/continuity-boundaries.json": "48f57ef523fb41334bee44f015c4d934d201170daa136318b5810acffed32b85",
+      "research/phase-12.1b/generation-1/corporate-action-coverage.json": "292795eb4c9a56cd5045546ccd0e1a66609ae3d97a9c7586424ba45be9185e17",
+      "research/phase-12.1b/generation-1/corporate-action-events.json": "724c2189e6a966b6dbb594705ef64c9f2ca02c231b6e57547210d0392a29d05b",
+      "research/phase-12.1b/generation-1/evidence-freeze.json": "81271046b29fdf5d332127ac85c58ac96c56b4deb61b6a7e50053cabcb6c438b",
+      "research/phase-12.1b/generation-1/evidence-manifest.json": "be4312f3041c6df346f8d2a6891eba14d87982bea99977c730ea7dad8820168b",
+      "research/phase-12.1b/generation-1/instrument-certifications.json": "4cfceeb41592139e84edac1152ed4727474463ea8849c413e195a75b30f734ee",
+      "research/phase-12.1b/generation-1/research-plan.json": "6f760addabbf85ee5d0c2bba04bd19638f965abc67b1ea79d3a229536e0ee17d",
+      "research/phase-12.1b/generation-1/source-inventory.json": "1a072c039a728d47f4b7c1c59e5e59a4ca2f0a405d07e12a958c380c0190d92c",
+      "research/phase-12.1b/generation-1/validation.json": "9e22069056737fcef6aee5bf1f693db7f8ca465506e47a5ef9bde8161e7e86b8",
+      "research/phase-12.1c/generation-1/access-log.json": "968d4b7b73e531316818894b75c8131b2b5b5ab94acde6cb2caaff2764a91403",
+      "research/phase-12.1c/generation-1/acquisition-gate.json": "c812f7e052b598ea901060bab71225cb52c3add93502e229b76548364202ea6c",
+      "research/phase-12.1c/generation-1/closure-plan.json": "86263f8bca801befcc29c2eb6523f52060c193ee2521186e89c303371f7662a8",
+      "research/phase-12.1c/generation-1/continuity-boundaries.json": "1cb64830924662fbc6565e6d2e97c7035d1c965948ee4f8ec326263c7087135c",
+      "research/phase-12.1c/generation-1/corporate-action-coverage.json": "86226b40d4c137481d69cc114d92832c7b35207f13ddf57a0f31ffa2f978ddab",
+      "research/phase-12.1c/generation-1/corporate-action-events.json": "789b1c091bd138e391eaf1cbd5ce9249d22bff70ca4b343f336f45195778fcdf",
+      "research/phase-12.1c/generation-1/evidence-freeze.json": "f3f1eb56d492f4461462c7717808a241c34bf69e30419b0600e533a6f7f7da60",
+      "research/phase-12.1c/generation-1/evidence-manifest.json": "45af6683ff1b2c925e66da87abf651770a645239707b70333e2af5d7671f01fd",
+      "research/phase-12.1c/generation-1/instrument-certifications.json": "1801e4aeb1444fc36f7e8720a86218c0f39ec9e52e355e752af4961ec510c078",
+      "research/phase-12.1c/generation-1/pending-event-review.json": "f6eb2baeabf77fa1b6962af6c10e9d8097cf283e49c9d1460d2b06e0bc90e5b4",
+      "research/phase-12.1c/generation-1/source-inventory.json": "ff93e189ab84351e9277c79c86686a29d642a90b243fd0a88c272a7cf1f25713",
+      "research/phase-12.1c/generation-1/validation.json": "3f16b60813ad1ee6e36dfaf5b6d0a69741a94ec23a51c122a4adbbc95128c19d",
+      "research/phase-13.5i/generation-1/approval-ledger.json": "f644462b6a172d18175b5c5d883ca64b5c2132be6834cc6e1693d5e133342212",
+      "research/phase-13.5i/generation-1/decision-replay.json": "1d7e6efeaea0f6a6d5cd194e89a7ec6f14f57f8a82ad30a3a7a5192feca8015a",
+      "research/phase-13.5j/generation-1/approval-ledger.json": "ac4a9feb25e9e6c09204ede698aedd846256517577f114d3cfb7b12f2c0bb084",
+      "research/phase-13.5j/generation-1/decision-replay.json": "dfc613d0cacf23a148312a9c39b34d4062934bba5adadfd07d2509143505945d",
+      "research/phase-13.5j/generation-1/evidence-index.json": "a431ef8a49aae096d827223d0a802686aa55811a0cf1facedeb3b63c39f8f96f",
+      "research/phase-13.5k/generation-1/decision-template.json": "a8fada4ab3eb253585babff7a34c34ca27f6ef22d9207279430677be66fd6c39",
+      "research/phase-13.5k/generation-1/proposal-index.json": "0127b05475196150871faa832d44a4960ddc98154ed159cc8a03731ee3edb600",
+      "research/phase-13.5k/generation-1/risk-register.json": "e3391bb6132f9da8f5c74125104fb38efc01c273d41adacf7b82cf3d0f554160",
+      "research/phase-13.5k/generation-1/validation.json": "f1ed62f70a71297b6c8a1aeb173b10459664b5a8001fac14f8a37435bb8e3506",
+      "research/phase-13.5k/generation-2/decision-replay.json": "53320fcf513200ffa9e33abf05f836e7a76e1615b75525043dc0de521a732e3b",
+      "research/phase-13.5k/generation-2/owner-decision.json": "34c647f3dffc8baeacca93791add69c6d75a942ce2c0cf1c302bca8c216841a1",
+      "research/phase-13.5k/generation-2/user-submission.json": "09bb09cd4f83b91498d3fe6fe8b3db222fdb58722c48b5bb4adeb2c602d04d8d",
+      "research/phase-13.5k/generation-2/validation.md": "b7bb372cd581cc9b1a578ae2dcb28f431c3c481d3238def026681eca90a65852",
+      "research/phase-13.5k/generation-3/decision-replay.json": "2de22facec662c905d10c5a6c9a59e244a422465d72e9dd2608838d00e00f853",
+      "research/phase-13.5k/generation-3/owner-decision-supplement.json": "d635f811889be763b4182405b3cad837880e6ad3676f8592cc66031dc1c43834",
+      "research/phase-13.5k/generation-3/phase-13.5k-owner-decision-supplement-candidate.json": "d3ef482f0fb03b11c953791ca05fc8653e2f2894bb1563d5cb69bf3ac5357c64",
+      "research/phase-13.5k/generation-3/validation.md": "5b21d09ed0065e1e744b4ce169e34bb2baf62a1f34f0414a0dd9afd36736fc56",
+      "research/phase-13.5k/generation-4/checkpoint-or-second-review.json": "078da2d1e461ca3e51773105133d19b6a05f6ca649316c4294002aca7bd42313",
+      "research/phase-13.5k/generation-4/decision-replay.json": "462cac09e5ec1345ecca5f5608bc95d90f627466a9d854ca6a51d48bf6bc43e5",
+      "research/phase-13.5k/generation-4/owner-checkpoint-declaration.md": "fdcb15f83e2691f240425b5c4c07b93d4b572feeb67f457de48350d33e32f65f",
+      "research/phase-13.5k/generation-4/validation.md": "439650822b0392a784bedab9a9c740f56cfbeff1c9103e37061d3d0f0a9d6622",
+      "research/phase-13.6/generation-1/evidence-manifest.json": "5ad3bebc4ad22bc01262e0d1ba932a1ee9a706ab2a80217646909e732f7f7afb"
+    },
+    "protected_research_raw_sha256": {
+      "research/phase-11.4/acquisition-summary.json": "1627def2dfd956ce9ed510aa1c6397f4620f21d1a254c4231c491ff857d7e41b",
+      "research/phase-11.4/calendar.json": "33f99f8004a5388e7c3c534bd1f1e8262c71e06384086ffa7b5c2741ed6985e0",
+      "research/phase-11.4/development-report.json": "ae497b05d9fed7475c3d30f0f2bdc04c975c8c3c7a9057ad4c924175417de110",
+      "research/phase-11.4/manifest.json": "2ee12383fd1e8c9bac7b22ebb6ada0df70dc885cab971f6ba2afae3e595e87a0",
+      "research/phase-11.4/walkforward-spec.json": "613ae9b2d06879206b1dfdae2c7e14444408efc49e0002d81e50ab7559f2ace0",
+      "research/phase-11.5/evidence-index.json": "b4c7d3127a72bb6fb669484a44b2653484592222f7ecb07c20bbdbf9d04fb5de",
+      "research/phase-11.5/f2b20e24137c9453a40f7296fa6e5f70451b5e94873364b976aa910d4959664c.json": "f2b20e24137c9453a40f7296fa6e5f70451b5e94873364b976aa910d4959664c",
+      "research/phase-11.5/hypotheses-v1.json": "c80a8122ca30e275ad299c48941f8ab8877795b2049b3ab956caf40eb6508d53",
+      "research/phase-11.6/6191638161b8bab6c1131946ce1c5bd2d6b41609bee779287b4ee80ae522bcf1.json": "6191638161b8bab6c1131946ce1c5bd2d6b41609bee779287b4ee80ae522bcf1",
+      "research/phase-11.6/eb3d64548362afe813834e85ff714ae1b42c3dabdc082b01536ca76299907ade.json": "eb3d64548362afe813834e85ff714ae1b42c3dabdc082b01536ca76299907ade",
+      "research/phase-11.6/implementation-freeze-g1.json": "56a1bd05bbbec36f639450f2f52c491c8c5436c16094f86bcf0c2818d4f63656",
+      "research/phase-12.0/acquisition-plan.json": "db95ab96ff884e46264c94f2d662f5be86d023e1ce5f7778195f83bd7f9e3f30",
+      "research/phase-12.0/corpus-manifest.json": "c465d9fdde18fe19d7c1213323c21c44c288c2a9272893e054a4b7a856b422b5",
+      "research/phase-12.0/implementation-verification.json": "18a7bd5e23365a3496e85d437c520ebd966143f137670b02292710bb23cf773f",
+      "research/phase-12.0/java-plan-verification.json": "647c3c6a27d5e17e31c67e78957db04864a59b972bf599e94d2693a99d97e109",
+      "research/phase-12.0/readiness.json": "de72889403aa9bf490f20e0fd7ad255c0d39afba9e8ae1d9f8dc800e8485d76a",
+      "research/phase-12.0/universe.json": "638f11d8805f8d45724e8ade9a74e37652564046b699acd03033988ea4150395",
+      "research/phase-12.1/access-log.json": "0a5d3b0b52b50153324fbdba68e083defee90f39a8297823e7db3d95d606c007",
+      "research/phase-12.1/acquisition-gate.json": "3bf530e20d6ffddfa63f8d00aa399725dcf39ae022c2257dc2505463fe449607",
+      "research/phase-12.1/certification-policy-v1.json": "1a741982b9eae1f54acd150693f903dbfbbebc9c44f962451dae9fa3360c660a",
+      "research/phase-12.1/continuity-boundaries.json": "7a70eb4641301bfc6bfb3c7ee6098134913e91bdbcb250d6ca0d71ba48eee437",
+      "research/phase-12.1/evidence-manifest.json": "ec1138ad69f05e30cd1306a328d7b646a19b7eefe5ad9b4290b3798bd07e5f11",
+      "research/phase-12.1/generation-1/acquisition-gate.json": "8ae1486d7f747ad856d5bbb5887860d60e52a6a5881cf29ea76521cbb3787a07",
+      "research/phase-12.1/generation-1/continuity-boundaries.json": "c599f4f76555a225823d5b5ccd25fcd57a616624ca2336d0dd6004b32c48c9f4",
+      "research/phase-12.1/generation-1/evidence-manifest.json": "b2ea6e7c36168722311ad47aa783249f7538730d0f93b61d902db9798fb8379b",
+      "research/phase-12.1/generation-1/instrument-certifications.json": "611216970e3ac7412a251b403ff161b3f64e363ff4ea44a06ff222c6946f3935",
+      "research/phase-12.1/implementation-verification.json": "af4c07bffcb628b79cc5348620a0528acc09bc589989d33022c54942d6faaec5",
+      "research/phase-12.1/instrument-certifications.json": "aa704ac8f8bbfc5d8a6f630f31a64b1b5e79ea0994454657d534c1de50732eb5",
+      "research/phase-12.1a/generation-1/access-log.json": "ec5e2e22f4f7b15b3de09cac385ccd4c0a2e04990c89fa32f127af8a6efe50e5",
+      "research/phase-12.1a/generation-1/acquisition-gate.json": "e8dcdd78adff3f8d17d52d2097f9571456b7e49a22cb1b61fd9111ddbb47808e",
+      "research/phase-12.1a/generation-1/baseline.json": "b73003c7e40abfc0e0b29b6f76c7ea99f5542715ba810da6e2a0d5899c8e33cc",
+      "research/phase-12.1a/generation-1/continuity-boundaries.json": "1888100051bb088fafd35328875249fa5c2f882c635407ab853cea5d8bc1cacd",
+      "research/phase-12.1a/generation-1/evidence-freeze.json": "0ef497571222123ee1e17a3e6361f95b3a1844a4f57dbef22e13f6ff757149f3",
+      "research/phase-12.1a/generation-1/evidence-manifest.json": "fd0932796e1b43c919cda0c0984bc4925c7db86010eb55379364c50d01754242",
+      "research/phase-12.1a/generation-1/instrument-certifications.json": "5dc1880ff82ceb231e0eb375ca8d7d8414f627680f33b522ef4b0d27eac8fe43",
+      "research/phase-12.1a/generation-1/isin-reconciliation.json": "49deae007fdfbb76f74ade5b1e40be853fbe2915bdae182c73e196545938bafa",
+      "research/phase-12.1a/generation-1/security-reference.csv": "b4e000fcb37b5123933cb74cd5c0fd3de30babd5448f1177514ca8de02669ec9",
+      "research/phase-12.1a/generation-1/source-inventory.json": "c43d2ed63a7bd0d3cac1c8d3446b7f508282dbfb11a3bc09e3acc047bd41b846",
+      "research/phase-12.1a/generation-1/validation.json": "cb899d17504b63ed353d2b252e43fd84de623719ea23b65286d90ac5c316841c",
+      "research/phase-12.1b/generation-1/access-log.json": "5d09197306ac6ed71f0749acc9ad109f769dce8bb5a7b8d0a4676f48953ddc90",
+      "research/phase-12.1b/generation-1/acquisition-gate.json": "404d0d1542c288566489d4792a942eaffaa685b797334b67aa98b3777151f7a3",
+      "research/phase-12.1b/generation-1/announcement-review.json": "0b9f8379425d4f0187cc0fa9699dc73f91f9f1fcf47f2eb4f65daaed7bc5dca2",
+      "research/phase-12.1b/generation-1/continuity-boundaries.json": "48f57ef523fb41334bee44f015c4d934d201170daa136318b5810acffed32b85",
+      "research/phase-12.1b/generation-1/corporate-action-coverage.json": "292795eb4c9a56cd5045546ccd0e1a66609ae3d97a9c7586424ba45be9185e17",
+      "research/phase-12.1b/generation-1/corporate-action-events.json": "724c2189e6a966b6dbb594705ef64c9f2ca02c231b6e57547210d0392a29d05b",
+      "research/phase-12.1b/generation-1/evidence-freeze.json": "81271046b29fdf5d332127ac85c58ac96c56b4deb61b6a7e50053cabcb6c438b",
+      "research/phase-12.1b/generation-1/evidence-manifest.json": "be4312f3041c6df346f8d2a6891eba14d87982bea99977c730ea7dad8820168b",
+      "research/phase-12.1b/generation-1/instrument-certifications.json": "4cfceeb41592139e84edac1152ed4727474463ea8849c413e195a75b30f734ee",
+      "research/phase-12.1b/generation-1/research-plan.json": "6f760addabbf85ee5d0c2bba04bd19638f965abc67b1ea79d3a229536e0ee17d",
+      "research/phase-12.1b/generation-1/source-inventory.json": "1a072c039a728d47f4b7c1c59e5e59a4ca2f0a405d07e12a958c380c0190d92c",
+      "research/phase-12.1b/generation-1/validation.json": "9e22069056737fcef6aee5bf1f693db7f8ca465506e47a5ef9bde8161e7e86b8",
+      "research/phase-12.1c/generation-1/access-log.json": "968d4b7b73e531316818894b75c8131b2b5b5ab94acde6cb2caaff2764a91403",
+      "research/phase-12.1c/generation-1/acquisition-gate.json": "c812f7e052b598ea901060bab71225cb52c3add93502e229b76548364202ea6c",
+      "research/phase-12.1c/generation-1/closure-plan.json": "86263f8bca801befcc29c2eb6523f52060c193ee2521186e89c303371f7662a8",
+      "research/phase-12.1c/generation-1/continuity-boundaries.json": "1cb64830924662fbc6565e6d2e97c7035d1c965948ee4f8ec326263c7087135c",
+      "research/phase-12.1c/generation-1/corporate-action-coverage.json": "86226b40d4c137481d69cc114d92832c7b35207f13ddf57a0f31ffa2f978ddab",
+      "research/phase-12.1c/generation-1/corporate-action-events.json": "789b1c091bd138e391eaf1cbd5ce9249d22bff70ca4b343f336f45195778fcdf",
+      "research/phase-12.1c/generation-1/evidence-freeze.json": "f3f1eb56d492f4461462c7717808a241c34bf69e30419b0600e533a6f7f7da60",
+      "research/phase-12.1c/generation-1/evidence-manifest.json": "45af6683ff1b2c925e66da87abf651770a645239707b70333e2af5d7671f01fd",
+      "research/phase-12.1c/generation-1/instrument-certifications.json": "1801e4aeb1444fc36f7e8720a86218c0f39ec9e52e355e752af4961ec510c078",
+      "research/phase-12.1c/generation-1/pending-event-review.json": "f6eb2baeabf77fa1b6962af6c10e9d8097cf283e49c9d1460d2b06e0bc90e5b4",
+      "research/phase-12.1c/generation-1/source-inventory.json": "ff93e189ab84351e9277c79c86686a29d642a90b243fd0a88c272a7cf1f25713",
+      "research/phase-12.1c/generation-1/validation.json": "3f16b60813ad1ee6e36dfaf5b6d0a69741a94ec23a51c122a4adbbc95128c19d"
+    },
+    "replay": {
+      "canonical_and_raw_hash_checks": true,
+      "not_test_reexecution_or_approval": true,
+      "required_runs": 2
+    },
+    "result": "SYNTHETIC_FAILURE_RECOVERY_VALIDATED",
+    "run_history": [
+      {
+        "errors": 0,
+        "failures": 0,
+        "integration_tests": 0,
+        "local_ignored_log": "tmp/phase137/unit-1.log",
+        "native_exit": 0,
+        "raw_sha256": "603646ae97827479b1fb7fcf6150729e03431e7107de058f8ecc0a916adf0153",
+        "skipped": 0,
+        "unit_tests": 75
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "integration_tests": 18,
+        "local_ignored_log": "tmp/phase137/ledger-1.log",
+        "native_exit": 0,
+        "raw_sha256": "f596c3175dd0cb28e891ab2a02db5f48c8a4784ad4ee0cbb5efe9bce21ec940c",
+        "skipped": 0,
+        "unit_tests": 75
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "integration_tests": 51,
+        "local_ignored_log": "tmp/phase137/http-1.log",
+        "native_exit": 0,
+        "raw_sha256": "1f0f51a5fb27c1bc381b2ece921964750ba2464ef085203858b468d6a32cded4",
+        "skipped": 0,
+        "unit_tests": 75
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "integration_tests": 69,
+        "local_ignored_log": "tmp/phase137/standalone-full.log",
+        "native_exit": 0,
+        "raw_sha256": "5f10712b36fc65f6a037f447947287575e5194f81b806a074f039c731282ef95",
+        "skipped": 0,
+        "unit_tests": 76
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "integration_tests": 0,
+        "local_ignored_log": "tmp/phase137/root-unit.log",
+        "native_exit": 0,
+        "raw_sha256": "de05769ab3747be5d44eb7d7355a0141ac1befaa88b198eba1099c0041cd7e48",
+        "skipped": 0,
+        "unit_tests": 1508
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "integration_tests": 0,
+        "local_ignored_log": "tmp/phase137/unit-base-only.log",
+        "native_exit": 0,
+        "raw_sha256": "982e483f511fd1d98f3ae4efb2e62468a4af981b10493493fe5fe9e3603f1b98",
+        "skipped": 0,
+        "unit_tests": 78
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "integration_tests": 18,
+        "local_ignored_log": "tmp/phase137/ledger-base-only.log",
+        "native_exit": 0,
+        "raw_sha256": "18bb304a58f556ac1f0edd566842b6126aa7604e14a8b197f876011c793813b9",
+        "skipped": 0,
+        "unit_tests": 78
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "integration_tests": 51,
+        "local_ignored_log": "tmp/phase137/http-base-only.log",
+        "native_exit": 0,
+        "raw_sha256": "95d2ddfb9ca591064b30d9ce76336677d3be82a106c3e5592b3c3a4011e6007b",
+        "skipped": 0,
+        "unit_tests": 78
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "integration_tests": 69,
+        "local_ignored_log": "tmp/phase137/standalone-final.log",
+        "native_exit": 0,
+        "raw_sha256": "6201952fc227f8e0e4b9af9b3d68ccb5ecca0189a08fdb7a64f1adc5e9606635",
+        "skipped": 0,
+        "unit_tests": 78
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "integration_tests": 0,
+        "local_ignored_log": "tmp/phase137/root-unit-final.log",
+        "native_exit": 0,
+        "raw_sha256": "901af1679abed75378836da80970c36cc7c707d98435d240ea2be293a784f493",
+        "skipped": 0,
+        "unit_tests": 1508
+      }
+    ],
+    "schema_version": "SyntheticOwnerFailureRecoveryEvidence.v1",
+    "source_before_raw_sha256": {
+      "apps/synthetic-credential-owner/src/main/java/com/kitehybrid/synthetic/LoopbackPeer.java": "d548cf18eeeadeb4b85eb121bf4098956357ae992c7565aefd0906e431ed17f3",
+      "apps/synthetic-credential-owner/src/main/java/com/kitehybrid/synthetic/SyntheticHalt.java": "6964b0e50905793c929c1190a735299c2a9e247c597491bf5c3fa5fbd16d350c",
+      "apps/synthetic-credential-owner/src/main/java/com/kitehybrid/synthetic/SyntheticOwner.java": "0ac876abcfd065c2db923ffa00876b03647e26577084e2421d35229b1343637d",
+      "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/DisposableLedger.java": "07803ea9804868d844a828709adad54321b4e8510e9a4725d067ed04c7e4492d",
+      "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/LedgerIT.java": "ca44ca34e16dc29e024ad3f94eb7cbdd59771f2a2e2ecac6ed8db4aab5ece074",
+      "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/OwnerIT.java": "0c7a00ec40dbae0c6e902327f85041fd41cf6b6a7a20f34e6d29570692268418",
+      "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/SyntheticSecurityTest.java": "236250f55ffbbf88b1a3034b68b9ae6decfec7c72f3f18dea7e6890e56805ad2"
+    },
+    "statuses": {
+      "buffered_notional_inr": 10000,
+      "four_technical_reviews": "PENDING",
+      "global_trading_db_nonmutation": "NOT_PROVEN",
+      "governance_second_review": "PENDING",
+      "h1_h2": "FROZEN",
+      "live_halt": "NOT_ESTABLISHED",
+      "live_logging": "NOT_VERIFIED",
+      "mis": "NOT_READY",
+      "operational_readiness": "NO_GO",
+      "phase12": "BLOCK",
+      "real_kite_access": "NOT_AUTHORIZED",
+      "real_session_provenance": "NOT_ESTABLISHED",
+      "sbin_july": "SEALED",
+      "stage_b": "ZERO_CALL_ABORT",
+      "v2_approval": "PENDING"
+    },
+    "test_results": {
+      "existing_java_unit_architecture": {
+        "classes": [
+          {
+            "class": "com.kitehybrid.platform.ApplicationTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 2
+          },
+          {
+            "class": "com.kitehybrid.platform.ArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 1
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.application.auth.KiteAuthenticationUseCaseTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 29
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.application.auth.KiteLoginAttemptUseCaseTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 28
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.JdkKiteWebSocketTransportTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 16
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteAuthenticationAdapterTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 91
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteAuthenticationCookieTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 8
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteAuthenticationHttpTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 34
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteConfigurationTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 21
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityMarginReadAdapterTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 51
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadHandoffTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 48
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadHarnessTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 35
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadIsolationTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 4
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadRequestFactoryTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 33
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteHistoricalAdapterTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 25
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteInstrumentMappingTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 24
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataAdapterTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 18
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataBackpressureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 7
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataDecoderTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 28
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataHealthTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 15
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataInstrumentMappingTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 23
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataNormalizerTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 10
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteOrderAdapterTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 12
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteOrderMarginAdapterTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 27
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteRestReadTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 42
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteSessionConcurrencyTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 4
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteSessionMarketDataTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 5
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadAdapterTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 159
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadConfigurationTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 2
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadDiagnosticControllerTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 69
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadMapperTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 117
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.PostgresKiteAccessTokenStoreTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 13
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.PostgresKiteLoginAttemptStoreTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 27
+          },
+          {
+            "class": "com.kitehybrid.platform.ConservativeValuationArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 5
+          },
+          {
+            "class": "com.kitehybrid.platform.ControlledEquityReadArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.FirstLiveCandidatePlannerTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 23
+          },
+          {
+            "class": "com.kitehybrid.platform.HaltConsoleTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 11
+          },
+          {
+            "class": "com.kitehybrid.platform.HistoricalArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 1
+          },
+          {
+            "class": "com.kitehybrid.platform.HistoricalContinuityGateTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 16
+          },
+          {
+            "class": "com.kitehybrid.platform.HistoricalCorpusPlanTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.HistoricalDataTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 14
+          },
+          {
+            "class": "com.kitehybrid.platform.HistoricalResearchExporterTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 4
+          },
+          {
+            "class": "com.kitehybrid.platform.instrument.application.UniverseValidationServiceTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.instrument.InstrumentRegistryTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 7
+          },
+          {
+            "class": "com.kitehybrid.platform.instrument.InstrumentTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 19
+          },
+          {
+            "class": "com.kitehybrid.platform.instrument.RefreshInstrumentRegistryTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 4
+          },
+          {
+            "class": "com.kitehybrid.platform.instrument.UniverseCsvImporterTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.instrument.UniverseValidationDiagnosticControllerTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 5
+          },
+          {
+            "class": "com.kitehybrid.platform.IntradayCandidatePlannerTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.KiteApplicationSafetyTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 1
+          },
+          {
+            "class": "com.kitehybrid.platform.KiteObservabilityTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 1
+          },
+          {
+            "class": "com.kitehybrid.platform.KitePhase2SafetyTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.marketdata.LatestMarketDataStoreTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 9
+          },
+          {
+            "class": "com.kitehybrid.platform.marketdata.TickTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 6
+          },
+          {
+            "class": "com.kitehybrid.platform.MarketDataArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 1
+          },
+          {
+            "class": "com.kitehybrid.platform.MarketDataConfigurationTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 27
+          },
+          {
+            "class": "com.kitehybrid.platform.MultiInstrumentCorpusTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.OneOrderPermitTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.OperatorControlArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 6
+          },
+          {
+            "class": "com.kitehybrid.platform.OperatorControlTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 12
+          },
+          {
+            "class": "com.kitehybrid.platform.order.ConservativeOrderQuantitySizerTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 13
+          },
+          {
+            "class": "com.kitehybrid.platform.order.ConservativeOrderValuationTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 30
+          },
+          {
+            "class": "com.kitehybrid.platform.order.ExecutionFreshnessAuditTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 7
+          },
+          {
+            "class": "com.kitehybrid.platform.order.ExecutionSafetyPolicyTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.order.OrderApplicationServiceTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 9
+          },
+          {
+            "class": "com.kitehybrid.platform.OrderArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.OrderStateTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 20
+          },
+          {
+            "class": "com.kitehybrid.platform.reconciliation.OrderReconciliationServiceTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 12
+          },
+          {
+            "class": "com.kitehybrid.platform.ReconciliationArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 1
+          },
+          {
+            "class": "com.kitehybrid.platform.risk.domain.CashRiskArithmeticTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.risk.domain.ConservativeNotionalRegressionTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 7
+          },
+          {
+            "class": "com.kitehybrid.platform.risk.domain.IntradayAccountCapacityTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 32
+          },
+          {
+            "class": "com.kitehybrid.platform.risk.domain.IntradayCollateralContractTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 28
+          },
+          {
+            "class": "com.kitehybrid.platform.risk.domain.IntradayFundingDiagnosticsTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 49
+          },
+          {
+            "class": "com.kitehybrid.platform.risk.domain.IntradayFundingEvidenceTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 8
+          },
+          {
+            "class": "com.kitehybrid.platform.risk.RiskConfigurationTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 8
+          },
+          {
+            "class": "com.kitehybrid.platform.RiskArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 1
+          },
+          {
+            "class": "com.kitehybrid.platform.RiskEngineTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.RuntimeTradingHaltTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 13
+          },
+          {
+            "class": "com.kitehybrid.platform.SafetyConfigurationTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 2
+          },
+          {
+            "class": "com.kitehybrid.platform.SignalContractTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.strategy.ReferenceThresholdStrategyTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 2
+          },
+          {
+            "class": "com.kitehybrid.platform.strategy.StrategyReplayAuditTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 4
+          },
+          {
+            "class": "com.kitehybrid.platform.StrategyArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 2
+          },
+          {
+            "class": "com.kitehybrid.platform.TradingReadArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 5
+          },
+          {
+            "class": "com.kitehybrid.platform.TrustedOperatorConsoleTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 15
+          },
+          {
+            "class": "com.kitehybrid.platform.UniverseValidationArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 1
+          }
+        ],
+        "totals": {
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 1508
+        }
+      },
+      "standalone_integration": {
+        "classes": [
+          {
+            "class": "com.kitehybrid.synthetic.LedgerIT",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 8
+          },
+          {
+            "class": "com.kitehybrid.synthetic.OwnerIT",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 36
+          },
+          {
+            "class": "com.kitehybrid.synthetic.RecoveryLedgerIT",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 10
+          },
+          {
+            "class": "com.kitehybrid.synthetic.RecoveryOwnerIT",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 15
+          }
+        ],
+        "totals": {
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 69
+        }
+      },
+      "standalone_unit": {
+        "classes": [
+          {
+            "class": "com.kitehybrid.synthetic.PackagingTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.synthetic.RecoverySecurityTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 9
+          },
+          {
+            "class": "com.kitehybrid.synthetic.SyntheticSecurityTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 66
+          }
+        ],
+        "totals": {
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 78
+        }
+      }
+    },
+    "zero_operations": {
+      "commit": 0,
+      "development_production_db_mutations": 0,
+      "normal_trading_startup": 0,
+      "operational_halt_resume_arm_execute": 0,
+      "orders": 0,
+      "push": 0,
+      "real_kite_requests": 0,
+      "real_token_loads_restoration": 0,
+      "real_websockets": 0
+    }
+  }
+}

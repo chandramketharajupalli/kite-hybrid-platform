@@ -6,21 +6,25 @@ import org.testcontainers.containers.PostgreSQLContainer;
 
 /** Test-only adapter. No JDBC, schema DDL or connection configuration in runtime JAR. */
 final class DisposableLedger implements SyntheticOwner.Ledger {
-    enum Fault { NONE, BEFORE_COMMIT, AFTER_COMMIT_BEFORE_ACK }
+    enum Fault { NONE, PARTIAL_JOURNAL, BEFORE_RESERVATION, DURING_RESERVATION,
+        AFTER_RESERVATION_BEFORE_ACK, BEFORE_COMMIT, AFTER_COMMIT_BEFORE_ACK }
     private final String url, marker;
     private final Fault fault;
+    final AttemptJournal journal;
     static PostgreSQLContainer<?> container() {
         return new PostgreSQLContainer<>("postgres:17.6").withDatabaseName("synthetic_owner_only")
+                .withImagePullPolicy(ignored -> false)
                 .withUsername("synthetic_fixture").withPassword("synthetic_fixture")
                 .withCommand("postgres", "-c", "fsync=on", "-c", "full_page_writes=on", "-c", "synchronous_commit=on");
     }
     static DisposableLedger initialize(PostgreSQLContainer<?> container) throws Exception {
         String marker = UUID.randomUUID().toString();
         var ledger = new DisposableLedger(container.getMappedPort(5432), marker, Fault.NONE);
+        ledger.journal.initialize();
         try (var c = ledger.open(); var s = c.createStatement()) {
             s.execute("CREATE TABLE fixture_identity (id text PRIMARY KEY)");
             try (var p = c.prepareStatement("INSERT INTO fixture_identity VALUES (?)")) { p.setString(1, marker); p.executeUpdate(); }
-            s.execute("CREATE TABLE attempts (id uuid PRIMARY KEY, digest text NOT NULL, state text NOT NULL CHECK(state IN ('RESERVED','CONSUMED')), outcome text)");
+            s.execute("CREATE TABLE attempts (id uuid PRIMARY KEY, digest text NOT NULL, halt_digest text NOT NULL, state text NOT NULL CHECK(state IN ('RESERVED','CONSUMED')), outcome text CHECK(outcome IN ('SYNTHETIC_READ_SUCCEEDED','SYNTHETIC_READ_DENIED','SYNTHETIC_READ_OUTCOME_UNKNOWN','PROTOTYPE_PRECONDITION_FAILED')), CHECK(outcome IS NULL OR state='CONSUMED'))");
         }
         return ledger;
     }
@@ -29,6 +33,7 @@ final class DisposableLedger implements SyntheticOwner.Ledger {
         UUID.fromString(marker);
         url = "jdbc:postgresql://127.0.0.1:" + port + "/synthetic_owner_only?connectTimeout=2&socketTimeout=3";
         this.marker = marker; this.fault = fault;
+        journal = new AttemptJournal(marker);
     }
     String marker() { return marker; }
     private Connection open() throws SQLException { return DriverManager.getConnection(url, "synthetic_fixture", "synthetic_fixture"); }
@@ -44,16 +49,27 @@ final class DisposableLedger implements SyntheticOwner.Ledger {
         }
     }
     @Override public boolean consume(SyntheticOwner.Request request) {
+        return consume(request, "0".repeat(64)); // Ledger-only fixture, never owner authorization.
+    }
+    @Override public boolean consume(SyntheticOwner.Request request, String haltDigest) {
+        try {
+            if (haltDigest == null || !haltDigest.matches("[0-9a-f]{64}")) return false;
+            if (!journal.retire(request.id(), request.fingerprint() + ":" + haltDigest, fault == Fault.PARTIAL_JOURNAL)) return false;
+        } catch (Exception ignored) { return false; }
+        if (fault == Fault.BEFORE_RESERVATION) return false;
         // Unique reservation has its own durable commit. Even a rolled-back consume is spent.
         try (var c = open()) {
             validate(c);
-            try (var p = c.prepareStatement("INSERT INTO attempts VALUES (?,?,'RESERVED',NULL) ON CONFLICT DO NOTHING")) {
-                p.setQueryTimeout(3); p.setObject(1, request.id()); p.setString(2, request.fingerprint());
+            c.setAutoCommit(false);
+            try (var p = c.prepareStatement("INSERT INTO attempts VALUES (?,?,?,'RESERVED',NULL) ON CONFLICT DO NOTHING")) {
+                p.setQueryTimeout(3); p.setObject(1, request.id()); p.setString(2, request.fingerprint()); p.setString(3, haltDigest);
                 if (p.executeUpdate() != 1) return false;
             }
-            c.setAutoCommit(false);
-            try (var p = c.prepareStatement("UPDATE attempts SET state='CONSUMED' WHERE id=? AND digest=? AND state='RESERVED'")) {
-                p.setQueryTimeout(3); p.setObject(1, request.id()); p.setString(2, request.fingerprint());
+            if (fault == Fault.DURING_RESERVATION) { c.rollback(); return false; }
+            c.commit();
+            if (fault == Fault.AFTER_RESERVATION_BEFORE_ACK) return false;
+            try (var p = c.prepareStatement("UPDATE attempts SET state='CONSUMED' WHERE id=? AND digest=? AND halt_digest=? AND state='RESERVED'")) {
+                p.setQueryTimeout(3); p.setObject(1, request.id()); p.setString(2, request.fingerprint()); p.setString(3, haltDigest);
                 if (p.executeUpdate() != 1) { c.rollback(); return false; }
             }
             if (fault == Fault.BEFORE_COMMIT) { c.rollback(); return false; }
@@ -65,7 +81,8 @@ final class DisposableLedger implements SyntheticOwner.Ledger {
         try (var c = open()) {
             validate(c);
             try (var p = c.prepareStatement("UPDATE attempts SET outcome=? WHERE id=? AND state='CONSUMED' AND outcome IS NULL")) {
-                p.setQueryTimeout(3); p.setString(1, outcome.name()); p.setObject(2, id); p.executeUpdate();
+                p.setQueryTimeout(3); p.setString(1, outcome.name()); p.setObject(2, id);
+                if (p.executeUpdate() != 1) throw SyntheticOwner.denied();
             }
         } catch (Exception ignored) { throw SyntheticOwner.denied(); }
     }
@@ -83,4 +100,9 @@ final class DisposableLedger implements SyntheticOwner.Ledger {
         }
     }
     void verifyDurabilitySettings() throws Exception { try (var c = open()) { validate(c); } }
+    String haltDigest(UUID id) throws Exception {
+        try (var c=open(); var p=c.prepareStatement("SELECT halt_digest FROM attempts WHERE id=?")) {
+            p.setObject(1,id); try (var r=p.executeQuery()) { return r.next()?r.getString(1):"ABSENT"; }
+        }
+    }
 }

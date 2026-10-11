@@ -21,7 +21,7 @@ class OwnerIT {
     static DisposableLedger ledger;
     static final String BODY="{\"synthetic\":true,\"equity\":{\"available\":123.45}}";
     @BeforeAll static void start() throws Exception {db=DisposableLedger.container();db.start();ledger=DisposableLedger.initialize(db);ledger.verifyDurabilitySettings();}
-    @AfterAll static void stop(){if(db!=null)db.stop();}
+    @AfterAll static void stop() throws Exception {if(db!=null)db.stop();if(ledger!=null)ledger.journal.destroyFixture();}
 
     static final class FakePeer implements AutoCloseable {
         final ServerSocket listener=new ServerSocket(0,8,InetAddress.getByAddress(new byte[]{127,0,0,1}));
@@ -148,7 +148,8 @@ class OwnerIT {
             var p=f.peer();var c=new MutableClock();var k=key();var h=new SyntheticHalt(c,1,"SYNTHETIC_KEY",k.getPublic());var sinks=new AtomicReference<>(SAFE);
             var holder=new AtomicReference<SyntheticOwner>();var r=request(p);
             var wrapper=new SyntheticOwner.Ledger(){
-                public boolean consume(SyntheticOwner.Request request){boolean result=ledger.consume(request);switch(kind){case "halt"->h.available(false);case "logging"->sinks.set(new SyntheticOwner.SinkPolicy(Set.of("STDERR"),true));default->holder.get().close();}return result;}
+                public boolean consume(SyntheticOwner.Request request){return false;}
+                public boolean consume(SyntheticOwner.Request request,String haltDigest){boolean result=ledger.consume(request,haltDigest);switch(kind){case "halt"->h.available(false);case "logging"->sinks.set(new SyntheticOwner.SinkPolicy(Set.of("STDERR"),true));default->holder.get().close();}return result;}
                 public void terminal(UUID id,SyntheticOwner.Outcome outcome){ledger.terminal(id,outcome);}
             };
             try(var o=owner(wrapper,h,p,c,sinks::get)){holder.set(o);assertEquals(SYNTHETIC_READ_DENIED,o.observe(r,CALLER,sign(r,k),SyntheticOwner.Fault.NONE).outcome());}
@@ -161,7 +162,7 @@ class OwnerIT {
         try(var o=owner(ledger,h,p,c,()->SAFE)){assertEquals(SYNTHETIC_READ_OUTCOME_UNKNOWN,o.observe(r,CALLER,sign(r,k),SyntheticOwner.Fault.NONE).outcome());}
         assertFalse(ledger.consume(r));
         try(var f=peer(response(200,BODY))) {
-            var next=request(f.peer());var badTerminal=new SyntheticOwner.Ledger(){public boolean consume(SyntheticOwner.Request value){return ledger.consume(value);}public void terminal(UUID id,SyntheticOwner.Outcome outcome){throw SyntheticOwner.denied();}};
+            var next=request(f.peer());var badTerminal=new SyntheticOwner.Ledger(){public boolean consume(SyntheticOwner.Request value){return false;}public boolean consume(SyntheticOwner.Request value,String haltDigest){return ledger.consume(value,haltDigest);}public void terminal(UUID id,SyntheticOwner.Outcome outcome){throw SyntheticOwner.denied();}};
             try(var o=owner(badTerminal,h,f.peer(),c,()->SAFE)){assertEquals(SYNTHETIC_READ_OUTCOME_UNKNOWN,o.observe(next,CALLER,sign(next,k),SyntheticOwner.Fault.NONE).outcome());}
             assertFalse(ledger.consume(next));assertEquals(1,f.attempts.get());
         }

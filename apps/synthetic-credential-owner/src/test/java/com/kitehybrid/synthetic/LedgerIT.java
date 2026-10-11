@@ -12,7 +12,7 @@ class LedgerIT {
     static PostgreSQLContainer<?> db;
     static DisposableLedger ledger;
     @BeforeAll static void start() throws Exception { db=DisposableLedger.container();db.start();ledger=DisposableLedger.initialize(db); }
-    @AfterAll static void stop() { if(db!=null)db.stop(); }
+    @AfterAll static void stop() throws Exception { if(db!=null)db.stop();if(ledger!=null)ledger.journal.destroyFixture(); }
     @Test @Order(1) void durableSettingsAndBindingAndNoIdReuse() throws Exception {
         ledger.verifyDurabilitySettings(); var r=LedgerWorker.request(UUID.randomUUID());
         assertTrue(ledger.consume(r));assertEquals("CONSUMED",ledger.state(r.id()));assertEquals(r.fingerprint(),ledger.digest(r.id()));

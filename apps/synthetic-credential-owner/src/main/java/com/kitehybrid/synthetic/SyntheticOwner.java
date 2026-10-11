@@ -13,14 +13,31 @@ import java.util.function.Supplier;
 
 /** Package-private fixture boundary. No main, public API, token source or real mode. */
 final class SyntheticOwner implements AutoCloseable {
-    static final String VERSION = "SyntheticOwner.v1";
+    static final String VERSION = "SyntheticOwner.v2";
     static final String PROPOSAL = "5B9F1E717DD444CE5BBF6697012BF11887DBA780FB8C1099AC24D0A5D7D79CE7";
     static final String PURPOSE = "SYNTHETIC_EQUITY_SHAPE";
     static final String PATH = "/user/margins/equity";
     enum Outcome { SYNTHETIC_READ_SUCCEEDED, SYNTHETIC_READ_DENIED,
         SYNTHETIC_READ_OUTCOME_UNKNOWN, PROTOTYPE_PRECONDITION_FAILED }
-    record Result(Outcome outcome, boolean equityFieldPresent) {}
-    enum Fault { NONE, AFTER_ACK_BEFORE_DISPATCH, AFTER_RESPONSE }
+    enum Delivery { NOT_DISPATCHED, MAY_HAVE_DISPATCHED, OBSERVED_COMPLETED }
+    record Result(Outcome outcome, boolean equityFieldPresent, Delivery delivery) {}
+    enum Fault { NONE, AFTER_ACK_BEFORE_DISPATCH, BEFORE_SOCKET, AFTER_SOCKET_BEFORE_SEND,
+        DURING_SEND, AFTER_SEND, DURING_PARSE, AFTER_RESPONSE, BEFORE_OUTCOME }
+
+    /** Minted only after the owner receives its durable claim acknowledgment. */
+    static final class DispatchTicket {
+        private final java.util.concurrent.atomic.AtomicBoolean taken = new java.util.concurrent.atomic.AtomicBoolean();
+        private final java.util.function.BooleanSupplier authorization;
+        private final String method, endpoint;
+        private DispatchTicket(Request request, java.util.function.BooleanSupplier authorization) {
+            method = request.method(); endpoint = request.endpoint(); this.authorization = authorization;
+        }
+        boolean take(String method, String endpoint) {
+            return this.method.equals(method) && this.endpoint.equals(endpoint) && taken.compareAndSet(false, true);
+        }
+        boolean authorized() { return authorization.getAsBoolean(); }
+        @Override public String toString() { return "SYNTHETIC_TICKET_REDACTED"; }
+    }
 
     static final class Credential implements AutoCloseable {
         private final byte[] material = new byte[32];
@@ -52,6 +69,7 @@ final class SyntheticOwner implements AutoCloseable {
     /** Implementations exist only in test sources; none ships with the JAR. */
     interface Ledger {
         boolean consume(Request request);
+        default boolean consume(Request request, String haltDigest) { return false; }
         void terminal(UUID id, Outcome outcome);
     }
     record SinkPolicy(Set<String> allowed, boolean hostCaptureDisabled) {
@@ -82,30 +100,37 @@ final class SyntheticOwner implements AutoCloseable {
 
     Result observe(Request request, String authenticatedSyntheticCaller, SyntheticHalt.Assertion assertion, Fault fault) {
         boolean consumed = false;
+        Delivery delivery = Delivery.NOT_DISPATCHED;
         try {
             if (!valid(request, authenticatedSyntheticCaller)) return result(Outcome.PROTOTYPE_PRECONDITION_FAILED);
             var lease = halt.admit(assertion, request);
             if (lease == null) return result(Outcome.SYNTHETIC_READ_DENIED);
-            if (!ledger.consume(request)) return result(Outcome.SYNTHETIC_READ_DENIED);
+            if (!ledger.consume(request, assertion.fingerprint())) return result(Outcome.SYNTHETIC_READ_DENIED);
             consumed = true;
-            if (fault == Fault.AFTER_ACK_BEFORE_DISPATCH) return finish(request, Outcome.SYNTHETIC_READ_OUTCOME_UNKNOWN);
+            if (fault == Fault.AFTER_ACK_BEFORE_DISPATCH) return finish(request, Outcome.SYNTHETIC_READ_OUTCOME_UNKNOWN, delivery);
             if (!valid(request, authenticatedSyntheticCaller) || !halt.recheck(lease, request))
-                return finish(request, Outcome.SYNTHETIC_READ_DENIED);
-            Outcome outcome = peer.get(request.method(), request.endpoint());
+                return finish(request, Outcome.SYNTHETIC_READ_DENIED, delivery);
+            var ticket = new DispatchTicket(request, () -> valid(request, authenticatedSyntheticCaller) && halt.recheck(lease, request));
+            var exchange = peer.get(request.method(), request.endpoint(), ticket, fault);
+            delivery = exchange.delivery();
+            Outcome outcome = exchange.outcome();
             if (fault == Fault.AFTER_RESPONSE) outcome = Outcome.SYNTHETIC_READ_OUTCOME_UNKNOWN;
             if (!valid(request, authenticatedSyntheticCaller) || !halt.recheck(lease, request))
                 outcome = Outcome.SYNTHETIC_READ_DENIED;
-            return finish(request, outcome);
+            if (fault == Fault.BEFORE_OUTCOME) return result(Outcome.SYNTHETIC_READ_OUTCOME_UNKNOWN, delivery);
+            return finish(request, outcome, delivery);
         } catch (Exception ignored) {
-            return result(consumed ? Outcome.SYNTHETIC_READ_OUTCOME_UNKNOWN : Outcome.PROTOTYPE_PRECONDITION_FAILED);
+            return result(consumed ? Outcome.SYNTHETIC_READ_OUTCOME_UNKNOWN : Outcome.PROTOTYPE_PRECONDITION_FAILED,
+                    consumed ? Delivery.MAY_HAVE_DISPATCHED : delivery);
         }
     }
-    private Result finish(Request request, Outcome outcome) {
+    private Result finish(Request request, Outcome outcome, Delivery delivery) {
         try { ledger.terminal(request.id(), outcome); }
-        catch (Exception ignored) { return result(Outcome.SYNTHETIC_READ_OUTCOME_UNKNOWN); }
-        return result(outcome);
+        catch (Exception ignored) { return result(Outcome.SYNTHETIC_READ_OUTCOME_UNKNOWN, delivery); }
+        return result(outcome, delivery);
     }
-    private static Result result(Outcome outcome) { return new Result(outcome, outcome == Outcome.SYNTHETIC_READ_SUCCEEDED); }
+    private static Result result(Outcome outcome) { return result(outcome, Delivery.NOT_DISPATCHED); }
+    private static Result result(Outcome outcome, Delivery delivery) { return new Result(outcome, outcome == Outcome.SYNTHETIC_READ_SUCCEEDED, delivery); }
     private boolean valid(Request r, String principal) {
         if (!safe() || r == null || r.id() == null || r.issued() == null || r.expires() == null) return false;
         Instant now = clock.instant();

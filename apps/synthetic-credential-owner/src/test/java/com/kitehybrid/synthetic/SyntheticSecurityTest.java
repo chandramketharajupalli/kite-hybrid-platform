@@ -26,7 +26,9 @@ class SyntheticSecurityTest {
         public Clock withZone(ZoneId z){if(!ZoneOffset.UTC.equals(z))throw new IllegalArgumentException();return this;}
         public Instant instant(){return value.get();}
     }
-    static KeyPair key() throws Exception {return KeyPairGenerator.getInstance("Ed25519").generateKeyPair();}
+    static KeyPair key() throws Exception {
+        var generator=KeyPairGenerator.getInstance("RSA");generator.initialize(3072);return generator.generateKeyPair();
+    }
     static SyntheticOwner.Request request(LoopbackPeer peer) {
         return new SyntheticOwner.Request(UUID.randomUUID(),SyntheticOwner.VERSION,OWNER,CALLER,RECIPIENT,ACCOUNT,
                 SyntheticOwner.PURPOSE,"GET",peer.endpoint(),NOW,NOW.plusSeconds(20),1,"SYNTHETIC_ONLY");
@@ -36,7 +38,7 @@ class SyntheticSecurityTest {
                 r.haltEpoch(),r.issued(),r.expires(),UUID.randomUUID(),r.fingerprint(),null),k);
     }
     static SyntheticHalt.Assertion sign(SyntheticHalt.Assertion a,KeyPair k) throws Exception {
-        Signature s=Signature.getInstance("Ed25519");s.initSign(k.getPrivate());s.update(a.payload());
+        Signature s=Signature.getInstance(SyntheticHalt.SIGNATURE_ALGORITHM);s.initSign(k.getPrivate());s.update(a.payload());
         return new SyntheticHalt.Assertion(a.issuer(),a.keyId(),a.audience(),a.owner(),a.operation(),a.epoch(),
                 a.issued(),a.expires(),a.nonce(),a.requestDigest(),s.sign());
     }
@@ -68,7 +70,8 @@ class SyntheticSecurityTest {
     @Test void revocationRotationEpochAndIssuerLossInvalidateLeases() throws Exception {
         var c=new MutableClock();var k=key();var r=request(new LoopbackPeer(1,100));var h=new SyntheticHalt(c,1,"SYNTHETIC_KEY",k.getPublic());
         var lease=h.admit(sign(r,k),r);assertNotNull(lease);h.available(false);assertFalse(h.recheck(lease,r));
-        h.available(true);h.epoch(2);assertFalse(h.recheck(lease,r));h.epoch(1);assertTrue(h.recheck(lease,r));
+        h.available(true);h.epoch(2);assertFalse(h.recheck(lease,r));var advanced=h;assertThrows(IllegalArgumentException.class,()->advanced.epoch(1));assertFalse(h.recheck(lease,r));
+        h=new SyntheticHalt(c,1,"SYNTHETIC_KEY",k.getPublic());
         h.revoke("SYNTHETIC_KEY");assertFalse(h.recheck(lease,r));h.rotate("SYNTHETIC_KEY",k.getPublic());assertNull(h.admit(sign(r,k),r));
         var replacement=key();h.rotate("SYNTHETIC_ROTATED",replacement.getPublic());var a=sign(r,k);
         var next=sign(new SyntheticHalt.Assertion(a.issuer(),"SYNTHETIC_ROTATED",a.audience(),a.owner(),a.operation(),a.epoch(),a.issued(),a.expires(),UUID.randomUUID(),a.requestDigest(),null),replacement);
@@ -122,7 +125,7 @@ class SyntheticSecurityTest {
             assertFalse(value.toString().contains(marker));assertTrue(value.toString().endsWith("REDACTED"));
             assertThrows(NotSerializableException.class,()->{try(var out=new ObjectOutputStream(new ByteArrayOutputStream())){out.writeObject(value);}});
         }
-        assertEquals(Set.of("outcome","equityFieldPresent"),Arrays.stream(SyntheticOwner.Result.class.getRecordComponents()).map(java.lang.reflect.RecordComponent::getName).collect(java.util.stream.Collectors.toSet()));
+        assertEquals(Set.of("outcome","equityFieldPresent","delivery"),Arrays.stream(SyntheticOwner.Result.class.getRecordComponents()).map(java.lang.reflect.RecordComponent::getName).collect(java.util.stream.Collectors.toSet()));
         assertEquals("SYNTHETIC_PRECONDITION_DENIED",SyntheticOwner.denied().getMessage());credential.close();assertFalse(credential.available());
         for(byte b:material)assertEquals(0,b);
     }
