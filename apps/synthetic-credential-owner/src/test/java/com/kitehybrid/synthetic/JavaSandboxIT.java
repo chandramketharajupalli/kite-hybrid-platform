@@ -15,9 +15,10 @@ class JavaSandboxIT {
     static final String BASE = "docker.io/library/eclipse-temurin@sha256:743b453cb8639d815a8251e128f7d8e88840c684e43fdbde1b1e79788437b5cf";
     static final String IMAGE = "synthetic-phase1311-test:local";
     static String fixtureImageId;
-    static final Path WORK = Path.of("target/phase1311").toAbsolutePath();
+    static final Path WORK = Path.of("target/phase1313-owner",PlatformResources.RUN).toAbsolutePath();
     static final Path POLICY = Path.of("src/test/resources/phase1311/owner-seccomp.json").toAbsolutePath();
-    static final List<String> CONTAINERS = Collections.synchronizedList(new ArrayList<>());
+    static final Map<String,String> CONTAINERS = new ConcurrentHashMap<>();
+    static final Set<String> VOLUMES = ConcurrentHashMap.newKeySet();
     record Command(int exit, String output) { }
     static Command command(String... args) throws Exception {
         Path file = Files.createTempFile(WORK,"command-",".log");
@@ -45,7 +46,7 @@ class JavaSandboxIT {
         Files.writeString(WORK.resolve("image-inspect.json"),ok("docker","image","inspect",IMAGE));
     }
     static List<String> create(String name,String network,String main,String... args) {
-        var command=new ArrayList<>(List.of("docker","create","--pull=never","--name",name,"--user","65534:65534",
+        var command=new ArrayList<>(List.of("docker","create","--pull=never","--name",name,"--label="+PlatformResources.LABEL+"="+PlatformResources.RUN,"--user","65534:65534",
                 "--network",network,"--cap-drop=ALL","--security-opt=no-new-privileges:true","--security-opt=seccomp="+POLICY,
                 "--read-only","--memory=256m","--cpus=1","--pids-limit=64","--ipc=private",
                 "--tmpfs","/scratch:rw,noexec,nosuid,nodev,size=8m,mode=1777","--entrypoint","/opt/java/openjdk/bin/java"));
@@ -65,22 +66,31 @@ class JavaSandboxIT {
         Files.writeString(WORK.resolve(name+"-inspect.json"),ok("docker","inspect",name));
     }
     static String owner(String network,String mode,UUID id,String publicKey) throws Exception {
-        String name="phase1311-owner-"+UUID.randomUUID(); CONTAINERS.add(name);
-        var create=create(name,network,"SandboxOwnerProbe",mode,id.toString(),publicKey); ok(create.toArray(String[]::new)); inspect(name,network,false);
-        int expectedExit=mode.equals("UNCAUGHT")?1:0;
-        var result=command("docker","start","--attach",name); assertEquals(expectedExit,result.exit(),result.output());
-        assertEquals(Integer.toString(expectedExit),ok("docker","inspect","--format","{{.State.ExitCode}}",name));
-        assertEquals(result.output(),ok("docker","logs",name));
-        Files.writeString(WORK.resolve(name+"-result.txt"),result.output()+"\n"); return result.output();
+        String name="phase1313-owner-"+UUID.randomUUID();
+        var create=create(name,network,"SandboxOwnerProbe",mode,id.toString(),publicKey);
+        String containerId=PlatformResources.create(create);CONTAINERS.put(name,containerId);
+        try {
+            inspect(containerId,network,false);PlatformResources.beforeStart(containerId);
+            int expectedExit=mode.equals("UNCAUGHT")?1:0;
+            var result=command("docker","start","--attach",containerId);assertEquals(expectedExit,result.exit(),result.output());
+            assertEquals(Integer.toString(expectedExit),ok("docker","inspect","--format","{{.State.ExitCode}}",containerId));
+            assertEquals(result.output(),ok("docker","logs",containerId));
+            Files.writeString(WORK.resolve(name+"-result.txt"),result.output()+"\n");return result.output();
+        } finally {remove(name);}
+    }
+    static void remove(String name) throws Exception {
+        String id=CONTAINERS.get(name);if(id==null)return;
+        PlatformResources.remove(id);CONTAINERS.remove(name,id);
     }
     static final class Witness implements AutoCloseable {
-        final String name="phase1311-witness-"+UUID.randomUUID(),volume="phase1311-volume-"+UUID.randomUUID(); String pin;
+        final String name="phase1313-witness-"+UUID.randomUUID(),volume="phase1313-volume-"+UUID.randomUUID(); String pin;
         Witness() throws Exception {
-            ok("docker","volume","create",volume); launch(true);
+            ok("docker","volume","create","--label="+PlatformResources.LABEL+"="+PlatformResources.RUN,volume);VOLUMES.add(volume);
+            try {launch(true);} catch(Exception|AssertionError failure){try{close();}catch(Exception|AssertionError cleanup){failure.addSuppressed(cleanup);}throw failure;}
         }
         void launch(boolean initialize) throws Exception {
-            CONTAINERS.add(name); var args=create(name,"none","SandboxWitnessProbe",initialize?"INITIALIZE":"RECOVER");
-            args.add(2,"--mount=type=volume,src="+volume+",dst=/witness"); ok(args.toArray(String[]::new)); inspect(name,"none",true); ok("docker","start",name);
+            var args=create(name,"none","SandboxWitnessProbe",initialize?"INITIALIZE":"RECOVER");
+            args.add(2,"--mount=type=volume,src="+volume+",dst=/witness"); String id=PlatformResources.create(args);CONTAINERS.put(name,id);inspect(id,"none",true);PlatformResources.beforeStart(id);ok("docker","start",id);
             long until=System.nanoTime()+Duration.ofSeconds(20).toNanos(); String logs="";
             while(System.nanoTime()<until) { logs=ok("docker","logs",name); if(logs.startsWith("READY="))break; Thread.sleep(100); }
             assertTrue(logs.startsWith("READY="),"SYNTHETIC_WITNESS_NOT_READY"); String candidate=logs.substring(6);
@@ -88,11 +98,19 @@ class JavaSandboxIT {
         }
         String network() { return "container:"+name; }
         int receipts() throws Exception { return Integer.parseInt(owner(network(),"STATS",UUID.randomUUID(),pin).substring("RECEIPTS=".length())); }
-        void restart() throws Exception { ok("docker","kill",name); ok("docker","rm",name); launch(false); }
-        public void close() throws Exception { command("docker","rm","--force",name); command("docker","volume","rm",volume); }
+        void restart() throws Exception { ok("docker","kill",CONTAINERS.get(name));remove(name);launch(false); }
+        public void close() throws Exception {remove(name);removeVolume(volume);}
+    }
+    static void removeVolume(String volume) throws Exception {
+        assertEquals(volume,ok("docker","volume","ls","--filter","label="+PlatformResources.LABEL+"="+PlatformResources.RUN,"--filter","name=^"+volume+"$","--format","{{.Name}}"));
+        ok("docker","volume","rm",volume);VOLUMES.remove(volume);
+        assertEquals("",ok("docker","volume","ls","--filter","name=^"+volume+"$","--format","{{.Name}}"));
     }
     @AfterEach void removeOwners() throws Exception {
-        for(String name:List.copyOf(CONTAINERS)) if(name.startsWith("phase1311-owner-")) { command("docker","rm","--force",name); CONTAINERS.remove(name); }
+        Throwable failure=null;
+        for(String name:List.copyOf(CONTAINERS.keySet()))try{remove(name);}catch(Exception|AssertionError e){if(failure==null)failure=e;else failure.addSuppressed(e);}
+        for(String volume:List.copyOf(VOLUMES))try{removeVolume(volume);}catch(Exception|AssertionError e){if(failure==null)failure=e;else failure.addSuppressed(e);}
+        if(failure instanceof Exception e)throw e;if(failure instanceof Error e)throw e;
     }
     @Test void aJavaProcessObservesEnforcedIsolation() throws Exception {
         String result=owner("none","OS",UUID.randomUUID(),"");

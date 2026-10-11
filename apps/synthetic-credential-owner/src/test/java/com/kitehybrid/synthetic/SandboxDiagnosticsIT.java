@@ -21,6 +21,7 @@ class SandboxDiagnosticsIT {
     static boolean cleanupUncertain;
     static String image;
     static final List<String> owned=new ArrayList<>();
+    static final Map<String,String> ids=new HashMap<>();
     record Command(int exit,String output) { }
     static Command command(String... args) throws Exception {
         Path log=Files.createTempFile(WORK,"command-",".log");
@@ -71,11 +72,11 @@ class SandboxDiagnosticsIT {
     static synchronized String container(String mode,String... flags) throws Exception {
         budget(true);
         String name="phase1312-diagnostic-"+UUID.randomUUID();owned.add(name);
-        var args=new ArrayList<>(List.of("docker","create","--pull=never","--name",name,"--label=phase1312.run="+RUN,"--user=65534:65534","--network=none",
+        var args=new ArrayList<>(List.of("docker","create","--pull=never","--name",name,"--label=phase1312.run="+RUN,"--label="+PlatformResources.LABEL+"="+PlatformResources.RUN,"--user=65534:65534","--network=none",
                 "--cap-drop=ALL","--security-opt=no-new-privileges:true","--security-opt=seccomp="+JavaSandboxIT.POLICY,
                 "--read-only","--memory=256m","--cpus=1","--pids-limit=64","--ipc=private","--ulimit=core=0:0",
                 "--tmpfs=/scratch:"+TMPFS,"--entrypoint=/opt/java/openjdk/bin/java",image));
-        args.addAll(javaArgs(mode,flags).subList(1,javaArgs(mode,flags).size()));ok(args.toArray(String[]::new));
+        args.addAll(javaArgs(mode,flags).subList(1,javaArgs(mode,flags).size()));ids.put(name,PlatformResources.create(args));
         assertEquals(image,ok("docker","inspect","--format","{{.Image}}",name));
         assertEquals("65534:65534|false|true|none||private|268435456|1000000000|64|[]",
                 ok("docker","inspect","--format","{{.Config.User}}|{{.HostConfig.Privileged}}|{{.HostConfig.ReadonlyRootfs}}|{{.HostConfig.NetworkMode}}|{{.HostConfig.PidMode}}|{{.HostConfig.IpcMode}}|{{.HostConfig.Memory}}|{{.HostConfig.NanoCpus}}|{{.HostConfig.PidsLimit}}|{{json .Mounts}}",name));
@@ -90,7 +91,7 @@ class SandboxDiagnosticsIT {
         assertTrue(diff.isEmpty()||diff.equals("A /scratch"),"DUMP_ESCAPED_TMPFS");
     }
     static synchronized Command start(String name,boolean attach) throws Exception {
-        assertTrue(owned.contains(name));budget(false);event("STARTING;"+name);
+        assertTrue(owned.contains(name));budget(false);PlatformResources.beforeStart(ids.get(name));event("STARTING;"+name);
         return attach?command("docker","start","--attach",name):command("docker","start",name);
     }
     static String hold() throws Exception {
@@ -120,10 +121,11 @@ class SandboxDiagnosticsIT {
                         assertEquals(name,existing);
                         assertEquals(name,ok("docker","ps","-a","--filter","label=phase1312.run="+RUN,"--filter","name=^/"+name+"$","--format","{{.Names}}"));
                         Files.writeString(WORK.resolve(name+"-final-inspect.json"),ok("docker","inspect",name));
-                        ok("docker","rm","--force",name);
+                        assertEquals(ids.get(name),ok("docker","inspect","--format","{{.Id}}",name));
+                        PlatformResources.remove(ids.get(name));
                     }
                     assertEquals("",ok("docker","ps","-a","--filter","name=^/"+name+"$","--format","{{.Names}}"));
-                    owned.remove(name);event("REMOVED_VERIFIED;"+name);
+                    owned.remove(name);ids.remove(name);event("REMOVED_VERIFIED;"+name);
                 } catch(Throwable problem) {
                     cleanupUncertain=true;if(failure==null)failure=problem;else failure.addSuppressed(problem);
                 }

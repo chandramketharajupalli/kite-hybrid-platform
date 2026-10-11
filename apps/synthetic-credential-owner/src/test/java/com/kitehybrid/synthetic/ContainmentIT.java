@@ -12,6 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class ContainmentIT {
     static GenericContainer<?> sandbox(long pids) {
         return new GenericContainer<>("postgres:17.6").withImagePullPolicy(ignored->false)
+            .withLabel(PlatformResources.LABEL,PlatformResources.RUN)
+            .withCreateContainerCmdModifier(cmd->PlatformResources.beforeCreate())
             .withNetworkMode("none").withCreateContainerCmdModifier(cmd->{
                 cmd.withUser("65534:65534").withEntrypoint("/bin/sleep");
                 cmd.getHostConfig().withReadonlyRootfs(true).withCapDrop(Capability.ALL)

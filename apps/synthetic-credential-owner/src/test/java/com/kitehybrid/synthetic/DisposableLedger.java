@@ -15,6 +15,8 @@ final class DisposableLedger implements SyntheticOwner.Ledger {
     static PostgreSQLContainer<?> container() {
         return new PostgreSQLContainer<>("postgres:17.6").withDatabaseName("synthetic_owner_only")
                 .withImagePullPolicy(ignored -> false)
+                .withLabel(PlatformResources.LABEL,PlatformResources.RUN)
+                .withCreateContainerCmdModifier(cmd->PlatformResources.beforeCreate())
                 .withUsername("synthetic_fixture").withPassword("synthetic_fixture")
                 .withCommand("postgres", "-c", "fsync=on", "-c", "full_page_writes=on", "-c", "synchronous_commit=on");
     }
