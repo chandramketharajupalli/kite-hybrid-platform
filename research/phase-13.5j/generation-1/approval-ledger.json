@@ -1,0 +1,218 @@
+{
+  "fingerprint": "09d95728fdd04d6120a837fd9780d32b4f57cd78e31b869e84b1f84b38fd5967",
+  "ledger": {
+    "approval_evidence_received": 0,
+    "authority": {
+      "contract_approved": false,
+      "implementation_authorized": false,
+      "real_read_authorized": false,
+      "trading_authorized": false
+    },
+    "contract": {
+      "draft": 1,
+      "sha256": "5B9F1E717DD444CE5BBF6697012BF11887DBA780FB8C1099AC24D0A5D7D79CE7",
+      "version": "DiagnosticAssuranceContract.v2"
+    },
+    "evidence_index": {
+      "fingerprint": "68a184da681c61012f40d9d2470b117e1f287da0e9af2859b85dc6ddc2654a83",
+      "path": "research/phase-13.5j/generation-1/evidence-index.json",
+      "sha256": "a431ef8a49aae096d827223d0a802686aa55811a0cf1facedeb3b63c39f8f96f"
+    },
+    "generation": 1,
+    "parent_commit": "0c1495246b6bdf1ed265020f6fbd60e6f067b03a",
+    "predecessor": {
+      "fingerprint": "6a8d7fed0485713e35933f255c443ba190b4637973fd2fcacf518416dbf22a99",
+      "path": "research/phase-13.5i/generation-1/approval-ledger.json",
+      "sha256": "f644462b6a172d18175b5c5d883ca64b5c2132be6834cc6e1693d5e133342212"
+    },
+    "previous_stage_b": "ZERO_CALL_ABORT",
+    "protocol": {
+      "path": "docs/operations/four-role-decision-collection-plan.md",
+      "sha256": "9eef5f2be9474b1088632aabb37a1d1b94ea0973c90af5ff27b9247530b9fac4"
+    },
+    "roles": [
+      {
+        "authenticity_verification": {
+          "method": null,
+          "status": "NOT_VERIFIED",
+          "timestamp_utc": null,
+          "verifier_reference": null
+        },
+        "authority_verification": "UNKNOWN",
+        "condition_closure": null,
+        "conditions": null,
+        "conflict_of_interest": "UNKNOWN",
+        "conflicting_record_references": [],
+        "contract": {
+          "draft": 1,
+          "sha256": "5B9F1E717DD444CE5BBF6697012BF11887DBA780FB8C1099AC24D0A5D7D79CE7",
+          "version": "DiagnosticAssuranceContract.v2"
+        },
+        "decision": null,
+        "decision_timestamp_utc": null,
+        "delegation": null,
+        "evidence_record_reference": null,
+        "evidence_sha256": null,
+        "evidence_uri": null,
+        "generation": 1,
+        "identity_evidence_reference": null,
+        "predecessor_role_reference": {
+          "path": "research/phase-13.5i/generation-1/approval-ledger.json",
+          "role": "Security/authentication"
+        },
+        "rationale": null,
+        "receipt_timestamp_utc": null,
+        "record_id": "13.5J-G1-R01",
+        "record_kind": "PENDING_ROLE_SLOT_NOT_REVIEWER_DECISION",
+        "reviewer_authority": null,
+        "reviewer_identity": null,
+        "revocation_reference": null,
+        "risk_acceptance": null,
+        "role": "Security/authentication",
+        "source_reference": "research/phase-13.5i/generation-1/approval-ledger.json",
+        "source_status": "PENDING",
+        "status": "PENDING",
+        "supersession_reference": null,
+        "timestamp_provenance": null,
+        "withdrawal_reference": null
+      },
+      {
+        "authenticity_verification": {
+          "method": null,
+          "status": "NOT_VERIFIED",
+          "timestamp_utc": null,
+          "verifier_reference": null
+        },
+        "authority_verification": "UNKNOWN",
+        "condition_closure": null,
+        "conditions": null,
+        "conflict_of_interest": "UNKNOWN",
+        "conflicting_record_references": [],
+        "contract": {
+          "draft": 1,
+          "sha256": "5B9F1E717DD444CE5BBF6697012BF11887DBA780FB8C1099AC24D0A5D7D79CE7",
+          "version": "DiagnosticAssuranceContract.v2"
+        },
+        "decision": null,
+        "decision_timestamp_utc": null,
+        "delegation": null,
+        "evidence_record_reference": null,
+        "evidence_sha256": null,
+        "evidence_uri": null,
+        "generation": 1,
+        "identity_evidence_reference": null,
+        "predecessor_role_reference": {
+          "path": "research/phase-13.5i/generation-1/approval-ledger.json",
+          "role": "Runtime/DB"
+        },
+        "rationale": null,
+        "receipt_timestamp_utc": null,
+        "record_id": "13.5J-G1-R02",
+        "record_kind": "PENDING_ROLE_SLOT_NOT_REVIEWER_DECISION",
+        "reviewer_authority": null,
+        "reviewer_identity": null,
+        "revocation_reference": null,
+        "risk_acceptance": null,
+        "role": "Runtime/DB",
+        "source_reference": "research/phase-13.5i/generation-1/approval-ledger.json",
+        "source_status": "PENDING",
+        "status": "PENDING",
+        "supersession_reference": null,
+        "timestamp_provenance": null,
+        "withdrawal_reference": null
+      },
+      {
+        "authenticity_verification": {
+          "method": null,
+          "status": "NOT_VERIFIED",
+          "timestamp_utc": null,
+          "verifier_reference": null
+        },
+        "authority_verification": "UNKNOWN",
+        "condition_closure": null,
+        "conditions": null,
+        "conflict_of_interest": "UNKNOWN",
+        "conflicting_record_references": [],
+        "contract": {
+          "draft": 1,
+          "sha256": "5B9F1E717DD444CE5BBF6697012BF11887DBA780FB8C1099AC24D0A5D7D79CE7",
+          "version": "DiagnosticAssuranceContract.v2"
+        },
+        "decision": null,
+        "decision_timestamp_utc": null,
+        "delegation": null,
+        "evidence_record_reference": null,
+        "evidence_sha256": null,
+        "evidence_uri": null,
+        "generation": 1,
+        "identity_evidence_reference": null,
+        "predecessor_role_reference": {
+          "path": "research/phase-13.5i/generation-1/approval-ledger.json",
+          "role": "Packaging/logging"
+        },
+        "rationale": null,
+        "receipt_timestamp_utc": null,
+        "record_id": "13.5J-G1-R03",
+        "record_kind": "PENDING_ROLE_SLOT_NOT_REVIEWER_DECISION",
+        "reviewer_authority": null,
+        "reviewer_identity": null,
+        "revocation_reference": null,
+        "risk_acceptance": null,
+        "role": "Packaging/logging",
+        "source_reference": "research/phase-13.5i/generation-1/approval-ledger.json",
+        "source_status": "PENDING",
+        "status": "PENDING",
+        "supersession_reference": null,
+        "timestamp_provenance": null,
+        "withdrawal_reference": null
+      },
+      {
+        "authenticity_verification": {
+          "method": null,
+          "status": "NOT_VERIFIED",
+          "timestamp_utc": null,
+          "verifier_reference": null
+        },
+        "authority_verification": "UNKNOWN",
+        "condition_closure": null,
+        "conditions": null,
+        "conflict_of_interest": "UNKNOWN",
+        "conflicting_record_references": [],
+        "contract": {
+          "draft": 1,
+          "sha256": "5B9F1E717DD444CE5BBF6697012BF11887DBA780FB8C1099AC24D0A5D7D79CE7",
+          "version": "DiagnosticAssuranceContract.v2"
+        },
+        "decision": null,
+        "decision_timestamp_utc": null,
+        "delegation": null,
+        "evidence_record_reference": null,
+        "evidence_sha256": null,
+        "evidence_uri": null,
+        "generation": 1,
+        "identity_evidence_reference": null,
+        "predecessor_role_reference": {
+          "path": "research/phase-13.5i/generation-1/approval-ledger.json",
+          "role": "User/operator"
+        },
+        "rationale": null,
+        "receipt_timestamp_utc": null,
+        "record_id": "13.5J-G1-R04",
+        "record_kind": "PENDING_ROLE_SLOT_NOT_REVIEWER_DECISION",
+        "reviewer_authority": null,
+        "reviewer_identity": null,
+        "revocation_reference": null,
+        "risk_acceptance": null,
+        "role": "User/operator",
+        "source_reference": "research/phase-13.5i/generation-1/approval-ledger.json",
+        "source_status": "PENDING",
+        "status": "PENDING",
+        "supersession_reference": null,
+        "timestamp_provenance": null,
+        "withdrawal_reference": null
+      }
+    ],
+    "schema": "FourRoleApprovalLedger.v1",
+    "unverified_submissions": 0
+  }
+}

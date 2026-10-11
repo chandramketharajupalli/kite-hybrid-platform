@@ -1,0 +1,126 @@
+{
+  "fingerprint": "8bac1d4ed95dc6adcdc1460c495b7d189d8ec33c3d9e9ad89a637164d6bcfa43",
+  "replay": {
+    "authority_granted": false,
+    "contract": {
+      "draft": 1,
+      "sha256": "5B9F1E717DD444CE5BBF6697012BF11887DBA780FB8C1099AC24D0A5D7D79CE7",
+      "version": "DiagnosticAssuranceContract.v2"
+    },
+    "contract_decision": "APPROVAL_PENDING",
+    "engineering_gaps": "GAPS_OPEN",
+    "generation": 1,
+    "implementation_readiness": "NOT_AUTHORIZED",
+    "index_file_sha256": "a431ef8a49aae096d827223d0a802686aa55811a0cf1facedeb3b63c39f8f96f",
+    "index_fingerprint": "68a184da681c61012f40d9d2470b117e1f287da0e9af2859b85dc6ddc2654a83",
+    "ledger_file_sha256": "ac4a9feb25e9e6c09204ede698aedd846256517577f114d3cfb7b12f2c0bb084",
+    "ledger_fingerprint": "09d95728fdd04d6120a837fd9780d32b4f57cd78e31b869e84b1f84b38fd5967",
+    "limitation": "Empty-evidence structural replay only. Refusal probes do not validate authentic supersession, chronology or conditional closure adjudication. No general approval engine.",
+    "negative_probes": [
+      {
+        "case": "invalid contract hash",
+        "result": "REFUSED_UNSUPPORTED_OR_INVALID_RECORD",
+        "scope": "SYNTHETIC_TEST_ONLY"
+      },
+      {
+        "case": "missing role",
+        "result": "REFUSED_UNSUPPORTED_OR_INVALID_RECORD",
+        "scope": "SYNTHETIC_TEST_ONLY"
+      },
+      {
+        "case": "wrong role",
+        "result": "REFUSED_UNSUPPORTED_OR_INVALID_RECORD",
+        "scope": "SYNTHETIC_TEST_ONLY"
+      },
+      {
+        "case": "duplicate record",
+        "result": "REFUSED_UNSUPPORTED_OR_INVALID_RECORD",
+        "scope": "SYNTHETIC_TEST_ONLY"
+      },
+      {
+        "case": "duplicate ID",
+        "result": "REFUSED_UNSUPPORTED_OR_INVALID_RECORD",
+        "scope": "SYNTHETIC_TEST_ONLY"
+      },
+      {
+        "case": "broken evidence linkage",
+        "result": "REFUSED_UNSUPPORTED_OR_INVALID_RECORD",
+        "scope": "SYNTHETIC_TEST_ONLY"
+      },
+      {
+        "case": "unsupported revocation",
+        "result": "REFUSED_UNSUPPORTED_OR_INVALID_RECORD",
+        "scope": "SYNTHETIC_TEST_ONLY"
+      },
+      {
+        "case": "unsupported supersession",
+        "result": "REFUSED_UNSUPPORTED_OR_INVALID_RECORD",
+        "scope": "SYNTHETIC_TEST_ONLY"
+      },
+      {
+        "case": "unsupported conflict",
+        "result": "REFUSED_UNSUPPORTED_OR_INVALID_RECORD",
+        "scope": "SYNTHETIC_TEST_ONLY"
+      },
+      {
+        "case": "open conditional claim",
+        "result": "REFUSED_UNSUPPORTED_OR_INVALID_RECORD",
+        "scope": "SYNTHETIC_TEST_ONLY"
+      },
+      {
+        "case": "unverified closure claim",
+        "result": "REFUSED_UNSUPPORTED_OR_INVALID_RECORD",
+        "scope": "SYNTHETIC_TEST_ONLY"
+      },
+      {
+        "case": "malformed timestamp",
+        "result": "REFUSED_UNSUPPORTED_OR_INVALID_RECORD",
+        "scope": "SYNTHETIC_TEST_ONLY"
+      },
+      {
+        "case": "unproven reversed chronology",
+        "result": "REFUSED_UNSUPPORTED_OR_INVALID_RECORD",
+        "scope": "SYNTHETIC_TEST_ONLY"
+      },
+      {
+        "case": "forged approval promotion",
+        "result": "REFUSED_UNSUPPORTED_OR_INVALID_RECORD",
+        "scope": "SYNTHETIC_TEST_ONLY"
+      },
+      {
+        "case": "tampered predecessor hash",
+        "result": "REFUSED_UNSUPPORTED_OR_INVALID_RECORD",
+        "scope": "SYNTHETIC_TEST_ONLY"
+      }
+    ],
+    "operational_readiness": "NO_GO",
+    "positive_pending_probe": "PASS",
+    "protocol": {
+      "path": "docs/operations/four-role-decision-collection-plan.md",
+      "sha256": "9eef5f2be9474b1088632aabb37a1d1b94ea0973c90af5ff27b9247530b9fac4"
+    },
+    "received_decisions": 0,
+    "role_states": [
+      {
+        "role": "Security/authentication",
+        "status": "PENDING"
+      },
+      {
+        "role": "Runtime/DB",
+        "status": "PENDING"
+      },
+      {
+        "role": "Packaging/logging",
+        "status": "PENDING"
+      },
+      {
+        "role": "User/operator",
+        "status": "PENDING"
+      }
+    ],
+    "schema": "FourRoleDecisionReplay.v1",
+    "source_status": "CONTRACT_APPROVAL_PENDING",
+    "unverified_submissions": 0,
+    "verified_approvals": 0
+  }
+}
