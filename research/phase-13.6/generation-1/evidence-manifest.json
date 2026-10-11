@@ -1,0 +1,1168 @@
+{
+  "fingerprint": "67b266bb7a69491fb085ef80b54b2334d5c9849730f659585ac0b49d6c100368",
+  "manifest": {
+    "baseline": "fc473eab7b2c83a9543cda769972e4928a418495",
+    "branch": "develop",
+    "canonicalization": "json.dumps(sort_keys=True,separators=(comma,colon),ensure_ascii=True,allow_nan=False); UTF-8; no body newline; SHA-256",
+    "commands": [
+      ".\\mvnw.cmd -f apps/synthetic-credential-owner/pom.xml -Pintegration \"-Dit.test=LedgerIT\" verify",
+      ".\\mvnw.cmd -f apps/synthetic-credential-owner/pom.xml -Pintegration verify",
+      ".\\mvnw.cmd test",
+      ".\\mvnw.cmd -f apps/synthetic-credential-owner/pom.xml dependency:tree \"-Dscope=runtime\"",
+      ".\\mvnw.cmd -f apps/synthetic-credential-owner/pom.xml dependency:tree",
+      "jdeps --print-module-deps apps/synthetic-credential-owner/target/synthetic-credential-owner-0.1.0-SNAPSHOT.jar",
+      "uv run python scripts/verify-project.py",
+      "uv run python scripts/check-secrets.py",
+      "git diff --check"
+    ],
+    "durability": {
+      "backend": "Testcontainers-owned PostgreSQL 17.6 only",
+      "concurrent_processes": 2,
+      "concurrent_threads": 8,
+      "crash_recovery": "SIGKILL own container; restart; raw consumed row survives; replay denied",
+      "exactly_once_delivery": false,
+      "fsync": "on",
+      "full_page_writes": "on",
+      "semantics": "At-most-once dispatch grant for durably reserved attempts; zero delivery possible",
+      "synchronous_commit": "on"
+    },
+    "evidence_class": "SYNTHETIC_TEST_ONLY",
+    "evidence_self_inventory": "research/phase-13.6/generation-1/evidence-manifest.json (envelope fingerprint; raw self hash excluded)",
+    "failure_history": [
+      {
+        "error": "PowerShell unquoted dotted Maven property; lifecycle .test=LedgerIT; quoted on retry",
+        "stage": "initial_invocation",
+        "tests": 0
+      },
+      {
+        "error": "Host Asia/Calcutta PostgreSQL timezone rejection; isolated test JVM UTC correction",
+        "errors": 1,
+        "failures": 0,
+        "skipped": 0,
+        "stage": "ledger_setup",
+        "tests": 1
+      },
+      {
+        "error": "Cached mapped port after SIGKILL/restart; fresh Docker inspection confirmed changed port",
+        "errors": 0,
+        "failures": 1,
+        "skipped": 0,
+        "stage": "ledger_crash_fixture",
+        "tests": 8
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "result": "PASS_BEFORE_OWNER_IT",
+        "skipped": 0,
+        "stage": "ledger_gate_rerun",
+        "tests": 8
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "integration": 44,
+        "native_maven_exit": 0,
+        "skipped": 0,
+        "stage": "final_prototype_verify",
+        "unit": 69
+      }
+    ],
+    "frozen_source_registered_text_sha256": {
+      "apps/strategy-engine/src/strategy_engine/backtest/__init__.py": "ea28bbd29e0eb8690d08834c856a77afcd4024053673dae02e4f653089a6c0d2",
+      "apps/strategy-engine/src/strategy_engine/backtest/corpus.py": "a2d5bf5766ac388b285d2952283fae70c6a56651dd0493b6a878b2744c066f5f",
+      "apps/strategy-engine/src/strategy_engine/backtest/costs.py": "d0807a36a9f84eef1076b6e45ae00b4861de69c43a5de48bfa43cd1922ab01d2",
+      "apps/strategy-engine/src/strategy_engine/backtest/dataset.py": "6f0f574d598306401f587c26733448a33200735d2e23c33c51212dede8bd0e1a",
+      "apps/strategy-engine/src/strategy_engine/backtest/engine.py": "2bc667e5639f52a7000cc689622961439312d41c21dd0292c1f6d04a31872153",
+      "apps/strategy-engine/src/strategy_engine/research/candidate_evaluation.py": "a1485b5bcd768a48268776c159ceb8c8b83dac420e03db2a29d777fca50eb358",
+      "apps/strategy-engine/src/strategy_engine/research/candidate_features.py": "4cf4660e7f00cf27a07dc364b48928fbd630213065d1627869efe98a808a43ac",
+      "apps/strategy-engine/src/strategy_engine/research/candidates.py": "dc80b4bac87d74d24d5d360fe4a38d111e8390d52216668ae55afeaef67e44ca",
+      "apps/strategy-engine/src/strategy_engine/research/costs.py": "933cebfefe8a4a4e4fdb653086bfb86d173d9fb6f756f5516842047349f86508",
+      "apps/strategy-engine/src/strategy_engine/research/diagnostics.py": "f9e492367788b268a627c45197a00b8b31424ebe15ac973c035fd99cfd44f189",
+      "apps/strategy-engine/src/strategy_engine/research/experiments.py": "df699ee25e764b43e39e1b3295acca8dec8fdc66e642a771bdb78008a07c265b",
+      "apps/strategy-engine/src/strategy_engine/research/features.py": "b509a9cb0298463e60676da212721deb5ea16fa0abef079dca7a8c28452d6645",
+      "apps/strategy-engine/src/strategy_engine/research/opening_features.py": "9726e1993bbfa55b12d1cf0913709c77a9ab0a48f3d00701b7c7e7403d719db3",
+      "apps/strategy-engine/src/strategy_engine/research/strategy.py": "37fdedcc427135741f1abd9138662637937edd1ed3c278a8d840c95bf547ece5",
+      "apps/strategy-engine/src/strategy_engine/research/walkforward.py": "9862b83db8ad172df6d673ad03114f2094ffc048b82983be0f7e51e48dbe52b4",
+      "docs/operations/phase-11.6-implementation-plan.md": "f64d45d520b73b192087ddafb83643be5616025dd07367f82d5c9642c7d52260",
+      "scripts/research/run_phase114.py": "e4ce559c1c65dc11f6f59e51b0b4cc94d5037ca85488e56473bc9dd6eead210c",
+      "scripts/research/run_phase116.py": "2b9acab4d23f1284fb130106bcbe6650d69095ff2a839bf2560b6490f24fd195"
+    },
+    "generation": 1,
+    "historical_parent_raw_sha256": {
+      "docs/architecture/kite-authenticated-session-ownership.md": "0a12c3be007b270674df2a904139199ea7ce98a19aad3ab5f46850bafe580e9c",
+      "docs/architecture/kite-connect-runtime-hardening.md": "aed2479bea1ebc498730f13ce0a6eb2d6f18107df7aab2d715d92ceace750954",
+      "docs/architecture/kite-credential-owner-security-review.md": "3ecf6559e4f64dbf66d9c229b28ebe88c29d55e7acccada0a3bdd95c0cb2f7ae",
+      "docs/architecture/kite-credential-owner-service-boundary.md": "16deb0fcc4acdf07ac2cf080e598345a668437b09eb06cd53064231905a7a2f1",
+      "docs/architecture/kite-db-free-assurance-contract-v2-proposal.md": "5b9f1e717dd444ce5bbf6697012bf11887dba780fb8c1099ac24d0a5d7d79ce7",
+      "docs/architecture/kite-db-free-assurance-contract.md": "afed3be4ee615f8b6c7030d116b21e2d179ba1a0ec393bdd06a9e2e4dd47b9f9",
+      "docs/architecture/kite-market-data.md": "877a02036ed6efc3be7939e871f1ed4ff8d3d2aa6de7e2d6f354db6c37ca1799",
+      "docs/architecture/kite-minimal-read-only-deployment.md": "c5acf92f499ef6b36cd759c1620b7b256ada3c2c1bc02555b68e2022d47f1ae9",
+      "docs/architecture/kite-mis-authoritative-evidence.md": "9e309db6f01889f1af6a088f5bb78ec9f1917f9a6fd8dc22998a383421900ad5",
+      "docs/architecture/kite-mis-collateral-contract.md": "4ad58a8641ccc9f6bae2ef295baa3a6cb561dadfafb132d1fa24ac8f58cf5a81",
+      "docs/architecture/kite-mis-funding-evidence.md": "eeaadedcbb7997621c716442f136531d81c0e0b72da7131a81ac0ea40e4b1e83",
+      "docs/architecture/kite-operational-session-provenance.md": "dc164f87950fd0ac8807b7b3df3e1a35d96cc3d1386cd5265e103ff8f65a0ae6",
+      "docs/architecture/kite-read-only-deployment-isolation.md": "66ebb10e614bf7c220e0ff46f96e4db063ab1fd47ad297ad3a9b767aa8fa7e7d",
+      "docs/architecture/kite-read-only-equity-margins.md": "6ae36a679d8a6b118f1244bc871f07f6f09fd7829f75f1c2ae2e3358db990ede",
+      "docs/architecture/kite-real-session-composition-review.md": "e47d57469dfb919c13957676b54f05013d454a8b97f62fd9e4abbb5cec568f46",
+      "docs/architecture/kite-rest-and-instruments.md": "05a668e9ce4fada79c035405b2140522c77b4f0a41b3e4ca8695e4ba5759dee8",
+      "docs/architecture/kite-secure-session-handoff.md": "b3781bb4a6f7bfaaa321d7dcb05587995c3005a18acab1f17926a7b0cb413211",
+      "docs/architecture/kite-trading-read.md": "a2daf4e3ed593a7239fc55693b39751f9824755c7a66e8d6b02e3a10859666ad",
+      "docs/operations/four-role-decision-collection-plan.md": "9eef5f2be9474b1088632aabb37a1d1b94ea0973c90af5ff27b9247530b9fac4",
+      "docs/operations/four-role-decision-matrix.md": "aac74f20e0516bcae247313318f03f71329aed794f02686e1e37e31322baf34f",
+      "docs/operations/four-role-decision-validation.md": "c3db438a5eecf8e3cee3d6cadb207074452d26d7847259ca9cedc6a66d37974a",
+      "docs/operations/four-role-implementation-readiness.md": "4e293b17e5afcaa7b8c021eadc87c7f65a9d6401d02033b37418a06ff30136bc",
+      "docs/operations/four-role-review-packets.md": "6ebd3456394be7afbb26ae9137931f9414b9d4203369757df5a1ace6f27b94be",
+      "docs/operations/phase-13.5-plan.md": "40a83d54a06eae035e893478738e9c84e974ceb73bd65658509f26bff5c25cbf",
+      "docs/operations/phase-13.5-real-read-approval.md": "a2dc65a0ecfdefe3913e5e2bcd6140018ad736ef1e092f3966410a7fc29cb32c",
+      "docs/operations/phase-13.5-runbook.md": "ff9befa48a7510522ddf07038e22555f704b41935caff00c480f894c6fce33c7",
+      "docs/operations/phase-13.5-validation.md": "7ae6bdc0b777e52889ebc5cab6f284c01ec4e53112122e7a22b02e2c2301ced5",
+      "docs/operations/phase-13.5a-plan.md": "4c9a3d3163f77ec811a2e95099e63193ec95fe81dc69986f5d1eeb71a191bf2e",
+      "docs/operations/phase-13.5a-runbook.md": "b4094c9ace9f81598e75616f22d57ce72b471770d03292fa65e137bc0c9189c7",
+      "docs/operations/phase-13.5a-validation.md": "8e5f24dc050ea55274cb3e608c43c3932b5fd9b0a63449d5d227f155889012e7",
+      "docs/operations/phase-13.5b-operational-isolation.md": "8f0d2986f65bd50a24a28c2a4f7b47dad1a70cecfd66be7fbef9c4d5d22996ac",
+      "docs/operations/phase-13.5b-plan.md": "12fd1b1c8bc36e146275782ac33d9422c07ac2553ff3eac7d4d2af872fa1e289",
+      "docs/operations/phase-13.5b-validation.md": "1f84e14cd066cb0de13cedd7d608f2009e89ad366f3f2546db6ffbb6460c9314",
+      "docs/operations/phase-13.5c-plan.md": "a06489f53b8b70ec3269ea716e0c29e71b04323d84de9a6154ded13674820931",
+      "docs/operations/phase-13.5c-prerequisite-matrix.md": "2c40e766d0e29a670dff6f78d6feb0c4e25f4bffe6cf356d5b61be784d3d562f",
+      "docs/operations/phase-13.5c-runbook.md": "e57a833bcab620bb052fe2f6089f3ee6a6e6ead13ad0d73f007e4fa7ad37a3ec",
+      "docs/operations/phase-13.5c-validation.md": "72b9dafc450528f34a3e30ef21220c7a6eaf86465c2624f33a4f316f82782c54",
+      "docs/operations/phase-13.5d-certification-matrix.md": "699c56a40da25425bf0a6b53890806c8d93ed89da83fdf0e4ca88bc9c5e08e74",
+      "docs/operations/phase-13.5d-plan.md": "641e205d4902d770397227e77c5e2150d2ca98447d1bcf108d6dd58a955d5165",
+      "docs/operations/phase-13.5d-runbook.md": "f98abd439f66783a4485e1b8cb8bf964c47dfc104bb08ab78907302492688fec",
+      "docs/operations/phase-13.5d-validation.md": "a11ac411bb8b8209caae27a13cedd8ce8e5f0592bf730274668ab4db53d635de",
+      "docs/operations/phase-13.5e-certification-matrix.md": "fc60ad12914372b6d5b2f2e1a48969ff1f128e31fd9b09578102e223be555a8f",
+      "docs/operations/phase-13.5e-plan.md": "590bbfd524dc0a4191d5a5dbc317f61a69b41d25a60d967fa4f0061fac9bd6f5",
+      "docs/operations/phase-13.5e-runbook.md": "279b370d3961d9fe58edfbee43cd0a8f774c301a73a2f4633d2bf8189ff61df5",
+      "docs/operations/phase-13.5e-validation.md": "4ecad21765f0ac7bbb1f3886ddcbe42b7594241172d4abf261dd31a40fd7308d",
+      "docs/operations/phase-13.5f-decision-matrix.md": "f239446fa26211b4223b504acc113abc8e4150f3a5b94cc9a1a33564b571847b",
+      "docs/operations/phase-13.5f-plan.md": "182be2cfbb8c3c0b8fab8b26a35e475b96cef1799117436c681ab51c7a94802f",
+      "docs/operations/phase-13.5f-runbook.md": "46ebcdfbf3302886048b44924005c062158c85b0be3fc8b1b344d47748d7d2fe",
+      "docs/operations/phase-13.5f-validation.md": "a9ae19a10205c71b6309cd713d43e32cc51c66ea964e4df371568224c14a18ba",
+      "docs/operations/phase-13.5f-websocket-test-synchronization.md": "f64a280422d20afd63c510570448e927467ff05b1931797c5230e91abd83b110",
+      "docs/operations/phase-13.5g-review-plan.md": "87280b462de86036dbccd537b8c09630e645a35f5165bd3ddbee268467eb2bb2",
+      "docs/operations/phase-13.5g-runbook.md": "d78b837aa9bcd176542a67585af9103043b30f0c75d87bbf67d6e6b49480911b",
+      "docs/operations/phase-13.5g-security-decision-matrix.md": "8b2d102141b378ac153a740042f80a260776b0653a94cef2cbc2b47cd1fca536",
+      "docs/operations/phase-13.5g-validation.md": "12299d2685f2d9c068c5fa090b71ce0dde8fa349415fab42478f84b669f7488a",
+      "docs/operations/phase-13.5h-approval-matrix.md": "88eb6017f34b31a1a529e792078c58f491dc77b9e96c000ded2a2d117f417f66",
+      "docs/operations/phase-13.5h-implementation-readiness.md": "c33c9617fa956e8b240e31575ea2e4a4aee9c48ba702edd76c16e4998ba7fbf5",
+      "docs/operations/phase-13.5h-plan.md": "154f1c721eb9e9034ec97f87169483720cb783649b50db581f4f4d38542e0bed",
+      "docs/operations/phase-13.5h-review-request-draft.md": "b2ec1d1398171bb47e72060db7c605e5b00459b9815c98618be7163eebe13d7c",
+      "docs/operations/phase-13.5h-validation.md": "c6307c013cd5ad825868f9c2de72898a7f9b4a521edf0858593eba673f39669e",
+      "docs/operations/phase-13.5i-decision-matrix.md": "4c5326d49813aec75927aa630eca5ae1dd0184aaa754b90454496e0623216356",
+      "docs/operations/phase-13.5i-implementation-readiness.md": "06d5c8a1da0a48f71bceba369e2551cf5997741627f85b837ac8f3d9098120d6",
+      "docs/operations/phase-13.5i-plan.md": "028f28839fd554581550bda0f82eb0127c6b1e4daa187b4a17e5e79e3fa89b41",
+      "docs/operations/phase-13.5i-review-requests.md": "30fe816eba6fa2f187f5e4d39a11d6570cfac694bfb8fa7ccdd76ab85e4bdfed",
+      "docs/operations/phase-13.5i-validation.md": "df5e7f194d52aeca7dd4ac66ed3f53f6e65ad0a22a3dc687003a7410ca4ef638",
+      "research/phase-11.4/acquisition-summary.json": "1627def2dfd956ce9ed510aa1c6397f4620f21d1a254c4231c491ff857d7e41b",
+      "research/phase-11.4/calendar.json": "33f99f8004a5388e7c3c534bd1f1e8262c71e06384086ffa7b5c2741ed6985e0",
+      "research/phase-11.4/development-report.json": "ae497b05d9fed7475c3d30f0f2bdc04c975c8c3c7a9057ad4c924175417de110",
+      "research/phase-11.4/manifest.json": "2ee12383fd1e8c9bac7b22ebb6ada0df70dc885cab971f6ba2afae3e595e87a0",
+      "research/phase-11.4/walkforward-spec.json": "613ae9b2d06879206b1dfdae2c7e14444408efc49e0002d81e50ab7559f2ace0",
+      "research/phase-11.5/evidence-index.json": "b4c7d3127a72bb6fb669484a44b2653484592222f7ecb07c20bbdbf9d04fb5de",
+      "research/phase-11.5/f2b20e24137c9453a40f7296fa6e5f70451b5e94873364b976aa910d4959664c.json": "f2b20e24137c9453a40f7296fa6e5f70451b5e94873364b976aa910d4959664c",
+      "research/phase-11.5/hypotheses-v1.json": "c80a8122ca30e275ad299c48941f8ab8877795b2049b3ab956caf40eb6508d53",
+      "research/phase-11.6/6191638161b8bab6c1131946ce1c5bd2d6b41609bee779287b4ee80ae522bcf1.json": "6191638161b8bab6c1131946ce1c5bd2d6b41609bee779287b4ee80ae522bcf1",
+      "research/phase-11.6/eb3d64548362afe813834e85ff714ae1b42c3dabdc082b01536ca76299907ade.json": "eb3d64548362afe813834e85ff714ae1b42c3dabdc082b01536ca76299907ade",
+      "research/phase-11.6/implementation-freeze-g1.json": "56a1bd05bbbec36f639450f2f52c491c8c5436c16094f86bcf0c2818d4f63656",
+      "research/phase-12.0/acquisition-plan.json": "db95ab96ff884e46264c94f2d662f5be86d023e1ce5f7778195f83bd7f9e3f30",
+      "research/phase-12.0/corpus-manifest.json": "c465d9fdde18fe19d7c1213323c21c44c288c2a9272893e054a4b7a856b422b5",
+      "research/phase-12.0/implementation-verification.json": "18a7bd5e23365a3496e85d437c520ebd966143f137670b02292710bb23cf773f",
+      "research/phase-12.0/java-plan-verification.json": "647c3c6a27d5e17e31c67e78957db04864a59b972bf599e94d2693a99d97e109",
+      "research/phase-12.0/readiness.json": "de72889403aa9bf490f20e0fd7ad255c0d39afba9e8ae1d9f8dc800e8485d76a",
+      "research/phase-12.0/universe.json": "638f11d8805f8d45724e8ade9a74e37652564046b699acd03033988ea4150395",
+      "research/phase-12.1/access-log.json": "0a5d3b0b52b50153324fbdba68e083defee90f39a8297823e7db3d95d606c007",
+      "research/phase-12.1/acquisition-gate.json": "3bf530e20d6ffddfa63f8d00aa399725dcf39ae022c2257dc2505463fe449607",
+      "research/phase-12.1/certification-policy-v1.json": "1a741982b9eae1f54acd150693f903dbfbbebc9c44f962451dae9fa3360c660a",
+      "research/phase-12.1/continuity-boundaries.json": "7a70eb4641301bfc6bfb3c7ee6098134913e91bdbcb250d6ca0d71ba48eee437",
+      "research/phase-12.1/evidence-manifest.json": "ec1138ad69f05e30cd1306a328d7b646a19b7eefe5ad9b4290b3798bd07e5f11",
+      "research/phase-12.1/generation-1/acquisition-gate.json": "8ae1486d7f747ad856d5bbb5887860d60e52a6a5881cf29ea76521cbb3787a07",
+      "research/phase-12.1/generation-1/continuity-boundaries.json": "c599f4f76555a225823d5b5ccd25fcd57a616624ca2336d0dd6004b32c48c9f4",
+      "research/phase-12.1/generation-1/evidence-manifest.json": "b2ea6e7c36168722311ad47aa783249f7538730d0f93b61d902db9798fb8379b",
+      "research/phase-12.1/generation-1/instrument-certifications.json": "611216970e3ac7412a251b403ff161b3f64e363ff4ea44a06ff222c6946f3935",
+      "research/phase-12.1/implementation-verification.json": "af4c07bffcb628b79cc5348620a0528acc09bc589989d33022c54942d6faaec5",
+      "research/phase-12.1/instrument-certifications.json": "aa704ac8f8bbfc5d8a6f630f31a64b1b5e79ea0994454657d534c1de50732eb5",
+      "research/phase-12.1a/generation-1/access-log.json": "ec5e2e22f4f7b15b3de09cac385ccd4c0a2e04990c89fa32f127af8a6efe50e5",
+      "research/phase-12.1a/generation-1/acquisition-gate.json": "e8dcdd78adff3f8d17d52d2097f9571456b7e49a22cb1b61fd9111ddbb47808e",
+      "research/phase-12.1a/generation-1/baseline.json": "b73003c7e40abfc0e0b29b6f76c7ea99f5542715ba810da6e2a0d5899c8e33cc",
+      "research/phase-12.1a/generation-1/continuity-boundaries.json": "1888100051bb088fafd35328875249fa5c2f882c635407ab853cea5d8bc1cacd",
+      "research/phase-12.1a/generation-1/evidence-freeze.json": "0ef497571222123ee1e17a3e6361f95b3a1844a4f57dbef22e13f6ff757149f3",
+      "research/phase-12.1a/generation-1/evidence-manifest.json": "fd0932796e1b43c919cda0c0984bc4925c7db86010eb55379364c50d01754242",
+      "research/phase-12.1a/generation-1/instrument-certifications.json": "5dc1880ff82ceb231e0eb375ca8d7d8414f627680f33b522ef4b0d27eac8fe43",
+      "research/phase-12.1a/generation-1/isin-reconciliation.json": "49deae007fdfbb76f74ade5b1e40be853fbe2915bdae182c73e196545938bafa",
+      "research/phase-12.1a/generation-1/security-reference.csv": "b4e000fcb37b5123933cb74cd5c0fd3de30babd5448f1177514ca8de02669ec9",
+      "research/phase-12.1a/generation-1/source-inventory.json": "c43d2ed63a7bd0d3cac1c8d3446b7f508282dbfb11a3bc09e3acc047bd41b846",
+      "research/phase-12.1a/generation-1/validation.json": "cb899d17504b63ed353d2b252e43fd84de623719ea23b65286d90ac5c316841c",
+      "research/phase-12.1b/generation-1/access-log.json": "5d09197306ac6ed71f0749acc9ad109f769dce8bb5a7b8d0a4676f48953ddc90",
+      "research/phase-12.1b/generation-1/acquisition-gate.json": "404d0d1542c288566489d4792a942eaffaa685b797334b67aa98b3777151f7a3",
+      "research/phase-12.1b/generation-1/announcement-review.json": "0b9f8379425d4f0187cc0fa9699dc73f91f9f1fcf47f2eb4f65daaed7bc5dca2",
+      "research/phase-12.1b/generation-1/continuity-boundaries.json": "48f57ef523fb41334bee44f015c4d934d201170daa136318b5810acffed32b85",
+      "research/phase-12.1b/generation-1/corporate-action-coverage.json": "292795eb4c9a56cd5045546ccd0e1a66609ae3d97a9c7586424ba45be9185e17",
+      "research/phase-12.1b/generation-1/corporate-action-events.json": "724c2189e6a966b6dbb594705ef64c9f2ca02c231b6e57547210d0392a29d05b",
+      "research/phase-12.1b/generation-1/evidence-freeze.json": "81271046b29fdf5d332127ac85c58ac96c56b4deb61b6a7e50053cabcb6c438b",
+      "research/phase-12.1b/generation-1/evidence-manifest.json": "be4312f3041c6df346f8d2a6891eba14d87982bea99977c730ea7dad8820168b",
+      "research/phase-12.1b/generation-1/instrument-certifications.json": "4cfceeb41592139e84edac1152ed4727474463ea8849c413e195a75b30f734ee",
+      "research/phase-12.1b/generation-1/research-plan.json": "6f760addabbf85ee5d0c2bba04bd19638f965abc67b1ea79d3a229536e0ee17d",
+      "research/phase-12.1b/generation-1/source-inventory.json": "1a072c039a728d47f4b7c1c59e5e59a4ca2f0a405d07e12a958c380c0190d92c",
+      "research/phase-12.1b/generation-1/validation.json": "9e22069056737fcef6aee5bf1f693db7f8ca465506e47a5ef9bde8161e7e86b8",
+      "research/phase-12.1c/generation-1/access-log.json": "968d4b7b73e531316818894b75c8131b2b5b5ab94acde6cb2caaff2764a91403",
+      "research/phase-12.1c/generation-1/acquisition-gate.json": "c812f7e052b598ea901060bab71225cb52c3add93502e229b76548364202ea6c",
+      "research/phase-12.1c/generation-1/closure-plan.json": "86263f8bca801befcc29c2eb6523f52060c193ee2521186e89c303371f7662a8",
+      "research/phase-12.1c/generation-1/continuity-boundaries.json": "1cb64830924662fbc6565e6d2e97c7035d1c965948ee4f8ec326263c7087135c",
+      "research/phase-12.1c/generation-1/corporate-action-coverage.json": "86226b40d4c137481d69cc114d92832c7b35207f13ddf57a0f31ffa2f978ddab",
+      "research/phase-12.1c/generation-1/corporate-action-events.json": "789b1c091bd138e391eaf1cbd5ce9249d22bff70ca4b343f336f45195778fcdf",
+      "research/phase-12.1c/generation-1/evidence-freeze.json": "f3f1eb56d492f4461462c7717808a241c34bf69e30419b0600e533a6f7f7da60",
+      "research/phase-12.1c/generation-1/evidence-manifest.json": "45af6683ff1b2c925e66da87abf651770a645239707b70333e2af5d7671f01fd",
+      "research/phase-12.1c/generation-1/instrument-certifications.json": "1801e4aeb1444fc36f7e8720a86218c0f39ec9e52e355e752af4961ec510c078",
+      "research/phase-12.1c/generation-1/pending-event-review.json": "f6eb2baeabf77fa1b6962af6c10e9d8097cf283e49c9d1460d2b06e0bc90e5b4",
+      "research/phase-12.1c/generation-1/source-inventory.json": "ff93e189ab84351e9277c79c86686a29d642a90b243fd0a88c272a7cf1f25713",
+      "research/phase-12.1c/generation-1/validation.json": "3f16b60813ad1ee6e36dfaf5b6d0a69741a94ec23a51c122a4adbbc95128c19d",
+      "research/phase-13.5i/generation-1/approval-ledger.json": "f644462b6a172d18175b5c5d883ca64b5c2132be6834cc6e1693d5e133342212",
+      "research/phase-13.5i/generation-1/decision-replay.json": "1d7e6efeaea0f6a6d5cd194e89a7ec6f14f57f8a82ad30a3a7a5192feca8015a",
+      "research/phase-13.5j/generation-1/approval-ledger.json": "ac4a9feb25e9e6c09204ede698aedd846256517577f114d3cfb7b12f2c0bb084",
+      "research/phase-13.5j/generation-1/decision-replay.json": "dfc613d0cacf23a148312a9c39b34d4062934bba5adadfd07d2509143505945d",
+      "research/phase-13.5j/generation-1/evidence-index.json": "a431ef8a49aae096d827223d0a802686aa55811a0cf1facedeb3b63c39f8f96f"
+    },
+    "limits": [
+      "Trusted fixture supplies synthetic caller principal/incarnation; no network authentication",
+      "No live broker session provenance or independent HALT authority",
+      "No OS network sandbox, production packaging or external sink certification",
+      "No replicated split-brain/power-loss/host rollback certification",
+      "Pre-reservation uncertainty returns no grant/no automatic retry; future external issuer retirement not implemented",
+      "Nonce cache local; cross-process attempt fencing uses durable primary",
+      "Native serialization denial does not defeat hostile reflection or agents"
+    ],
+    "new_source_raw_sha256": {
+      "apps/synthetic-credential-owner/pom.xml": "010ad79338dfcd86b233aa07e85f3133577530a4ffbf09417ea2448b809b26ff",
+      "apps/synthetic-credential-owner/src/main/java/com/kitehybrid/synthetic/LoopbackPeer.java": "d548cf18eeeadeb4b85eb121bf4098956357ae992c7565aefd0906e431ed17f3",
+      "apps/synthetic-credential-owner/src/main/java/com/kitehybrid/synthetic/SyntheticHalt.java": "6964b0e50905793c929c1190a735299c2a9e247c597491bf5c3fa5fbd16d350c",
+      "apps/synthetic-credential-owner/src/main/java/com/kitehybrid/synthetic/SyntheticOwner.java": "0ac876abcfd065c2db923ffa00876b03647e26577084e2421d35229b1343637d",
+      "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/DisposableLedger.java": "07803ea9804868d844a828709adad54321b4e8510e9a4725d067ed04c7e4492d",
+      "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/LedgerIT.java": "ca44ca34e16dc29e024ad3f94eb7cbdd59771f2a2e2ecac6ed8db4aab5ece074",
+      "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/LedgerWorker.java": "72c279053599f353dff954abed408845aadaf301cb3dcf13909263e5ab4e928b",
+      "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/OwnerIT.java": "0c7a00ec40dbae0c6e902327f85041fd41cf6b6a7a20f34e6d29570692268418",
+      "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/PackagingTest.java": "7ccb7fb0e112f4ef1a8d97273ae984aeef721a83fb41d4226e98e36ff4d1afa4",
+      "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/SyntheticSecurityTest.java": "236250f55ffbbf88b1a3034b68b9ae6decfec7c72f3f18dea7e6890e56805ad2",
+      "docs/architecture/kite-synthetic-credential-owner.md": "a9ca9fe08e1a58aa219a00dca2bfb1055b5fc539d79629df14a04e9d2e8b6ac1",
+      "docs/operations/phase-13.6-plan.md": "c945ca56a77ef199efe02b19b86ecd92a1e5fcba644e01610c50cc9b2a828392",
+      "docs/operations/phase-13.6-runbook.md": "fe6bcfe4657628d40938559a7a4bba10816da5183d702daabd8850cabcbac3c8",
+      "docs/operations/phase-13.6-validation.md": "c76776833630900a1d20a4ca9c7ed2bbc54d103adb37d832ad5aebdcc1ab61d4"
+    },
+    "packaging": {
+      "jar_raw_sha256": "5628f18caddd0a714d34a4ffeed6361cde761e8b8d37abccd0669f65b9355717",
+      "jdeps_modules": [
+        "java.base"
+      ],
+      "main_class": null,
+      "root_reactor_changed": false,
+      "runtime_classes": [
+        "com/kitehybrid/synthetic/LoopbackPeer.class",
+        "com/kitehybrid/synthetic/SyntheticHalt$Assertion.class",
+        "com/kitehybrid/synthetic/SyntheticHalt$Lease.class",
+        "com/kitehybrid/synthetic/SyntheticHalt.class",
+        "com/kitehybrid/synthetic/SyntheticOwner$Credential.class",
+        "com/kitehybrid/synthetic/SyntheticOwner$Fault.class",
+        "com/kitehybrid/synthetic/SyntheticOwner$Ledger.class",
+        "com/kitehybrid/synthetic/SyntheticOwner$Outcome.class",
+        "com/kitehybrid/synthetic/SyntheticOwner$Request.class",
+        "com/kitehybrid/synthetic/SyntheticOwner$Result.class",
+        "com/kitehybrid/synthetic/SyntheticOwner$SinkPolicy.class",
+        "com/kitehybrid/synthetic/SyntheticOwner.class"
+      ],
+      "runtime_dependencies": [],
+      "test_dependency_tree": [
+        "com.kitehybrid:synthetic-credential-owner:jar:0.1.0-SNAPSHOT",
+        "+- org.junit.jupiter:junit-jupiter:jar:5.12.2:test",
+        "|  +- org.junit.jupiter:junit-jupiter-api:jar:5.12.2:test",
+        "|  |  +- org.opentest4j:opentest4j:jar:1.3.0:test",
+        "|  |  +- org.junit.platform:junit-platform-commons:jar:1.12.2:test",
+        "|  |  \\- org.apiguardian:apiguardian-api:jar:1.1.2:test",
+        "|  +- org.junit.jupiter:junit-jupiter-params:jar:5.12.2:test",
+        "|  \\- org.junit.jupiter:junit-jupiter-engine:jar:5.12.2:test",
+        "|     \\- org.junit.platform:junit-platform-engine:jar:1.12.2:test",
+        "+- org.postgresql:postgresql:jar:42.7.11:test",
+        "\\- org.testcontainers:postgresql:jar:1.21.4:test",
+        "   \\- org.testcontainers:jdbc:jar:1.21.4:test",
+        "      \\- org.testcontainers:database-commons:jar:1.21.4:test",
+        "         \\- org.testcontainers:testcontainers:jar:1.21.4:test",
+        "            +- junit:junit:jar:4.13.2:test",
+        "            |  \\- org.hamcrest:hamcrest-core:jar:3.0:test",
+        "            |     \\- org.hamcrest:hamcrest:jar:3.0:test",
+        "            +- org.slf4j:slf4j-api:jar:2.0.18:test",
+        "            +- org.apache.commons:commons-compress:jar:1.24.0:test",
+        "            +- org.rnorth.duct-tape:duct-tape:jar:1.0.8:test",
+        "            |  \\- org.jetbrains:annotations:jar:17.0.0:test",
+        "            +- com.github.docker-java:docker-java-api:jar:3.4.2:test",
+        "            |  \\- com.fasterxml.jackson.core:jackson-annotations:jar:2.21:test",
+        "            \\- com.github.docker-java:docker-java-transport-zerodep:jar:3.4.2:test",
+        "               +- com.github.docker-java:docker-java-transport:jar:3.4.2:test",
+        "               \\- net.java.dev.jna:jna:jar:5.13.0:test"
+      ],
+      "test_helpers_in_runtime_jar": false,
+      "trading_runtime_dependency_added": false
+    },
+    "plan_raw_sha256": "c945ca56a77ef199efe02b19b86ecd92a1e5fcba644e01610c50cc9b2a828392",
+    "prior_kl_raw_sha256": {
+      "docs/architecture/kite-solo-operator-governance-amendment-v1-proposal.md": "24f3fbd86e6fb662edb6890c5150ab03c3e9fce23d7b7b5da709f43b1f636edb",
+      "docs/operations/phase-13.5k-owner-decision-packet.md": "9561735fa9850e098c9e5ac4bceb2ea470261497e325e3a4b83f1565b3c05a51",
+      "docs/operations/phase-13.5k-plan.md": "50f42ce00b4f939135c3bdb55cc6ecb3ad02bc9c0ce7fb82005c819b114ce5b4",
+      "docs/operations/phase-13.5k-residual-risk-register.md": "454b1d829c509095507c3381ff92e4704d086b247e560a61ea205e5529a036f3",
+      "docs/operations/phase-13.5k-validation.md": "67e13bdaa104fd4f456f1474b200d1cedad4b617f91140efb74d4f63eed532a5",
+      "docs/operations/phase-13.5l-adoption-assessment.md": "be0d0bac076d47feaae1b630e19ccd7930b7a9634ee55a0eebf3b296fc780604",
+      "docs/operations/phase-13.5l-plan.md": "0e16b902096ed1c1090b99019ffe6125cd571b8432eb08e2009c05f307df1412",
+      "docs/operations/phase-13.5l-second-review-packet.md": "7243330ca6fad01a18a975d1abbd72ec6ba9114dc23288d04245a9992bd25290",
+      "docs/operations/phase-13.5l-validation.md": "472cac2465a26ea60a7923a78bb12d626c41ff68f0ea9fc3dec1aa9753597301",
+      "research/phase-13.5k/generation-1/decision-template.json": "a8fada4ab3eb253585babff7a34c34ca27f6ef22d9207279430677be66fd6c39",
+      "research/phase-13.5k/generation-1/proposal-index.json": "0127b05475196150871faa832d44a4960ddc98154ed159cc8a03731ee3edb600",
+      "research/phase-13.5k/generation-1/risk-register.json": "e3391bb6132f9da8f5c74125104fb38efc01c273d41adacf7b82cf3d0f554160",
+      "research/phase-13.5k/generation-1/validation.json": "f1ed62f70a71297b6c8a1aeb173b10459664b5a8001fac14f8a37435bb8e3506",
+      "research/phase-13.5k/generation-2/decision-replay.json": "53320fcf513200ffa9e33abf05f836e7a76e1615b75525043dc0de521a732e3b",
+      "research/phase-13.5k/generation-2/owner-decision.json": "34c647f3dffc8baeacca93791add69c6d75a942ce2c0cf1c302bca8c216841a1",
+      "research/phase-13.5k/generation-2/user-submission.json": "09bb09cd4f83b91498d3fe6fe8b3db222fdb58722c48b5bb4adeb2c602d04d8d",
+      "research/phase-13.5k/generation-2/validation.md": "b7bb372cd581cc9b1a578ae2dcb28f431c3c481d3238def026681eca90a65852",
+      "research/phase-13.5k/generation-3/decision-replay.json": "2de22facec662c905d10c5a6c9a59e244a422465d72e9dd2608838d00e00f853",
+      "research/phase-13.5k/generation-3/owner-decision-supplement.json": "d635f811889be763b4182405b3cad837880e6ad3676f8592cc66031dc1c43834",
+      "research/phase-13.5k/generation-3/phase-13.5k-owner-decision-supplement-candidate.json": "d3ef482f0fb03b11c953791ca05fc8653e2f2894bb1563d5cb69bf3ac5357c64",
+      "research/phase-13.5k/generation-3/validation.md": "5b21d09ed0065e1e744b4ce169e34bb2baf62a1f34f0414a0dd9afd36736fc56",
+      "research/phase-13.5k/generation-4/checkpoint-or-second-review.json": "078da2d1e461ca3e51773105133d19b6a05f6ca649316c4294002aca7bd42313",
+      "research/phase-13.5k/generation-4/decision-replay.json": "462cac09e5ec1345ecca5f5608bc95d90f627466a9d854ca6a51d48bf6bc43e5",
+      "research/phase-13.5k/generation-4/owner-checkpoint-declaration.md": "fdcb15f83e2691f240425b5c4c07b93d4b572feeb67f457de48350d33e32f65f",
+      "research/phase-13.5k/generation-4/validation.md": "439650822b0392a784bedab9a9c740f56cfbeff1c9103e37061d3d0f0a9d6622"
+    },
+    "protection_audit": {
+      "frozen_sources": 18,
+      "historical_parent_inputs": 132,
+      "identity_hashes": {
+        "docs/architecture/kite-db-free-assurance-contract-v2-proposal.md": "5B9F1E717DD444CE5BBF6697012BF11887DBA780FB8C1099AC24D0A5D7D79CE7",
+        "docs/architecture/kite-solo-operator-governance-amendment-v1-proposal.md": "24F3FBD86E6FB662EDB6890C5150AB03C3E9FCE23D7B7B5DA709F43B1F636EDB",
+        "docs/operations/phase-13.6-plan.md": "C945CA56A77EF199EFE02B19B86ECD92A1E5FCBA644E01610C50CC9B2A828392",
+        "research/phase-11.6/implementation-freeze-g1.json": "56A1BD05BBBEC36F639450F2F52C491C8C5436C16094F86BCF0C2818D4F63656"
+      },
+      "july_seal": "SEALED_NOT_EVALUATED",
+      "phase12": "BLOCK",
+      "prior_kl_files": 25,
+      "prior_kl_semantic_envelopes": 11,
+      "protected_research_files": 63
+    },
+    "replay_protocol": {
+      "checks": [
+        "canonical fingerprint",
+        "new raw source inventory",
+        "prior K/L raw preservation",
+        "historical raw preservation",
+        "registered frozen text hashes",
+        "fail-closed statuses",
+        "zero operations"
+      ],
+      "does_not_authenticate_owner_or_reexecute_tests": true,
+      "identical_result_required": true,
+      "runs": 2
+    },
+    "report_raw_sha256": {
+      "apps/synthetic-credential-owner/target/failsafe-reports/TEST-com.kitehybrid.synthetic.LedgerIT.xml": "cb345c13832ee9b993254aa31a2a574ba53bf9c2ea2e0f3ef92bc18264420265",
+      "apps/synthetic-credential-owner/target/failsafe-reports/TEST-com.kitehybrid.synthetic.OwnerIT.xml": "4c36224d5dd28a8dc0e4808b9768c4664c4f30d760fee85c233a9d5a14c1358f",
+      "apps/synthetic-credential-owner/target/surefire-reports/TEST-com.kitehybrid.synthetic.PackagingTest.xml": "cc073b0360c676f33df5b8c9fe3e386fe7e5ac7ab8b45248f269842d72c32b64",
+      "apps/synthetic-credential-owner/target/surefire-reports/TEST-com.kitehybrid.synthetic.SyntheticSecurityTest.xml": "9b84c062a4a7768b52869ea0307a89a0760af42c7747fb8a779c399a23c2ce44",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.ApplicationTest.xml": "2af46ec4439226815cec9bfb9737af3a4c4017904656f2eab8e2c05433f28f67",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.ArchitectureTest.xml": "a43971f6d8f771b0539d1dcac5f3384db90532597fd2d9c38b6337e9b1689f80",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.ConservativeValuationArchitectureTest.xml": "6d580bae6bdfde054173b3c13ba94c6c1c6ab117b8c263a85ddef2960796280e",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.ControlledEquityReadArchitectureTest.xml": "58c4254b41276272b4b2cf9da085c4d4cfc1249022c83dd7a55fa5f6fc4e4082",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.FirstLiveCandidatePlannerTest.xml": "adbc2f1ebe27ef0a84904387db6fef80a6bca49b7bbde1c0de2e8709b886a480",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.HaltConsoleTest.xml": "439fa7d7601723315dc32e6df613299b73c4afff8861812bf2ed321e12945255",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.HistoricalArchitectureTest.xml": "c7049362313958e788dab7275985fd264ef54ef8d64e29e75e2fb23abc17b54d",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.HistoricalContinuityGateTest.xml": "983b9f886b4a8163064292e828baf1a3990d2b8e8d857068d036763971d652eb",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.HistoricalCorpusPlanTest.xml": "136c5261d83b51547a978f93ca1af8cc48b1623f4f5dfbf54242414d572c2e43",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.HistoricalDataTest.xml": "cc55dfc4ded2852997387e58f3c0908499e64e9e5f93b2f37e85a8823e7aedbe",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.HistoricalResearchExporterTest.xml": "e4b20ddde81e32ec37b0faf832dc392d57fab31c65c2e5596319a5adf0cb5c03",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.IntradayCandidatePlannerTest.xml": "97fd1287d49bbb4e7f1c063219ade30b15bbc4c5107c803c71ab6a83d3786de7",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.KiteApplicationSafetyTest.xml": "6e31b91da859dfc0d3eb84b8e81e1ab65c1d20731c5f477951c1b295dd5b4f5f",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.KiteObservabilityTest.xml": "e29fee8c2382720d0896b87d8ef026d2515b419ad6e3a4921097da41a63579cf",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.KitePhase2SafetyTest.xml": "752acb4bce9c40810fc6fb87f56864a58111cf282e735a5b9e763ab2e7e9b0ad",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.MarketDataArchitectureTest.xml": "892814467763fcb2f6bc7653fee68c4d7f95f6ab87d85f03dcc360d331ffeafa",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.MarketDataConfigurationTest.xml": "3715c50c07c3a74f52b71fce41f91fba18797b9502d5e36e37fd43816f891180",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.MultiInstrumentCorpusTest.xml": "607e2467718d33fb3b6bb1e6eaaabfc5ecfc335816dc756fb5c4b0a74c21ac2f",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.OneOrderPermitTest.xml": "4c7fba527f608e59037db7bdd65f2def21032f914b3b348ad41848e80d01b618",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.OperatorControlArchitectureTest.xml": "55efcc2ed876d7c4ccddbbaee6c87b560e44585a56593ebaae9e3c320ff92b53",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.OperatorControlTest.xml": "6f53a785b23210cb36fc15e4949fc4a75fd71ee554eac95342d9155ed8e6deab",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.OrderArchitectureTest.xml": "8d7d60033989935fd5e25de45388b00d863eccfbd8c70239ef17ab77179522c2",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.OrderStateTest.xml": "79fed5337f17c7b421ee009ce97c9e1b49c152febb2ea38c22d596a54650a2da",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.ReconciliationArchitectureTest.xml": "4134d63221dc7b66e2b31790eb42141bf2b223c0d9eac3dcb5dafdfe95579a89",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.RiskArchitectureTest.xml": "9ae1f82b9c36f73f4c1cbe832f58bfb3b1de0d0088d490e4f04e601e40fdfd10",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.RiskEngineTest.xml": "540fe87614d8a21d81edac8c0fd14914df907a48fa57d02f5b3ef86bc19a7804",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.RuntimeTradingHaltTest.xml": "427cb8eae684550c74f231b713b936ac4f69f0c6b1e4f983b5594b460830669f",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.SafetyConfigurationTest.xml": "aa75637a74991dcc45e1c0fe898cd81b400ec8a14f8b5aaa272928f1100cce11",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.SignalContractTest.xml": "c3df57b751f9d9bb9b432caf2ed1bb16c5df78b189b0297ffecc9b4887e5556d",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.StrategyArchitectureTest.xml": "f14d818cb2b7003f8af531dda77c70944dd8344e34fa7aacbcb251b10aa46082",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.TradingReadArchitectureTest.xml": "70c1bc4c8e58590ffb14c226be5591b061db242a0bc620c6cfda6654ee349b64",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.TrustedOperatorConsoleTest.xml": "97e41c382aa2c0d40d5d6c055916bc240a634b1876e3d94ba5255e0677cedfb3",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.UniverseValidationArchitectureTest.xml": "ee516b6a2e2356397eaeb4a79abaeeb95c646d56acb61183a173aaa639a884b0",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.application.auth.KiteAuthenticationUseCaseTest.xml": "d3d68dc98b9bae630ae4e1e24028e394388932574d992393ad5e1c32f5326728",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.application.auth.KiteLoginAttemptUseCaseTest.xml": "95895624a11ede897e7999edcd13e779883dfb371aa785458d63a80d33d3c20d",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.JdkKiteWebSocketTransportTest.xml": "e402a94b14e19f35430904dc1231234583b3e598de95e1b4ec42426091d56fc0",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteAuthenticationAdapterTest.xml": "375ceffbc326959228aadf28d01c6bd9e1a6f1dd8ae50be3b7c0082f2c004523",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteAuthenticationCookieTest.xml": "bbc5d95b919675f09cbf7ae9f21c74d19893ca0f98ed2022830fe36616b261d0",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteAuthenticationHttpTest.xml": "53d5edf863060fd437306ee2ec00fc95f12d3f76a3dffc66176af98c27bcff45",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteConfigurationTest.xml": "fa63ff876b534907c007d84de6aa4f1395f1ea52e44569f8ef433cf8040c39de",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityMarginReadAdapterTest.xml": "1eee5be793f9c4004e8f5c979decb7f16240b7845ed47fbded34676973ca650e",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadHandoffTest.xml": "406f4c74b90d82acb400af2b5786c2106eb7af5a85d118a7df4711928890e5d5",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadHarnessTest.xml": "7ef3efbff0fcbb78efd829dad8febc9cae66c3c35036ec3495e04dbaf2f91831",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadIsolationTest.xml": "647809c62d9d617e7e14e0a06c44095a09c330619383513a5ccb5dad9d08954e",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadRequestFactoryTest.xml": "2f2e234bb88131d0fe35f9ae8df3a0b048fe599a108010d577cb30acce33523f",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteHistoricalAdapterTest.xml": "ca15e46f6958000678da7450a3b07057a8c7c0f87a5d491a32ad9a11c34b377a",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteInstrumentMappingTest.xml": "83c3700d7bf882e63757b0bd6a25b307b8075f5efd9d086b88ee6da06711fdb5",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataAdapterTest.xml": "4bf688cc83ca1f6ff94c025c70bbe3bae05aefdf5889af2529a499428bfc04b8",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataBackpressureTest.xml": "f7c52f4501f386c47f606bbe21faa26823f1dd7e24511baa8284924d0696afe2",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataDecoderTest.xml": "d5ebddb9f04f96f3e7e6abf96996389425615a63feba1c1084efcf019bd79e8c",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataHealthTest.xml": "7f2e20d93fcd302900773c028eb84b60aea2c1aac90d8e16f60de03e21d9dee9",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataInstrumentMappingTest.xml": "10e61f01b04521ead5adcafb01b5af3fe252b17b6f1666ce778d644f41d47a74",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataNormalizerTest.xml": "22521c2ca60ef397246eb06bd217042181b78afe50a832118286e83df7d897ea",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteOrderAdapterTest.xml": "8cf8e22a8864d1d06ab9bd176dbb47a7356215d3d914b6d58bb4b0524599f954",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteOrderMarginAdapterTest.xml": "906c9552ea03867ad345d09d0541c355961931f94615993b7fedb72d1fa720e9",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteRestReadTest.xml": "234945451ce22baabd8fb9f59ebf0618cd73af6877ea0d3c2425f96f4075089e",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteSessionConcurrencyTest.xml": "5e57b9b206d56be3c2d63d18661fadff228ae6e2e1a87cb7583dde3e5305aa07",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteSessionMarketDataTest.xml": "439a90f37c70ad33fca571f7170946bc3fde56ad73366be73ebbc741a22cffde",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadAdapterTest.xml": "c9aaba22f3b6089a15808ff72c0ad34ab64fd47956871aadc8531aa70ba0e52f",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadConfigurationTest.xml": "f8c6578af5dc47fbcda6d2edfdf467cceb324bc4372ce6d7eaa8dd5eb08638dd",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadDiagnosticControllerTest.xml": "cb16366beb72fa49da21f0b6f70be6621e92bbcef1d47c883434182cb5236ced",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadMapperTest.xml": "e93937466de1daf6e274d0d384a19311ef2070990ab6515fce3fcacd342d2246",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.PostgresKiteAccessTokenStoreTest.xml": "36506f36f56b10448eba5df28a817c851bd4bf4af5211be56f20cebb64b043d6",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.broker.infrastructure.kite.PostgresKiteLoginAttemptStoreTest.xml": "981a898e2781e6fd0b1a49bfb6d72c01f5e0516a5e154be5920c812200246fa0",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.instrument.InstrumentRegistryTest.xml": "705fb9bb2b805da000d654a9021541b3846884c45d20b76eb7d94a04ddb73e38",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.instrument.InstrumentTest.xml": "26efe0bea224ee9e74abd21d6e2673e6146c61023a865b456eea6eee10798fc5",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.instrument.RefreshInstrumentRegistryTest.xml": "bfeda75581c200c92842ff07d13e22346cb25d4d5c6c408ea87d2bdc1aab4e99",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.instrument.UniverseCsvImporterTest.xml": "31841ab583b8be025a6c3516408b5a3dfbda66714288da46634c7f12c86a3f8f",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.instrument.UniverseValidationDiagnosticControllerTest.xml": "e04e067f61adf6761361f2a21c8600e97746b54139053fe0261dadbbd3461e10",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.instrument.application.UniverseValidationServiceTest.xml": "840554424a4180b2e57d9ea8b98576381e8500b8cae4a58ef24c28c454514072",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.marketdata.LatestMarketDataStoreTest.xml": "ef8fd6b689a0ab468fe6e530e37ef5a0bc87149a33b9b8a4923ff17a2dbfe69c",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.marketdata.TickTest.xml": "c9422a812693aad1ad844501a9baa4cc4c9d1a2df541163deb09cba4cab54843",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.order.ConservativeOrderQuantitySizerTest.xml": "f7cd81ecd73bdea0f8e4ac138b2ea62e313e0ea5a704802c0ae7365a6111930d",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.order.ConservativeOrderValuationTest.xml": "4b6dc5c9d46a1304e1bcaf6ecc0ffc1303846004f323fe4ca2eeecdf682db10b",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.order.ExecutionFreshnessAuditTest.xml": "f7d09ebaf8c04057b40cad940475ec9d9ac838336cbb24c33339dee0528052f1",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.order.ExecutionSafetyPolicyTest.xml": "a3828bd1f9c123e8a5777172c36fcd3709ecec29dac18228e0c91e19a77809c0",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.order.OrderApplicationServiceTest.xml": "2fb6fc17bb3635c1e7c2314b74c7ac201a359c2386d9429f4857229192b909d2",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.reconciliation.OrderReconciliationServiceTest.xml": "c5b4e7fb17373c6aef17c6f2ca02a0c1c5d662b5648c113ba70e734eb7334c62",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.risk.RiskConfigurationTest.xml": "e247d818f91b9a70da3edf1e7f236e823907e9fbc94f6f773bd3e0ff534cee33",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.risk.domain.CashRiskArithmeticTest.xml": "d460017de7003032c884997f4460e901eb0dfc0a501e1e92623c04cf85b69b9b",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.risk.domain.ConservativeNotionalRegressionTest.xml": "0a71f68a1cf2e966053f63618235487ce8ec4726ec960db8366e6ccf8a5f9015",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.risk.domain.IntradayAccountCapacityTest.xml": "044c01dbad9fb6a18534ea1b0d2d784bc28dd1d09f6229e619cf658a3b451dad",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.risk.domain.IntradayCollateralContractTest.xml": "8dc9dd0baf48a8c9b92f5db505567259897c19a283dc735971a39b6f2a648d67",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.risk.domain.IntradayFundingDiagnosticsTest.xml": "584a1ef73087e3b38d592b20764e1fc3c155aed86ae5b774b7b2dca876819576",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.risk.domain.IntradayFundingEvidenceTest.xml": "a01bb65255549731ac4cd25e9774393dafbcf06c9df440d74ee6a9a44abfc483",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.strategy.ReferenceThresholdStrategyTest.xml": "709ddd5dfcfb16995416126cce56dd0d571f3d5ce17f63922d7da392823f24c9",
+      "apps/trading-core/target/surefire-reports/TEST-com.kitehybrid.platform.strategy.StrategyReplayAuditTest.xml": "0a8c3cda84e87016d8b10046b3915e822a6fb4903918c24bb4d9f1c9dbdfe3a0"
+    },
+    "result": "SYNTHETIC_OWNER_VALIDATED",
+    "schema_version": "SyntheticCredentialOwnerEvidence.v1",
+    "statuses": {
+      "effective_governance_adoption": "PENDING",
+      "four_technical_reviews": "PENDING",
+      "full_buffered_notional_inr": 10000,
+      "governance_second_review": "PENDING",
+      "h1_h2": "FROZEN",
+      "july_test": "SEALED",
+      "live_independent_halt": "NOT_ESTABLISHED",
+      "live_logging": "NOT_VERIFIED",
+      "minimal_live_service": "NOT_DEPLOYED",
+      "mis": "NOT_READY",
+      "operational": "NO_GO",
+      "operational_owner_implementation": "NOT_AUTHORIZED",
+      "original_acceptance_timestamp": "UNVERIFIED",
+      "owner_acceptance": "USER_DECLARED_ACCEPTANCE_RECORDED",
+      "phase12": "BLOCK",
+      "real_broker_read_authorization": "NONE",
+      "real_session_ownership": "NOT_ESTABLISHED",
+      "stage_b": "ZERO_CALL_ABORT",
+      "v2": "PENDING",
+      "verified_checkpoint_time": null
+    },
+    "test_results": {
+      "prototype_integration": {
+        "classes": [
+          {
+            "class": "com.kitehybrid.synthetic.LedgerIT",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 8
+          },
+          {
+            "class": "com.kitehybrid.synthetic.OwnerIT",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 36
+          }
+        ],
+        "totals": {
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 44
+        }
+      },
+      "prototype_unit": {
+        "classes": [
+          {
+            "class": "com.kitehybrid.synthetic.PackagingTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.synthetic.SyntheticSecurityTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 66
+          }
+        ],
+        "totals": {
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 69
+        }
+      },
+      "root_unit": {
+        "classes": [
+          {
+            "class": "com.kitehybrid.platform.ApplicationTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 2
+          },
+          {
+            "class": "com.kitehybrid.platform.ArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 1
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.application.auth.KiteAuthenticationUseCaseTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 29
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.application.auth.KiteLoginAttemptUseCaseTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 28
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.JdkKiteWebSocketTransportTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 16
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteAuthenticationAdapterTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 91
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteAuthenticationCookieTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 8
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteAuthenticationHttpTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 34
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteConfigurationTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 21
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityMarginReadAdapterTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 51
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadHandoffTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 48
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadHarnessTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 35
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadIsolationTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 4
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadRequestFactoryTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 33
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteHistoricalAdapterTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 25
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteInstrumentMappingTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 24
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataAdapterTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 18
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataBackpressureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 7
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataDecoderTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 28
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataHealthTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 15
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataInstrumentMappingTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 23
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataNormalizerTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 10
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteOrderAdapterTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 12
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteOrderMarginAdapterTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 27
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteRestReadTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 42
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteSessionConcurrencyTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 4
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteSessionMarketDataTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 5
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadAdapterTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 159
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadConfigurationTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 2
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadDiagnosticControllerTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 69
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadMapperTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 117
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.PostgresKiteAccessTokenStoreTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 13
+          },
+          {
+            "class": "com.kitehybrid.platform.broker.infrastructure.kite.PostgresKiteLoginAttemptStoreTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 27
+          },
+          {
+            "class": "com.kitehybrid.platform.ConservativeValuationArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 5
+          },
+          {
+            "class": "com.kitehybrid.platform.ControlledEquityReadArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.FirstLiveCandidatePlannerTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 23
+          },
+          {
+            "class": "com.kitehybrid.platform.HaltConsoleTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 11
+          },
+          {
+            "class": "com.kitehybrid.platform.HistoricalArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 1
+          },
+          {
+            "class": "com.kitehybrid.platform.HistoricalContinuityGateTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 16
+          },
+          {
+            "class": "com.kitehybrid.platform.HistoricalCorpusPlanTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.HistoricalDataTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 14
+          },
+          {
+            "class": "com.kitehybrid.platform.HistoricalResearchExporterTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 4
+          },
+          {
+            "class": "com.kitehybrid.platform.instrument.application.UniverseValidationServiceTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.instrument.InstrumentRegistryTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 7
+          },
+          {
+            "class": "com.kitehybrid.platform.instrument.InstrumentTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 19
+          },
+          {
+            "class": "com.kitehybrid.platform.instrument.RefreshInstrumentRegistryTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 4
+          },
+          {
+            "class": "com.kitehybrid.platform.instrument.UniverseCsvImporterTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.instrument.UniverseValidationDiagnosticControllerTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 5
+          },
+          {
+            "class": "com.kitehybrid.platform.IntradayCandidatePlannerTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.KiteApplicationSafetyTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 1
+          },
+          {
+            "class": "com.kitehybrid.platform.KiteObservabilityTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 1
+          },
+          {
+            "class": "com.kitehybrid.platform.KitePhase2SafetyTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.marketdata.LatestMarketDataStoreTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 9
+          },
+          {
+            "class": "com.kitehybrid.platform.marketdata.TickTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 6
+          },
+          {
+            "class": "com.kitehybrid.platform.MarketDataArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 1
+          },
+          {
+            "class": "com.kitehybrid.platform.MarketDataConfigurationTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 27
+          },
+          {
+            "class": "com.kitehybrid.platform.MultiInstrumentCorpusTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.OneOrderPermitTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.OperatorControlArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 6
+          },
+          {
+            "class": "com.kitehybrid.platform.OperatorControlTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 12
+          },
+          {
+            "class": "com.kitehybrid.platform.order.ConservativeOrderQuantitySizerTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 13
+          },
+          {
+            "class": "com.kitehybrid.platform.order.ConservativeOrderValuationTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 30
+          },
+          {
+            "class": "com.kitehybrid.platform.order.ExecutionFreshnessAuditTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 7
+          },
+          {
+            "class": "com.kitehybrid.platform.order.ExecutionSafetyPolicyTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.order.OrderApplicationServiceTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 9
+          },
+          {
+            "class": "com.kitehybrid.platform.OrderArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.OrderStateTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 20
+          },
+          {
+            "class": "com.kitehybrid.platform.reconciliation.OrderReconciliationServiceTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 12
+          },
+          {
+            "class": "com.kitehybrid.platform.ReconciliationArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 1
+          },
+          {
+            "class": "com.kitehybrid.platform.risk.domain.CashRiskArithmeticTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.risk.domain.ConservativeNotionalRegressionTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 7
+          },
+          {
+            "class": "com.kitehybrid.platform.risk.domain.IntradayAccountCapacityTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 32
+          },
+          {
+            "class": "com.kitehybrid.platform.risk.domain.IntradayCollateralContractTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 28
+          },
+          {
+            "class": "com.kitehybrid.platform.risk.domain.IntradayFundingDiagnosticsTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 49
+          },
+          {
+            "class": "com.kitehybrid.platform.risk.domain.IntradayFundingEvidenceTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 8
+          },
+          {
+            "class": "com.kitehybrid.platform.risk.RiskConfigurationTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 8
+          },
+          {
+            "class": "com.kitehybrid.platform.RiskArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 1
+          },
+          {
+            "class": "com.kitehybrid.platform.RiskEngineTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.RuntimeTradingHaltTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 13
+          },
+          {
+            "class": "com.kitehybrid.platform.SafetyConfigurationTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 2
+          },
+          {
+            "class": "com.kitehybrid.platform.SignalContractTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 3
+          },
+          {
+            "class": "com.kitehybrid.platform.strategy.ReferenceThresholdStrategyTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 2
+          },
+          {
+            "class": "com.kitehybrid.platform.strategy.StrategyReplayAuditTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 4
+          },
+          {
+            "class": "com.kitehybrid.platform.StrategyArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 2
+          },
+          {
+            "class": "com.kitehybrid.platform.TradingReadArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 5
+          },
+          {
+            "class": "com.kitehybrid.platform.TrustedOperatorConsoleTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 15
+          },
+          {
+            "class": "com.kitehybrid.platform.UniverseValidationArchitectureTest",
+            "errors": 0,
+            "failures": 0,
+            "skipped": 0,
+            "tests": 1
+          }
+        ],
+        "totals": {
+          "errors": 0,
+          "failures": 0,
+          "skipped": 0,
+          "tests": 1508
+        }
+      }
+    },
+    "verification": {
+      "existing_trading_integration": "NOT_RUN_NO_SHARED_CODE_CHANGE",
+      "git_diff_check": "PASS",
+      "new_text_whitespace": "PASS",
+      "project": "PASS",
+      "python_tests_ruff_mypy": "NOT_APPLICABLE_NO_PYTHON_SOURCE_CHANGE",
+      "secrets": "PASS_ZERO_FINDINGS",
+      "staged_changes": 0,
+      "tracked_changes": 0
+    },
+    "zero_operations": {
+      "commit": 0,
+      "development_db_mutations": 0,
+      "operational_halt_resume_arm_execute": 0,
+      "orders": 0,
+      "push": 0,
+      "real_kite_requests": 0,
+      "real_tokens_loaded_or_restored": 0,
+      "websockets": 0
+    }
+  }
+}
