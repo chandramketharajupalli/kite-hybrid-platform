@@ -1,0 +1,137 @@
+{
+  "decision": {
+    "admissibility": {
+      "conditions_interpretation": "Acceptance preserves standing safeguards. It does not assert their completion; no new reviewer-issued conditions invented.",
+      "effective_governance_state": "OWNER_DECISION_PENDING",
+      "missing_or_unverified": [
+        "Actual owner decision timestamp with timezone; no expiry or 24-hour interval inferred from import time",
+        "Attributable owner/project authority basis beyond generic assertion and verification limitations",
+        "Explicit risk-register digest acknowledgment and governance-risk rationale required by adoption packet",
+        "External obligation applicability remains UNVERIFIED; blocks dependent reliance, not recording this statement"
+      ],
+      "reason": "Explicit acceptance is recorded, but actual timezone decision time and complete required adoption attribution/bindings are not established. No automatic AMENDMENT_ADOPTED_SELF_REVIEW promotion.",
+      "status": "RECORDED_VERIFICATION_INCOMPLETE"
+    },
+    "amendment": {
+      "draft": 1,
+      "path": "docs/architecture/kite-solo-operator-governance-amendment-v1-proposal.md",
+      "raw_sha256": "24f3fbd86e6fb662edb6890c5150ab03c3e9fce23d7b7b5da709f43b1f636edb",
+      "version": "SoloOperatorGovernanceAmendment.v1"
+    },
+    "capture": {
+      "clock_source": "clock.curr_time tool observed during verification",
+      "import_observed_at_utc": "2026-10-11T09:01:28Z",
+      "limitation": "Import observation time only; not exact message receipt, owner decision time, or independently attested timestamp."
+    },
+    "contract": {
+      "draft": 1,
+      "path": "docs/architecture/kite-db-free-assurance-contract-v2-proposal.md",
+      "raw_sha256": "5b9f1e717dd444ce5bbf6697012bf11887dba780fb8c1099ac24d0a5d7d79ce7",
+      "version": "DiagnosticAssuranceContract.v2"
+    },
+    "declared_decision": {
+      "authority_basis": "User assertion of sole developer/operator; no independent authority attestation",
+      "conditions_original": "Subject to amendment's stated safeguards, including conflict disclosure, 24-hour second review, 90-day review cadence, and preservation of external review obligations",
+      "decision_time_original": "Conversation receipt; authoritative timestamp not independently attested",
+      "decision_timestamp_utc": null,
+      "identity_verification": "USER_ASSERTED",
+      "independent_authority_verification": "NOT_VERIFIED",
+      "intent": "ACCEPT_GOVERNANCE_AMENDMENT_SUBJECT_TO_STATED_SAFEGUARDS",
+      "normalization_basis": "Explicit current instruction names owner adoption; original enum retained. No general enum mapping or inferred V2 acceptance.",
+      "original_json_enum": "ACCEPT",
+      "owner_identity": "User-declared sole developer and operator; independently unverified",
+      "rationale": "No additional rationale supplied beyond acceptance subject to safeguards",
+      "revocation": null,
+      "risk_register_acknowledgment": "NOT_EXPLICITLY_DIGEST_BOUND",
+      "risk_register_raw_sha256_observed": "454b1d829c509095507c3381ff92e4704d086b247e560a61ea205e5529a036f3",
+      "signature": null,
+      "status": "USER_DECLARED_ACCEPTANCE_RECORDED",
+      "supersession": null,
+      "surrounding_instruction_enum": "ACCEPTED"
+    },
+    "domain_reviews": [
+      {
+        "decision": null,
+        "decision_timestamp": null,
+        "domain": "Security/authentication",
+        "evidence": null,
+        "status": "PENDING"
+      },
+      {
+        "decision": null,
+        "decision_timestamp": null,
+        "domain": "Runtime/DB",
+        "evidence": null,
+        "status": "PENDING"
+      },
+      {
+        "decision": null,
+        "decision_timestamp": null,
+        "domain": "Packaging/logging",
+        "evidence": null,
+        "status": "PENDING"
+      },
+      {
+        "decision": null,
+        "decision_timestamp": null,
+        "domain": "User/operator",
+        "evidence": null,
+        "status": "PENDING"
+      }
+    ],
+    "existing_untracked_K_artifacts": {
+      "docs/architecture/kite-solo-operator-governance-amendment-v1-proposal.md": "24f3fbd86e6fb662edb6890c5150ab03c3e9fce23d7b7b5da709f43b1f636edb",
+      "docs/operations/phase-13.5k-owner-decision-packet.md": "9561735fa9850e098c9e5ac4bceb2ea470261497e325e3a4b83f1565b3c05a51",
+      "docs/operations/phase-13.5k-plan.md": "50f42ce00b4f939135c3bdb55cc6ecb3ad02bc9c0ce7fb82005c819b114ce5b4",
+      "docs/operations/phase-13.5k-residual-risk-register.md": "454b1d829c509095507c3381ff92e4704d086b247e560a61ea205e5529a036f3",
+      "docs/operations/phase-13.5k-validation.md": "67e13bdaa104fd4f456f1474b200d1cedad4b617f91140efb74d4f63eed532a5",
+      "research/phase-13.5k/generation-1/decision-template.json": "a8fada4ab3eb253585babff7a34c34ca27f6ef22d9207279430677be66fd6c39",
+      "research/phase-13.5k/generation-1/proposal-index.json": "0127b05475196150871faa832d44a4960ddc98154ed159cc8a03731ee3edb600",
+      "research/phase-13.5k/generation-1/risk-register.json": "e3391bb6132f9da8f5c74125104fb38efc01c273d41adacf7b82cf3d0f554160",
+      "research/phase-13.5k/generation-1/validation.json": "f1ed62f70a71297b6c8a1aeb173b10459664b5a8001fac14f8a37435bb8e3506"
+    },
+    "generation": 2,
+    "parent_commit": "fc473eab7b2c83a9543cda769972e4928a418495",
+    "permissions": {
+      "deployment": "NOT_AUTHORIZED",
+      "implementation": "NOT_AUTHORIZED",
+      "live_trading": "NOT_AUTHORIZED",
+      "operational_readiness": "NO_GO",
+      "real_kite_access": "NOT_AUTHORIZED",
+      "v2_contract_approval": "PENDING"
+    },
+    "predecessor_template": {
+      "fingerprint": "06bf0d96ba3b4de46fe72147ab86362d4b87f0205737b9e8e13b7b9564063588",
+      "path": "research/phase-13.5k/generation-1/decision-template.json",
+      "raw_sha256": "a8fada4ab3eb253585babff7a34c34ca27f6ef22d9207279430677be66fd6c39",
+      "relationship": "Additive acceptance submission after blank template; original unchanged, not overwritten or backdated"
+    },
+    "previous_stage_b": "ZERO_CALL_ABORT",
+    "record_id": "13.5K-G2-OWNER-001",
+    "safeguards": {
+      "actual_expiry_utc": null,
+      "conflict_disclosure_required_each_domain": true,
+      "external_obligations": "UNVERIFIED_AND_NOT_WAIVED",
+      "independent_reviewers_verified": 0,
+      "request_changes_current_mapping": "UNRESOLVED",
+      "review_cadence_max_days": 90,
+      "review_mode": "SINGLE_OWNER_SELF_REVIEW",
+      "second_review_completed": false,
+      "second_review_minimum_hours": 24,
+      "second_review_scope": "Before unconditional contract acceptance; actual session timestamps/evidence missing"
+    },
+    "schema": "Phase13_5K_ImportedOwnerDecision.v1",
+    "source": {
+      "fingerprint": "7abd0d414ee741cd1213d79c2a292f633df24e4af0ea234fc8f6bc5d1721d0b5",
+      "path": "research/phase-13.5k/generation-2/user-submission.json",
+      "raw_sha256": "09bb09cd4f83b91498d3fe6fe8b3db222fdb58722c48b5bb4adeb2c602d04d8d"
+    },
+    "source_provenance": {
+      "kind": "DIRECT_USER_MESSAGE_IN_CURRENT_CONVERSATION",
+      "message_identifier": null,
+      "scope": "Supplied JSON field values preserved; surrounding instruction explicitly says record owner adoption ACCEPTED subject to safeguards. No platform transcript export or message signature available.",
+      "source_hash_limit": "Canonical supplied-object digest, not a cryptographic proof of the original chat transport or sender identity."
+    }
+  },
+  "fingerprint": "38580c359773514ad9518f2ceb20e826989f1833cd0fb2b196eedd78b07b4530"
+}

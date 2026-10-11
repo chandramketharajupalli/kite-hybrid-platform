@@ -1,0 +1,68 @@
+{
+  "fingerprint": "1a4eb5615c86a16d005ebd1fd0edb1379225a862c9ae3c7a031338c4d3656d5c",
+  "replay": {
+    "generation": 3,
+    "limits": "Structural/local source consistency only. No authentication of human identity/authority or original decision time; no runtime safety proof.",
+    "negative_consistency_checks": [
+      {
+        "case": "invent original time",
+        "result": "REFUSED",
+        "scope": "SYNTHETIC_IN_MEMORY_ONLY"
+      },
+      {
+        "case": "independent authority promotion",
+        "result": "REFUSED",
+        "scope": "SYNTHETIC_IN_MEMORY_ONLY"
+      },
+      {
+        "case": "V2 approval promotion",
+        "result": "REFUSED",
+        "scope": "SYNTHETIC_IN_MEMORY_ONLY"
+      },
+      {
+        "case": "second-review completion",
+        "result": "REFUSED",
+        "scope": "SYNTHETIC_IN_MEMORY_ONLY"
+      },
+      {
+        "case": "wrong amendment fingerprint",
+        "result": "REFUSED",
+        "scope": "SYNTHETIC_IN_MEMORY_ONLY"
+      },
+      {
+        "case": "technical-review completion",
+        "result": "REFUSED",
+        "scope": "SYNTHETIC_IN_MEMORY_ONLY"
+      }
+    ],
+    "replay_twice_identical": true,
+    "result": {
+      "effective_governance_state": "OWNER_DECISION_PENDING",
+      "recorded_states": {
+        "authority": "SOLE_OWNER_USER_ASSERTED",
+        "authority_verification": "INDEPENDENTLY_UNVERIFIED",
+        "collateral_assisted_mis_readiness": "NOT_READY",
+        "conflict_disclosure": "REQUIRED",
+        "decision_timestamp": "UNVERIFIED",
+        "deployment": "NOT_AUTHORIZED",
+        "external_obligation_applicability": "UNVERIFIED",
+        "external_review_obligations": "UNCHANGED",
+        "four_domain_technical_reviews": "PENDING",
+        "implementation": "NOT_AUTHORIZED",
+        "live_trading": "NOT_AUTHORIZED",
+        "operational_readiness": "NO_GO",
+        "owner_acceptance": "USER_DECLARED_ACCEPTANCE_RECORDED",
+        "periodic_review_90d": "REQUIRED",
+        "real_kite_access": "NOT_AUTHORIZED",
+        "residual_risks": "USER_DECLARED_REVIEWED_AND_ACKNOWLEDGED",
+        "second_review_24h": "PENDING",
+        "v2_contract_approval": "PENDING"
+      },
+      "source_integrity": "PASS"
+    },
+    "result_fingerprint": "6aabedcb5e052d9a1082b180532470888d4e53ef925dbe957c96332ab71de23b",
+    "schema": "Phase13_5K_SupplementReplay.v1",
+    "supplement_file_sha256": "d635f811889be763b4182405b3cad837880e6ad3676f8592cc66031dc1c43834",
+    "supplement_fingerprint": "01c9c3f1748ce8a2b446feae908ea3e8e6fad8c567154e04806f1cbe9280f853"
+  }
+}

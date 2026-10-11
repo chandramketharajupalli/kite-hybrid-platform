@@ -1,0 +1,21 @@
+{
+  "fingerprint": "7abd0d414ee741cd1213d79c2a292f633df24e4af0ea234fc8f6bc5d1721d0b5",
+  "submission": {
+    "amendment": "Solo-Operator Governance Amendment V1",
+    "amendment_sha256": "24F3FBD86E6FB662EDB6890C5150AB03C3E9FCE23D7B7B5DA709F43B1F636EDB",
+    "conditions": "Subject to amendment's stated safeguards, including conflict disclosure, 24-hour second review, 90-day review cadence, and preservation of external review obligations",
+    "decision": "ACCEPT",
+    "decision_source": "Explicit user statement in current ChatGPT conversation",
+    "decision_time": "Conversation receipt; authoritative timestamp not independently attested",
+    "implementation_authorization": "NOT_AUTHORIZED",
+    "note": "This record documents the user's stated decision. It is not a digital signature, identity attestation, independent review, or verification of the amendment's contents.",
+    "operational_readiness": "NO_GO",
+    "real_kite_access_authorization": "NOT_AUTHORIZED",
+    "record_type": "Phase13_5K_OwnerAdoptionDecision.v1",
+    "repository_write_status": "Not written to local repository; import only after verifying amendment file and baseline",
+    "reviewer_identity": "User-declared sole developer and operator; independently unverified",
+    "separate_contract": "DiagnosticAssuranceContract.v2 draft 1",
+    "separate_contract_approval": "PENDING",
+    "separate_contract_sha256": "5B9F1E717DD444CE5BBF6697012BF11887DBA780FB8C1099AC24D0A5D7D79CE7"
+  }
+}

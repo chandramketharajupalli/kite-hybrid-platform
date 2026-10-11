@@ -1,0 +1,133 @@
+{
+  "fingerprint": "d52ca190fe7e47b389abe639820141e77e6017ea15990d3eb0f5395692d9a7a1",
+  "register": {
+    "generation": 1,
+    "risks": [
+      {
+        "acceptance": null,
+        "closure": "Explicit attributable adoption/authority limits; four later decisions; applicability evidence; bias remains accepted residual only if explicitly acknowledged",
+        "controls_domains": "All domains: four separate records, conflict labels, preregistered criteria, hostile examples, independently run checks, 24-hour second session; seek outside competence",
+        "evidence": "User assertion; J four PENDING, no independence",
+        "gates": "ACCEPTABLE_FOR_DESIGN_REVIEW; BLOCKS_IMPLEMENTATION until authority/design review closes",
+        "owner_assignment": "PENDING",
+        "owner_identity": null,
+        "risk": "K01 Self-review, confirmation bias, unilateral policy drift",
+        "severity_likelihood": "HIGH; correlated blind spots plausible, frequency UNKNOWN",
+        "status": "OPEN"
+      },
+      {
+        "acceptance": null,
+        "closure": "Concrete reviewed legitimate lifecycle before implementation; independently verified origin/custody before live read, separately authorized enrollment",
+        "controls_domains": "Security/authentication: broker-origin chain, consent/account/app/owner binding, no import/restore, expiry/revocation and rotation seal",
+        "evidence": "H H2 / V origin absent",
+        "gates": "BLOCKS_IMPLEMENTATION; BLOCKS_REAL_READ",
+        "owner_assignment": "PENDING",
+        "owner_identity": null,
+        "risk": "K02 Unauthorized/ambiguous auth provenance",
+        "severity_likelihood": "CRITICAL; UNKNOWN, not presumed rare",
+        "status": "OPEN"
+      },
+      {
+        "acceptance": null,
+        "closure": "Concrete artifact/sink enforcement design; all sink/runtime proofs before read; unknown privileged capture denies",
+        "controls_domains": "Packaging/logging: closed sink list, bounded errors/no stacks, dump/attach/agent restrictions, synthetic leak injection, access/retention owners",
+        "evidence": "S all-sink design only; source redaction insufficient",
+        "gates": "BLOCKS_IMPLEMENTATION; BLOCKS_REAL_READ",
+        "owner_assignment": "PENDING",
+        "owner_identity": null,
+        "risk": "K03 Credential leakage via logs/errors/dumps/artifacts",
+        "severity_likelihood": "CRITICAL; privileged capture plausible, likelihood UNKNOWN",
+        "status": "OPEN"
+      },
+      {
+        "acceptance": null,
+        "closure": "Concrete store/quorum/ack/fencing/recovery specification; independently checked durable fault evidence before read",
+        "controls_domains": "Runtime/DB + Security/authentication: durable claim before dispatch, spent after uncertainty, epoch rollback fencing; no retry",
+        "evidence": "B ledger design; H H3 not implemented",
+        "gates": "BLOCKS_IMPLEMENTATION; BLOCKS_REAL_READ",
+        "owner_assignment": "PENDING",
+        "owner_identity": null,
+        "risk": "K04 Durable ledger crash/ack/recovery uncertainty",
+        "severity_likelihood": "CRITICAL; crashes/partitions possible, rates UNKNOWN",
+        "status": "OPEN"
+      },
+      {
+        "acceptance": null,
+        "closure": "Identify competent authority and concrete coverage protocol; live scoped proof required before read; self-review does not replace independent attestation",
+        "controls_domains": "Runtime/DB: trusted external issuer, complete inventory, signature/epoch/revocation, before/after checks, unknown denies",
+        "evidence": "H H4 / B no live authority",
+        "gates": "BLOCKS_IMPLEMENTATION; BLOCKS_REAL_READ",
+        "owner_assignment": "PENDING",
+        "owner_identity": null,
+        "risk": "K05 External HALT forged/stale/incomplete",
+        "severity_likelihood": "CRITICAL; UNKNOWN issuer/coverage",
+        "status": "OPEN"
+      },
+      {
+        "acceptance": null,
+        "closure": "Explicit narrower-claim acceptance and certified owner isolation; if global invariance required, reject V2 pathway",
+        "controls_domains": "Runtime/DB + User/operator: never claim global invariance; isolate owner's direct/indirect authority; disclose privileged-host assumption",
+        "evidence": "G historical snapshot/write-and-restore and nonparticipant counterexamples",
+        "gates": "ACCEPTABLE_FOR_DESIGN_REVIEW; BLOCKS_REAL_READ until own-process boundary certified",
+        "owner_assignment": "PENDING",
+        "owner_identity": null,
+        "risk": "K06 Privileged/noncooperative trading-state writers",
+        "severity_likelihood": "HIGH; concurrent writers possible and not excluded",
+        "status": "OPEN"
+      },
+      {
+        "acceptance": null,
+        "closure": "Concrete extraction/dependency design; actual artifact and confinement/reachability proof before read",
+        "controls_domains": "Packaging/logging + Runtime/DB: minimal SBOM/loadability, no runners/order/DB/permits, default-deny egress/OS/mounts",
+        "evidence": "H H5 / S excludes full trading-core",
+        "gates": "BLOCKS_IMPLEMENTATION; BLOCKS_REAL_READ",
+        "owner_assignment": "PENDING",
+        "owner_identity": null,
+        "risk": "K07 Artifact accidentally retains order/trading authority",
+        "severity_likelihood": "CRITICAL; full JAR demonstrably broad, deployment likelihood UNKNOWN",
+        "status": "OPEN"
+      },
+      {
+        "acceptance": null,
+        "closure": "Authoritative eligible/free adjusted collateral, applicable cash rule and field mapping plus separate trading/risk approvals; outside amendment",
+        "controls_domains": "User/operator: bounded observation only, preserve cash/CNC/ceiling; no funding promotion",
+        "evidence": "V funding terms unknown/conflicting, MIS NOT_READY",
+        "gates": "ACCEPTABLE_FOR_DESIGN_REVIEW; BLOCKS_LIVE_TRADING",
+        "owner_assignment": "PENDING",
+        "owner_identity": null,
+        "risk": "K08 Margins misread as eligible/free collateral",
+        "severity_likelihood": "CRITICAL for trading; interpretive mistake plausible",
+        "status": "OPEN"
+      },
+      {
+        "acceptance": null,
+        "closure": "Concrete incident owner/revocation/recovery design before implementation; independently tested denial/recovery and current authority before read",
+        "controls_domains": "All domains: incident suspension, no refund/retry/restore, rotation/re-enrollment under new scope, sanitized audit custody",
+        "evidence": "H H7 / S fail-closed recovery not deployed",
+        "gates": "BLOCKS_IMPLEMENTATION; BLOCKS_REAL_READ",
+        "owner_assignment": "PENDING",
+        "owner_identity": null,
+        "risk": "K09 Loss of access, compromise, revocation or unsafe recovery",
+        "severity_likelihood": "CRITICAL; possibility known, likelihood UNKNOWN",
+        "status": "OPEN"
+      },
+      {
+        "acceptance": null,
+        "closure": "Document applicable obligations and actual authority; obtain mandatory independent review, never self-waive",
+        "controls_domains": "User/operator: qualified applicability review, no claim of exemption, retain original path where required",
+        "evidence": "No independent legal/organizational/broker-policy evidence supplied",
+        "gates": "ACCEPTABLE_FOR_DESIGN_REVIEW; BLOCKS_IMPLEMENTATION; BLOCKS_REAL_READ",
+        "owner_assignment": "PENDING",
+        "owner_identity": null,
+        "risk": "K10 External obligation requires independent review / authority disputed",
+        "severity_likelihood": "HIGH; applicability UNVERIFIED",
+        "status": "OPEN"
+      }
+    ],
+    "schema": "SoloGovernanceRiskRegister.v1",
+    "source": {
+      "path": "docs/operations/phase-13.5k-residual-risk-register.md",
+      "raw_sha256": "454b1d829c509095507c3381ff92e4704d086b247e560a61ea205e5529a036f3"
+    }
+  }
+}

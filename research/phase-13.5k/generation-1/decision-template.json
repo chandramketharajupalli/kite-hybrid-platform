@@ -1,0 +1,125 @@
+{
+  "fingerprint": "06bf0d96ba3b4de46fe72147ab86362d4b87f0205737b9e8e13b7b9564063588",
+  "template": {
+    "actual_owner_decision": {
+      "authority_basis": null,
+      "capture_timestamp": null,
+      "conditions": null,
+      "decision": null,
+      "decision_timestamp": null,
+      "evidence_reference": null,
+      "evidence_sha256": null,
+      "identity": null,
+      "rationale": null,
+      "revocation_reference": null,
+      "signature_reference": null,
+      "status": "PENDING",
+      "supersession_reference": null
+    },
+    "amendment": {
+      "draft": 1,
+      "path": "docs/architecture/kite-solo-operator-governance-amendment-v1-proposal.md",
+      "raw_sha256": "24f3fbd86e6fb662edb6890c5150ab03c3e9fce23d7b7b5da709f43b1f636edb",
+      "version": "SoloOperatorGovernanceAmendment.v1"
+    },
+    "amendment_adopted": false,
+    "contract": {
+      "draft": 1,
+      "raw_sha256": "5b9f1e717dd444ce5bbf6697012bf11887dba780fb8c1099ac24d0a5d7d79ce7",
+      "version": "DiagnosticAssuranceContract.v2"
+    },
+    "domains": [
+      {
+        "actual_record": {
+          "authority_basis": null,
+          "capture_timestamp": null,
+          "conditions": null,
+          "decision": null,
+          "decision_timestamp": null,
+          "evidence_reference": null,
+          "evidence_sha256": null,
+          "identity": null,
+          "rationale": null,
+          "revocation_reference": null,
+          "signature_reference": null,
+          "status": "PENDING",
+          "supersession_reference": null
+        },
+        "conflict_disclosure": "Same author/operator/reviewer; not independent human approval.",
+        "domain": "Security/authentication",
+        "review_mode": "SINGLE_OWNER_SELF_REVIEW"
+      },
+      {
+        "actual_record": {
+          "authority_basis": null,
+          "capture_timestamp": null,
+          "conditions": null,
+          "decision": null,
+          "decision_timestamp": null,
+          "evidence_reference": null,
+          "evidence_sha256": null,
+          "identity": null,
+          "rationale": null,
+          "revocation_reference": null,
+          "signature_reference": null,
+          "status": "PENDING",
+          "supersession_reference": null
+        },
+        "conflict_disclosure": "Same author/operator/reviewer; not independent human approval.",
+        "domain": "Runtime/DB",
+        "review_mode": "SINGLE_OWNER_SELF_REVIEW"
+      },
+      {
+        "actual_record": {
+          "authority_basis": null,
+          "capture_timestamp": null,
+          "conditions": null,
+          "decision": null,
+          "decision_timestamp": null,
+          "evidence_reference": null,
+          "evidence_sha256": null,
+          "identity": null,
+          "rationale": null,
+          "revocation_reference": null,
+          "signature_reference": null,
+          "status": "PENDING",
+          "supersession_reference": null
+        },
+        "conflict_disclosure": "Same author/operator/reviewer; not independent human approval.",
+        "domain": "Packaging/logging",
+        "review_mode": "SINGLE_OWNER_SELF_REVIEW"
+      },
+      {
+        "actual_record": {
+          "authority_basis": null,
+          "capture_timestamp": null,
+          "conditions": null,
+          "decision": null,
+          "decision_timestamp": null,
+          "evidence_reference": null,
+          "evidence_sha256": null,
+          "identity": null,
+          "rationale": null,
+          "revocation_reference": null,
+          "signature_reference": null,
+          "status": "PENDING",
+          "supersession_reference": null
+        },
+        "conflict_disclosure": "Same author/operator/reviewer; not independent human approval.",
+        "domain": "User/operator",
+        "review_mode": "SINGLE_OWNER_SELF_REVIEW"
+      }
+    ],
+    "generation": 1,
+    "implementation_authorized": false,
+    "independently_approved": false,
+    "real_read_authorized": false,
+    "record_kind": "BLANK_TEMPLATE_NOT_DECISION",
+    "request_changes_current_mapping": "UNRESOLVED",
+    "request_changes_proposed_disposition": "CHANGES_REQUESTED; remain pending; effective only if policy adopted",
+    "schema": "SoloGovernanceDecisionTemplate.v1",
+    "state": "OWNER_DECISION_PENDING",
+    "trading_authorized": false,
+    "v2_accepted": false
+  }
+}

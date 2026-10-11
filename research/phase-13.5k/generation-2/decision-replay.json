@@ -1,0 +1,50 @@
+{
+  "fingerprint": "7c22acfa2b77c2c9657b14aab8253c3b5cd65a80af8bd7b1ffe887eca7c48e6a",
+  "replay": {
+    "generation": 2,
+    "limit": "Evidence consistency and source attribution only; no independent identity, authority, signature, decision timestamp or technical safety verification.",
+    "negative_structural_checks": [
+      {
+        "case": "wrong amendment hash",
+        "result": "REJECTED_SYNTHETIC_MUTATION"
+      },
+      {
+        "case": "promote V2",
+        "result": "REJECTED_SYNTHETIC_MUTATION"
+      },
+      {
+        "case": "fabricate decision timestamp",
+        "result": "REJECTED_SYNTHETIC_MUTATION"
+      },
+      {
+        "case": "complete second review",
+        "result": "REJECTED_SYNTHETIC_MUTATION"
+      },
+      {
+        "case": "complete technical domain",
+        "result": "REJECTED_SYNTHETIC_MUTATION"
+      }
+    ],
+    "owner_decision_file_sha256": "34c647f3dffc8baeacca93791add69c6d75a942ce2c0cf1c302bca8c216841a1",
+    "owner_decision_fingerprint": "38580c359773514ad9518f2ceb20e826989f1833cd0fb2b196eedd78b07b4530",
+    "repeat_identical": true,
+    "result": {
+      "declared_acceptance": "RECORDED",
+      "domain_states": [
+        "PENDING",
+        "PENDING",
+        "PENDING",
+        "PENDING"
+      ],
+      "effective_governance_state": "OWNER_DECISION_PENDING",
+      "implementation": "NOT_AUTHORIZED",
+      "operational": "NO_GO",
+      "real_access": "NOT_AUTHORIZED",
+      "v2": "PENDING",
+      "verification": "INCOMPLETE"
+    },
+    "result_fingerprint": "e306b54ecbdaf9cd3b534ac4d00887935f3e41f22b73f26659c011e3e9817584",
+    "schema": "Phase13_5K_OwnerDecisionReplay.v1",
+    "source_fingerprint": "7abd0d414ee741cd1213d79c2a292f633df24e4af0ea234fc8f6bc5d1721d0b5"
+  }
+}

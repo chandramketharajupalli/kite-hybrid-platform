@@ -1,0 +1,90 @@
+{
+  "fingerprint": "53ff258490dcfc172cf8dd60fdd9a703e2e6dc0a334ca9c2300231640c71ee2e",
+  "validation": {
+    "generation": 1,
+    "inputs": {
+      "decision-template.json": "a8fada4ab3eb253585babff7a34c34ca27f6ef22d9207279430677be66fd6c39",
+      "proposal-index.json": "0127b05475196150871faa832d44a4960ddc98154ed159cc8a03731ee3edb600",
+      "risk-register.json": "e3391bb6132f9da8f5c74125104fb38efc01c273d41adacf7b82cf3d0f554160"
+    },
+    "java_python_tests": "NOT_RUN",
+    "manual_adversarial_checks": [
+      {
+        "basis": "A1/A2: excluded; actual signature null",
+        "case": "AI as human signature",
+        "method": "MANUAL_DOCUMENT_CONSISTENCY_REVIEW",
+        "result": "REJECT_OR_REMAIN_PENDING_REQUIRED"
+      },
+      {
+        "basis": "A2: same-owner disclosure; independently_approved false",
+        "case": "four self-reviews as independent approvals",
+        "method": "MANUAL_DOCUMENT_CONSISTENCY_REVIEW",
+        "result": "REJECT_OR_REMAIN_PENDING_REQUIRED"
+      },
+      {
+        "basis": "A4: pending; all actual decision fields null",
+        "case": "missing owner adoption",
+        "method": "MANUAL_DOCUMENT_CONSISTENCY_REVIEW",
+        "result": "REJECT_OR_REMAIN_PENDING_REQUIRED"
+      },
+      {
+        "basis": "A1/A4/A5: no applicability; exact hashes pinned",
+        "case": "wrong amendment or V2 fingerprint",
+        "method": "MANUAL_DOCUMENT_CONSISTENCY_REVIEW",
+        "result": "REJECT_OR_REMAIN_PENDING_REQUIRED"
+      },
+      {
+        "basis": "A1/A3: material change explicit; global FAIL as guarantee",
+        "case": "silent global-to-own-process narrowing",
+        "method": "MANUAL_DOCUMENT_CONSISTENCY_REVIEW",
+        "result": "REJECT_OR_REMAIN_PENDING_REQUIRED"
+      },
+      {
+        "basis": "A4 and packet: no inherited authority; ZERO_CALL_ABORT",
+        "case": "old GET inherited as approval",
+        "method": "MANUAL_DOCUMENT_CONSISTENCY_REVIEW",
+        "result": "REJECT_OR_REMAIN_PENDING_REQUIRED"
+      },
+      {
+        "basis": "A4: explicit new acceptance after closure required",
+        "case": "conditional automatically unconditional",
+        "method": "MANUAL_DOCUMENT_CONSISTENCY_REVIEW",
+        "result": "REJECT_OR_REMAIN_PENDING_REQUIRED"
+      },
+      {
+        "basis": "A4: only proposed; current UNRESOLVED",
+        "case": "REQUEST CHANGES silently mapped",
+        "method": "MANUAL_DOCUMENT_CONSISTENCY_REVIEW",
+        "result": "REJECT_OR_REMAIN_PENDING_REQUIRED"
+      },
+      {
+        "basis": "A3/A4 and risk register: gate closure required; implementation false",
+        "case": "critical gap treated implementation-ready",
+        "method": "MANUAL_DOCUMENT_CONSISTENCY_REVIEW",
+        "result": "REJECT_OR_REMAIN_PENDING_REQUIRED"
+      },
+      {
+        "basis": "A5/plan: append-only; 132 parent hashes checked",
+        "case": "parent mutation or overwritten ledger",
+        "method": "MANUAL_DOCUMENT_CONSISTENCY_REVIEW",
+        "result": "REJECT_OR_REMAIN_PENDING_REQUIRED"
+      }
+    ],
+    "manual_check_count": 10,
+    "replay": {
+      "implementation": "NOT_AUTHORIZED",
+      "input_fingerprints": {
+        "decision-template.json": "06bf0d96ba3b4de46fe72147ab86362d4b87f0205737b9e8e13b7b9564063588",
+        "proposal-index.json": "ab6afb86913692cf6c80eb1ec2425c1079012be5b327954d088d3984db229e75",
+        "risk-register.json": "d52ca190fe7e47b389abe639820141e77e6017ea15990d3eb0f5395692d9a7a1"
+      },
+      "operational": "NO_GO",
+      "owner_state": "OWNER_DECISION_PENDING",
+      "result": "SOLO_OPERATOR_GOVERNANCE_AMENDMENT_PROPOSED"
+    },
+    "replay_fingerprint": "b72bb9f72e2a4a9aee36cb4160cb69adad428fc7fb4dbda8e3ef51f654d0c173",
+    "replay_twice_identical": true,
+    "schema": "SoloGovernanceOfflineValidation.v1",
+    "scope": "Manual policy checks plus inline canonical/hash/null-state validation. No executable approval engine, authority authentication or runtime proof."
+  }
+}

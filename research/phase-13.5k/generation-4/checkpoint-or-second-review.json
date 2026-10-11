@@ -1,0 +1,118 @@
+{
+  "checkpoint": {
+    "amendment": {
+      "path": "docs/architecture/kite-solo-operator-governance-amendment-v1-proposal.md",
+      "raw_sha256": "24f3fbd86e6fb662edb6890c5150ab03c3e9fce23d7b7b5da709f43b1f636edb"
+    },
+    "assessment": {
+      "collateral_assisted_mis": "NOT_READY",
+      "deployment": "NOT_AUTHORIZED",
+      "governance_adoption": "PENDING",
+      "implementation": "NOT_AUTHORIZED",
+      "operational_readiness": "NO_GO",
+      "real_kite_access": "NOT_AUTHORIZED",
+      "result": "SECOND_REVIEW_PENDING_TIMESTAMP_EVIDENCE",
+      "trading": "NOT_AUTHORIZED",
+      "v2": "PENDING"
+    },
+    "baseline": "fc473eab7b2c83a9543cda769972e4928a418495",
+    "branch": "develop",
+    "declaration_status": "EXPLICIT_OWNER_DECLARATION_RECORDED",
+    "event_kind": "NEW_FIRST_OWNER_CHECKPOINT",
+    "generation": 4,
+    "owner_authority": {
+      "declaration": "Sole developer and operator",
+      "independent_reviewers_verified": 0,
+      "independent_verification": "NOT_VERIFIED",
+      "status": "USER_ASSERTED"
+    },
+    "parent_hashes": {
+      "docs/architecture/kite-solo-operator-governance-amendment-v1-proposal.md": "24f3fbd86e6fb662edb6890c5150ab03c3e9fce23d7b7b5da709f43b1f636edb",
+      "docs/operations/phase-13.5k-owner-decision-packet.md": "9561735fa9850e098c9e5ac4bceb2ea470261497e325e3a4b83f1565b3c05a51",
+      "docs/operations/phase-13.5k-plan.md": "50f42ce00b4f939135c3bdb55cc6ecb3ad02bc9c0ce7fb82005c819b114ce5b4",
+      "docs/operations/phase-13.5k-residual-risk-register.md": "454b1d829c509095507c3381ff92e4704d086b247e560a61ea205e5529a036f3",
+      "docs/operations/phase-13.5k-validation.md": "67e13bdaa104fd4f456f1474b200d1cedad4b617f91140efb74d4f63eed532a5",
+      "docs/operations/phase-13.5l-adoption-assessment.md": "be0d0bac076d47feaae1b630e19ccd7930b7a9634ee55a0eebf3b296fc780604",
+      "docs/operations/phase-13.5l-plan.md": "0e16b902096ed1c1090b99019ffe6125cd571b8432eb08e2009c05f307df1412",
+      "docs/operations/phase-13.5l-second-review-packet.md": "7243330ca6fad01a18a975d1abbd72ec6ba9114dc23288d04245a9992bd25290",
+      "docs/operations/phase-13.5l-validation.md": "472cac2465a26ea60a7923a78bb12d626c41ff68f0ea9fc3dec1aa9753597301",
+      "research/phase-13.5k/generation-1/decision-template.json": "a8fada4ab3eb253585babff7a34c34ca27f6ef22d9207279430677be66fd6c39",
+      "research/phase-13.5k/generation-1/proposal-index.json": "0127b05475196150871faa832d44a4960ddc98154ed159cc8a03731ee3edb600",
+      "research/phase-13.5k/generation-1/risk-register.json": "e3391bb6132f9da8f5c74125104fb38efc01c273d41adacf7b82cf3d0f554160",
+      "research/phase-13.5k/generation-1/validation.json": "f1ed62f70a71297b6c8a1aeb173b10459664b5a8001fac14f8a37435bb8e3506",
+      "research/phase-13.5k/generation-2/decision-replay.json": "53320fcf513200ffa9e33abf05f836e7a76e1615b75525043dc0de521a732e3b",
+      "research/phase-13.5k/generation-2/owner-decision.json": "34c647f3dffc8baeacca93791add69c6d75a942ce2c0cf1c302bca8c216841a1",
+      "research/phase-13.5k/generation-2/user-submission.json": "09bb09cd4f83b91498d3fe6fe8b3db222fdb58722c48b5bb4adeb2c602d04d8d",
+      "research/phase-13.5k/generation-2/validation.md": "b7bb372cd581cc9b1a578ae2dcb28f431c3c481d3238def026681eca90a65852",
+      "research/phase-13.5k/generation-3/decision-replay.json": "2de22facec662c905d10c5a6c9a59e244a422465d72e9dd2608838d00e00f853",
+      "research/phase-13.5k/generation-3/owner-decision-supplement.json": "d635f811889be763b4182405b3cad837880e6ad3676f8592cc66031dc1c43834",
+      "research/phase-13.5k/generation-3/phase-13.5k-owner-decision-supplement-candidate.json": "d3ef482f0fb03b11c953791ca05fc8653e2f2894bb1563d5cb69bf3ac5357c64",
+      "research/phase-13.5k/generation-3/validation.md": "5b21d09ed0065e1e744b4ce169e34bb2baf62a1f34f0414a0dd9afd36736fc56"
+    },
+    "previous_stage_b": "ZERO_CALL_ABORT",
+    "protocol": {
+      "path": "docs/operations/phase-13.5l-plan.md",
+      "raw_sha256": "0e16b902096ed1c1090b99019ffe6125cd571b8432eb08e2009c05f307df1412"
+    },
+    "record_id": "13.5L-G4-FIRST-CHECKPOINT-001",
+    "relationship": "New first checkpoint after G3; not a second review, original timestamp repair or supersession of prior acceptance. All predecessors retained.",
+    "reviews": {
+      "conflict_disclosure": "ABSENCE_OF_INDEPENDENT_REVIEW_ACKNOWLEDGED; distinct second-review conflict disclosure remains required",
+      "domains": [
+        {
+          "domain": "Security/authentication",
+          "status": "PENDING"
+        },
+        {
+          "domain": "Runtime/DB",
+          "status": "PENDING"
+        },
+        {
+          "domain": "Packaging/logging",
+          "status": "PENDING"
+        },
+        {
+          "domain": "User/operator",
+          "status": "PENDING"
+        }
+      ],
+      "external_obligations": "UNCHANGED; applicability UNVERIFIED",
+      "first_checkpoint": "RECORDED_TIMESTAMP_PROVENANCE_PENDING",
+      "review_cadence_days": 90,
+      "risk_rereview": "USER_DECLARED_ACKNOWLEDGED_AT_FIRST_CHECKPOINT_ONLY",
+      "second_owner_decision": null,
+      "second_review": "PENDING"
+    },
+    "risk_register": {
+      "acknowledgment": "USER_DECLARED_REVIEWED_AND_ACKNOWLEDGED_INCLUDING_ABSENCE_OF_INDEPENDENT_REVIEW",
+      "binding_limit": "Local document hash verified; user acknowledgment refers to documented risks, not an independently authenticated reading or separately supplied risk digest.",
+      "path": "docs/operations/phase-13.5k-residual-risk-register.md",
+      "raw_sha256": "454b1d829c509095507c3381ff92e4704d086b247e560a61ea205e5529a036f3"
+    },
+    "schema": "Phase13_5L_FirstOwnerCheckpoint.v1",
+    "source": {
+      "independently_retrievable_receipt": null,
+      "limitation": "Not an authenticated platform transcript export or digital signature.",
+      "message_id": null,
+      "path": "research/phase-13.5k/generation-4/owner-checkpoint-declaration.md",
+      "provenance": "Direct current conversation user declaration; declaration text preserved, IDE attachment metadata excluded.",
+      "raw_sha256": "fdcb15f83e2691f240425b5c4c07b93d4b572feeb67f457de48350d33e32f65f"
+    },
+    "timing": {
+      "authoritative_message_timestamp": null,
+      "backdating": false,
+      "earliest_verified_second_review": null,
+      "elapsed_verified_seconds": null,
+      "minimum_wait_seconds": 86400,
+      "observation_kind": "TOOL_CLOCK_OBSERVATION_NOT_AUTHENTICATED_MESSAGE_RECEIPT",
+      "observation_source": "clock.curr_time returned 2026-10-11 09:30:05 UTC after receiving the declaration in this turn",
+      "observation_timestamp_utc": "2026-10-11T09:30:05Z",
+      "original_acceptance_timestamp": "UNVERIFIED",
+      "owner_supplied_event_timestamp": null,
+      "reason": "Explicit owner event exists, but no owner-supplied timezone time or independently retrievable time/receipt binding was supplied. Tool observation is retained without certifying the frozen protocol start.",
+      "timestamp_verification": "UNVERIFIED",
+      "verified_waiting_period_start": null
+    }
+  },
+  "fingerprint": "000112bee6fac1c42c6a3aac5d7d0d12b2a32b9be351da3d050630f2c4d6e039"
+}

@@ -1,0 +1,125 @@
+{
+  "fingerprint": "01c9c3f1748ce8a2b446feae908ea3e8e6fad8c567154e04806f1cbe9280f853",
+  "supplement": {
+    "authority_declaration": "User declares sole ownership, development, operation and authority to adopt project governance policies",
+    "bindings": {
+      "amendment": {
+        "path": "docs/architecture/kite-solo-operator-governance-amendment-v1-proposal.md",
+        "raw_sha256": "24f3fbd86e6fb662edb6890c5150ab03c3e9fce23d7b7b5da709f43b1f636edb"
+      },
+      "risk_register": {
+        "acknowledgment_binding": "User declaration names Phase13.5K risk register; importer links the verified local artifact. User did not provide an explicit risk-register digest in this submission; no independent proof of reading inferred.",
+        "local_content_identity": "VERIFIED_EXACT_BYTES",
+        "path": "docs/operations/phase-13.5k-residual-risk-register.md",
+        "raw_sha256": "454b1d829c509095507c3381ff92e4704d086b247e560a61ea205e5529a036f3"
+      },
+      "v2": {
+        "path": "docs/architecture/kite-db-free-assurance-contract-v2-proposal.md",
+        "raw_sha256": "5b9f1e717dd444ce5bbf6697012bf11887dba780fb8c1099ac24d0a5d7d79ce7"
+      }
+    },
+    "domain_reviews": [
+      {
+        "decision": null,
+        "domain": "Security/authentication",
+        "evidence": null,
+        "review_mode_required": "SINGLE_OWNER_SELF_REVIEW",
+        "status": "PENDING"
+      },
+      {
+        "decision": null,
+        "domain": "Runtime/DB",
+        "evidence": null,
+        "review_mode_required": "SINGLE_OWNER_SELF_REVIEW",
+        "status": "PENDING"
+      },
+      {
+        "decision": null,
+        "domain": "Packaging/logging",
+        "evidence": null,
+        "review_mode_required": "SINGLE_OWNER_SELF_REVIEW",
+        "status": "PENDING"
+      },
+      {
+        "decision": null,
+        "domain": "User/operator",
+        "evidence": null,
+        "review_mode_required": "SINGLE_OWNER_SELF_REVIEW",
+        "status": "PENDING"
+      }
+    ],
+    "generation": 3,
+    "parent_artifact_raw_hashes": {
+      "docs/architecture/kite-solo-operator-governance-amendment-v1-proposal.md": "24f3fbd86e6fb662edb6890c5150ab03c3e9fce23d7b7b5da709f43b1f636edb",
+      "docs/operations/phase-13.5k-owner-decision-packet.md": "9561735fa9850e098c9e5ac4bceb2ea470261497e325e3a4b83f1565b3c05a51",
+      "docs/operations/phase-13.5k-plan.md": "50f42ce00b4f939135c3bdb55cc6ecb3ad02bc9c0ce7fb82005c819b114ce5b4",
+      "docs/operations/phase-13.5k-residual-risk-register.md": "454b1d829c509095507c3381ff92e4704d086b247e560a61ea205e5529a036f3",
+      "docs/operations/phase-13.5k-validation.md": "67e13bdaa104fd4f456f1474b200d1cedad4b617f91140efb74d4f63eed532a5",
+      "research/phase-13.5k/generation-1/decision-template.json": "a8fada4ab3eb253585babff7a34c34ca27f6ef22d9207279430677be66fd6c39",
+      "research/phase-13.5k/generation-1/proposal-index.json": "0127b05475196150871faa832d44a4960ddc98154ed159cc8a03731ee3edb600",
+      "research/phase-13.5k/generation-1/risk-register.json": "e3391bb6132f9da8f5c74125104fb38efc01c273d41adacf7b82cf3d0f554160",
+      "research/phase-13.5k/generation-1/validation.json": "f1ed62f70a71297b6c8a1aeb173b10459664b5a8001fac14f8a37435bb8e3506",
+      "research/phase-13.5k/generation-2/decision-replay.json": "53320fcf513200ffa9e33abf05f836e7a76e1615b75525043dc0de521a732e3b",
+      "research/phase-13.5k/generation-2/owner-decision.json": "34c647f3dffc8baeacca93791add69c6d75a942ce2c0cf1c302bca8c216841a1",
+      "research/phase-13.5k/generation-2/user-submission.json": "09bb09cd4f83b91498d3fe6fe8b3db222fdb58722c48b5bb4adeb2c602d04d8d",
+      "research/phase-13.5k/generation-2/validation.md": "b7bb372cd581cc9b1a578ae2dcb28f431c3c481d3238def026681eca90a65852"
+    },
+    "parent_commit": "fc473eab7b2c83a9543cda769972e4928a418495",
+    "parent_record": {
+      "path": "research/phase-13.5k/generation-2/owner-decision.json",
+      "raw_sha256": "34c647f3dffc8baeacca93791add69c6d75a942ce2c0cf1c302bca8c216841a1",
+      "record_id": "13.5K-G2-OWNER-001",
+      "relationship": "Additive supplement to declarations; no overwrite, backdate or replacement of original acceptance"
+    },
+    "previous_stage_b": "ZERO_CALL_ABORT",
+    "record_id": "13.5K-G3-SUPPLEMENT-001",
+    "recorded_states": {
+      "authority": "SOLE_OWNER_USER_ASSERTED",
+      "authority_verification": "INDEPENDENTLY_UNVERIFIED",
+      "collateral_assisted_mis_readiness": "NOT_READY",
+      "conflict_disclosure": "REQUIRED",
+      "decision_timestamp": "UNVERIFIED",
+      "deployment": "NOT_AUTHORIZED",
+      "external_obligation_applicability": "UNVERIFIED",
+      "external_review_obligations": "UNCHANGED",
+      "four_domain_technical_reviews": "PENDING",
+      "implementation": "NOT_AUTHORIZED",
+      "live_trading": "NOT_AUTHORIZED",
+      "operational_readiness": "NO_GO",
+      "owner_acceptance": "USER_DECLARED_ACCEPTANCE_RECORDED",
+      "periodic_review_90d": "REQUIRED",
+      "real_kite_access": "NOT_AUTHORIZED",
+      "residual_risks": "USER_DECLARED_REVIEWED_AND_ACKNOWLEDGED",
+      "second_review_24h": "PENDING",
+      "v2_contract_approval": "PENDING"
+    },
+    "residual_risk_declaration": "User declares they reviewed and acknowledge the Phase 13.5K residual-risk register without authorizing implementation",
+    "schema": "Phase13_5K_ImportedOwnerSupplement.v1",
+    "source": {
+      "limitation": "Digest proves saved content consistency, not authenticated chat transport, independent identity or legal authority.",
+      "path": "research/phase-13.5k/generation-3/phase-13.5k-owner-decision-supplement-candidate.json",
+      "provenance": "Current conversation user-supplied JSON; no separate candidate file found locally. Field values preserved; formatting canonicalized.",
+      "raw_sha256": "d3ef482f0fb03b11c953791ca05fc8653e2f2894bb1563d5cb69bf3ac5357c64",
+      "semantic_fingerprint": "f572507bda9742f2db5fe521695277c965237116c032bfbb4a938346350e4d13"
+    },
+    "timestamp_evidence": {
+      "acceptance_expiry_utc": null,
+      "authoritative_original_message_record": null,
+      "interpretation": "Explicit original-message-only rule controls; do not use current clock, Git/filesystem times or generation2 import time.",
+      "original_decision_timestamp": null,
+      "reason": "No independently retrievable authoritative original acceptance-message timestamp available in the reviewed local evidence or supplied message. Generation2 clock observation is import time only.",
+      "second_review_elapsed_verified": false,
+      "status": "UNVERIFIED",
+      "timestamp_choice_original": "now"
+    },
+    "verification": {
+      "digital_signature": null,
+      "effective_governance_state": "OWNER_DECISION_PENDING",
+      "independent_reviewers_verified": 0,
+      "local_source_integrity": "PASS",
+      "reason": "Supplement clarifies user-asserted authority and risk acknowledgment; mandatory actual decision-time evidence remains unresolved. No inferred policy adoption or technical completion.",
+      "source_candidate_fields": "Original pre-import NO_LOCAL_SOURCE_ACCESS/NOT_VERIFIED/NONE values retained in source; import verification recorded separately.",
+      "user_declarations": "RECORDED_NOT_INDEPENDENTLY_AUTHENTICATED"
+    }
+  }
+}

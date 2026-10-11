@@ -1,0 +1,33 @@
+{
+  "amendment_sha256": "24F3FBD86E6FB662EDB6890C5150AB03C3E9FCE23D7B7B5DA709F43B1F636EDB",
+  "authority_declaration": "User declares sole ownership, development, operation and authority to adopt project governance policies",
+  "authority_verification": "USER_ASSERTED_NOT_INDEPENDENTLY_VERIFIED",
+  "collateral_assisted_mis_readiness": "NOT_READY",
+  "conflict_disclosure": "REQUIRED",
+  "decision_timestamp": "UNVERIFIED",
+  "external_review_obligations": "UNCHANGED",
+  "four_domain_technical_reviews": "PENDING",
+  "implementation_authorization": "NOT_AUTHORIZED",
+  "instructions_for_import": "Verify the original amendment, generation-1 and generation-2 records, their fingerprints, and the risk register locally; only then create an additive generation-3 without modifying predecessors.",
+  "operational_readiness": "NO_GO",
+  "original_decision": "USER_DECLARED_ACCEPTANCE_RECORDED",
+  "parent_generations": [
+    "generation-1",
+    "generation-2"
+  ],
+  "parent_hashes": "NOT_VERIFIED_IN_THIS_SESSION",
+  "periodic_review_90d": "REQUIRED",
+  "real_kite_access": "NOT_AUTHORIZED",
+  "record_type": "Phase13_5K_OwnerDecisionSupplementCandidate.v1",
+  "repository_mutation": "NONE",
+  "residual_risk_declaration": "User declares they reviewed and acknowledge the Phase 13.5K residual-risk register without authorizing implementation",
+  "risk_acknowledgment_provenance": "CURRENT_CONVERSATION_USER_DECLARATION",
+  "risk_register_content_verified": "NO_LOCAL_SOURCE_ACCESS",
+  "second_review_24h": "PENDING",
+  "status": "CANDIDATE_AWAITING_LOCAL_SOURCE_VERIFICATION",
+  "target_generation": "generation-3",
+  "timestamp_choice": "now",
+  "timestamp_interpretation": "Use original acceptance-message timestamp only if verifiable from an authoritative record; otherwise UNVERIFIED",
+  "v2_contract_approval": "PENDING",
+  "v2_contract_sha256": "5B9F1E717DD444CE5BBF6697012BF11887DBA780FB8C1099AC24D0A5D7D79CE7"
+}

@@ -1,0 +1,55 @@
+{
+  "fingerprint": "3629bfefed8b850f020c56de8d5f9bc0e15eb3a2bc77a9344601ea82af6b44d4",
+  "replay": {
+    "checkpoint_fingerprint": "000112bee6fac1c42c6a3aac5d7d0d12b2a32b9be351da3d050630f2c4d6e039",
+    "checkpoint_raw_sha256": "078da2d1e461ca3e51773105133d19b6a05f6ca649316c4294002aca7bd42313",
+    "generation": 4,
+    "negative_checks": [
+      {
+        "case": "observation promoted to verified start",
+        "result": "REFUSED_SYNTHETIC_MUTATION"
+      },
+      {
+        "case": "first checkpoint reused as second",
+        "result": "REFUSED_SYNTHETIC_MUTATION"
+      },
+      {
+        "case": "governance promoted",
+        "result": "REFUSED_SYNTHETIC_MUTATION"
+      },
+      {
+        "case": "V2 promoted",
+        "result": "REFUSED_SYNTHETIC_MUTATION"
+      },
+      {
+        "case": "technical review completed",
+        "result": "REFUSED_SYNTHETIC_MUTATION"
+      },
+      {
+        "case": "wrong amendment hash",
+        "result": "REFUSED_SYNTHETIC_MUTATION"
+      }
+    ],
+    "replay_twice_identical": true,
+    "result": {
+      "assessment": {
+        "collateral_assisted_mis": "NOT_READY",
+        "deployment": "NOT_AUTHORIZED",
+        "governance_adoption": "PENDING",
+        "implementation": "NOT_AUTHORIZED",
+        "operational_readiness": "NO_GO",
+        "real_kite_access": "NOT_AUTHORIZED",
+        "result": "SECOND_REVIEW_PENDING_TIMESTAMP_EVIDENCE",
+        "trading": "NOT_AUTHORIZED",
+        "v2": "PENDING"
+      },
+      "checkpoint": "EXPLICIT_OWNER_DECLARATION_RECORDED",
+      "observation_utc": "2026-10-11T09:30:05Z",
+      "second_review": "PENDING",
+      "verified_start": null
+    },
+    "result_fingerprint": "8f5e4b2eaff37961c023c6902ddd557ff0a55275e521b3877fd11df94b96d684",
+    "schema": "Phase13_5L_FirstCheckpointReplay.v1",
+    "scope": "Local evidence consistency only; no authenticated time/identity/authority or second owner decision."
+  }
+}
