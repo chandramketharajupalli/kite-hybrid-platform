@@ -44,6 +44,9 @@ final class SyntheticHalt {
     private final Set<String> revoked = ConcurrentHashMap.newKeySet();
     private final Map<UUID, Lease> used = new ConcurrentHashMap<>();
     private volatile boolean available = true;
+    // Trust/clock contradictions are irreversible for this verifier incarnation.
+    // Transport availability recovery must never clear security quarantine.
+    private boolean quarantined;
     private volatile long epoch;
     private Instant lastObserved;
     SyntheticHalt(Clock clock, long epoch, String keyId, PublicKey key) {
@@ -54,7 +57,7 @@ final class SyntheticHalt {
                 || rsa.getModulus().bitLength() < 3072) throw SyntheticOwner.denied();
         var previous = keys.putIfAbsent(id, key);
         if (previous != null && !java.util.Arrays.equals(previous.getEncoded(), key.getEncoded())) {
-            available = false; throw SyntheticOwner.denied();
+            quarantined = true; throw SyntheticOwner.denied();
         }
     }
     void revoke(String id) { revoked.add(id); }
@@ -74,9 +77,9 @@ final class SyntheticHalt {
     private synchronized boolean valid(Assertion a, SyntheticOwner.Request r) {
         try {
             Instant now = clock.instant();
-            if (lastObserved != null && now.isBefore(lastObserved)) { available = false; return false; }
+            if (lastObserved != null && now.isBefore(lastObserved)) { quarantined = true; return false; }
             lastObserved = now;
-            if (!available || a == null || r == null || !"SYNTHETIC_ISSUER".equals(a.issuer())
+            if (quarantined || !available || a == null || r == null || !"SYNTHETIC_ISSUER".equals(a.issuer())
                     || a.nonce() == null || !a.audience().equals(r.recipient()) || !a.owner().equals(r.owner())
                     || !a.operation().equals(r.purpose()) || a.epoch() != epoch || a.epoch() != r.haltEpoch()
                     || !a.requestDigest().equals(r.fingerprint()) || now.isBefore(a.issued()) || !now.isBefore(a.expires())

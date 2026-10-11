@@ -10,10 +10,16 @@ import java.util.UUID;
 final class AttemptJournal {
     private final Path directory;
     private final String marker;
+    private final java.util.function.Consumer<String> observer;
 
     AttemptJournal(String marker) {
+        this(marker, ignored -> {});
+    }
+
+    AttemptJournal(String marker, java.util.function.Consumer<String> observer) {
         UUID.fromString(marker);
         this.marker = marker;
+        this.observer = observer;
         directory = Path.of(System.getProperty("java.io.tmpdir"), "synthetic-owner-ledger-" + marker);
     }
 
@@ -28,9 +34,13 @@ final class AttemptJournal {
     boolean retire(UUID id, String digest, boolean partialWrite) {
         try {
             if (!validStore()) return false;
+            observer.accept("BEFORE_JOURNAL_CREATE");
             try (var channel = FileChannel.open(path(id), StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE)) {
+                observer.accept("AFTER_JOURNAL_CREATE");
                 if (!partialWrite) write(channel, digest);
+                observer.accept("AFTER_JOURNAL_WRITE");
                 channel.force(true);
+                observer.accept("AFTER_JOURNAL_FORCE");
                 return !partialWrite;
             }
         } catch (Exception ignored) {

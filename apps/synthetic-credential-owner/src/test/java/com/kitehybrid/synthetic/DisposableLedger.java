@@ -10,6 +10,7 @@ final class DisposableLedger implements SyntheticOwner.Ledger {
         AFTER_RESERVATION_BEFORE_ACK, BEFORE_COMMIT, AFTER_COMMIT_BEFORE_ACK }
     private final String url, marker;
     private final Fault fault;
+    private final java.util.function.Consumer<String> observer;
     final AttemptJournal journal;
     static PostgreSQLContainer<?> container() {
         return new PostgreSQLContainer<>("postgres:17.6").withDatabaseName("synthetic_owner_only")
@@ -29,11 +30,15 @@ final class DisposableLedger implements SyntheticOwner.Ledger {
         return ledger;
     }
     DisposableLedger(int port, String marker, Fault fault) {
+        this(port, marker, fault, ignored -> {});
+    }
+    DisposableLedger(int port, String marker, Fault fault, java.util.function.Consumer<String> observer) {
         if (port < 1 || port > 65535 || marker == null) throw SyntheticOwner.denied();
         UUID.fromString(marker);
         url = "jdbc:postgresql://127.0.0.1:" + port + "/synthetic_owner_only?connectTimeout=2&socketTimeout=3";
         this.marker = marker; this.fault = fault;
-        journal = new AttemptJournal(marker);
+        this.observer = observer;
+        journal = new AttemptJournal(marker, observer);
     }
     String marker() { return marker; }
     private Connection open() throws SQLException { return DriverManager.getConnection(url, "synthetic_fixture", "synthetic_fixture"); }
@@ -66,14 +71,18 @@ final class DisposableLedger implements SyntheticOwner.Ledger {
                 if (p.executeUpdate() != 1) return false;
             }
             if (fault == Fault.DURING_RESERVATION) { c.rollback(); return false; }
+            observer.accept("BEFORE_RESERVATION_COMMIT");
             c.commit();
+            observer.accept("AFTER_RESERVATION_COMMIT");
             if (fault == Fault.AFTER_RESERVATION_BEFORE_ACK) return false;
             try (var p = c.prepareStatement("UPDATE attempts SET state='CONSUMED' WHERE id=? AND digest=? AND halt_digest=? AND state='RESERVED'")) {
                 p.setQueryTimeout(3); p.setObject(1, request.id()); p.setString(2, request.fingerprint()); p.setString(3, haltDigest);
                 if (p.executeUpdate() != 1) { c.rollback(); return false; }
             }
             if (fault == Fault.BEFORE_COMMIT) { c.rollback(); return false; }
+            observer.accept("BEFORE_CONSUMPTION_COMMIT");
             c.commit();
+            observer.accept("AFTER_CONSUMPTION_COMMIT");
             return fault != Fault.AFTER_COMMIT_BEFORE_ACK;
         } catch (Exception ignored) { return false; } // Unknown reservation/commit: no grant, never retry.
     }
