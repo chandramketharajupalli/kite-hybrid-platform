@@ -1,0 +1,263 @@
+{
+  "fingerprint": "a8d58511d4a9e9181392c71ff4e743f3f82badc137cba49dea1cbdb7591d09a6",
+  "reconciliation": {
+    "baseline": {
+      "HEAD": "2c94ad5808e35f750573ba1d3b5966bca52ac1d4",
+      "branch": "develop",
+      "fetch_performed": false,
+      "initial_status": [],
+      "local_origin_develop": "2c94ad5808e35f750573ba1d3b5966bca52ac1d4"
+    },
+    "classification": "PHASE_14_0A_COMMITTED_HASH_RECONCILED",
+    "credential_access": false,
+    "files": [
+      {
+        "clean_checkout_raw_sha256": "3f9f95d8dd66132fdd940aee6817f030a658f5fda976fc43daec5ba349a5bc27",
+        "committed_blob_bytes": 17652,
+        "committed_blob_sha256": "3f9f95d8dd66132fdd940aee6817f030a658f5fda976fc43daec5ba349a5bc27",
+        "crlf_pairs_replaced": 481,
+        "git_blob_oid": "7ed03145b76a5e0bc1495b22720ac5950e32b6f8",
+        "normalized_content_sha256": "3f9f95d8dd66132fdd940aee6817f030a658f5fda976fc43daec5ba349a5bc27",
+        "only_crlf_to_lf": true,
+        "original_manifest_sha256": "673cba69e9270a458774c7a12176d75f9babb227a7e5ab768ce9697e357fbb98",
+        "path": "apps/strategy-engine/src/strategy_engine/phase14/engine.py",
+        "working_tree_bytes": 18133,
+        "working_tree_raw_sha256": "673cba69e9270a458774c7a12176d75f9babb227a7e5ab768ce9697e357fbb98"
+      },
+      {
+        "clean_checkout_raw_sha256": "3372321a511573cafe03ea0a167125dbf55e1e89179692103a3177a431150964",
+        "committed_blob_bytes": 8022,
+        "committed_blob_sha256": "3372321a511573cafe03ea0a167125dbf55e1e89179692103a3177a431150964",
+        "crlf_pairs_replaced": 198,
+        "git_blob_oid": "1f1f6131a247563fae15fea9aaae32f637cf84f1",
+        "normalized_content_sha256": "3372321a511573cafe03ea0a167125dbf55e1e89179692103a3177a431150964",
+        "only_crlf_to_lf": true,
+        "original_manifest_sha256": "d3e6f0f21f403f52c44800a8f44dcdc0ede52e3bbcd9911e3e6aef745e8e8505",
+        "path": "apps/strategy-engine/src/strategy_engine/phase14/reporting.py",
+        "working_tree_bytes": 8220,
+        "working_tree_raw_sha256": "d3e6f0f21f403f52c44800a8f44dcdc0ede52e3bbcd9911e3e6aef745e8e8505"
+      },
+      {
+        "clean_checkout_raw_sha256": "5b32e7d79b2644d2beb6060f05c522dda2fe56d735e4fe0a12e215ee14f082e7",
+        "committed_blob_bytes": 5190,
+        "committed_blob_sha256": "5b32e7d79b2644d2beb6060f05c522dda2fe56d735e4fe0a12e215ee14f082e7",
+        "crlf_pairs_replaced": 77,
+        "git_blob_oid": "aa2bb228df7e8d6fead3a6488bbb37d90787f36e",
+        "normalized_content_sha256": "5b32e7d79b2644d2beb6060f05c522dda2fe56d735e4fe0a12e215ee14f082e7",
+        "only_crlf_to_lf": true,
+        "original_manifest_sha256": "eb086bfb10a1472752ab9578f023b33d8dc237d36936e63c012a2e2bf9677439",
+        "path": "apps/trading-core/src/main/java/com/kitehybrid/platform/historical/application/HistoricalBarRepository.java",
+        "working_tree_bytes": 5267,
+        "working_tree_raw_sha256": "eb086bfb10a1472752ab9578f023b33d8dc237d36936e63c012a2e2bf9677439"
+      },
+      {
+        "clean_checkout_raw_sha256": "7d3041f87addd0f5c19c3caad4abb53ae32011af92b2a7cc35a9921683baa4c9",
+        "committed_blob_bytes": 5376,
+        "committed_blob_sha256": "7d3041f87addd0f5c19c3caad4abb53ae32011af92b2a7cc35a9921683baa4c9",
+        "crlf_pairs_replaced": 75,
+        "git_blob_oid": "bfe6a69a8260f44216f52d282c5955e425295b36",
+        "normalized_content_sha256": "7d3041f87addd0f5c19c3caad4abb53ae32011af92b2a7cc35a9921683baa4c9",
+        "only_crlf_to_lf": true,
+        "original_manifest_sha256": "0eeb3799de5cc6931938e1f226f2f287a51286283ee34e0b11fcd72580103223",
+        "path": "apps/trading-core/src/main/java/com/kitehybrid/platform/historical/application/HistoricalDataIngestionService.java",
+        "working_tree_bytes": 5451,
+        "working_tree_raw_sha256": "0eeb3799de5cc6931938e1f226f2f287a51286283ee34e0b11fcd72580103223"
+      },
+      {
+        "clean_checkout_raw_sha256": "74bf6c0f846bb315e86a164ddd088dfc5a56df6ad959faa73b13e83a07668a7b",
+        "committed_blob_bytes": 5891,
+        "committed_blob_sha256": "74bf6c0f846bb315e86a164ddd088dfc5a56df6ad959faa73b13e83a07668a7b",
+        "crlf_pairs_replaced": 90,
+        "git_blob_oid": "25b58e50548396949569a8533524e81697815d4c",
+        "normalized_content_sha256": "74bf6c0f846bb315e86a164ddd088dfc5a56df6ad959faa73b13e83a07668a7b",
+        "only_crlf_to_lf": true,
+        "original_manifest_sha256": "2c888f21151195bc272ac06248653af26324f0fa0fb07440d99ceeaffe28cd3e",
+        "path": "apps/trading-core/src/main/java/com/kitehybrid/platform/historical/infrastructure/HistoricalResearchExporter.java",
+        "working_tree_bytes": 5981,
+        "working_tree_raw_sha256": "2c888f21151195bc272ac06248653af26324f0fa0fb07440d99ceeaffe28cd3e"
+      },
+      {
+        "clean_checkout_raw_sha256": "dd4e5993b9422cbe75baab3d23c3165099fd5ed5c88e65caef12cd22a995da1f",
+        "committed_blob_bytes": 7038,
+        "committed_blob_sha256": "dd4e5993b9422cbe75baab3d23c3165099fd5ed5c88e65caef12cd22a995da1f",
+        "crlf_pairs_replaced": 93,
+        "git_blob_oid": "2bf7d472b806fd6321ef987467e0b77598e78f55",
+        "normalized_content_sha256": "dd4e5993b9422cbe75baab3d23c3165099fd5ed5c88e65caef12cd22a995da1f",
+        "only_crlf_to_lf": true,
+        "original_manifest_sha256": "204aa6d0077e0c41882d9ded62b9ddb59010627458e3867d084d96840059f004",
+        "path": "apps/trading-core/src/main/java/com/kitehybrid/platform/historical/infrastructure/PostgresHistoricalBarRepository.java",
+        "working_tree_bytes": 7131,
+        "working_tree_raw_sha256": "204aa6d0077e0c41882d9ded62b9ddb59010627458e3867d084d96840059f004"
+      },
+      {
+        "clean_checkout_raw_sha256": "23effde631582959bb000b16b671dfa2cf416cb20e7f4e07da8b799d6d22af1d",
+        "committed_blob_bytes": 924,
+        "committed_blob_sha256": "23effde631582959bb000b16b671dfa2cf416cb20e7f4e07da8b799d6d22af1d",
+        "crlf_pairs_replaced": 13,
+        "git_blob_oid": "275772c5d3469158e1a75f0214972e8563a25823",
+        "normalized_content_sha256": "23effde631582959bb000b16b671dfa2cf416cb20e7f4e07da8b799d6d22af1d",
+        "only_crlf_to_lf": true,
+        "original_manifest_sha256": "951737e90df4f95de4dd82a3acf6595c79e0c327d9170f9bfe1089c0a2716f4a",
+        "path": "apps/trading-core/src/main/resources/db/historical/V12__five_minute_research.sql",
+        "working_tree_bytes": 937,
+        "working_tree_raw_sha256": "951737e90df4f95de4dd82a3acf6595c79e0c327d9170f9bfe1089c0a2716f4a"
+      },
+      {
+        "clean_checkout_raw_sha256": "1f5846c7caa4a0d7c265d054b90e292b16f2d1e0159ee87e27281878b2c2e16d",
+        "committed_blob_bytes": 19198,
+        "committed_blob_sha256": "1f5846c7caa4a0d7c265d054b90e292b16f2d1e0159ee87e27281878b2c2e16d",
+        "crlf_pairs_replaced": 1116,
+        "git_blob_oid": "a4a6bcecc2b8789bfc46a0e447ce61b507c6e074",
+        "normalized_content_sha256": "1f5846c7caa4a0d7c265d054b90e292b16f2d1e0159ee87e27281878b2c2e16d",
+        "only_crlf_to_lf": true,
+        "original_manifest_sha256": "4345207d985672c34e79347eafb13475ed8c7fe5f440914b25ac0999465c3729",
+        "path": "config/universes/phase14_unique_universe.csv",
+        "working_tree_bytes": 20314,
+        "working_tree_raw_sha256": "4345207d985672c34e79347eafb13475ed8c7fe5f440914b25ac0999465c3729"
+      },
+      {
+        "clean_checkout_raw_sha256": "0852914e724fd0018ffc046c9b24eba7af037b7bdaf9dee637c2493ee8e8586b",
+        "committed_blob_bytes": 333,
+        "committed_blob_sha256": "0852914e724fd0018ffc046c9b24eba7af037b7bdaf9dee637c2493ee8e8586b",
+        "crlf_pairs_replaced": 26,
+        "git_blob_oid": "48af62c519145baf4fb3266746ce866fbf859a0e",
+        "normalized_content_sha256": "0852914e724fd0018ffc046c9b24eba7af037b7bdaf9dee637c2493ee8e8586b",
+        "only_crlf_to_lf": true,
+        "original_manifest_sha256": "ae6d0c8a363959b6e6b9a5f62e1487b1caf77321dd2be981ba08136c40488300",
+        "path": "input/phase14/phase14_removed_duplicates.csv",
+        "working_tree_bytes": 359,
+        "working_tree_raw_sha256": "ae6d0c8a363959b6e6b9a5f62e1487b1caf77321dd2be981ba08136c40488300"
+      },
+      {
+        "clean_checkout_raw_sha256": "1f5846c7caa4a0d7c265d054b90e292b16f2d1e0159ee87e27281878b2c2e16d",
+        "committed_blob_bytes": 19198,
+        "committed_blob_sha256": "1f5846c7caa4a0d7c265d054b90e292b16f2d1e0159ee87e27281878b2c2e16d",
+        "crlf_pairs_replaced": 1116,
+        "git_blob_oid": "a4a6bcecc2b8789bfc46a0e447ce61b507c6e074",
+        "normalized_content_sha256": "1f5846c7caa4a0d7c265d054b90e292b16f2d1e0159ee87e27281878b2c2e16d",
+        "only_crlf_to_lf": true,
+        "original_manifest_sha256": "4345207d985672c34e79347eafb13475ed8c7fe5f440914b25ac0999465c3729",
+        "path": "input/phase14/phase14_unique_universe.csv",
+        "working_tree_bytes": 20314,
+        "working_tree_raw_sha256": "4345207d985672c34e79347eafb13475ed8c7fe5f440914b25ac0999465c3729"
+      },
+      {
+        "clean_checkout_raw_sha256": "dc6cd8f4b0228dff3bd0483cd664d6e905d17aa8cb32fe24ed6e798e8bd111b4",
+        "committed_blob_bytes": 19632,
+        "committed_blob_sha256": "dc6cd8f4b0228dff3bd0483cd664d6e905d17aa8cb32fe24ed6e798e8bd111b4",
+        "crlf_pairs_replaced": 1141,
+        "git_blob_oid": "105c6e6305d4b03c3b9b0a9ce1a81b6d33da04fa",
+        "normalized_content_sha256": "dc6cd8f4b0228dff3bd0483cd664d6e905d17aa8cb32fe24ed6e798e8bd111b4",
+        "only_crlf_to_lf": true,
+        "original_manifest_sha256": "bec552ae3c23c0f22b8980cb0c933b300de53d475efab07c4ddd22de3c9a02ca",
+        "path": "input/phase14/universe(1).csv",
+        "working_tree_bytes": 20773,
+        "working_tree_raw_sha256": "bec552ae3c23c0f22b8980cb0c933b300de53d475efab07c4ddd22de3c9a02ca"
+      },
+      {
+        "clean_checkout_raw_sha256": "8d6aace2cb75acd8d3db8ce10e026dc053d5827d6a2990620ffa8039056087b2",
+        "committed_blob_bytes": 86160,
+        "committed_blob_sha256": "8d6aace2cb75acd8d3db8ce10e026dc053d5827d6a2990620ffa8039056087b2",
+        "crlf_pairs_replaced": 1116,
+        "git_blob_oid": "7636479b8776e19244f41d7600d67502de7bdd71",
+        "normalized_content_sha256": "8d6aace2cb75acd8d3db8ce10e026dc053d5827d6a2990620ffa8039056087b2",
+        "only_crlf_to_lf": true,
+        "original_manifest_sha256": "eb02d1527dd5d414e6e29cb7037ff538349b0d07616c88d956139f0c64d73612",
+        "path": "research/phase-14.0/generation-1/instrument-resolution.csv",
+        "working_tree_bytes": 87276,
+        "working_tree_raw_sha256": "eb02d1527dd5d414e6e29cb7037ff538349b0d07616c88d956139f0c64d73612"
+      },
+      {
+        "clean_checkout_raw_sha256": "76a146cc7610ce4810caeb2aced844db0b8e38a7ee6bbc5d8575bdb5439e1d0a",
+        "committed_blob_bytes": 342864,
+        "committed_blob_sha256": "76a146cc7610ce4810caeb2aced844db0b8e38a7ee6bbc5d8575bdb5439e1d0a",
+        "crlf_pairs_replaced": 2231,
+        "git_blob_oid": "5dadbba330508c1261b35148e88c4afd129c73ad",
+        "normalized_content_sha256": "76a146cc7610ce4810caeb2aced844db0b8e38a7ee6bbc5d8575bdb5439e1d0a",
+        "only_crlf_to_lf": true,
+        "original_manifest_sha256": "cf7eb89173d8d84d9f6f76ae6c4c7b6567f1fe55f382c70121c6ad87fc60c11e",
+        "path": "research/phase-14.0/generation-1/stock-strategy-results.csv",
+        "working_tree_bytes": 345095,
+        "working_tree_raw_sha256": "cf7eb89173d8d84d9f6f76ae6c4c7b6567f1fe55f382c70121c6ad87fc60c11e"
+      }
+    ],
+    "fixture": {
+      "directory": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\kite-phase140a-93tj8415\\checkout",
+      "method": "Separate temporary GIT_INDEX_FILE; git read-tree baseline; git checkout-index --all --prefix to new external directory. Active index, worktree and Git configuration unchanged. No fixture code executed.",
+      "retained_for_review": true
+    },
+    "normalization": {
+      "algorithm": "Replace each byte pair 0x0D 0x0A with byte 0x0A; leave every other byte unchanged. SHA-256 over resulting bytes, without Git object header. No decoding, trimming, BOM removal, whitespace changes or final-newline insertion. Reject bare CR in normalized output for these 13 files.",
+      "comparison": "committed_blob == normalized_working_tree == isolated_checkout; original manifest hash == working-tree raw hash",
+      "scope": "Per-path additive equivalence attestation; original raw hashes remain valid for original CRLF observations only."
+    },
+    "operational_status": "NO_GO; Stage B ZERO_CALL_ABORT; Phase12 BLOCK; H1/H2 FROZEN; July SEALED; buffered-notional ceiling unchanged; V2/governance second review/technical reviews PENDING",
+    "original_manifest": {
+      "canonical_fingerprint": "55eb6903e91f0afb255d285b13b409e6749c9b14a7e091abfb6bfad29fcffc07",
+      "path": "research/phase-14.0/generation-1/evidence-manifest.json",
+      "raw_sha256": "d27cc9a1793244593413c10f9b88a40b1ad71b5dd5907988db4755fe244c5026",
+      "unchanged": true
+    },
+    "protected_preservation": {
+      "checked": {
+        "frozen_source_registered_text_sha256": 18,
+        "governance_envelopes_raw_covered_by_KL": 11,
+        "new_documents_raw_sha256": 8,
+        "parent_envelopes": 15,
+        "prior_kl_raw_sha256": 25,
+        "protected_research_raw_sha256": 63,
+        "registered_parent_plans": 17
+      },
+      "parent_fingerprint": "832e22fabda630b60f76f99460ce7c74443b8028dcab460b0e5a818283d26069",
+      "plan_raw_sha256": "d6b8a56494830d75f7060f03a1d7095bdb5bad01c5dc7c5ee3dd792e8c6480ca",
+      "real_kite_requests_by_this_run": 0,
+      "result": "PASS"
+    },
+    "protected_verifier_execution": "Existing verify_phase140.verify() executed in memory with BASELINE set to the verified current commit; source file and all hash constants unchanged. Historical standalone verifier still pins its original implementation baseline.",
+    "real_kite_requests": 0,
+    "remaining_integrity_gaps": [
+      "Original Phase14 raw hash map is intentionally not directly applicable to normalized committed bytes for these 13 paths; verifiers must explicitly consume this additive attestation.",
+      "Standalone Phase14 verifier retains its historical baseline and raw-only checks; it is not modified or claimed to pass on a clean checkout.",
+      "Reconciliation attests newline equivalence only; it does not establish instrument-master availability, historical-data quality, performance or broker authorization."
+    ],
+    "schema_version": 1,
+    "scope": "Exactly the 13 discrepancies in the 54 Phase14 change paths; not a replacement hash policy for the whole repository.",
+    "universe_validation": {
+      "committed_blobs": {
+        "duplicates": 25,
+        "first_occurrence_order_and_exact_symbols_preserved": true,
+        "source_row_convention": "physical CSV line; header=1",
+        "source_rows": 1140,
+        "symbols_with_ampersand": 6,
+        "unique_enabled_NSE_symbols": 1115
+      },
+      "isolated_checkout": {
+        "duplicates": 25,
+        "first_occurrence_order_and_exact_symbols_preserved": true,
+        "source_row_convention": "physical CSV line; header=1",
+        "source_rows": 1140,
+        "symbols_with_ampersand": 6,
+        "unique_enabled_NSE_symbols": 1115
+      },
+      "working_tree": {
+        "duplicates": 25,
+        "first_occurrence_order_and_exact_symbols_preserved": true,
+        "source_row_convention": "physical CSV line; header=1",
+        "source_rows": 1140,
+        "symbols_with_ampersand": 6,
+        "unique_enabled_NSE_symbols": 1115
+      }
+    },
+    "validation": {
+      "exact_discrepancy_inventory": 13,
+      "independent_replay_passes": 2,
+      "java_python_integration_suites": "NOT_RUN: evidence-only change, no implementation changes",
+      "non_newline_differences": 0,
+      "original_manifest_envelope": "PASS",
+      "original_working_tree_hashes_verified": 978,
+      "phase14_clean_checkout_blob_matches": 54,
+      "tracked_files_unchanged": 979,
+      "universe_three_way_reconciliation": "PASS"
+    }
+  }
+}
