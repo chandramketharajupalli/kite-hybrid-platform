@@ -1,0 +1,141 @@
+{
+  "acknowledgment": null,
+  "confirmed_delivery": false,
+  "displayed_date_reported": "12 October 2026",
+  "displayed_time_reported": "6:33 PM",
+  "displayed_timezone": null,
+  "exact_sent_body": null,
+  "formal_prior_sending_approval_evidence": null,
+  "gate_A": "GATE_A_NOT_AUTHORIZED",
+  "gate_B": "GATE_B_NOT_AUTHORIZED",
+  "generation": 2,
+  "original_phase149_and_1410_records": "PRESERVED; not retroactively converted to SENT",
+  "provenance": "User narrative supplied in Phase14.11 prompt; original screenshot unavailable",
+  "questions": {
+    "Q1": {
+      "clause_or_regulation": null,
+      "conditions": null,
+      "evidence_hash": null,
+      "exact_sent_text": null,
+      "provenance": "Prior nine-topic scope; exact sent mapping unverified",
+      "response_source": null,
+      "status": "UNRESOLVED",
+      "topic": "Private NSE master download"
+    },
+    "Q10": {
+      "clause_or_regulation": null,
+      "conditions": null,
+      "evidence_hash": null,
+      "exact_sent_text": null,
+      "provenance": "User-reported added topic; exact wording unavailable",
+      "response_source": null,
+      "status": "UNRESOLVED",
+      "topic": "Automated-trading compliance"
+    },
+    "Q11": {
+      "clause_or_regulation": null,
+      "conditions": null,
+      "evidence_hash": null,
+      "exact_sent_text": null,
+      "provenance": "User-reported added topic; exact wording unavailable",
+      "response_source": null,
+      "status": "UNRESOLVED",
+      "topic": "API/order-execution compliance"
+    },
+    "Q2": {
+      "clause_or_regulation": null,
+      "conditions": null,
+      "evidence_hash": null,
+      "exact_sent_text": null,
+      "provenance": "Prior nine-topic scope; exact sent mapping unverified",
+      "response_source": null,
+      "status": "UNRESOLVED",
+      "topic": "Mapping 1115 symbols"
+    },
+    "Q3": {
+      "clause_or_regulation": null,
+      "conditions": null,
+      "evidence_hash": null,
+      "exact_sent_text": null,
+      "provenance": "Prior nine-topic scope; exact sent mapping unverified",
+      "response_source": null,
+      "status": "UNRESOLVED",
+      "topic": "Temporary raw storage"
+    },
+    "Q4": {
+      "clause_or_regulation": null,
+      "conditions": null,
+      "evidence_hash": null,
+      "exact_sent_text": null,
+      "provenance": "Prior nine-topic scope; exact sent mapping unverified",
+      "response_source": null,
+      "status": "UNRESOLVED",
+      "topic": "Persistent mappings"
+    },
+    "Q5": {
+      "clause_or_regulation": null,
+      "conditions": null,
+      "evidence_hash": null,
+      "exact_sent_text": null,
+      "provenance": "Prior nine-topic scope; exact sent mapping unverified",
+      "response_source": null,
+      "status": "UNRESOLVED",
+      "topic": "Derived records and audit hashes"
+    },
+    "Q6": {
+      "clause_or_regulation": null,
+      "conditions": null,
+      "evidence_hash": null,
+      "exact_sent_text": null,
+      "provenance": "Prior nine-topic scope; exact sent mapping unverified",
+      "response_source": null,
+      "status": "UNRESOLVED",
+      "topic": "Private research/backtesting"
+    },
+    "Q7": {
+      "clause_or_regulation": null,
+      "conditions": null,
+      "evidence_hash": null,
+      "exact_sent_text": null,
+      "provenance": "Prior nine-topic scope; exact sent mapping unverified",
+      "response_source": null,
+      "status": "UNRESOLVED",
+      "topic": "Exchange licensing"
+    },
+    "Q8": {
+      "clause_or_regulation": null,
+      "conditions": null,
+      "evidence_hash": null,
+      "exact_sent_text": null,
+      "provenance": "Prior nine-topic scope; exact sent mapping unverified",
+      "response_source": null,
+      "status": "UNRESOLVED",
+      "topic": "Termination/deletion"
+    },
+    "Q9": {
+      "clause_or_regulation": null,
+      "conditions": null,
+      "evidence_hash": null,
+      "exact_sent_text": null,
+      "provenance": "Prior nine-topic scope; exact sent mapping unverified",
+      "response_source": null,
+      "status": "UNRESOLVED",
+      "topic": "Separate historical-candle retention"
+    }
+  },
+  "recipient_reported": "compliance@zerodha.com",
+  "reported_question_count": 11,
+  "response": null,
+  "screenshot_independently_inspected": false,
+  "screenshot_original_available": false,
+  "screenshot_path": null,
+  "screenshot_sha256": null,
+  "sender_personal_address": "NOT_RECORDED",
+  "sent_body_sha256": null,
+  "status": "USER_REPORTED_SENT_WITH_SCREENSHOT",
+  "subject_reported": "Request for Written Clarification \u2013 Kite Connect Instrument Master, Private Storage, Backtesting and Data Retention",
+  "ticket_reference": null,
+  "utc_submission_timestamp": null,
+  "view_reported": "Gmail sent-message view",
+  "zerodha_receipt": "NOT_ESTABLISHED"
+}
