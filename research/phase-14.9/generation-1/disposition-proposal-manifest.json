@@ -1,0 +1,138 @@
+{
+  "fingerprint": "80ea86d7e4364ca7273f54c82664637dc5a68a27b6cd487bf86095f0bd7dc0b5",
+  "manifest": {
+    "approval_expiry": null,
+    "approval_timestamp": null,
+    "artifacts_raw_sha256": {
+      "docs/operations/phase-14.9-disposition-proposal.md": "19d80f06866976c80ec40bcb7a8cbb0a2f2e291d9a688894b9e9dbf2501b06b5"
+    },
+    "authenticated_identity": null,
+    "baseline": "b193831b0aa537e6e2f25768e1be7b440327e8d7",
+    "credential_access": 0,
+    "formal_owner_approval": "PENDING",
+    "gate_A": "GATE_A_DECISION_PENDING / NOT_AUTHORIZED",
+    "gate_B": "GATE_B_NOT_AUTHORIZED",
+    "independently_authenticated_owner_decision": false,
+    "instruction_attribution": "User conversation instruction: Phase 14.9 - Support Request Disposition; preparation recommendation only",
+    "inventory": {
+      "combined_new": [
+        "docs/operations/phase-14.9-disposition-proposal.md",
+        "docs/operations/phase-14.9-gate-a-readiness.md",
+        "docs/operations/phase-14.9-owner-send-decision.md",
+        "docs/operations/phase-14.9-plan.md",
+        "docs/operations/phase-14.9-response-evidence-protocol.md",
+        "docs/operations/phase-14.9-support-channel-verification.md",
+        "docs/operations/phase-14.9-terms-decision-matrix.md",
+        "docs/operations/phase-14.9-validation.md",
+        "docs/operations/phase-14.9-zerodha-request.md",
+        "research/phase-14.9/generation-1/disposition-proposal-manifest.json",
+        "research/phase-14.9/generation-1/evidence-manifest.json"
+      ],
+      "modified": [],
+      "new_this_followup": [
+        "docs/operations/phase-14.9-disposition-proposal.md",
+        "research/phase-14.9/generation-1/disposition-proposal-manifest.json"
+      ],
+      "staged": []
+    },
+    "kind": "ADDITIVE_DISPOSITION_PROPOSAL",
+    "message_status": "DRAFT / NOT_SENT",
+    "operational": "NO_GO",
+    "parent_fingerprint": "4ab91ecf1e964a22d109e42f2d8b49435d40a97eef2890ac5b95c61e2140a23d",
+    "parent_manifest_raw_sha256": "3090eb83f01e95982917ec5e9ae58d834126e372a4fc0b9f90fa1a043d4cd812",
+    "preserved_phase149_raw_sha256": {
+      "docs/operations/phase-14.9-gate-a-readiness.md": "f8dcc9dcf88cfd79116fc90a6bd03766b074da7d862bdb438b3e4dec7b1f3b78",
+      "docs/operations/phase-14.9-owner-send-decision.md": "75d425ecde8e6cedbd12d82ac94606c82827edc7d3ab5ce38ca948608ca34a07",
+      "docs/operations/phase-14.9-plan.md": "366ea4b782f3c7aa139c97a9a5e57399c4b2c68541a3a6fec1b19c4b4293e211",
+      "docs/operations/phase-14.9-response-evidence-protocol.md": "3d5078fb2cd5c6aba64ff7c211ba721dc2c40c051ffaeb9bde8f9d0820d62677",
+      "docs/operations/phase-14.9-support-channel-verification.md": "a2891321be584724f9eb5c6d49472023481c28f2dfe0e1fc90331e60c9bb4a75",
+      "docs/operations/phase-14.9-terms-decision-matrix.md": "e292105e0d939eefd4155845a5857e7a32261bfd17972ee7571d8f3b3e56384d",
+      "docs/operations/phase-14.9-validation.md": "24c47619b730afd61e0e43ab049bfb99c9c9ae06dc80d3ff99b9b44ea91081e0",
+      "docs/operations/phase-14.9-zerodha-request.md": "f558cd7f9f650dba775c0bbc8aadfc83854fc4faf3f7e5b7507f73b998c68bd5",
+      "research/phase-14.9/generation-1/evidence-manifest.json": "3090eb83f01e95982917ec5e9ae58d834126e372a4fc0b9f90fa1a043d4cd812"
+    },
+    "real_broker_requests": 0,
+    "reason": "Official Zerodha terms recipient remains unverified; request is not rejected; sending is not authorized",
+    "recommended_disposition": "DEFERRED_PENDING_RECIPIENT_VERIFICATION",
+    "replay_protocol": "Canonical sorted compact UTF-8 JSON of this manifest payload; verify own artifact and preserved parent hashes, then parent canonical fingerprint and all baseline/artifact raw hashes twice. Envelope excludes self-digest.",
+    "request_binding": {
+      "attachments": [],
+      "bcc": [],
+      "body_sha256": "24d91a9a7b746b48eeed4f81d7e49d1d25bc9f65993d8eec7c6d0fc8cb137f6a",
+      "cc": [],
+      "channel_reference": "14) Contact Us",
+      "channel_source": "https://kite.trade/terms/",
+      "method": null,
+      "recipient": null,
+      "subject_sha256": "bda936911ff17e5f5d20ce93713d18ba760950d4d6cbacc7380143aca661f37a"
+    },
+    "request_binding_sha256": "cc5f8e6d21cc6c241c9c9b3d12a278b9d2dd9e8c665d04b2c7a5ab39318f6b32",
+    "response_status": "NOT_RECEIVED",
+    "sending_authorization": "NOT_AUTHORIZED",
+    "staging_commit_push": "NONE",
+    "terms_questions": {
+      "Q1": {
+        "question": "Private authenticated CSV download",
+        "response_evidence": null,
+        "status": "UNRESOLVED"
+      },
+      "Q2": {
+        "question": "Map 1115 symbols",
+        "response_evidence": null,
+        "status": "UNRESOLVED"
+      },
+      "Q3": {
+        "question": "Temporary raw CSV",
+        "response_evidence": null,
+        "status": "UNRESOLVED"
+      },
+      "Q4": {
+        "question": "Persistent symbol-token mapping",
+        "response_evidence": null,
+        "status": "UNRESOLVED"
+      },
+      "Q5": {
+        "question": "Derived records/hashes/provenance",
+        "response_evidence": null,
+        "status": "UNRESOLVED"
+      },
+      "Q6": {
+        "question": "Private research/backtesting",
+        "response_evidence": null,
+        "status": "UNRESOLVED"
+      },
+      "Q7": {
+        "question": "Exchange licensing",
+        "response_evidence": null,
+        "status": "UNRESOLVED"
+      },
+      "Q8": {
+        "question": "Subscription-end deletion",
+        "response_evidence": null,
+        "status": "UNRESOLVED"
+      },
+      "Q9": {
+        "question": "Historical-candle retention",
+        "response_evidence": null,
+        "status": "UNRESOLVED"
+      }
+    },
+    "universe_unique": 1115,
+    "vendor_messages": 0,
+    "verification": {
+      "LF_Git_byte_equivalence": "PASS",
+      "baseline_raw_hashes_checked": 1083,
+      "canary_scan": "proposal checked with parent four-pattern scan; zero findings",
+      "exact_subject_body": "PASS",
+      "fresh_executable_tests": "NOT_RUN; documents only",
+      "nine_unresolved_questions": "PASS",
+      "parent_artifacts_preserved": 9,
+      "secret_scan_before_envelope": {
+        "command": "uv run --offline python scripts/check-secrets.py",
+        "files": 2484,
+        "findings": 0
+      },
+      "whitespace": "PASS"
+    }
+  }
+}
