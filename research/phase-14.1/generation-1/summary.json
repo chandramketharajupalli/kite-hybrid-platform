@@ -1,0 +1,34 @@
+{
+  "actual_candles_available": false,
+  "actual_master_available": false,
+  "actual_pilot_request_plan": null,
+  "baseline": "712db352a3e74440e7625f1af5772cc5755908aa",
+  "classification": "PHASE_14_1_OFFLINE_RESOLUTION_VALIDATED",
+  "ledger_producer": "Phase141OfflineTest.fullUniverseProducesActualUnavailableLedgerWithoutSyntheticTokens; no synthetic tokens in actual ledger",
+  "operational_status": "NO_GO",
+  "pending": [
+    "V2 contract",
+    "governance second review",
+    "four technical reviews",
+    "real master provenance",
+    "real exchange calendar/corporate actions",
+    "account entitlement and terms",
+    "credential-owner/security review",
+    "separate owner approval"
+  ],
+  "performance": null,
+  "pilot_authorization": "UNAPPROVED_OFFLINE_ONLY",
+  "public_documentation_review": "Unauthenticated documentation pages only, separate from broker API traffic",
+  "real_kite_requests_by_agent": 0,
+  "removed_duplicates": 25,
+  "resolution_counts": {
+    "AMBIGUOUS": 0,
+    "INVALID_SOURCE": 0,
+    "MASTER_UNAVAILABLE": 1115,
+    "NOT_FOUND": 0,
+    "RESOLVED": 0,
+    "STALE_MASTER": 0
+  },
+  "source_rows": 1140,
+  "unique_enabled_NSE_symbols": 1115
+}

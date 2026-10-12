@@ -1,0 +1,31 @@
+{
+  "baseline": "712db352a3e74440e7625f1af5772cc5755908aa",
+  "baseline_tracked_files": 981,
+  "before_status": [],
+  "modified_tracked_files": [],
+  "new_count": 20,
+  "new_files": [
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/broker/infrastructure/kite/KiteOfflineInstrumentMaster.java",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/historical/application/OfflineHistoricalPilot.java",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/instrument/application/DatedInstrumentMaster.java",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/instrument/application/OfflineUniverseResolution.java",
+    "apps/trading-core/src/test/java/com/kitehybrid/platform/broker/infrastructure/kite/Phase141OfflineTest.java",
+    "docs/architecture/phase-14.1-instrument-master-and-pilot.md",
+    "docs/operations/phase-14.1-pilot-authorization-draft.md",
+    "docs/operations/phase-14.1-plan.md",
+    "docs/operations/phase-14.1-resolution-policy.md",
+    "docs/operations/phase-14.1-runbook.md",
+    "docs/operations/phase-14.1-validation.md",
+    "research/phase-14.1/generation-1/evidence-manifest.json",
+    "research/phase-14.1/generation-1/git-inventory.json",
+    "research/phase-14.1/generation-1/replay-verification.json",
+    "research/phase-14.1/generation-1/resolution-ledger.csv",
+    "research/phase-14.1/generation-1/resolution-ledger.json",
+    "research/phase-14.1/generation-1/summary.json",
+    "research/phase-14.1/generation-1/test-results.json",
+    "research/phase-14.1/generation-1/validation-attempts.json",
+    "scripts/research/verify_phase141.py"
+  ],
+  "no_commit_or_push": true,
+  "staged_files": []
+}

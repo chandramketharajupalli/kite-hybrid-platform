@@ -1,0 +1,71 @@
+{
+  "attempts": [
+    {
+      "cause": "CSV mapper canonical broker namespace ZERODHA did not match frozen Phase14 resolver KITE expectation. Valid/duplicate-token/prior-token tests failed and pilot planning rejected mappings.",
+      "correction": "Add documented in-memory namespace projection only inside new wrapper; retain original instruments/IDs/tokens in output.",
+      "errors": 1,
+      "failures": 3,
+      "id": 1,
+      "scope": "Focused Java initial",
+      "skipped": 0,
+      "tests": 71
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "id": 2,
+      "scope": "Focused Java rerun",
+      "skipped": 0,
+      "tests": 71
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "id": 3,
+      "scope": "Full Java after projection precomputation optimization",
+      "skipped": 0,
+      "tests": 1555
+    },
+    {
+      "id": 4,
+      "result": "32/282 tests PASS respectively",
+      "scope": "Python focused/full"
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "id": 5,
+      "scope": "Historical disposable integration",
+      "skipped": 0,
+      "tests": 12
+    },
+    {
+      "cause": "Ruff S102 rejected exec of frozen verifier source",
+      "correction": "Use importlib loader; rebind baseline in module memory only.",
+      "id": 6,
+      "result": "FAIL",
+      "scope": "New verifier initial lint"
+    },
+    {
+      "cause": "mypy module attribute assignment rejected",
+      "correction": "Assign baseline through module namespace dictionary.",
+      "id": 7,
+      "result": "FAIL",
+      "scope": "New verifier type check after import change"
+    },
+    {
+      "id": 8,
+      "result": "PASS",
+      "scope": "New verifier final lint/type/preservation"
+    }
+  ],
+  "inspection_notes": [
+    "Non-mutating PowerShell rg wildcard arguments were unsupported and a requested optional .mvn/jvm.config was absent; subsequent reads used exact paths. These were inspection misses, not test passes."
+  ],
+  "local_ignored_logs": {
+    "apps/trading-core/target/phase141-focused-rerun.log": "1d15ee6d72a5b9a4604b84a1f8176a754c9b493bdf59d6971f566c1261293f89",
+    "apps/trading-core/target/phase141-focused.log": "8a247f56b400736bd4e613af3d4f49994bfdfddb83f565b65273b63feddce891",
+    "apps/trading-core/target/phase141-full-unit.log": "ef3718aad39f50670e066ec4e5c47bb455a497aae889767b1799df4d69f7dace",
+    "apps/trading-core/target/phase141-integration.log": "04e013b8a1d3496c8ae5f46d994623e396f995d33ab85587620774075697c735"
+  }
+}

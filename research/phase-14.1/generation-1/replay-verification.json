@@ -1,0 +1,16 @@
+{
+  "method": "Two independent file reads and canonical SHA-256 map reconstructions; excludes own record and final envelope. Final sealed verifier is additionally run twice. No older generator executed.",
+  "result": "PASS",
+  "runs": [
+    {
+      "artifact_count": 18,
+      "artifact_map_fingerprint": "3e68163d74d7b78f874d5f68c351187ceb27c41b16c7a984b35249e105d4c00c",
+      "pass": 1
+    },
+    {
+      "artifact_count": 18,
+      "artifact_map_fingerprint": "3e68163d74d7b78f874d5f68c351187ceb27c41b16c7a984b35249e105d4c00c",
+      "pass": 2
+    }
+  ]
+}
