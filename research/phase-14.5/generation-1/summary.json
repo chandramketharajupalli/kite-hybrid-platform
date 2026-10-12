@@ -1,0 +1,30 @@
+{
+  "authenticated_session": "AUTHENTICATED_SESSION_NOT_ESTABLISHED",
+  "baseline": "2c3632ae0ccadbf70da26acbaf95986e9bb79c43",
+  "contact": "DRAFT / NOT_SENT",
+  "duplicates": 25,
+  "gate_a": "PENDING / NOT_AUTHORIZED",
+  "gate_b": "PENDING / NOT_AUTHORIZED",
+  "genuine_counts": {
+    "AMBIGUOUS": 0,
+    "INVALID_INSTRUMENT": 0,
+    "MASTER_UNAVAILABLE": 1115,
+    "NOT_EVALUATED": 0,
+    "NOT_FOUND": 0,
+    "RESOLVED": 0
+  },
+  "independent_os_egress": "NOT_VERIFIED",
+  "ledger_path": "research/phase-14.2/generation-1/resolution-ledger.json",
+  "ledger_raw_sha256": "5ad51059a9bb7a49bb8d42f3d17d3ff713cacc877ff20d54229915dc8553fed9",
+  "offline_boundary_tests": "PASS",
+  "operational_status": "NO_GO",
+  "outcome": "PHASE_14_5_PARTIAL",
+  "production_source_changes": 0,
+  "real_broker_requests": 0,
+  "real_credentials_accessed": false,
+  "reason": "Independent production containment and rollback/power-loss durable authority unresolved; no production acquisition path",
+  "source_rows": 1140,
+  "storage_retention": "NOT_AUTHORIZED_FOR_GENUINE_DATA",
+  "terms": "TERMS_UNRESOLVED",
+  "unique_enabled_NSE": 1115
+}

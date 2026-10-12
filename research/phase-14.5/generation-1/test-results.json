@@ -1,0 +1,157 @@
+{
+  "actual_real_broker_calls": 0,
+  "attempts": [
+    {
+      "exit": 0,
+      "result": "PASS",
+      "run": "initial focused boundary",
+      "tests": 52
+    },
+    {
+      "exit": 0,
+      "integration": 8,
+      "result": "PASS",
+      "run": "expanded diagnostics/formula cases and full module/integration",
+      "unit": 151
+    },
+    {
+      "exit": 0,
+      "java": 98,
+      "python": 32,
+      "result": "PASS",
+      "run": "existing Java focused and Python"
+    },
+    {
+      "attempt": 1,
+      "errors": 1,
+      "result": "FAIL",
+      "run": "new verifier mypy"
+    },
+    {
+      "attempt": 2,
+      "errors": 0,
+      "result": "PASS",
+      "run": "new verifier mypy and Ruff after correction"
+    }
+  ],
+  "disposable_filesystem_ledger_integration": [
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "GateALedgerIT",
+      "report_sha256": "5902074afa128356c5a306edc912b86e0e804364416c5288bbea000bde6d3eca",
+      "skipped": 0,
+      "tests": 8
+    }
+  ],
+  "failures": [
+    {
+      "attempt": 1,
+      "command": "mypy scripts/research/verify_phase145.py",
+      "correction": "Use module __dict__ in-memory rebinding, preserving on-disk parent",
+      "error": "Module has no attribute BASELINE [attr-defined]"
+    }
+  ],
+  "mypy": {
+    "files": 43,
+    "status": "PASS"
+  },
+  "not_run": {
+    "full_trading_core_and_full_python": "No production/shared contracts changed",
+    "postgresql": "Boundary DB-free; disposable filesystem ledger/process integration is relevant instead",
+    "real_tls_egress_power_loss": "Not authorized; production guarantees NOT_VERIFIED"
+  },
+  "notes": "Initial52 focused tests are a subset. Final module151 includes54 boundary cases. Java/Python tests passed. Verifier type-check failure and correction retained. Scoped fixture JVMs and journals cleaned.",
+  "packaged_gate_a_classes": 0,
+  "python_phase14": {
+    "errors": 0,
+    "failures": 0,
+    "skips": 0,
+    "tests": 32
+  },
+  "ruff": "PASS",
+  "synthetic_module_full_unit": [
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "GateABoundaryTest",
+      "report_sha256": "076b1fd05a4aa535165deeb81f2abd3f17247834f215c38633f02cdb57a1b8d0",
+      "skipped": 0,
+      "tests": 54
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "IsolationSecurityTest",
+      "report_sha256": "dcd9dded59df691bf393f2aa0c8d0b90bf2033252c8e9e86ea2bd872f8a92ac6",
+      "skipped": 0,
+      "tests": 17
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "PackagingTest",
+      "report_sha256": "f83e545b9fb609af75c5c895740c3ba9661ba2b667c56174b2b3ec7efba1bab7",
+      "skipped": 0,
+      "tests": 3
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "PlatformResourcesTest",
+      "report_sha256": "7899858a19105288ed33cb73efcaafcc71154deb0c7f056974048d5e342dcd63",
+      "skipped": 0,
+      "tests": 2
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "RecoverySecurityTest",
+      "report_sha256": "5491b5c062a0becf729a8fba73409ad78b0da96c35dc8c55bbc2aae4a5c7fbdf",
+      "skipped": 0,
+      "tests": 9
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "SyntheticSecurityTest",
+      "report_sha256": "716d6711dc74cf3f8d81c6199c48b8ac8174fcc054bc7bb77c98b5d1929ea603",
+      "skipped": 0,
+      "tests": 66
+    }
+  ],
+  "trading_core_focused": [
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "Phase141OfflineTest",
+      "report_sha256": "abaa3d973ce3a1e594ac8a3a07492ee6a9368d813443fddfe2a7152d2d8f03aa",
+      "skipped": 0,
+      "tests": 40
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "Phase142ReadinessTest",
+      "report_sha256": "2319fddbad6097fc876f4f94c2e80fffbd8b4225cb6e65819b1ac1f606cb9580",
+      "skipped": 0,
+      "tests": 30
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "KiteHistoricalAdapterTest",
+      "report_sha256": "9ecf39b182e39fac0120328c1694af8bcc15012cd63d9d868ace5aef0b75275c",
+      "skipped": 0,
+      "tests": 27
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "HistoricalArchitectureTest",
+      "report_sha256": "79725ac13ce15b1aca7405ce6ca9189e711bd7f2859a3fb9074d316ad86523a1",
+      "skipped": 0,
+      "tests": 1
+    }
+  ]
+}

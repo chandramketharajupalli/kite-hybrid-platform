@@ -1,0 +1,25 @@
+{
+  "baseline": "2c3632ae0ccadbf70da26acbaf95986e9bb79c43",
+  "baseline_tracked_files": 1044,
+  "initial_status": [],
+  "modified_tracked_files": [],
+  "new_count": 14,
+  "new_files": [
+    "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/GateABoundary.java",
+    "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/GateABoundaryTest.java",
+    "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/GateALedgerIT.java",
+    "apps/synthetic-credential-owner/src/test/java/com/kitehybrid/synthetic/GateAProcessProbe.java",
+    "docs/architecture/phase-14.5-boundary.md",
+    "docs/operations/phase-14.5-owner-decision.md",
+    "docs/operations/phase-14.5-plan.md",
+    "docs/operations/phase-14.5-terms-and-clarification.md",
+    "docs/operations/phase-14.5-validation.md",
+    "research/phase-14.5/generation-1/evidence-manifest.json",
+    "research/phase-14.5/generation-1/git-inventory.json",
+    "research/phase-14.5/generation-1/summary.json",
+    "research/phase-14.5/generation-1/test-results.json",
+    "scripts/research/verify_phase145.py"
+  ],
+  "plan_allowlist": "EXACT_MATCH",
+  "staged_files": []
+}
