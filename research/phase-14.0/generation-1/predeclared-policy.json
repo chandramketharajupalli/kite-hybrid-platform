@@ -1,0 +1,105 @@
+{
+  "fixture_costs_only_not_a_real_tariff": {
+    "as_of": null,
+    "basis": "HISTORICAL",
+    "brokerage_cap": "20",
+    "brokerage_rate": "0.0003",
+    "effective_from": "2025-01-01",
+    "effective_to": "2027-01-01",
+    "exchange_rate": "0.00003",
+    "gst_rate": "0.18",
+    "ipft_rate": "0.000001",
+    "rounding": "EXACT_ACCRUAL_NOT_CONTRACT_NOTE",
+    "scope": "NSE_CASH_SHARES_RESIDENT_RETAIL_FULL_CASH",
+    "sebi_rate": "0.000001",
+    "source_version": "SYNTHETIC_NOT_BROKER_TARIFF",
+    "stamp_rate": "0.00003",
+    "stt_basis": "FLAT_ROUND_TRIP_AVERAGE",
+    "stt_rate": "0.00025",
+    "version": "synthetic-v1"
+  },
+  "policy": {
+    "alpha": "0.05",
+    "family_size": 2230,
+    "max_drawdown": "0.10",
+    "min_fold_trades": 30,
+    "min_fold_win_rate": "0.60",
+    "min_oos_trades": 100,
+    "min_win_rate": "0.70"
+  },
+  "settings": {
+    "allow_long": true,
+    "allow_short": false,
+    "capital": "10000",
+    "mode": "BACKTEST_ONLY",
+    "order_ceiling": "10000",
+    "participation": "0.01",
+    "price_buffer": "1.05",
+    "quantity": 1,
+    "slippage_bps": "5"
+  },
+  "strategy": {
+    "conditions": [
+      {
+        "direction": "ABOVE",
+        "left": {
+          "indicator": "RSI",
+          "lag": 0,
+          "period": 14,
+          "value": "0"
+        },
+        "right": {
+          "indicator": "CONSTANT",
+          "lag": 0,
+          "period": 1,
+          "value": "30"
+        }
+      },
+      {
+        "direction": "ABOVE",
+        "left": {
+          "indicator": "CLOSE",
+          "lag": 0,
+          "period": 1,
+          "value": "0"
+        },
+        "right": {
+          "indicator": "EMA",
+          "lag": 0,
+          "period": 21,
+          "value": "0"
+        }
+      }
+    ],
+    "confirmed": true,
+    "direction": "LONG",
+    "name": "RSI14_EMA21_RECOVERY",
+    "stop": "0.02",
+    "target": "0.02",
+    "version": "1"
+  },
+  "windows": [
+    {
+      "end": "2026-10-12T00:00:00Z",
+      "fold_boundaries": [
+        "2026-07-12T00:00:00Z",
+        "2026-08-12T00:00:00Z",
+        "2026-09-12T00:00:00Z",
+        "2026-10-12T00:00:00Z"
+      ],
+      "months": 6,
+      "oos_start": "2026-07-12T00:00:00Z"
+    },
+    {
+      "end": "2026-10-12T00:00:00Z",
+      "fold_boundaries": [
+        "2026-07-12T00:00:00Z",
+        "2026-08-12T00:00:00Z",
+        "2026-09-12T00:00:00Z",
+        "2026-10-12T00:00:00Z"
+      ],
+      "months": 12,
+      "oos_start": "2026-07-12T00:00:00Z"
+    }
+  ]
+}

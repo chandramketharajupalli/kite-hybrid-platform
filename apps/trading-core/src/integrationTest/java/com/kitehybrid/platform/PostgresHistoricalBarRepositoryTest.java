@@ -127,7 +127,7 @@ class PostgresHistoricalBarRepositoryTest {
         assertEquals("10",defaults.info().current().getVersion().toString());
         assertNull(new JdbcTemplate(defaultSource).queryForObject("SELECT to_regclass('trading.historical_bars')",String.class));
         var f=Flyway.configure().dataSource(jdbc.getDataSource()).locations("classpath:db/migration","classpath:db/historical").load();
-        f.validate();assertEquals(0,f.migrate().migrationsExecuted);assertEquals("11",f.info().current().getVersion().toString());
+        f.validate();assertEquals(0,f.migrate().migrationsExecuted);assertEquals("12",f.info().current().getVersion().toString());
         assertEquals(0,jdbc.queryForObject("SELECT count(*) FROM trading.orders",Integer.class));
         assertEquals(0,jdbc.queryForObject("SELECT count(*) FROM trading.kite_access_tokens",Integer.class));
         assertTrue(jdbc.queryForObject("SELECT EXISTS(SELECT 1 FROM pg_indexes WHERE schemaname='trading' AND tablename='historical_bars' AND indexdef LIKE '%UNIQUE%instrument_id, bar_interval, start_time%')",Boolean.class));
@@ -233,5 +233,37 @@ class PostgresHistoricalBarRepositoryTest {
         assertTrue(repo.query(new HistoricalBarRepository.Query(other,NOW,NOW)).bars().isEmpty());
         var excluded=new HistoricalWindow(SBIN.id(),BarInterval.MINUTE,START.plusSeconds(60),START.plusSeconds(180));
         assertTrue(repo.query(new HistoricalBarRepository.Query(excluded,NOW,NOW)).bars().isEmpty());
+    }
+    @Test void fiveMinuteConcurrentIdempotencyClosedCutoffAndResume() throws Exception {
+        var window=new HistoricalWindow(SBIN.id(),BarInterval.FIVE_MINUTE,START,START.plusSeconds(600));
+        var bars=List.of(new HistoricalBar(SBIN.id(),START,BarInterval.FIVE_MINUTE,new BigDecimal("100"),new BigDecimal("101"),
+            new BigDecimal("99"),new BigDecimal("100"),1000,Optional.empty()),
+            new HistoricalBar(SBIN.id(),START.plusSeconds(300),BarInterval.FIVE_MINUTE,new BigDecimal("100"),new BigDecimal("101"),
+            new BigDecimal("99"),new BigDecimal("100"),1000,Optional.empty()));
+        var day=START.atZone(TradingCalendar.NSE_ZONE).toLocalDate();
+        var calendar=new TradingCalendar("fixture","SYNTHETIC",Map.of(day,new TradingCalendar.Day(
+            TradingCalendar.Status.EXPECTED_SESSION,List.of(new TradingCalendar.Session(LocalTime.of(9,15),LocalTime.of(9,25))))));
+        var c=new HistoricalBarRepository.Chunk(UUID.randomUUID(),window,window,bars,"FIXTURE","phase14",NOW,NOW,NOW,
+            "a".repeat(64),calendar.fingerprint(),"123",NOW);
+        var before=jdbc.queryForObject("SELECT count(*) FROM trading.orders",Long.class);
+        try(var pool=Executors.newFixedThreadPool(2)) {
+            var a=pool.submit(()->repo.append(c));var b=pool.submit(()->repo.append(c));
+            assertEquals(2,a.get().inserted()+b.get().inserted());
+        }
+        assertEquals(0,repo.append(c).inserted());
+        var query=new HistoricalBarRepository.Query(window,START.plusSeconds(299),NOW);
+        assertTrue(repo.query(query).bars().isEmpty());
+        assertEquals(1,repo.query(new HistoricalBarRepository.Query(window,START.plusSeconds(300),NOW)).bars().size());
+        var pinned=repo.query(new HistoricalBarRepository.Query(window,window.to(),NOW));
+        assertEquals(pinned.contentHash(),new PostgresHistoricalBarRepository(jdbc).replay(pinned).contentHash());
+        var output=new HistoricalResearchExporter(repo).export(pinned,calendar,SBIN);
+        assertTrue(output.contains("HistoricalResearchDataset.five-minute.v1"));
+        assertTrue(output.contains("source_instrument_token"));
+        var ingestion=mock(HistoricalDataIngestionService.class);
+        var resumed=new HistoricalCorpusAcquisition(ingestion,repo,Clock.fixed(NOW,ZoneOffset.UTC))
+            .acquire(new HistoricalCorpusPlan(SBIN.id(),day,day.plusDays(1),calendar,1,BarInterval.FIVE_MINUTE));
+        assertEquals(0,resumed.providerCalls());assertTrue(resumed.sessions().getFirst().reused());
+        verifyNoInteractions(ingestion);
+        assertEquals(before,jdbc.queryForObject("SELECT count(*) FROM trading.orders",Long.class));
     }
 }

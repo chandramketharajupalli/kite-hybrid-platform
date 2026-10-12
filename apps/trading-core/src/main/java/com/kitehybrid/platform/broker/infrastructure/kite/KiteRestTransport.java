@@ -133,13 +133,17 @@ final class KiteRestTransport {
     }
     /** Historical GET only. Authentication failure never clears the shared/stored token. */
     String historicalMinute(String token, java.time.Instant from, java.time.Instant to) {
+        return historicalMinute(token,from,to,"minute");
+    }
+    String historicalMinute(String token, java.time.Instant from, java.time.Instant to, String interval) {
+        if(!java.util.Set.of("minute","5minute").contains(interval)) throw new BrokerReadException(INVALID_RESPONSE);
         if(token==null || !token.matches("[1-9][0-9]{0,9}") || Long.parseLong(token)>4294967295L
                 || from==null || to==null || !from.isBefore(to)
                 || java.time.Duration.between(from,to).compareTo(java.time.Duration.ofDays(1))>0)
             throw new BrokerReadException(INVALID_RESPONSE);
         var format=java.time.format.DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss")
                 .withZone(java.time.ZoneId.of("Asia/Kolkata"));
-        String path="/instruments/historical/"+token+"/minute?from="
+        String path="/instruments/historical/"+token+"/"+interval+"?from="
                 +format.format(from)+"&to="+format.format(to)+"&continuous=0&oi=0";
         synchronized(session) {
             if(!session.authenticated()) throw new BrokerReadException(AUTHENTICATION);

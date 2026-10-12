@@ -13,7 +13,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import static com.kitehybrid.platform.historical.domain.HistoricalDataException.Reason.*;
 
-/** Explicit read-only minute adapter, never auto-wired. Certification scope is recorded in Phase 11.1. */
+/** Read-only adapter, never auto-wired. Phase 11.1 minute scope retained; five-minute is fixture-only. */
 public final class KiteHistoricalAdapter implements HistoricalMarketDataProvider {
     static final String SOURCE_VERSION="v3-minute-start-20261005-no-local-adjustments";
     private final KiteRestTransport transport;
@@ -21,20 +21,28 @@ public final class KiteHistoricalAdapter implements HistoricalMarketDataProvider
     private final Clock clock;
     private final boolean confirmedStartConvention;
     private final Runnable pacing;
+    private final boolean fiveMinuteEnabled;
     private final ObjectMapper json=new ObjectMapper().enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
             .enable(JsonParser.Feature.STRICT_DUPLICATE_DETECTION)
             .enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
     public static KiteHistoricalAdapter production(KiteSession session, InstrumentRegistry registry, Clock clock) {
-        return new KiteHistoricalAdapter(KiteRestTransport.production(session),registry,clock,true,HistoricalPacing::await);
+        return new KiteHistoricalAdapter(KiteRestTransport.production(session),registry,clock,true,HistoricalPacing::await,false);
     }
     /** Package-private synthetic seam: not an operational switch for unverified provider semantics. */
     KiteHistoricalAdapter(KiteRestTransport transport, InstrumentRegistry registry, Clock clock,
                           boolean confirmedStartConvention, Runnable pacing) {
+        this(transport,registry,clock,confirmedStartConvention,pacing,true);
+    }
+    KiteHistoricalAdapter(KiteRestTransport transport, InstrumentRegistry registry, Clock clock,
+                          boolean confirmedStartConvention, Runnable pacing, boolean fiveMinuteEnabled) {
+        this.fiveMinuteEnabled=fiveMinuteEnabled;
         this.transport=Objects.requireNonNull(transport); this.registry=Objects.requireNonNull(registry);
         this.clock=Objects.requireNonNull(clock); this.confirmedStartConvention=confirmedStartConvention;
         this.pacing=Objects.requireNonNull(pacing);
     }
     @Override public Batch fetch(HistoricalWindow window) {
+        if(window.interval()==BarInterval.FIVE_MINUTE && !fiveMinuteEnabled)
+            throw new HistoricalDataException(INVALID_REQUEST);
         if(!confirmedStartConvention) throw new HistoricalDataException(TIMESTAMP_SEMANTICS_UNVERIFIED);
         if(Duration.between(window.from(),window.to()).compareTo(Duration.ofDays(1))>0)
             throw new HistoricalDataException(INVALID_REQUEST);
@@ -45,7 +53,7 @@ public final class KiteHistoricalAdapter implements HistoricalMarketDataProvider
             throw new HistoricalDataException(REFERENCE_UNAVAILABLE);
         try {
             pacing.run();
-            String body=transport.historicalMinute(instrument.brokerId().value(),window.from(),window.to());
+            String body=transport.historicalMinute(instrument.brokerId().value(),window.from(),window.to(),window.interval()==BarInterval.FIVE_MINUTE?"5minute":"minute");
             if(!registry.findById(instrument.id()).filter(instrument::equals).isPresent())
                 throw new HistoricalDataException(REFERENCE_UNAVAILABLE);
             var root=json.readTree(body); var candles=root.path("data").path("candles");
@@ -68,7 +76,7 @@ public final class KiteHistoricalAdapter implements HistoricalMarketDataProvider
                 if(!window.contains(bar)) throw new HistoricalDataException(INVALID_RESPONSE);
                 bars.add(bar);
             }
-            return new Batch(bars,"KITE",SOURCE_VERSION,clock.instant().truncatedTo(ChronoUnit.MICROS));
+            return new Batch(bars,"KITE",window.interval()==BarInterval.MINUTE?SOURCE_VERSION:"v3-5minute-start-20261012-unadjusted-unknown",clock.instant().truncatedTo(ChronoUnit.MICROS));
         } catch(HistoricalDataException safe) { throw safe; }
         catch(BrokerReadException safe) {
             throw new HistoricalDataException(safe.category()==BrokerReadException.Category.AUTHENTICATION?AUTHENTICATION:

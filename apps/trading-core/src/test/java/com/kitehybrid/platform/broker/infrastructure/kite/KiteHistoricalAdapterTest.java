@@ -163,4 +163,23 @@ class KiteHistoricalAdapterTest {
                 assertThrows(HistoricalDataException.class,()->adapter.fetch(request)).reason());
         assertEquals(1,paths.size());server.verify();
     }
+    @Test void fiveMinuteFixtureRouteAndDisabledProductionHaveZeroRetries() {
+        var adapter=adapter();
+        var five=new HistoricalWindow(instrument.id(),BarInterval.FIVE_MINUTE,start,start.plusSeconds(300));
+        var disabled=KiteHistoricalAdapter.production(session,registry,clock);
+        assertThrows(HistoricalDataException.class,()->disabled.fetch(five));
+        assertTrue(paths.isEmpty());
+        server.expect(requestTo(org.hamcrest.Matchers.containsString("/123/5minute?")))
+            .andRespond(withSuccess("{\"status\":\"success\",\"data\":{\"candles\":[[\"2026-10-05T09:15:00+0530\",100,101,99,100,9]]}}",MediaType.APPLICATION_JSON));
+        assertEquals(start.plusSeconds(300),adapter.fetch(five).bars().getFirst().endTime());
+        server.verify();
+    }
+    @Test void fiveMinuteRateLimitAbortsWithoutRetryEvenWithRetryAfter() {
+        var adapter=adapter();
+        server.expect(anything()).andRespond(withStatus(HttpStatus.TOO_MANY_REQUESTS).header("Retry-After","30"));
+        var five=new HistoricalWindow(instrument.id(),BarInterval.FIVE_MINUTE,start,start.plusSeconds(300));
+        assertEquals(HistoricalDataException.Reason.RATE_LIMITED,
+            assertThrows(HistoricalDataException.class,()->adapter.fetch(five)).reason());
+        assertEquals(1,paths.size());server.verify();
+    }
 }

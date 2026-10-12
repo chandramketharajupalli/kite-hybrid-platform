@@ -31,7 +31,8 @@ public final class HistoricalResearchExporter {
             previous=bar.startTime();
         }
         var node=JsonNodeFactory.instance.objectNode();
-        node.put("schema_version","HistoricalResearchDataset.v1");
+        node.put("schema_version",window.interval()==BarInterval.MINUTE?"HistoricalResearchDataset.v1":"HistoricalResearchDataset.five-minute.v1");
+        if(window.interval()==BarInterval.FIVE_MINUTE) node.put("instrument_token",instrument.brokerId().value());
         node.put("instrument_id",instrument.id().value().toString());
         node.put("exchange",instrument.exchange()); node.put("symbol",instrument.tradingSymbol());
         node.put("segment",instrument.segment()); node.put("lot_size",instrument.lotSize());
@@ -59,7 +60,13 @@ public final class HistoricalResearchExporter {
                     || !evidence.source().matches("[A-Za-z0-9_.-]{1,80}")
                     || !evidence.sourceVersion().matches("[A-Za-z0-9_.-]{1,80}")
                     || !evidence.referenceFingerprint().matches("[a-f0-9]{64}")) throw invalid();
+            if(window.interval()==BarInterval.FIVE_MINUTE && (!instrument.brokerId().value().equals(evidence.sourceInstrumentToken())
+                    || evidence.referenceAsOf()==null)) throw invalid();
             var p=JsonNodeFactory.instance.objectNode();
+            if(window.interval()==BarInterval.FIVE_MINUTE) {
+                p.put("source_instrument_token",evidence.sourceInstrumentToken());
+                p.put("reference_as_of",evidence.referenceAsOf().toString());
+            }
             p.put("source",evidence.source()); p.put("source_version",evidence.sourceVersion());
             p.put("reference_fingerprint",evidence.referenceFingerprint());
             p.put("calendar_fingerprint",evidence.calendarFingerprint()); provenance.put(p.toString(),p);

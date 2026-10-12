@@ -1,0 +1,18 @@
+{
+  "artifacts": 12,
+  "result": "PASS",
+  "two_generations_identical_raw_sha256": {
+    "config/universes/phase14_unique_universe.csv": "4345207d985672c34e79347eafb13475ed8c7fe5f440914b25ac0999465c3729",
+    "contracts/schemas/v1/HistoricalResearchDataset.five-minute.v1.schema.json": "cae710312abe407ba71d11d0e7a25856b11bf85a53ae0bfa6a976d5cf0319a3e",
+    "contracts/schemas/v1/Phase14PairReport.v1.schema.json": "4c09bcc308d55cbbb8f8e616aa27e7e239cc4f8d7d74c0c371e773fc5ce2e237",
+    "research/phase-14.0/generation-1/csv-export-schema.json": "3ddb3ca0fe85e986e01d1d67d6ca178e3433473e27d76a19be36f592e59fd774",
+    "research/phase-14.0/generation-1/dry-run-estimates.json": "0d8c44a91b14836557d4b684f6cc36474e7eb3c094a0ef2613de5ca89a8922e8",
+    "research/phase-14.0/generation-1/instrument-resolution-summary.json": "758adb6bf3f6addcbde865b06f9c0f9bf3f05b70c9172fd4aab61892244c85f8",
+    "research/phase-14.0/generation-1/instrument-resolution.csv": "eb02d1527dd5d414e6e29cb7037ff538349b0d07616c88d956139f0c64d73612",
+    "research/phase-14.0/generation-1/predeclared-policy.json": "31637f4a675a16d90928a4e2724f66f41fe7591796f5e5bac879bd1b22666530",
+    "research/phase-14.0/generation-1/stock-strategy-results.csv": "cf7eb89173d8d84d9f6f76ae6c4c7b6567f1fe55f382c70121c6ad87fc60c11e",
+    "research/phase-14.0/generation-1/stock-strategy-results.json": "bc4019cc2aef63a1c7711f10174907fea9b39f4437b0cd1b972fef0a666234b7",
+    "research/phase-14.0/generation-1/synthetic-example.json": "4e5dbb15aaf4e51c220595bededc7825b157cc5b1ef5b2e2790ce08c8527e9f9",
+    "research/phase-14.0/generation-1/universe-audit.json": "cf12ab38de1debce9672e9643583ab795d2878a9e21049ea64eadc84b0df38cb"
+  }
+}

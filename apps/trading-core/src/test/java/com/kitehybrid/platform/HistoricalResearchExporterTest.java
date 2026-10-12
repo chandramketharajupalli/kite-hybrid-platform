@@ -86,4 +86,19 @@ class HistoricalResearchExporterTest {
             assertThrows(HistoricalDataException.class,()->exporter.export(bad,calendar,SBIN));
         }
     }
+    @Test void fiveMinuteExportMatchesSharedPythonFixture() throws Exception {
+        var five=new HistoricalWindow(SBIN.id(),BarInterval.FIVE_MINUTE,START,START.plusSeconds(300));
+        var first=bars.getFirst();
+        var fiveBars=List.of(new HistoricalBar(SBIN.id(),START,BarInterval.FIVE_MINUTE,first.open(),first.high(),
+            first.low(),first.close(),first.volume(),first.openInterest()));
+        var q=new HistoricalBarRepository.Query(five,five.to(),CUTOFF);
+        var data=new HistoricalBarRepository.Dataset(q,fiveBars,List.of(CHUNK),HistoricalFingerprint.bars(fiveBars));
+        when(repository.query(q)).thenReturn(data);
+        when(repository.evidence(CHUNK)).thenReturn(Optional.of(new HistoricalBarRepository.Evidence(CHUNK,CHUNK,
+            five,five,"SYNTHETIC","fixture-v1",CUTOFF,CUTOFF,five.to(),"a".repeat(64),calendar.fingerprint(),
+            data.contentHash(),1,1,"123",CUTOFF)));
+        var expected=mapper.readTree(Path.of(System.getProperty("contracts.dir"))
+            .resolve("fixtures/v1/historical-five-minute.synthetic.json").toFile());
+        assertEquals(expected,mapper.readTree(exporter.export(data,calendar,SBIN)));
+    }
 }

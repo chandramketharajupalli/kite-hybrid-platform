@@ -1,0 +1,117 @@
+{
+  "comparison": "trim+casefold(exchange,symbol); preserve source text and first order",
+  "enabled": true,
+  "existing_universe_sha256": "afd238d94ed5f1fe88a94e3ec1d2a81166fe1012c8728c4653e204e59875ba47",
+  "hashes": {
+    "phase14_removed_duplicates.csv": "ae6d0c8a363959b6e6b9a5f62e1487b1caf77321dd2be981ba08136c40488300",
+    "phase14_unique_universe.csv": "4345207d985672c34e79347eafb13475ed8c7fe5f440914b25ac0999465c3729",
+    "universe(1).csv": "bec552ae3c23c0f22b8980cb0c933b300de53d475efab07c4ddd22de3c9a02ca"
+  },
+  "project_copy_sha256": "4345207d985672c34e79347eafb13475ed8c7fe5f440914b25ac0999465c3729",
+  "removed": [
+    {
+      "source_row": "343",
+      "symbol": "HNDFDS"
+    },
+    {
+      "source_row": "376",
+      "symbol": "JTEKTINDIA"
+    },
+    {
+      "source_row": "450",
+      "symbol": "ROSSARI"
+    },
+    {
+      "source_row": "495",
+      "symbol": "VSTTILLERS"
+    },
+    {
+      "source_row": "545",
+      "symbol": "CENTUM"
+    },
+    {
+      "source_row": "680",
+      "symbol": "PGHL"
+    },
+    {
+      "source_row": "758",
+      "symbol": "ADFFOODS"
+    },
+    {
+      "source_row": "816",
+      "symbol": "EXICOM"
+    },
+    {
+      "source_row": "840",
+      "symbol": "HONDAPOWER"
+    },
+    {
+      "source_row": "841",
+      "symbol": "HPL"
+    },
+    {
+      "source_row": "847",
+      "symbol": "INDGN"
+    },
+    {
+      "source_row": "864",
+      "symbol": "KALPATARU"
+    },
+    {
+      "source_row": "885",
+      "symbol": "MEDIASSIST"
+    },
+    {
+      "source_row": "893",
+      "symbol": "NAVA"
+    },
+    {
+      "source_row": "911",
+      "symbol": "PREMIERENE"
+    },
+    {
+      "source_row": "914",
+      "symbol": "PRIVISCL"
+    },
+    {
+      "source_row": "918",
+      "symbol": "RAMRAT"
+    },
+    {
+      "source_row": "946",
+      "symbol": "SIRCA"
+    },
+    {
+      "source_row": "980",
+      "symbol": "VINATIORGA"
+    },
+    {
+      "source_row": "1000",
+      "symbol": "ALEMBICLTD"
+    },
+    {
+      "source_row": "1014",
+      "symbol": "CMSINFO"
+    },
+    {
+      "source_row": "1031",
+      "symbol": "GATEWAY"
+    },
+    {
+      "source_row": "1097",
+      "symbol": "RSYSTEMS"
+    },
+    {
+      "source_row": "1126",
+      "symbol": "TCIEXP"
+    },
+    {
+      "source_row": "1127",
+      "symbol": "TEAMLEASE"
+    }
+  ],
+  "removed_rows": 25,
+  "source_row_convention": "physical CSV line, header=1",
+  "source_rows": 1140,
+  "unique_rows": 1115
+}

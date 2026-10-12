@@ -49,15 +49,22 @@ public final class HistoricalDataIngestionService {
                     || !registry.findById(instrument.id()).filter(instrument::equals).isPresent())
                 throw new HistoricalDataException(REFERENCE_UNAVAILABLE);
             var sorted=new TreeMap<Instant,HistoricalBar>(); received+=batch.bars().size();
+            Instant previous=null;
             for(var bar:batch.bars()) {
+                if(request.interval()==BarInterval.FIVE_MINUTE && previous!=null && !bar.startTime().isAfter(previous))
+                    throw new HistoricalDataException(INVALID_RESPONSE);
+                previous=bar.startTime();
                 if(!chunk.contains(bar)) throw new HistoricalDataException(INVALID_RESPONSE);
                 var old=sorted.putIfAbsent(bar.startTime(),bar);
                 if(old!=null) { if(!old.equals(bar)) throw new HistoricalDataException(CONFLICT); duplicates++; }
             }
             var closed=new ArrayList<HistoricalBar>();
             for(var b:sorted.values()) { if(b.endTime().isAfter(requestedCutoff)) incomplete++; else closed.add(b); }
+            if(request.interval()==BarInterval.FIVE_MINUTE
+                    && !HistoricalQuality.analyze(chunk,requestedCutoff,closed,calendar).complete())
+                throw new HistoricalDataException(INVALID_RESPONSE);
             var evidence=new HistoricalBarRepository.Chunk(run,request,chunk,closed,batch.source(),batch.sourceVersion(),
-                    batch.observedAt(),now,requestedCutoff,reference,calendar.fingerprint());
+                    batch.observedAt(),now,requestedCutoff,reference,calendar.fingerprint(),instrument.brokerId().value(),snapshot.refreshedAt());
             saved.add(repository.append(evidence)); all.addAll(closed);
         }
         return new Result(run,request,requestedCutoff,calls,received,all.size(),duplicates,incomplete,saved,

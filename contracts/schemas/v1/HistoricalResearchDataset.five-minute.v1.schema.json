@@ -1,0 +1,342 @@
+{
+  "$defs": {
+    "Calendar": {
+      "additionalProperties": false,
+      "properties": {
+        "days": {
+          "items": {
+            "$ref": "#/$defs/Day"
+          },
+          "title": "Days",
+          "type": "array"
+        },
+        "fingerprint": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Fingerprint",
+          "type": "string"
+        },
+        "source": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "version": {
+          "pattern": "^[A-Za-z0-9_.-]{1,80}$",
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "version",
+        "source",
+        "fingerprint",
+        "days"
+      ],
+      "title": "Calendar",
+      "type": "object"
+    },
+    "Candle": {
+      "additionalProperties": false,
+      "properties": {
+        "close": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Close"
+        },
+        "high": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "High"
+        },
+        "low": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Low"
+        },
+        "open": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Open"
+        },
+        "open_interest": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Open Interest"
+        },
+        "start": {
+          "format": "date-time",
+          "title": "Start",
+          "type": "string"
+        },
+        "volume": {
+          "maximum": 9223372036854775807,
+          "minimum": 0,
+          "title": "Volume",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "start",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume",
+        "open_interest"
+      ],
+      "title": "Candle",
+      "type": "object"
+    },
+    "Day": {
+      "additionalProperties": false,
+      "properties": {
+        "date": {
+          "format": "date",
+          "title": "Date",
+          "type": "string"
+        },
+        "sessions": {
+          "items": {
+            "$ref": "#/$defs/Session"
+          },
+          "title": "Sessions",
+          "type": "array"
+        },
+        "status": {
+          "enum": [
+            "EXPECTED_SESSION",
+            "NON_TRADING_DAY",
+            "UNKNOWN_SESSION"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "date",
+        "status",
+        "sessions"
+      ],
+      "title": "Day",
+      "type": "object"
+    },
+    "ExportProvenance": {
+      "additionalProperties": false,
+      "properties": {
+        "calendar_fingerprint": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Calendar Fingerprint",
+          "type": "string"
+        },
+        "reference_as_of": {
+          "format": "date-time",
+          "title": "Reference As Of",
+          "type": "string"
+        },
+        "reference_fingerprint": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Reference Fingerprint",
+          "type": "string"
+        },
+        "source": {
+          "title": "Source",
+          "type": "string"
+        },
+        "source_instrument_token": {
+          "title": "Source Instrument Token",
+          "type": "string"
+        },
+        "source_version": {
+          "title": "Source Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "source_version",
+        "reference_fingerprint",
+        "calendar_fingerprint",
+        "source_instrument_token",
+        "reference_as_of"
+      ],
+      "title": "ExportProvenance",
+      "type": "object"
+    },
+    "Session": {
+      "additionalProperties": false,
+      "properties": {
+        "close": {
+          "format": "time",
+          "title": "Close",
+          "type": "string"
+        },
+        "open": {
+          "format": "time",
+          "title": "Open",
+          "type": "string"
+        }
+      },
+      "required": [
+        "open",
+        "close"
+      ],
+      "title": "Session",
+      "type": "object"
+    }
+  },
+  "$id": "https://kite-hybrid.local/schemas/v1/HistoricalResearchDataset.five-minute.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "adjustment_policy": {
+      "const": "UNSPECIFIED_NO_LOCAL_ADJUSTMENTS",
+      "title": "Adjustment Policy",
+      "type": "string"
+    },
+    "bars": {
+      "items": {
+        "$ref": "#/$defs/Candle"
+      },
+      "title": "Bars",
+      "type": "array"
+    },
+    "calendar": {
+      "$ref": "#/$defs/Calendar"
+    },
+    "content_fingerprint": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Content Fingerprint",
+      "type": "string"
+    },
+    "dataset_cutoff": {
+      "format": "date-time",
+      "title": "Dataset Cutoff",
+      "type": "string"
+    },
+    "decision_cutoff": {
+      "format": "date-time",
+      "title": "Decision Cutoff",
+      "type": "string"
+    },
+    "exchange": {
+      "const": "NSE",
+      "title": "Exchange",
+      "type": "string"
+    },
+    "from_inclusive": {
+      "format": "date-time",
+      "title": "From Inclusive",
+      "type": "string"
+    },
+    "instrument_id": {
+      "title": "Instrument Id",
+      "type": "string"
+    },
+    "instrument_token": {
+      "title": "Instrument Token",
+      "type": "string"
+    },
+    "interval": {
+      "const": "FIVE_MINUTE",
+      "title": "Interval",
+      "type": "string"
+    },
+    "lot_size": {
+      "minimum": 1,
+      "title": "Lot Size",
+      "type": "integer"
+    },
+    "provenance": {
+      "items": {
+        "$ref": "#/$defs/ExportProvenance"
+      },
+      "title": "Provenance",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "HistoricalResearchDataset.five-minute.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "segment": {
+      "const": "CASH",
+      "title": "Segment",
+      "type": "string"
+    },
+    "symbol": {
+      "title": "Symbol",
+      "type": "string"
+    },
+    "timestamp_semantics": {
+      "const": "INTERVAL_START",
+      "title": "Timestamp Semantics",
+      "type": "string"
+    },
+    "to_exclusive": {
+      "format": "date-time",
+      "title": "To Exclusive",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "instrument_id",
+    "instrument_token",
+    "exchange",
+    "symbol",
+    "segment",
+    "lot_size",
+    "interval",
+    "timestamp_semantics",
+    "adjustment_policy",
+    "from_inclusive",
+    "to_exclusive",
+    "decision_cutoff",
+    "dataset_cutoff",
+    "content_fingerprint",
+    "calendar",
+    "provenance",
+    "bars"
+  ],
+  "title": "FiveMinuteExport",
+  "type": "object"
+}

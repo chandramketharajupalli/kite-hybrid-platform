@@ -1,0 +1,28 @@
+{
+  "absent_performance": "empty cell, never zero",
+  "decimal_format": "plain decimal string",
+  "delimiter": ",",
+  "details": "JSON includes exact window, policy, every trade and all folds",
+  "encoding": "UTF-8",
+  "header": [
+    "exchange",
+    "symbol",
+    "strategy",
+    "strategy_hash",
+    "months",
+    "status",
+    "reasons",
+    "oos_trades",
+    "oos_win_rate",
+    "oos_expectancy",
+    "oos_net",
+    "oos_drawdown"
+  ],
+  "row_identity": [
+    "exchange",
+    "symbol",
+    "strategy_hash",
+    "months"
+  ],
+  "version": "Phase14PairCSV.v1"
+}

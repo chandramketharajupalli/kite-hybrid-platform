@@ -8,9 +8,13 @@ import java.util.*;
 
 /** Offline, complete request plan. No weekday assumptions, network, persistence or execution. */
 public record HistoricalCorpusPlan(InstrumentId instrumentId, LocalDate first, LocalDate endExclusive,
-                                   TradingCalendar calendar, int maximumRequests) {
+                                   TradingCalendar calendar, int maximumRequests, BarInterval interval) {
+    public HistoricalCorpusPlan(InstrumentId instrumentId, LocalDate first, LocalDate endExclusive,
+                                TradingCalendar calendar, int maximumRequests) {
+        this(instrumentId,first,endExclusive,calendar,maximumRequests,BarInterval.MINUTE);
+    }
     public HistoricalCorpusPlan {
-        Objects.requireNonNull(instrumentId); Objects.requireNonNull(first);
+        Objects.requireNonNull(interval); Objects.requireNonNull(instrumentId); Objects.requireNonNull(first);
         Objects.requireNonNull(endExclusive); Objects.requireNonNull(calendar);
         long days=ChronoUnit.DAYS.between(first,endExclusive);
         if(days<1 || days>366 || maximumRequests<1 || maximumRequests>366)
@@ -34,17 +38,17 @@ public record HistoricalCorpusPlan(InstrumentId instrumentId, LocalDate first, L
             var day=calendar.day(date);
             if(day.sessions().isEmpty()) continue;
             var session=day.sessions().getFirst();
-            var window=new HistoricalWindow(instrumentId,BarInterval.MINUTE,
+            var window=new HistoricalWindow(instrumentId,interval,
                 date.atTime(session.open()).atZone(TradingCalendar.NSE_ZONE).toInstant(),
                 date.atTime(session.close()).atZone(TradingCalendar.NSE_ZONE).toInstant());
             var bounded=new TradingCalendar(calendar.version(),calendar.source(),Map.of(date,day));
             result.add(new Chunk(result.size()+1,date,window,bounded,
-                Math.toIntExact(Duration.between(window.from(),window.to()).toMinutes())));
+                Math.toIntExact(Duration.between(window.from(),window.to()).dividedBy(interval.duration()))));
         }
         return List.copyOf(result);
     }
     public String fingerprint() {
-        return HistoricalFingerprint.sha256("historical-corpus-plan-v1\n"+instrumentId.value()+"\n"
+        return HistoricalFingerprint.sha256((interval==BarInterval.MINUTE?"":"FIVE_MINUTE\n")+"historical-corpus-plan-v1\n"+instrumentId.value()+"\n"
             +first+"\n"+endExclusive+"\n"+calendar.fingerprint()+"\n"+maximumRequests+"\n");
     }
 }

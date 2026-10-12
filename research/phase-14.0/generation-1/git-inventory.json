@@ -1,0 +1,242 @@
+{
+  "after_status": [
+    {
+      "path": "apps/trading-core/src/integrationTest/java/com/kitehybrid/platform/PostgresHistoricalBarRepositoryTest.java",
+      "status": " M"
+    },
+    {
+      "path": "apps/trading-core/src/main/java/com/kitehybrid/platform/broker/infrastructure/kite/KiteHistoricalAdapter.java",
+      "status": " M"
+    },
+    {
+      "path": "apps/trading-core/src/main/java/com/kitehybrid/platform/broker/infrastructure/kite/KiteRestTransport.java",
+      "status": " M"
+    },
+    {
+      "path": "apps/trading-core/src/main/java/com/kitehybrid/platform/historical/application/HistoricalBarRepository.java",
+      "status": " M"
+    },
+    {
+      "path": "apps/trading-core/src/main/java/com/kitehybrid/platform/historical/application/HistoricalCorpusPlan.java",
+      "status": " M"
+    },
+    {
+      "path": "apps/trading-core/src/main/java/com/kitehybrid/platform/historical/application/HistoricalDataIngestionService.java",
+      "status": " M"
+    },
+    {
+      "path": "apps/trading-core/src/main/java/com/kitehybrid/platform/historical/domain/BarInterval.java",
+      "status": " M"
+    },
+    {
+      "path": "apps/trading-core/src/main/java/com/kitehybrid/platform/historical/domain/HistoricalBar.java",
+      "status": " M"
+    },
+    {
+      "path": "apps/trading-core/src/main/java/com/kitehybrid/platform/historical/domain/HistoricalWindow.java",
+      "status": " M"
+    },
+    {
+      "path": "apps/trading-core/src/main/java/com/kitehybrid/platform/historical/infrastructure/HistoricalResearchExporter.java",
+      "status": " M"
+    },
+    {
+      "path": "apps/trading-core/src/main/java/com/kitehybrid/platform/historical/infrastructure/PostgresHistoricalBarRepository.java",
+      "status": " M"
+    },
+    {
+      "path": "apps/trading-core/src/test/java/com/kitehybrid/platform/HistoricalResearchExporterTest.java",
+      "status": " M"
+    },
+    {
+      "path": "apps/trading-core/src/test/java/com/kitehybrid/platform/broker/infrastructure/kite/KiteHistoricalAdapterTest.java",
+      "status": " M"
+    },
+    {
+      "path": "apps/strategy-engine/src/strategy_engine/phase14/__init__.py",
+      "status": "??"
+    },
+    {
+      "path": "apps/strategy-engine/src/strategy_engine/phase14/engine.py",
+      "status": "??"
+    },
+    {
+      "path": "apps/strategy-engine/src/strategy_engine/phase14/imports.py",
+      "status": "??"
+    },
+    {
+      "path": "apps/strategy-engine/src/strategy_engine/phase14/reporting.py",
+      "status": "??"
+    },
+    {
+      "path": "apps/strategy-engine/src/strategy_engine/phase14/universe.py",
+      "status": "??"
+    },
+    {
+      "path": "apps/strategy-engine/tests/test_phase14.py",
+      "status": "??"
+    },
+    {
+      "path": "apps/trading-core/src/main/java/com/kitehybrid/platform/historical/application/FiveMinuteAcquisitionPlan.java",
+      "status": "??"
+    },
+    {
+      "path": "apps/trading-core/src/main/java/com/kitehybrid/platform/instrument/application/HistoricalUniverseResolver.java",
+      "status": "??"
+    },
+    {
+      "path": "apps/trading-core/src/main/resources/db/historical/V12__five_minute_research.sql",
+      "status": "??"
+    },
+    {
+      "path": "apps/trading-core/src/test/java/com/kitehybrid/platform/Phase14HistoricalTest.java",
+      "status": "??"
+    },
+    {
+      "path": "config/universes/phase14_unique_universe.csv",
+      "status": "??"
+    },
+    {
+      "path": "contracts/fixtures/v1/historical-five-minute.synthetic.json",
+      "status": "??"
+    },
+    {
+      "path": "contracts/schemas/v1/HistoricalResearchDataset.five-minute.v1.schema.json",
+      "status": "??"
+    },
+    {
+      "path": "contracts/schemas/v1/Phase14PairReport.v1.schema.json",
+      "status": "??"
+    },
+    {
+      "path": "docs/architecture/phase-14.0-data-flow.md",
+      "status": "??"
+    },
+    {
+      "path": "docs/operations/phase-14.0-historical-read-proposal.md",
+      "status": "??"
+    },
+    {
+      "path": "docs/operations/phase-14.0-methodology.md",
+      "status": "??"
+    },
+    {
+      "path": "docs/operations/phase-14.0-plan.md",
+      "status": "??"
+    },
+    {
+      "path": "docs/operations/phase-14.0-qualification-policy.md",
+      "status": "??"
+    },
+    {
+      "path": "docs/operations/phase-14.0-runbook.md",
+      "status": "??"
+    },
+    {
+      "path": "docs/operations/phase-14.0-universe-audit.md",
+      "status": "??"
+    },
+    {
+      "path": "docs/operations/phase-14.0-validation.md",
+      "status": "??"
+    },
+    {
+      "path": "input/phase14/phase14_removed_duplicates.csv",
+      "status": "??"
+    },
+    {
+      "path": "input/phase14/phase14_unique_universe.csv",
+      "status": "??"
+    },
+    {
+      "path": "input/phase14/universe(1).csv",
+      "status": "??"
+    },
+    {
+      "path": "research/phase-14.0/generation-1/csv-export-schema.json",
+      "status": "??"
+    },
+    {
+      "path": "research/phase-14.0/generation-1/dry-run-estimates.json",
+      "status": "??"
+    },
+    {
+      "path": "research/phase-14.0/generation-1/evidence-manifest.json",
+      "status": "??"
+    },
+    {
+      "path": "research/phase-14.0/generation-1/git-inventory.json",
+      "status": "??"
+    },
+    {
+      "path": "research/phase-14.0/generation-1/instrument-resolution-summary.json",
+      "status": "??"
+    },
+    {
+      "path": "research/phase-14.0/generation-1/instrument-resolution.csv",
+      "status": "??"
+    },
+    {
+      "path": "research/phase-14.0/generation-1/predeclared-policy.json",
+      "status": "??"
+    },
+    {
+      "path": "research/phase-14.0/generation-1/replay-verification.json",
+      "status": "??"
+    },
+    {
+      "path": "research/phase-14.0/generation-1/stock-strategy-results.csv",
+      "status": "??"
+    },
+    {
+      "path": "research/phase-14.0/generation-1/stock-strategy-results.json",
+      "status": "??"
+    },
+    {
+      "path": "research/phase-14.0/generation-1/synthetic-example.json",
+      "status": "??"
+    },
+    {
+      "path": "research/phase-14.0/generation-1/test-results.json",
+      "status": "??"
+    },
+    {
+      "path": "research/phase-14.0/generation-1/universe-audit.json",
+      "status": "??"
+    },
+    {
+      "path": "research/phase-14.0/generation-1/validation-attempts.json",
+      "status": "??"
+    },
+    {
+      "path": "scripts/research/run_phase140.py",
+      "status": "??"
+    },
+    {
+      "path": "scripts/research/verify_phase140.py",
+      "status": "??"
+    }
+  ],
+  "baseline": "d7d6c84226d6f12d6330e1618c184c3a9c9c4837",
+  "before_status": [
+    {
+      "path": "input/phase14/phase14_removed_duplicates.csv",
+      "status": "??"
+    },
+    {
+      "path": "input/phase14/phase14_unique_universe.csv",
+      "status": "??"
+    },
+    {
+      "path": "input/phase14/universe(1).csv",
+      "status": "??"
+    }
+  ],
+  "before_tracked_files": 938,
+  "branch": "develop",
+  "commit_push_fetch_performed": false,
+  "inventory_scope": "git-visible files; ignored target logs and disposable DB excluded",
+  "modified_count": 13,
+  "staged_count": 0,
+  "untracked_count": 41
+}

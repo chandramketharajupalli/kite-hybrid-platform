@@ -1,0 +1,158 @@
+{
+  "attempts": [
+    {
+      "check": "CSV duplicate reconciliation",
+      "initial": "data-record indices differed by one",
+      "resolution": "all 25 supplied source_row values exactly match physical lines including header"
+    },
+    {
+      "check": "Initial Python focused tests",
+      "failed": 0,
+      "passed": 26
+    },
+    {
+      "check": "Initial Java focused tests",
+      "classes": [
+        "Phase14HistoricalTest",
+        "KiteHistoricalAdapterTest",
+        "HistoricalDataTest",
+        "HistoricalCorpusPlanTest",
+        "HistoricalArchitectureTest"
+      ],
+      "result": "PASS"
+    },
+    {
+      "check": "First source/test lint and typing",
+      "mypy_errors": 3,
+      "resolution": "formatted code and corrected types; formatter reintroduced two long hash lines before named constants fixed them",
+      "ruff_errors": 16
+    },
+    {
+      "check": "Export module lint and typing",
+      "mypy_errors": 2,
+      "resolution": "annotated Candle and calendar-day collections"
+    },
+    {
+      "check": "First disposable focused integration",
+      "errors": 0,
+      "failure": "research schema version expected 11 instead of additive version 12",
+      "failures": 1,
+      "resolution": "first edit targeted numeric assertion but missed string literal; subsequent exact string edit; rerun required",
+      "skipped": 0,
+      "tests": 12
+    },
+    {
+      "check": "First full Java unit and architecture",
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "tests": 1515
+    },
+    {
+      "check": "First full Python",
+      "failures": 0,
+      "tests": 279
+    },
+    {
+      "check": "After generated contract schemas",
+      "failure": "new schema files lacked $id required by existing registry",
+      "failures": 11,
+      "resolution": "generator now includes $schema and unique $id; 42 focused contract/Phase14 tests passed",
+      "tests": 280
+    },
+    {
+      "check": "New scripts lint",
+      "followup_remaining_errors": [
+        4,
+        1,
+        0
+      ],
+      "initial_errors": 18,
+      "mypy": "PASS on both scripts",
+      "resolution": "formatting, constants for immutable hashes, wrapped strings"
+    },
+    {
+      "check": "Final full Python",
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "tests": 282
+    },
+    {
+      "check": "Python source/test lint and typing",
+      "mypy_files": 43,
+      "result": "PASS",
+      "ruff": "PASS"
+    },
+    {
+      "check": "Tracked bytecode side effect",
+      "result": "test import regenerated tracked __init__.pyc; restored exact HEAD bytes using git show; subsequent Python runs use PYTHONDONTWRITEBYTECODE=1"
+    },
+    {
+      "check": "Project verifier",
+      "result": "PASS"
+    },
+    {
+      "check": "Initial secret scan",
+      "potential_locations": 0,
+      "text_files": 2362
+    },
+    {
+      "artifacts": 12,
+      "check": "Generated artifact replay",
+      "result": "identical raw SHA256"
+    },
+    {
+      "KL_files": 25,
+      "check": "Preservation audit",
+      "frozen_text_sources": 18,
+      "governance_envelopes": 11,
+      "parents": 15,
+      "protected_research": 63,
+      "registered_plans": 17,
+      "result": "PASS"
+    },
+    {
+      "check": "Full disposable integration before final migration assertion recompilation",
+      "failed": [
+        {
+          "message": "expected: <11> but was: <12>",
+          "suite": "com.kitehybrid.platform.PostgresHistoricalBarRepositoryTest",
+          "test": "migrationIsExplicitRepeatableAndDoesNotChangeTradingReadinessAtDefaultLocation"
+        }
+      ],
+      "totals": {
+        "errors": 0,
+        "failures": 1,
+        "skipped": 0,
+        "tests": 581
+      }
+    },
+    {
+      "check": "Final full Java unit after last resolver changes and schema generation",
+      "totals": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 1515
+      }
+    },
+    {
+      "check": "Corrected historical integration rerun",
+      "errors": 0,
+      "exit": 0,
+      "failures": 0,
+      "skipped": 0,
+      "tests": 12
+    },
+    {
+      "check": "Final distinct integration suite results",
+      "totals": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 581
+      }
+    }
+  ]
+}

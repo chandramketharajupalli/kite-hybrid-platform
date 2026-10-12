@@ -12,7 +12,7 @@ public record HistoricalBar(InstrumentId instrumentId, Instant startTime, BarInt
                             long volume, Optional<BigDecimal> openInterest) {
     public HistoricalBar {
         if (instrumentId == null || interval == null || startTime == null || openInterest == null
-                || startTime.getNano() != 0 || Math.floorMod(startTime.getEpochSecond(),60) != 0
+                || startTime.getNano() != 0 || Math.floorMod(startTime.getEpochSecond(),interval.duration().toSeconds()) != 0
                 || startTime.isBefore(Instant.parse("1990-01-01T00:00:00Z"))
                 || startTime.isAfter(Instant.parse("2100-01-01T00:00:00Z")) || volume < 0)
             throw new HistoricalDataException(INVALID_BAR);

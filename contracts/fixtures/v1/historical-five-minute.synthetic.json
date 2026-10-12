@@ -1,0 +1,55 @@
+{
+  "schema_version": "HistoricalResearchDataset.five-minute.v1",
+  "instrument_id": "050f94dd-e639-364f-97a6-595594de6543",
+  "exchange": "NSE",
+  "symbol": "SBIN",
+  "segment": "CASH",
+  "lot_size": 1,
+  "interval": "FIVE_MINUTE",
+  "timestamp_semantics": "INTERVAL_START",
+  "adjustment_policy": "UNSPECIFIED_NO_LOCAL_ADJUSTMENTS",
+  "from_inclusive": "2026-07-30T03:45:00Z",
+  "to_exclusive": "2026-07-30T03:50:00Z",
+  "decision_cutoff": "2026-07-30T03:50:00Z",
+  "dataset_cutoff": "2026-08-01T00:00:00Z",
+  "content_fingerprint": "e784d69c986e6fe58315e4c414d9184fce0f53b7a0ec27605c550357f5950aa9",
+  "calendar": {
+    "version": "synthetic-v1",
+    "source": "Synthetic five-minute session; not exchange evidence",
+    "fingerprint": "6b131c1d82d6a54ac5d46f68f1674040ee8e9e68b0e4dd6acb05f3414206e80a",
+    "days": [
+      {
+        "date": "2026-07-30",
+        "status": "EXPECTED_SESSION",
+        "sessions": [
+          {
+            "open": "09:15",
+            "close": "09:20"
+          }
+        ]
+      }
+    ]
+  },
+  "provenance": [
+    {
+      "source": "SYNTHETIC",
+      "source_version": "fixture-v1",
+      "reference_fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "calendar_fingerprint": "6b131c1d82d6a54ac5d46f68f1674040ee8e9e68b0e4dd6acb05f3414206e80a",
+      "source_instrument_token": "123",
+      "reference_as_of": "2026-08-01T00:00:00Z"
+    }
+  ],
+  "bars": [
+    {
+      "start": "2026-07-30T03:45:00Z",
+      "open": "100",
+      "high": "102",
+      "low": "99",
+      "close": "101",
+      "volume": 1000,
+      "open_interest": null
+    }
+  ],
+  "instrument_token": "123"
+}

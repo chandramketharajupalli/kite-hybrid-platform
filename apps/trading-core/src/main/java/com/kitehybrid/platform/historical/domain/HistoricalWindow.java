@@ -5,13 +5,13 @@ import java.time.*;
 import java.util.*;
 import static com.kitehybrid.platform.historical.domain.HistoricalDataException.Reason.INVALID_REQUEST;
 
-/** Bounded minute-aligned half-open range. All bounds are UTC instants. */
+/** Bounded interval-aligned half-open range. All bounds are UTC instants. */
 public record HistoricalWindow(InstrumentId instrumentId, BarInterval interval, Instant from, Instant to) {
     public HistoricalWindow {
         if (instrumentId == null || interval == null || from == null || to == null || !from.isBefore(to)
                 || Duration.between(from,to).compareTo(Duration.ofDays(31)) > 0
-                || from.getNano()!=0 || to.getNano()!=0 || Math.floorMod(from.getEpochSecond(),60)!=0
-                || Math.floorMod(to.getEpochSecond(),60)!=0
+                || from.getNano()!=0 || to.getNano()!=0 || Math.floorMod(from.getEpochSecond(),interval.duration().toSeconds())!=0
+                || Math.floorMod(to.getEpochSecond(),interval.duration().toSeconds())!=0
                 || from.isBefore(Instant.parse("1990-01-01T00:00:00Z"))
                 || to.isAfter(Instant.parse("2100-01-01T00:00:00Z")))
             throw new HistoricalDataException(INVALID_REQUEST);

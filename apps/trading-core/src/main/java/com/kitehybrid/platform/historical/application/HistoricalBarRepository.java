@@ -19,11 +19,29 @@ public interface HistoricalBarRepository {
     record Evidence(UUID chunkId, UUID runId, HistoricalWindow request, HistoricalWindow window,
                     String source, String sourceVersion, Instant observedAt, Instant ingestedAt,
                     Instant cutoff, String referenceFingerprint, String calendarFingerprint,
-                    String contentHash, int accepted, int inserted) { }
+                    String contentHash, int accepted, int inserted, String sourceInstrumentToken, Instant referenceAsOf) {
+        public Evidence(UUID chunkId, UUID runId, HistoricalWindow request, HistoricalWindow window,
+                        String source, String sourceVersion, Instant observedAt, Instant ingestedAt,
+                        Instant cutoff, String referenceFingerprint, String calendarFingerprint,
+                        String contentHash, int accepted, int inserted) {
+            this(chunkId,runId,request,window,source,sourceVersion,observedAt,ingestedAt,cutoff,
+                referenceFingerprint,calendarFingerprint,contentHash,accepted,inserted,null,null);
+        }
+    }
     record Chunk(UUID runId, HistoricalWindow request, HistoricalWindow window, List<HistoricalBar> bars,
                  String source, String sourceVersion, Instant observedAt, Instant ingestedAt,
-                 Instant closedBarCutoff, String referenceFingerprint, String calendarFingerprint) {
+                 Instant closedBarCutoff, String referenceFingerprint, String calendarFingerprint,
+                 String sourceInstrumentToken, Instant referenceAsOf) {
+        public Chunk(UUID runId, HistoricalWindow request, HistoricalWindow window, List<HistoricalBar> bars,
+                     String source, String sourceVersion, Instant observedAt, Instant ingestedAt,
+                     Instant closedBarCutoff, String referenceFingerprint, String calendarFingerprint) {
+            this(runId,request,window,bars,source,sourceVersion,observedAt,ingestedAt,closedBarCutoff,
+                referenceFingerprint,calendarFingerprint,null,null);
+        }
         public Chunk {
+            if((sourceInstrumentToken==null)!=(referenceAsOf==null)
+                || (sourceInstrumentToken!=null && (sourceInstrumentToken.isBlank() || sourceInstrumentToken.length()>128)))
+                throw new HistoricalDataException(HistoricalDataException.Reason.INVALID_REQUEST);
             Objects.requireNonNull(runId); Objects.requireNonNull(request); Objects.requireNonNull(window);
             bars=List.copyOf(bars);
             if(!request.instrumentId().equals(window.instrumentId()) || request.interval()!=window.interval()

@@ -31,12 +31,13 @@ public final class PostgresHistoricalBarRepository implements HistoricalBarRepos
             INSERT INTO trading.historical_ingestion_chunks(chunk_id,run_id,instrument_id,bar_interval,
                 requested_from,requested_to,chunk_from,chunk_to,source,source_version,adjustment_policy,
                 observed_at,ingested_at,closed_bar_cutoff,reference_fingerprint,calendar_fingerprint,
-                content_hash,bar_count,inserted_count) VALUES (?,?,?,?,?,?,?,?,?,?,'PROVIDER_UNSPECIFIED',?,?,?,?,?,?,?,0)
+                content_hash,bar_count,inserted_count,source_instrument_token,reference_as_of) VALUES (?,?,?,?,?,?,?,?,?,?,'PROVIDER_UNSPECIFIED',?,?,?,?,?,?,?,0,?,?)
             """,id,c.runId(),c.window().instrumentId().value(),c.window().interval().name(),
                 Timestamp.from(c.request().from()),Timestamp.from(c.request().to()),Timestamp.from(c.window().from()),
                 Timestamp.from(c.window().to()),c.source(),c.sourceVersion(),Timestamp.from(c.observedAt()),
                 Timestamp.from(c.ingestedAt()),Timestamp.from(c.closedBarCutoff()),c.referenceFingerprint(),
-                c.calendarFingerprint(),hash,c.bars().size());
+                c.calendarFingerprint(),hash,c.bars().size(),c.sourceInstrumentToken(),
+                c.referenceAsOf()==null?null:Timestamp.from(c.referenceAsOf()));
         int inserted=0;
         for(var b:c.bars()) {
             int n=jdbc.update("""
@@ -60,7 +61,7 @@ public final class PostgresHistoricalBarRepository implements HistoricalBarRepos
         try {
             jdbc.query("""
                 SELECT * FROM trading.historical_bars WHERE instrument_id=? AND bar_interval=?
-                    AND start_time>=? AND start_time<? AND start_time + INTERVAL '1 minute'<=?
+                    AND start_time>=? AND start_time<? AND start_time + CASE bar_interval WHEN 'FIVE_MINUTE' THEN INTERVAL '5 minutes' ELSE INTERVAL '1 minute' END<=?
                     AND first_ingested_at<=? ORDER BY start_time ASC
                 """,rs->{bars.add(bar(rs)); chunks.add(rs.getObject("first_chunk_id",UUID.class));},
                     q.window().instrumentId().value(),q.window().interval().name(),Timestamp.from(q.window().from()),
@@ -84,7 +85,8 @@ public final class PostgresHistoricalBarRepository implements HistoricalBarRepos
                         rs.getString("source"),rs.getString("source_version"),rs.getTimestamp("observed_at").toInstant(),
                         rs.getTimestamp("ingested_at").toInstant(),rs.getTimestamp("closed_bar_cutoff").toInstant(),
                         rs.getString("reference_fingerprint"),rs.getString("calendar_fingerprint"),rs.getString("content_hash"),
-                        rs.getInt("bar_count"),rs.getInt("inserted_count"));
+                        rs.getInt("bar_count"),rs.getInt("inserted_count"),rs.getString("source_instrument_token"),
+                        rs.getTimestamp("reference_as_of")==null?null:rs.getTimestamp("reference_as_of").toInstant());
             },Objects.requireNonNull(chunkId)).stream().findFirst();
         } catch(DataAccessException unavailable) { throw new HistoricalDataException(STORAGE_UNAVAILABLE); }
     }

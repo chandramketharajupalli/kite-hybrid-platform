@@ -1,0 +1,36 @@
+{
+  "account_access_verified": false,
+  "assumptions": "one request per confirmed session, all symbols hypothetically resolved; no holidays inferred",
+  "automatic_retry_budget": 0,
+  "concurrency": 1,
+  "configured_requests_per_second": 1,
+  "documented_historical_limit_per_second": 3,
+  "estimates": [
+    {
+      "calendar_day_upper_bound_requests": 204045,
+      "calendar_days": 183,
+      "end_exclusive": "2026-10-12",
+      "exact_authorized_requests": 0,
+      "exact_real_plan_requests": null,
+      "first": "2026-04-12",
+      "months": 6,
+      "weekday_illustration_not_exchange_calendar": 130,
+      "weekday_minimum_pacing_seconds_at_1rps": 144949,
+      "weekday_requests": 144950
+    },
+    {
+      "calendar_day_upper_bound_requests": 406975,
+      "calendar_days": 365,
+      "end_exclusive": "2026-10-12",
+      "exact_authorized_requests": 0,
+      "exact_real_plan_requests": null,
+      "first": "2025-10-12",
+      "months": 12,
+      "weekday_illustration_not_exchange_calendar": 260,
+      "weekday_minimum_pacing_seconds_at_1rps": 289899,
+      "weekday_requests": 289900
+    }
+  ],
+  "interval": "5minute",
+  "universe": 1115
+}

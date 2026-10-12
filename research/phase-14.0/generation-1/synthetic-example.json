@@ -1,0 +1,291 @@
+{
+  "input": {
+    "adjustment": "PROVIDER_UNSPECIFIED_NO_LOCAL_ADJUSTMENT",
+    "as_of": "2026-10-05T05:50:00Z",
+    "bars": [
+      {
+        "close": "120",
+        "high": "120.1",
+        "low": "119.9",
+        "open": "120",
+        "open_interest": null,
+        "start": "2026-10-05T03:45:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "119",
+        "high": "119.1",
+        "low": "118.9",
+        "open": "119",
+        "open_interest": null,
+        "start": "2026-10-05T03:50:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "118",
+        "high": "118.1",
+        "low": "117.9",
+        "open": "118",
+        "open_interest": null,
+        "start": "2026-10-05T03:55:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "117",
+        "high": "117.1",
+        "low": "116.9",
+        "open": "117",
+        "open_interest": null,
+        "start": "2026-10-05T04:00:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "116",
+        "high": "116.1",
+        "low": "115.9",
+        "open": "116",
+        "open_interest": null,
+        "start": "2026-10-05T04:05:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "115",
+        "high": "115.1",
+        "low": "114.9",
+        "open": "115",
+        "open_interest": null,
+        "start": "2026-10-05T04:10:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "114",
+        "high": "114.1",
+        "low": "113.9",
+        "open": "114",
+        "open_interest": null,
+        "start": "2026-10-05T04:15:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "113",
+        "high": "113.1",
+        "low": "112.9",
+        "open": "113",
+        "open_interest": null,
+        "start": "2026-10-05T04:20:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "112",
+        "high": "112.1",
+        "low": "111.9",
+        "open": "112",
+        "open_interest": null,
+        "start": "2026-10-05T04:25:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "111",
+        "high": "111.1",
+        "low": "110.9",
+        "open": "111",
+        "open_interest": null,
+        "start": "2026-10-05T04:30:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "110",
+        "high": "110.1",
+        "low": "109.9",
+        "open": "110",
+        "open_interest": null,
+        "start": "2026-10-05T04:35:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "109",
+        "high": "109.1",
+        "low": "108.9",
+        "open": "109",
+        "open_interest": null,
+        "start": "2026-10-05T04:40:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "108",
+        "high": "108.1",
+        "low": "107.9",
+        "open": "108",
+        "open_interest": null,
+        "start": "2026-10-05T04:45:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "107",
+        "high": "107.1",
+        "low": "106.9",
+        "open": "107",
+        "open_interest": null,
+        "start": "2026-10-05T04:50:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "106",
+        "high": "106.1",
+        "low": "105.9",
+        "open": "106",
+        "open_interest": null,
+        "start": "2026-10-05T04:55:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "105",
+        "high": "105.1",
+        "low": "104.9",
+        "open": "105",
+        "open_interest": null,
+        "start": "2026-10-05T05:00:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "104",
+        "high": "104.1",
+        "low": "103.9",
+        "open": "104",
+        "open_interest": null,
+        "start": "2026-10-05T05:05:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "103",
+        "high": "103.1",
+        "low": "102.9",
+        "open": "103",
+        "open_interest": null,
+        "start": "2026-10-05T05:10:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "102",
+        "high": "102.1",
+        "low": "101.9",
+        "open": "102",
+        "open_interest": null,
+        "start": "2026-10-05T05:15:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "101",
+        "high": "101.1",
+        "low": "100.9",
+        "open": "101",
+        "open_interest": null,
+        "start": "2026-10-05T05:20:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "100",
+        "high": "100.1",
+        "low": "99.9",
+        "open": "100",
+        "open_interest": null,
+        "start": "2026-10-05T05:25:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "115",
+        "high": "115.1",
+        "low": "114.9",
+        "open": "115",
+        "open_interest": null,
+        "start": "2026-10-05T05:30:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "115",
+        "high": "115.1",
+        "low": "114.9",
+        "open": "115",
+        "open_interest": null,
+        "start": "2026-10-05T05:35:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "115",
+        "high": "115.1",
+        "low": "114.9",
+        "open": "115",
+        "open_interest": null,
+        "start": "2026-10-05T05:40:00Z",
+        "volume": 10000
+      },
+      {
+        "close": "115",
+        "high": "115.1",
+        "low": "114.9",
+        "open": "115",
+        "open_interest": null,
+        "start": "2026-10-05T05:45:00Z",
+        "volume": 10000
+      }
+    ],
+    "calendar_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "corporate_actions_reviewed": true,
+    "exchange": "NSE",
+    "from_inclusive": "2026-10-05T03:45:00Z",
+    "instrument_token": "123",
+    "interval": "5minute",
+    "master_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "non_trading_days": [],
+    "sessions": [
+      {
+        "end": "2026-10-05T05:50:00Z",
+        "start": "2026-10-05T03:45:00Z"
+      }
+    ],
+    "source": "SYNTHETIC_FIXTURE",
+    "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "symbol": "SYNTHETIC&ONLY",
+    "synthetic": true,
+    "to_exclusive": "2026-10-05T05:50:00Z"
+  },
+  "label": "SIMULATED_FIXTURE_NOT_HISTORICAL_PERFORMANCE_NOT_SIX_MONTH_DATA",
+  "result": {
+    "config_hash": "e5cfbe0bd3c814cbff50ba28c376de01d98ae8cfb8135341fe9cda8a5f38c388",
+    "engine": "phase14-five-minute-v1",
+    "exposure_seconds": 900,
+    "input_hash": "597862cb6600c479c1e0278be4432041ccd95beccf90ab20a56ae7d2be03f8bf",
+    "marked_drawdown": "0.0000337204874838",
+    "metrics": {
+      "breakeven": 0,
+      "costs": "0.122306525000",
+      "drawdown": "0.0000237306525",
+      "expectancy": "-0.237306525000",
+      "losses": 1,
+      "net": "-0.237306525000",
+      "net_return": "-0.0000237306525",
+      "trades": 1,
+      "win_rate": "0",
+      "wins": 0
+    },
+    "mode": "BACKTEST_ONLY",
+    "no_fills": [],
+    "strategy_hash": "80b4a8cd382f7e0264cd88aaf83dc83079f20300b6d52f4cb46bf3ad40ea8403",
+    "symbol": "SYNTHETIC&ONLY",
+    "synthetic": true,
+    "trades": [
+      {
+        "entry": "115.0575",
+        "entry_at": "2026-10-05T05:35:00Z",
+        "exit": "114.9425",
+        "exit_at": "2026-10-05T05:50:00Z",
+        "fees": "0.122306525000",
+        "gross": "-0.1150",
+        "net": "-0.237306525000",
+        "quantity": 1,
+        "reason": "EOD",
+        "signal_at": "2026-10-05T05:35:00Z"
+      }
+    ]
+  }
+}

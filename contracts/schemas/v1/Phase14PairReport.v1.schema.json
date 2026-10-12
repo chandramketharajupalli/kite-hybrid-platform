@@ -1,0 +1,510 @@
+{
+  "$defs": {
+    "Metrics": {
+      "additionalProperties": false,
+      "properties": {
+        "breakeven": {
+          "title": "Breakeven",
+          "type": "integer"
+        },
+        "costs": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Costs"
+        },
+        "drawdown": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Drawdown"
+        },
+        "expectancy": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Expectancy"
+        },
+        "losses": {
+          "title": "Losses",
+          "type": "integer"
+        },
+        "net": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Net"
+        },
+        "net_return": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Net Return"
+        },
+        "trades": {
+          "title": "Trades",
+          "type": "integer"
+        },
+        "win_rate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Win Rate"
+        },
+        "wins": {
+          "title": "Wins",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "trades",
+        "wins",
+        "losses",
+        "breakeven",
+        "win_rate",
+        "expectancy",
+        "net",
+        "net_return",
+        "costs",
+        "drawdown"
+      ],
+      "title": "Metrics",
+      "type": "object"
+    },
+    "Qualification": {
+      "additionalProperties": false,
+      "properties": {
+        "adjusted_wilson_lower": {
+          "title": "Adjusted Wilson Lower",
+          "type": "number"
+        },
+        "folds": {
+          "items": {
+            "$ref": "#/$defs/Metrics"
+          },
+          "title": "Folds",
+          "type": "array"
+        },
+        "out_of_sample": {
+          "$ref": "#/$defs/Metrics"
+        },
+        "qualified": {
+          "title": "Qualified",
+          "type": "boolean"
+        },
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        }
+      },
+      "required": [
+        "qualified",
+        "reasons",
+        "out_of_sample",
+        "folds",
+        "adjusted_wilson_lower"
+      ],
+      "title": "Qualification",
+      "type": "object"
+    },
+    "Simulation": {
+      "additionalProperties": false,
+      "properties": {
+        "config_hash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Config Hash",
+          "type": "string"
+        },
+        "engine": {
+          "const": "phase14-five-minute-v1",
+          "default": "phase14-five-minute-v1",
+          "title": "Engine",
+          "type": "string"
+        },
+        "exposure_seconds": {
+          "title": "Exposure Seconds",
+          "type": "integer"
+        },
+        "input_hash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Hash",
+          "type": "string"
+        },
+        "marked_drawdown": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Marked Drawdown"
+        },
+        "metrics": {
+          "$ref": "#/$defs/Metrics"
+        },
+        "mode": {
+          "const": "BACKTEST_ONLY",
+          "default": "BACKTEST_ONLY",
+          "title": "Mode",
+          "type": "string"
+        },
+        "no_fills": {
+          "items": {
+            "type": "string"
+          },
+          "title": "No Fills",
+          "type": "array"
+        },
+        "strategy_hash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Strategy Hash",
+          "type": "string"
+        },
+        "symbol": {
+          "title": "Symbol",
+          "type": "string"
+        },
+        "synthetic": {
+          "title": "Synthetic",
+          "type": "boolean"
+        },
+        "trades": {
+          "items": {
+            "$ref": "#/$defs/Trade"
+          },
+          "title": "Trades",
+          "type": "array"
+        }
+      },
+      "required": [
+        "synthetic",
+        "symbol",
+        "strategy_hash",
+        "input_hash",
+        "config_hash",
+        "trades",
+        "metrics",
+        "no_fills",
+        "exposure_seconds",
+        "marked_drawdown"
+      ],
+      "title": "Simulation",
+      "type": "object"
+    },
+    "Trade": {
+      "additionalProperties": false,
+      "properties": {
+        "entry": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Entry"
+        },
+        "entry_at": {
+          "format": "date-time",
+          "title": "Entry At",
+          "type": "string"
+        },
+        "exit": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Exit"
+        },
+        "exit_at": {
+          "format": "date-time",
+          "title": "Exit At",
+          "type": "string"
+        },
+        "fees": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Fees"
+        },
+        "gross": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Gross"
+        },
+        "net": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Net"
+        },
+        "quantity": {
+          "title": "Quantity",
+          "type": "integer"
+        },
+        "reason": {
+          "enum": [
+            "STOP",
+            "TARGET",
+            "EOD"
+          ],
+          "title": "Reason",
+          "type": "string"
+        },
+        "signal_at": {
+          "format": "date-time",
+          "title": "Signal At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "signal_at",
+        "entry_at",
+        "exit_at",
+        "entry",
+        "exit",
+        "quantity",
+        "reason",
+        "gross",
+        "fees",
+        "net"
+      ],
+      "title": "Trade",
+      "type": "object"
+    },
+    "Window": {
+      "additionalProperties": false,
+      "properties": {
+        "end": {
+          "format": "date-time",
+          "title": "End",
+          "type": "string"
+        },
+        "fold_boundaries": {
+          "items": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "title": "Fold Boundaries",
+          "type": "array"
+        },
+        "months": {
+          "enum": [
+            6,
+            12
+          ],
+          "title": "Months",
+          "type": "integer"
+        },
+        "oos_start": {
+          "format": "date-time",
+          "title": "Oos Start",
+          "type": "string"
+        }
+      },
+      "required": [
+        "months",
+        "end",
+        "oos_start",
+        "fold_boundaries"
+      ],
+      "title": "Window",
+      "type": "object"
+    }
+  },
+  "$id": "https://kite-hybrid.local/schemas/v1/Phase14PairReport.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "exchange": {
+      "title": "Exchange",
+      "type": "string"
+    },
+    "in_sample": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Metrics"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "missing_bars": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Missing Bars"
+    },
+    "policy_hash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Policy Hash",
+      "type": "string"
+    },
+    "qualification": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Qualification"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "reasons": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Reasons",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "Phase14PairReport.v1",
+      "default": "Phase14PairReport.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "simulation": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Simulation"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "state": {
+      "const": "BACKTEST_ONLY",
+      "default": "BACKTEST_ONLY",
+      "title": "State",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "REJECTED",
+        "RESEARCH_CANDIDATE",
+        "SIMULATED"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "strategy": {
+      "title": "Strategy",
+      "type": "string"
+    },
+    "strategy_hash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Strategy Hash",
+      "type": "string"
+    },
+    "symbol": {
+      "title": "Symbol",
+      "type": "string"
+    },
+    "unexpected_bars": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Unexpected Bars"
+    },
+    "window": {
+      "$ref": "#/$defs/Window"
+    }
+  },
+  "required": [
+    "exchange",
+    "symbol",
+    "strategy",
+    "strategy_hash",
+    "window",
+    "policy_hash",
+    "status",
+    "reasons"
+  ],
+  "title": "PairReport",
+  "type": "object"
+}
