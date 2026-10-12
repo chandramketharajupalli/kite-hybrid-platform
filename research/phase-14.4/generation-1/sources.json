@@ -1,0 +1,50 @@
+{
+  "account_specific_evidence": "NOT_ACCESSED",
+  "clarification_contacted": false,
+  "followup_retrieval_utc_window": [
+    "2026-10-12T09:23:01Z",
+    "2026-10-12T09:25:33Z"
+  ],
+  "initial_retrieval_utc_window": [
+    "2026-10-12T09:22:45Z",
+    "2026-10-12T09:23:01Z"
+  ],
+  "real_broker_requests": 0,
+  "retrieval_method": "Public web documentation reader; no broker API calls; page raw bytes not archived",
+  "sources": [
+    {
+      "publisher_revision": "NOT_ESTABLISHED",
+      "references": [
+        "1",
+        "2",
+        "2(a)",
+        "2(e)",
+        "4(b)",
+        "5(a)",
+        "9(b)",
+        "13 Conflict"
+      ],
+      "url": "https://kite.trade/terms/"
+    },
+    {
+      "references": [
+        "Instruments",
+        "Retrieving the full instrument list",
+        "CSV response columns",
+        "Warning",
+        "Note"
+      ],
+      "url": "https://kite.trade/docs/connect/v3/market-quotes/"
+    },
+    {
+      "references": [
+        "Trading Account Requirements",
+        "Developer Account Setup",
+        "Start Building"
+      ],
+      "url": "https://kite.trade/docs/connect/v3/"
+    }
+  ],
+  "terms_status": "TERMS_UNRESOLVED",
+  "timestamp_semantics": "Measured request bounds, not publisher revision times or approval timestamps"
+}

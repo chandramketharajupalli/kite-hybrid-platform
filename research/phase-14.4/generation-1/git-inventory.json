@@ -1,0 +1,21 @@
+{
+  "baseline": "4431bfb96b048c6819eaa852b78784352d737a65",
+  "baseline_tracked_files": 1033,
+  "initial_status": [],
+  "modified_tracked_files": [],
+  "new_count": 11,
+  "new_files": [
+    "docs/operations/phase-14.4-owner-decision.md",
+    "docs/operations/phase-14.4-plan.md",
+    "docs/operations/phase-14.4-preflight.md",
+    "docs/operations/phase-14.4-resolution.md",
+    "docs/operations/phase-14.4-security.md",
+    "docs/operations/phase-14.4-terms.md",
+    "docs/operations/phase-14.4-validation.md",
+    "research/phase-14.4/generation-1/evidence-manifest.json",
+    "research/phase-14.4/generation-1/git-inventory.json",
+    "research/phase-14.4/generation-1/sources.json",
+    "research/phase-14.4/generation-1/test-results.json"
+  ],
+  "staged_files": []
+}

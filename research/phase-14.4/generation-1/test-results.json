@@ -1,0 +1,102 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "command": "mvnw.cmd -o -pl apps/trading-core -Dtest=KiteConfigurationTest,KiteEquityReadHandoffTest,KiteEquityReadHarnessTest,KiteHistoricalAdapterTest,Phase141OfflineTest,Phase142ReadinessTest,HistoricalArchitectureTest test",
+      "process_exit": 0,
+      "result": "BUILD SUCCESS"
+    }
+  ],
+  "coverage": {
+    "authentication_absence_redaction": "KiteConfigurationTest",
+    "budget_exhaustion_invalid_expired_approval_redirect_retry_log_denial": "KiteEquityReadHarnessTest and KiteEquityReadHandoffTest; equity-read synthetic scope only",
+    "master_schema_duplicates_ambiguity_missing_segments_provenance_size": "Phase141OfflineTest",
+    "quality_no_dispatch_gate_b": "Phase142ReadinessTest and KiteHistoricalAdapterTest",
+    "storage_restriction": "Static packet assertions; production enforcement NOT_ESTABLISHED"
+  },
+  "not_run": {
+    "disposable_database": "No code/schema/storage changes",
+    "genuine_tls_session_egress_retention_budget": "Unauthorized and not established for Gate A",
+    "python_full_java_lint_types": "No implementation changed"
+  },
+  "packet_assertions": {
+    "checks": [
+      "Decision: PENDING",
+      "Authorized request budget: 0",
+      "AUTHENTICATED_SESSION_NOT_ESTABLISHED",
+      "DENIED_PENDING_TERMS_AND_CUSTODY",
+      "Raw retention: UNSET",
+      "Approved destination: NONE",
+      "Gate B: PENDING / NOT_AUTHORIZED",
+      "expiry: UNSET"
+    ],
+    "passed": 8,
+    "scope": "Static approval/storage-denial consistency only, not a production retention or authorization engine"
+  },
+  "real_broker_requests": 0,
+  "real_credentials_accessed": false,
+  "suites": [
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "KiteConfigurationTest",
+      "report_raw_sha256": "3657e977a8cd107a4f410cf0894e87ef08b184ecdb61fb25e3d666ab5b75e88c",
+      "skipped": 0,
+      "tests": 21
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "KiteEquityReadHandoffTest",
+      "report_raw_sha256": "d27b5788a23bd0e07d79d5af930f457943dcd913cccd2f3338b65a232f1715dc",
+      "skipped": 0,
+      "tests": 48
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "KiteEquityReadHarnessTest",
+      "report_raw_sha256": "712651344233d06016465fcc173beeecdc85f1aec05d822109c73d5143baa7e3",
+      "skipped": 0,
+      "tests": 35
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "KiteHistoricalAdapterTest",
+      "report_raw_sha256": "33c6c3677fa1e3e62df060ef9d9c9384c1263ad6ba6b3048618b416958e74571",
+      "skipped": 0,
+      "tests": 27
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "Phase141OfflineTest",
+      "report_raw_sha256": "c5c90fd28debc0b9aad3c135fb1943a3619cda1d46b403e03a43ac4f22fbf96b",
+      "skipped": 0,
+      "tests": 40
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "Phase142ReadinessTest",
+      "report_raw_sha256": "9fcf753ea752bbbd93833a70635d9db88d952e91f3b2808c778c97eff18e64b8",
+      "skipped": 0,
+      "tests": 30
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "HistoricalArchitectureTest",
+      "report_raw_sha256": "3d8529ea877f3b4f8d98356d5162d9f87706dd860a0040602570773e53ce04c6",
+      "skipped": 0,
+      "tests": 1
+    }
+  ],
+  "totals": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 202
+  }
+}
