@@ -1,0 +1,29 @@
+{
+  "baseline": "88e70b0f682f00c0383e76cfe5e623a8961d9112",
+  "baseline_tracked_files": 1001,
+  "fetch_commit_push": false,
+  "frozen_plan_allowlist": "EXACT_MATCH",
+  "initial_status": [],
+  "modified_tracked_files": [],
+  "new_count": 17,
+  "new_files": [
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/historical/application/OfflineDataVerification.java",
+    "apps/trading-core/src/test/java/com/kitehybrid/platform/broker/infrastructure/kite/Phase142ReadinessTest.java",
+    "docs/architecture/phase-14.2-decisions.md",
+    "docs/operations/phase-14.2-master-approval-draft.md",
+    "docs/operations/phase-14.2-pilot-approval-draft.md",
+    "docs/operations/phase-14.2-plan.md",
+    "docs/operations/phase-14.2-runbook.md",
+    "docs/operations/phase-14.2-validation.md",
+    "research/phase-14.2/generation-1/candle-quality.json",
+    "research/phase-14.2/generation-1/evidence-manifest.json",
+    "research/phase-14.2/generation-1/git-inventory.json",
+    "research/phase-14.2/generation-1/resolution-ledger.csv",
+    "research/phase-14.2/generation-1/resolution-ledger.json",
+    "research/phase-14.2/generation-1/summary.json",
+    "research/phase-14.2/generation-1/test-results.json",
+    "research/phase-14.2/generation-1/validation-attempts.json",
+    "scripts/research/verify_phase142.py"
+  ],
+  "staged_files": []
+}

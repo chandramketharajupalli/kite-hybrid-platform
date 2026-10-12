@@ -1,0 +1,43 @@
+{
+  "actual_authorized_request_budget": 0,
+  "actual_candles": null,
+  "actual_master": null,
+  "actual_performance": null,
+  "approval_A": "UNAPPROVED",
+  "approval_B": "UNAPPROVED",
+  "baseline": "88e70b0f682f00c0383e76cfe5e623a8961d9112",
+  "classification": "PHASE_14_2_OFFLINE_READINESS_VALIDATED",
+  "dispatch_implementation": "NONE_ADDED; existing production five-minute path disabled",
+  "operational_status": "NO_GO; Stage B ZERO_CALL_ABORT; V2/governance second review/four technical reviews PENDING; Phase12 BLOCK; H1/H2 FROZEN; July TEST SEALED; INR10000 buffered ceiling unchanged; MIS NOT_READY; funding eligibility unproven",
+  "proposed_A_calls": 1,
+  "proposed_B_max_calls": 2,
+  "public_documentation_review_date": "2026-10-12",
+  "public_sources": [
+    "https://kite.trade/docs/connect/v3/market-quotes/",
+    "https://kite.trade/docs/connect/v3/historical/",
+    "https://kite.trade/docs/connect/v3/exceptions/",
+    "https://kite.trade/terms/"
+  ],
+  "real_access_stop_reasons": [
+    "NO_DATED_MASTER",
+    "NO_OWNER_APPROVAL_A_OR_B",
+    "NO_VERIFIED_PILOT_SYMBOLS_OR_SESSION",
+    "ACCOUNT_ELIGIBILITY_AND_TERMS_UNRESOLVED",
+    "CUSTODY_EGRESS_ONE_USE_BUDGET_UNVERIFIED",
+    "CALENDAR_AND_CORPORATE_ACTIONS_UNVERIFIED"
+  ],
+  "real_kite_requests_by_agent": 0,
+  "resolution_counts": {
+    "AMBIGUOUS": 0,
+    "INELIGIBLE": 0,
+    "MASTER_UNAVAILABLE": 1115,
+    "MISSING": 0,
+    "RESOLVED": 0
+  },
+  "universe": {
+    "original_order_preserved": true,
+    "removed_duplicates": 25,
+    "source_rows": 1140,
+    "unique_enabled_NSE": 1115
+  }
+}

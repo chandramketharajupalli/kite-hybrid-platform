@@ -1,0 +1,174 @@
+{
+  "actual": {
+    "accepted": 0,
+    "content_hash": null,
+    "performance": null,
+    "reason": "NO_CANDLES_SUPPLIED",
+    "received": 0,
+    "status": "NOT_EVALUATED",
+    "synthetic": false
+  },
+  "limitations": [
+    "Typed-domain OHLCV/finite checks precede review; raw parse errors reject without constructing Input.",
+    "Supplied evidence hashes establish consistency, not publisher authenticity or corporate-action truth.",
+    "No actual source candle, NSE session or corporate action has been verified."
+  ],
+  "producer": "Phase142ReadinessTest.producesFullActualLedgerAndSeparateSyntheticQualityEvidence",
+  "synthetic_examples": {
+    "calendarHash": {
+      "accepted": 0,
+      "content_hash": "24cb210b2ec4ad3f5d3b2e23cee7568ed4f1d963cac1cb8b6bec136eacff8bbc",
+      "flags": [
+        "CALENDAR_FINGERPRINT_MISMATCH"
+      ],
+      "received": 2,
+      "status": "QUARANTINED",
+      "synthetic": true
+    },
+    "corporate": {
+      "accepted": 0,
+      "content_hash": "24cb210b2ec4ad3f5d3b2e23cee7568ed4f1d963cac1cb8b6bec136eacff8bbc",
+      "flags": [
+        "SOURCE_MASTER_OR_CORPORATE_ACTION_EVIDENCE_MISSING"
+      ],
+      "received": 2,
+      "status": "QUARANTINED",
+      "synthetic": true
+    },
+    "duplicate": {
+      "accepted": 0,
+      "content_hash": "0e901b39ba44e2a0e3f4b0fc209cf869e91f02b919cc24fe3db98f6ecf231a7f",
+      "flags": [
+        "MISSING_CANDLES",
+        "CANDLE_VALIDATION_REJECTED"
+      ],
+      "received": 2,
+      "status": "QUARANTINED",
+      "synthetic": true
+    },
+    "empty": {
+      "accepted": 0,
+      "content_hash": "067342c0b97c095fe8a320cea77ce466cb179c57258359e72a6f6cb913266ae7",
+      "flags": [
+        "EMPTY_SESSION",
+        "MISSING_CANDLES",
+        "CANDLE_VALIDATION_REJECTED"
+      ],
+      "received": 0,
+      "status": "QUARANTINED",
+      "synthetic": true
+    },
+    "future": {
+      "accepted": 0,
+      "content_hash": "24cb210b2ec4ad3f5d3b2e23cee7568ed4f1d963cac1cb8b6bec136eacff8bbc",
+      "flags": [
+        "FUTURE_CUTOFF"
+      ],
+      "received": 2,
+      "status": "QUARANTINED",
+      "synthetic": true
+    },
+    "gap": {
+      "accepted": 0,
+      "content_hash": "9962270a0848606953350930c1173c82eb2ef3680d0367ea1272e54fad075e58",
+      "flags": [
+        "MISSING_CANDLES",
+        "CANDLE_VALIDATION_REJECTED"
+      ],
+      "received": 1,
+      "status": "QUARANTINED",
+      "synthetic": true
+    },
+    "holiday": {
+      "accepted": 0,
+      "content_hash": "24cb210b2ec4ad3f5d3b2e23cee7568ed4f1d963cac1cb8b6bec136eacff8bbc",
+      "flags": [
+        "OUT_OF_SESSION_CANDLES",
+        "CANDLE_VALIDATION_REJECTED"
+      ],
+      "received": 2,
+      "status": "QUARANTINED",
+      "synthetic": true
+    },
+    "master": {
+      "accepted": 0,
+      "content_hash": "24cb210b2ec4ad3f5d3b2e23cee7568ed4f1d963cac1cb8b6bec136eacff8bbc",
+      "flags": [
+        "SOURCE_MASTER_OR_CORPORATE_ACTION_EVIDENCE_MISSING"
+      ],
+      "received": 2,
+      "status": "QUARANTINED",
+      "synthetic": true
+    },
+    "partial": {
+      "accepted": 0,
+      "content_hash": "24cb210b2ec4ad3f5d3b2e23cee7568ed4f1d963cac1cb8b6bec136eacff8bbc",
+      "flags": [
+        "CANDLE_VALIDATION_REJECTED"
+      ],
+      "received": 2,
+      "status": "QUARANTINED",
+      "synthetic": true
+    },
+    "raw": {
+      "accepted": 0,
+      "content_hash": "24cb210b2ec4ad3f5d3b2e23cee7568ed4f1d963cac1cb8b6bec136eacff8bbc",
+      "flags": [
+        "SOURCE_MASTER_OR_CORPORATE_ACTION_EVIDENCE_MISSING"
+      ],
+      "received": 2,
+      "status": "QUARANTINED",
+      "synthetic": true
+    },
+    "replay": {
+      "accepted": 0,
+      "content_hash": "24cb210b2ec4ad3f5d3b2e23cee7568ed4f1d963cac1cb8b6bec136eacff8bbc",
+      "flags": [
+        "CANDLE_VALIDATION_REJECTED"
+      ],
+      "received": 2,
+      "status": "QUARANTINED",
+      "synthetic": true
+    },
+    "timezone": {
+      "accepted": 0,
+      "content_hash": "24cb210b2ec4ad3f5d3b2e23cee7568ed4f1d963cac1cb8b6bec136eacff8bbc",
+      "flags": [
+        "SOURCE_TIMEZONE_UNVERIFIED"
+      ],
+      "received": 2,
+      "status": "QUARANTINED",
+      "synthetic": true
+    },
+    "unknown": {
+      "accepted": 0,
+      "content_hash": "24cb210b2ec4ad3f5d3b2e23cee7568ed4f1d963cac1cb8b6bec136eacff8bbc",
+      "flags": [
+        "CALENDAR_DATES_UNKNOWN",
+        "CANDLE_VALIDATION_REJECTED"
+      ],
+      "received": 2,
+      "status": "QUARANTINED",
+      "synthetic": true
+    },
+    "unordered": {
+      "accepted": 0,
+      "content_hash": "cc65b6e317a3943a1982030ae859b154abf8f9ea537a1615267cd4dee63fb0f9",
+      "flags": [
+        "CANDLE_VALIDATION_REJECTED"
+      ],
+      "received": 2,
+      "status": "QUARANTINED",
+      "synthetic": true
+    },
+    "valid": {
+      "accepted": 2,
+      "content_hash": "24cb210b2ec4ad3f5d3b2e23cee7568ed4f1d963cac1cb8b6bec136eacff8bbc",
+      "flags": [],
+      "received": 2,
+      "status": "OFFLINE_CHECKS_PASSED",
+      "synthetic": true
+    }
+  },
+  "synthetic_fixture_description": "Two five-minute candles in an explicit synthetic ten-minute early-close session. No supplied-universe stock performance. Rejection cases are deliberate test mutations."
+}

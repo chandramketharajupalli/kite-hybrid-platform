@@ -1,0 +1,56 @@
+{
+  "attempts": [
+    {
+      "errors": 0,
+      "failures": 0,
+      "result": "PASS",
+      "scope": "Focused Java",
+      "skipped": 0,
+      "tests": 97
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "result": "PASS",
+      "scope": "Full Java",
+      "skipped": 0,
+      "tests": 1585
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "result": "PASS",
+      "scope": "Focused Python",
+      "skipped": 0,
+      "tests": 32
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "result": "PASS",
+      "scope": "Full Python",
+      "skipped": 0,
+      "tests": 282
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "result": "PASS",
+      "scope": "Disposable historical integration",
+      "skipped": 0,
+      "tests": 12
+    },
+    {
+      "result": "PASS",
+      "scope": "Ruff/mypy source/tests and new verifier"
+    }
+  ],
+  "corrective_reruns": 0,
+  "failed_attempts": [],
+  "historical_counts_not_reused": true,
+  "ignored_local_logs_sha256": {
+    "apps/trading-core/target/phase142-focused.log": "9ce777f418b874d4d538ac5b856dea712413b862155f233dec37bcfb4724a917",
+    "apps/trading-core/target/phase142-full-unit.log": "83f79d6011646275427a6b0d57b3cc7fa517fb28859f5ea812d9ac5551fed856",
+    "apps/trading-core/target/phase142-integration.log": "8b4db410c9cbd496f2daeb0967c7e981d80aa2abbf237a8f23fc1e30a681d54e"
+  }
+}

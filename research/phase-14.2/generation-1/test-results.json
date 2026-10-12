@@ -1,0 +1,789 @@
+{
+  "disposable_historical_integration": {
+    "scope": "Historical repository and synthetic broker pipeline only, transactional rollback/concurrency/idempotency/checkpoint reuse/export; application/repository restart, not physical DB-process restart.",
+    "suites": [
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "b7ad1379f1cb70bcaf28f9c803874f06ab4362cd27f5a87979825fd5651161f3",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteHistoricalPipelineTest",
+        "tests": 1
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "6cdcbeb343e2035de4e660e694417b84a6c620062f732218eff408a9a9cd66e5",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.PostgresHistoricalBarRepositoryTest",
+        "tests": 11
+      }
+    ],
+    "totals": {
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "tests": 12
+    }
+  },
+  "java_focused": {
+    "errors": 0,
+    "failures": 0,
+    "phase142_cases": 30,
+    "skipped": 0,
+    "tests": 97
+  },
+  "java_full": {
+    "suites": [
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "70d5c152d698273d5f04b3d341cf2f19ea1e1b213ed21fca66cdcb96993180da",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.ApplicationTest",
+        "tests": 2
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "8cc9bc871a131c98d3b7a40723b23830332d21332dbb0ac5f832f8e89f58f280",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.ArchitectureTest",
+        "tests": 1
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "3bc6ca975dc7d132d2389c5e6ec660e9dbaecc99285f024603af7846f186ed0d",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.application.auth.KiteAuthenticationUseCaseTest",
+        "tests": 29
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "8a9a5eb9381970a5670963e3c6b1fca0f555a71b371a9f4af504f7e0db079b6c",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.application.auth.KiteLoginAttemptUseCaseTest",
+        "tests": 28
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "08fd3955edd8a609034d7c5a3ceeee7ef2fef22db4a8177f98faa28e2ae211f7",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.JdkKiteWebSocketTransportTest",
+        "tests": 16
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "45655c394e22c14eff7d3b96d6043154aa57348220e510d9711b7644abfec835",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteAuthenticationAdapterTest",
+        "tests": 91
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "5b976015486718d6d9f37a266534ca744a9c452a3150bfc07125598bf68f8b94",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteAuthenticationCookieTest",
+        "tests": 8
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "7c438ece1963283c1775374b183bdb558904a4c03f119f99604c3a9b036b328c",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteAuthenticationHttpTest",
+        "tests": 34
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "6baf6eb2df0b2dbaa7fc8109d0ae09f532369dfa719ee54da1a0d5900d2fc908",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteConfigurationTest",
+        "tests": 21
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "fd9e654895259d29721e828a5c9ec7b36780cc2c2d4cc3c0c585ce9ec23b1f1d",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityMarginReadAdapterTest",
+        "tests": 51
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "86ca9c6f92176f75ad44820db7520103a20442d9fb93f1eee28cf205287b4330",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadHandoffTest",
+        "tests": 48
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "ae13a2f5217d5838b2d6cc785e03f31c5feabab3ee965df8cad33015ff4518b4",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadHarnessTest",
+        "tests": 35
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "0c014cc8ac30dce4bb633807528e9931ece1d83c1ad1e1a69448b1218e51b756",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadIsolationTest",
+        "tests": 4
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "7b9308685b21ba3d082648d77e98072db39fe5f51c9fa3438798886cbd382162",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteEquityReadRequestFactoryTest",
+        "tests": 33
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "8281b1e9a9409cdf04dd9dcfaab0caf96e8a62b0b716d9a9cf612b1bd5b8fe93",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteHistoricalAdapterTest",
+        "tests": 27
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "2cf7793bbb6a466937f5a2573202eff4703efe4d2e3a57292617d25b820134ab",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteInstrumentMappingTest",
+        "tests": 24
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "5b39cfd6f4fbb19899e40b069ff2d937e4b08ca03b6a20e64469a687747e0b3b",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataAdapterTest",
+        "tests": 18
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "9e622359689ba065c0993881adb259b89391cfd525de31f2618df333a6777da1",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataBackpressureTest",
+        "tests": 7
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "7baa58bd037ed65aeff52b9c57061c7fcb8331f23559c396fec0d2f0106e32e4",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataDecoderTest",
+        "tests": 28
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "be577766a7d54ea1cc71cc76e39a678f631788cf1ab2989dc81d965ff5f1ebe6",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataHealthTest",
+        "tests": 15
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "bc458c985d174b740b5958aea778c5f2f21f8872efa1f139ab71a826af543044",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataInstrumentMappingTest",
+        "tests": 23
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "b2322fb5078fdfa9ca34d1cb0dd667a4447e3b0614c3830855333c0b97b4114a",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteMarketDataNormalizerTest",
+        "tests": 10
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "0b4ec868dfba7e0fcc5734b5190026fda154ac80f860f2db1461beafe64c881b",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteOrderAdapterTest",
+        "tests": 12
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "01261e1c23a3073f86f240ab9b278860766414040d80f68dcba3859e8a6b1d2f",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteOrderMarginAdapterTest",
+        "tests": 27
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "81a4a88b91f4d526f34cda99676d5643e2a4194b71d87f5e2b25007dd8b0c2a0",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteRestReadTest",
+        "tests": 42
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "01e79b5506d82d5467c753b247d11b6537a083ec7144e914822595ccd64e9789",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteSessionConcurrencyTest",
+        "tests": 4
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "18ac3bec9361341a1890f5032021a1139291243b23890acacc269ee288dc29ab",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteSessionMarketDataTest",
+        "tests": 5
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "502829d9a8e3463f2cd51ac12e8f55a61427bafd375743cbf312a202a0800b92",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadAdapterTest",
+        "tests": 159
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "a12457288eb0322284bfd3037849be7dba8539952d179ff0f15bfd6a3b3d6e76",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadConfigurationTest",
+        "tests": 2
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "30f822f2f22b5bbc9fba9036be5d16565812b625a17dabb2eafc0abceb0d45a2",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadDiagnosticControllerTest",
+        "tests": 69
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "3256b6cf5bb5b0c8cab2c8ed86b78681326503d6bea010f47749a811a152f495",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.KiteTradingReadMapperTest",
+        "tests": 117
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "f8bc0d1c8e2d226d2759c0ab0d3b45efc66d76d9ddaf33bd3de120b19926c088",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.Phase141OfflineTest",
+        "tests": 40
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "d3efc6d573f2fc3c1a0d1682d2d5750b011573d40e90ccd053fac28f404c9a22",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.Phase142ReadinessTest",
+        "tests": 30
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "ec2f0008128a7f4e8d2ce099b1bdae9e1d6b754bdffeff85ab0f3cf2d2c28091",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.PostgresKiteAccessTokenStoreTest",
+        "tests": 13
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "b8a36df2e6fc82917dfa9b0e351d650faab4a1ce35dd9f12312910ce54285b38",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.broker.infrastructure.kite.PostgresKiteLoginAttemptStoreTest",
+        "tests": 27
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "204adfdeb0c8cd6a5e13fe4df5acd58027c04a2e9c7da3f98b60fd74f3a1d119",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.ConservativeValuationArchitectureTest",
+        "tests": 5
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "d592ecd0117674c8fe63cdba44f88bfe746281745905bd91c7f823c8906cca22",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.ControlledEquityReadArchitectureTest",
+        "tests": 3
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "d02e61ae80c9cfe19999fe81bc2ab58961cce11f305c303acd684460210cbefd",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.FirstLiveCandidatePlannerTest",
+        "tests": 23
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "a36101d4b24ca959c43fbf44f8caf7b5d9ef3a68fbf443704127d157c53e351e",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.HaltConsoleTest",
+        "tests": 11
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "acd801901b9fed6a43572caef7d0ae07e8c407e5099066b85aedd8f3dbdea98f",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.HistoricalArchitectureTest",
+        "tests": 1
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "53170ab038f7612f518c361cd1cfd9d35634d94a03c0f3e9b6df3e2d71d8cd50",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.HistoricalContinuityGateTest",
+        "tests": 16
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "1a826ada59717951e6a513b20b2d7a78e101a222a595f615c35e45a44d006229",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.HistoricalCorpusPlanTest",
+        "tests": 3
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "4416015d5614c4bc738d0f8926052a483157572db08e51e878ffe98f0f0cc54b",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.HistoricalDataTest",
+        "tests": 14
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "64c10ff295ae479fe9542ebfedcc8ad37aa99b4a9b47b4686b51490e92f3a9de",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.HistoricalResearchExporterTest",
+        "tests": 5
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "9dba3e38e58159b1ad0c96310e25d0b38d93dcbcc4bdfae208c9be5276bad5f3",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.instrument.application.UniverseValidationServiceTest",
+        "tests": 3
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "93a76c4277e3c74c58cf3e5cc975f0c6beb40a48abc97c582e3e3658f33f500c",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.instrument.InstrumentRegistryTest",
+        "tests": 7
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "251da63ef91c1a40c8787fcba452c31639ff36746837283b940415639aa783aa",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.instrument.InstrumentTest",
+        "tests": 19
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "954738cc4ab0a10e299104cce8fa40e5b80e26f8000ea9f3a9f1297fe504aa80",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.instrument.RefreshInstrumentRegistryTest",
+        "tests": 4
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "66343804870e07cd8b9b697af9161df4dbce052a0035eedc5840a72e063256d9",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.instrument.UniverseCsvImporterTest",
+        "tests": 3
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "d487d46bf8daf47307dbf504481c050de41273cfb06573a23ed731bcf0e0291c",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.instrument.UniverseValidationDiagnosticControllerTest",
+        "tests": 5
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "60539eac1f43c6eaee9e7b75dc9211c6a1a9e21eef874818ab79b588e6d0e9d3",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.IntradayCandidatePlannerTest",
+        "tests": 3
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "34c26d7b866fb263a12166cd3ae7c963a2ec7744c4deb3ddf6fb783ceb5c56de",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.KiteApplicationSafetyTest",
+        "tests": 1
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "111f6bf797bcf5c9b0dbf450fd481f37d4cf7931e242533b7261b7bf6e8dd8e1",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.KiteObservabilityTest",
+        "tests": 1
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "5906af2ba82ea7d111dcf409c1265aef78dd5bad7e251b75fdff6def561d746f",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.KitePhase2SafetyTest",
+        "tests": 3
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "ecd970a428a63e46d6d78e9383a1f0459f9b3e17864d05332b563c4f41b39f0a",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.marketdata.LatestMarketDataStoreTest",
+        "tests": 9
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "8c1bd50748cc85173553dfaf94fc0aeeb75433629d799fc3ad0817c58899160f",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.marketdata.TickTest",
+        "tests": 6
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "caaa0f962ed3da0209a7b35d01adc1434d5dc407846f65eb762608f846ba18f6",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.MarketDataArchitectureTest",
+        "tests": 1
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "c58f712834b8a8d7a98e858cb4bd8c0fe32cefd6fa8760e934280711d865b51d",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.MarketDataConfigurationTest",
+        "tests": 27
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "9cebde4dfdc19f716f67026972516725c91b15f14e9064d44598647d3287ddd8",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.MultiInstrumentCorpusTest",
+        "tests": 3
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "63c881d23d2bec146b5ae675ed9a7eea20e2115ef5985dbf80fb342520b081de",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.OneOrderPermitTest",
+        "tests": 3
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "82430265efab30d66c57e43cf5504e5caf9bd0f6ac3c83511070a4a3fcd10122",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.OperatorControlArchitectureTest",
+        "tests": 6
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "b6f4445218290e20bd3f99ddf8d6b84b4561d571852f213cf1890507d5f192b0",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.OperatorControlTest",
+        "tests": 12
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "85a2ae072a4765467be1940b47df95f76ef74c227684a332abe57a691cbfcedf",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.order.ConservativeOrderQuantitySizerTest",
+        "tests": 13
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "77619e7b5961cc483767be62283b04cd32420537ec59dab0330f8d02a25ac576",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.order.ConservativeOrderValuationTest",
+        "tests": 30
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "50eb1b6552c147c86ce9e14ae82247a15304e04e67bfe66bcfe1610d356573d9",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.order.ExecutionFreshnessAuditTest",
+        "tests": 7
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "4dd9a45999fd01cdaade4307f0a6a2b9055693b003c0e65f1341cb6966ce18b4",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.order.ExecutionSafetyPolicyTest",
+        "tests": 3
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "48d751acb3f054afcb826a3a426ddff90cbfd253d0cef2f14f65eee62dd5cf0a",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.order.OrderApplicationServiceTest",
+        "tests": 9
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "67603b0370cb65a10d0051f89990525f07abd9b4af7157e7d6eaab504b9f67af",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.OrderArchitectureTest",
+        "tests": 3
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "4d5dc60e91ab38ba35c484734055021254fc1d5c87d6b587285bc78314863ceb",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.OrderStateTest",
+        "tests": 20
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "9ccd100c7b8e88c9fb7c6133149d6af2598024e8eb5a60026e466b3bed24eff9",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.Phase14HistoricalTest",
+        "tests": 4
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "c8429ffa7cc6123745dcdcbc124afb93158687603a5a3f8fc82f4b302dcf90b0",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.reconciliation.OrderReconciliationServiceTest",
+        "tests": 12
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "3704a388104b41f60c65a95809cd84d0bb2f6e211955ddd0d0516bd6e1c11e6a",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.ReconciliationArchitectureTest",
+        "tests": 1
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "f91039a286ab1cb30f7d470c3cb191e6c3c0e0e5c579b8fc2dd239c7ee2389bb",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.risk.domain.CashRiskArithmeticTest",
+        "tests": 3
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "22ef77208f8f46c0c2d87f009581e74d1bf3cc36bffc647d2ecc66c0d028f0ad",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.risk.domain.ConservativeNotionalRegressionTest",
+        "tests": 7
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "e368a304eb0d33bcaa1449081f078c891cec9cecce3dcc94c8bbde0775bbcc4a",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.risk.domain.IntradayAccountCapacityTest",
+        "tests": 32
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "5898daee0c689d348aee3133926759371a1af7a8a3d6f63845ff5fdebc9fdcd1",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.risk.domain.IntradayCollateralContractTest",
+        "tests": 28
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "5eac85c601cc2b7c247dc926b4ea352044f9d9b139045a1f88f65ecd670bc629",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.risk.domain.IntradayFundingDiagnosticsTest",
+        "tests": 49
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "d0ca6592f17e55e1c42f4ae250429c2d4ae8ce51bcb3df09c59e4adc189a2ac9",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.risk.domain.IntradayFundingEvidenceTest",
+        "tests": 8
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "b5925328eb73b234e85cd17b3d5cf0a1a9a96a15d68d8553fa44d60a8f274269",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.risk.RiskConfigurationTest",
+        "tests": 8
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "233f21fcb52cae3041f6d0d21fdf45bf064b9891655d5e27f352eac801cd8062",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.RiskArchitectureTest",
+        "tests": 1
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "23372a3b40f6ba882374d3be8a47e2addc9f75031a59fc8338e311568f941636",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.RiskEngineTest",
+        "tests": 3
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "c7cf0a8c25a85a5fe43e5c31cdc6ee775a30f33c068e0753469e81a3f2c87d75",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.RuntimeTradingHaltTest",
+        "tests": 13
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "5a7f45f6fe6a3ba03bf81faf23468214468a0f0ed9aece475906ba366e311b95",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.SafetyConfigurationTest",
+        "tests": 2
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "21475a08f3ad6e413474d86ebb1716bee3306638b15f3b59b3465d29bf894a8d",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.SignalContractTest",
+        "tests": 3
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "43ffa871b9392f8ff8a5e2c2d51a8aaea3c8047f1b3cd00a81459b203bd48a33",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.strategy.ReferenceThresholdStrategyTest",
+        "tests": 2
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "78097167f0ffec31702026154834c12fa6beefd1860f766eaaee968b01c8864b",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.strategy.StrategyReplayAuditTest",
+        "tests": 4
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "b69443127ec8ca49475e8432a8b83a2ece5fbdb3e1276038bdfbfb4100d102e3",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.StrategyArchitectureTest",
+        "tests": 2
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "8dc299aee906d13a4454a5f6fddd4671478aed6c778e97327cfc9278dd110f18",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.TradingReadArchitectureTest",
+        "tests": 5
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "c9436230c4c2bac3b5615e12a80965fa2a133253e677af7f2e3eb67a1ec040f1",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.TrustedOperatorConsoleTest",
+        "tests": 15
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "report_sha256": "93bbce7ddb788e1868be2c079bb9615028d4d99d0c77024e0e597dc45884a8a6",
+        "skipped": 0,
+        "suite": "com.kitehybrid.platform.UniverseValidationArchitectureTest",
+        "tests": 1
+      }
+    ],
+    "totals": {
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "tests": 1585
+    }
+  },
+  "mypy": "PASS: 43 source/test files plus1 verifier separately",
+  "not_run": [
+    "Unrelated full integration suite: no shared existing code or schema changed.",
+    "Physical PostgreSQL process restart: repository/application recovery tests used."
+  ],
+  "python": {
+    "focused": {
+      "errors": 0,
+      "failures": 0,
+      "report_sha256": "4c130c6f0ec887f16bea8dd1088ccbd49602e7e5b2f6125ca191445a70b13959",
+      "skipped": 0,
+      "tests": 32
+    },
+    "full": {
+      "errors": 0,
+      "failures": 0,
+      "report_sha256": "ae541de396e44334dc23313c3de472e317c6415f8b871e272b9f2b7af01c5147",
+      "skipped": 0,
+      "tests": 282
+    }
+  },
+  "real_kite_requests_by_agent": 0,
+  "ruff": "PASS: existing Python source/tests and new verifier separately"
+}
