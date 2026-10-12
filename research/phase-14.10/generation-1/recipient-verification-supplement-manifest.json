@@ -1,0 +1,155 @@
+{
+  "fingerprint": "2e2a5ff6f7a5adcd913f071e7ff695429f5b9f656fa5c8d6f80f4f485241f648",
+  "manifest": {
+    "approval_timestamp": null,
+    "artifacts_raw_sha256": {
+      "docs/operations/phase-14.10-recipient-verification-supplement.md": "5c8051b58ff76f9c6946a41192f3f31f6b2b9418a4bcc1b911aefaeb8546f16e"
+    },
+    "authenticated_owner_identity": null,
+    "baseline": "2bc3ebf912f14a6e28db0d894ecf2ceb7ff7c015",
+    "branch": "develop",
+    "candidate_evidence": {
+      "body_sha256": "24d91a9a7b746b48eeed4f81d7e49d1d25bc9f65993d8eec7c6d0fc8cb137f6a",
+      "email": "compliance@zerodha.com",
+      "independent_corroboration": "PENDING",
+      "owner_sending_approval": "PENDING",
+      "provenance": "USER_SUPPLIED",
+      "purpose": "contractual Terms questions",
+      "recipient_status": "USER_SUPPLIED_UNVERIFIED",
+      "source_section": "14) Contact Us",
+      "source_url": "https://kite.trade/terms/",
+      "subject_sha256": "bda936911ff17e5f5d20ce93713d18ba760950d4d6cbacc7380143aca661f37a",
+      "submission_status": "NOT_SENT"
+    },
+    "candidate_evidence_sha256": "f378c8f6beae6b0748d6cd2395d4a8efd385d5e9231b7abada97ad189710666b",
+    "credential_access": 0,
+    "expiry": null,
+    "formal_owner_decision": "PENDING",
+    "gate_A": "GATE_A_DECISION_PENDING",
+    "gate_B": "GATE_B_NOT_AUTHORIZED",
+    "independent_source_observation": {
+      "access_bypass": false,
+      "end_utc": "2026-10-12T12:49:50Z",
+      "exact_address_corroborated": false,
+      "http_status": "NOT_EXPOSED_BY_TOOL",
+      "method": "public web retrieval",
+      "result": "Terms-contact purpose visible; exact address masked",
+      "section": "14) Contact Us",
+      "start_utc": "2026-10-12T12:49:42Z",
+      "url": "https://kite.trade/terms/",
+      "verification_timestamp": null
+    },
+    "instruction_attribution": "User conversation instruction: Phase 14.10 - Additive Official Terms Contact Evidence",
+    "inventory": {
+      "combined_new": [
+        "docs/operations/phase-14.10-manual-verification.md",
+        "docs/operations/phase-14.10-official-channel-verification.md",
+        "docs/operations/phase-14.10-owner-send-decision.md",
+        "docs/operations/phase-14.10-plan.md",
+        "docs/operations/phase-14.10-recipient-message-binding.md",
+        "docs/operations/phase-14.10-recipient-verification-supplement.md",
+        "docs/operations/phase-14.10-response-evidence.md",
+        "docs/operations/phase-14.10-validation.md",
+        "research/phase-14.10/generation-1/evidence-manifest.json",
+        "research/phase-14.10/generation-1/recipient-verification-supplement-manifest.json"
+      ],
+      "modified": [],
+      "new_this_followup": [
+        "docs/operations/phase-14.10-recipient-verification-supplement.md",
+        "research/phase-14.10/generation-1/recipient-verification-supplement-manifest.json"
+      ],
+      "staged": []
+    },
+    "kind": "ADDITIVE_USER_SUPPLIED_RECIPIENT_EVIDENCE",
+    "messages_sent": 0,
+    "operational": "NO_GO",
+    "parent_fingerprint": "ff69e9beb0c6c0b0462984d98e56b273d3ef2cdb254954fba172117eba4ad152",
+    "parent_manifest_raw_sha256": "01bc49c9988010b9e48a484f063db263a4161b409810ac262f9b51768c1c0dc1",
+    "preserved_phase1410_raw_sha256": {
+      "docs/operations/phase-14.10-manual-verification.md": "3b4cb32c6380543bbe2f58244d3b1c73117d2bea1fbfe55a80f9368b311d3d2a",
+      "docs/operations/phase-14.10-official-channel-verification.md": "ac8b604b599cd20975385a62922a7338edf6f7c41cf7bf8b1496ff95f71dcb9e",
+      "docs/operations/phase-14.10-owner-send-decision.md": "9a8e613df2f179b00a6e16e66995ab9ddb48863201c4d80be83da2c8889f63ad",
+      "docs/operations/phase-14.10-plan.md": "fc194c061eba003cfaff12bac134b2623724dc838e45ab8990999734adb7a697",
+      "docs/operations/phase-14.10-recipient-message-binding.md": "6cec9a7c2d181cf59fd67828e9f5df30de1f701faecef370cd3b50ce32b2097f",
+      "docs/operations/phase-14.10-response-evidence.md": "3fdb75149f408e7690c62a941fe9799630d0d2ce9a7911b789f00d1eb0753f72",
+      "docs/operations/phase-14.10-validation.md": "bb9270302850663f867ebe8e09ed3ec42b52b4e508cccf0be1f16fe207274ae0",
+      "research/phase-14.10/generation-1/evidence-manifest.json": "01bc49c9988010b9e48a484f063db263a4161b409810ac262f9b51768c1c0dc1"
+    },
+    "prior_disposition": "DEFERRED_PENDING_RECIPIENT_VERIFICATION; proposal only",
+    "quote_encoding": "UTF-8, no terminating newline",
+    "quote_sha256": "8bc3aad6f7fac745f79edd4903e99d5093d6c486845ec0a96d024b9e558093fc",
+    "real_broker_requests": 0,
+    "replay_protocol": "Canonical sorted compact UTF-8 JSON of manifest payload; verify supplement and all prior Phase14.10 hashes, parent fingerprint and all parent baseline/artifact tables twice. Envelope excludes self-digest.",
+    "response_status": "NOT_RECEIVED",
+    "send_enabled": false,
+    "staging_commit_push": "NONE",
+    "support_channel_status": "SUPPORT_CHANNEL_UNVERIFIED",
+    "terms_questions": {
+      "Q1": {
+        "question": "Private authenticated CSV download",
+        "response_evidence": null,
+        "status": "UNRESOLVED"
+      },
+      "Q2": {
+        "question": "Map 1115 symbols",
+        "response_evidence": null,
+        "status": "UNRESOLVED"
+      },
+      "Q3": {
+        "question": "Temporary raw CSV",
+        "response_evidence": null,
+        "status": "UNRESOLVED"
+      },
+      "Q4": {
+        "question": "Persistent symbol-token mapping",
+        "response_evidence": null,
+        "status": "UNRESOLVED"
+      },
+      "Q5": {
+        "question": "Derived records/hashes/provenance",
+        "response_evidence": null,
+        "status": "UNRESOLVED"
+      },
+      "Q6": {
+        "question": "Private research/backtesting",
+        "response_evidence": null,
+        "status": "UNRESOLVED"
+      },
+      "Q7": {
+        "question": "Exchange licensing",
+        "response_evidence": null,
+        "status": "UNRESOLVED"
+      },
+      "Q8": {
+        "question": "Subscription-end deletion",
+        "response_evidence": null,
+        "status": "UNRESOLVED"
+      },
+      "Q9": {
+        "question": "Historical-candle retention",
+        "response_evidence": null,
+        "status": "UNRESOLVED"
+      }
+    },
+    "universe_unique": 1115,
+    "user_observation_timestamp": null,
+    "user_supplied_quote": "Please reach out to compliance@zerodha.com if you have any questions or concerns regarding the Terms.",
+    "verification": {
+      "baseline_files_checked": 1094,
+      "fresh_executable_tests": "NOT_RUN; additive evidence only",
+      "frozen_sources": 18,
+      "kl_records": 25,
+      "new_artifact_checks": "LF, whitespace, raw/path-filtered Git blob equivalence and repository secret/canary patterns",
+      "newline_reconciliations": 13,
+      "nine_unresolved_questions": "PASS",
+      "original_message_hashes": "PASS",
+      "prior_phase1410_artifacts": 8,
+      "protected_research": 63,
+      "secret_scan_before_envelope": {
+        "command": "uv run --offline python scripts/check-secrets.py",
+        "files": 2494,
+        "findings": 0
+      }
+    }
+  }
+}
