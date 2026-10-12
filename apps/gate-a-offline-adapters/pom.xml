@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent><groupId>com.kitehybrid</groupId><artifactId>kite-hybrid-platform</artifactId><version>0.1.0-SNAPSHOT</version><relativePath>../../pom.xml</relativePath></parent>
+  <artifactId>gate-a-offline-adapters</artifactId>
+  <name>Gate A offline adapters - no dispatch or launcher</name>
+  <dependencies>
+    <dependency><groupId>com.fasterxml.jackson.dataformat</groupId><artifactId>jackson-dataformat-csv</artifactId></dependency>
+    <dependency><groupId>org.junit.jupiter</groupId><artifactId>junit-jupiter</artifactId><scope>test</scope></dependency>
+  </dependencies>
+  <build><plugins>
+    <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><executions><execution><id>default-compile</id><configuration><implicit>none</implicit><compileSourceRoots>
+      <compileSourceRoot>${project.basedir}/src/main/java</compileSourceRoot>
+      <compileSourceRoot>${project.basedir}/../gate-a-offline-policy/src/main/java</compileSourceRoot>
+      <compileSourceRoot>${project.basedir}/../trading-core/src/main/java</compileSourceRoot>
+    </compileSourceRoots><includes>
+      <include>com/kitehybrid/gatea/**/*.java</include>
+      <include>com/kitehybrid/platform/broker/infrastructure/kite/KiteOfflineInstrumentMaster.java</include>
+      <include>com/kitehybrid/platform/broker/infrastructure/kite/KiteInstrumentCsvMapper.java</include>
+      <include>com/kitehybrid/platform/broker/infrastructure/kite/KiteBrokerIdentity.java</include>
+      <include>com/kitehybrid/platform/broker/application/BrokerReadException.java</include>
+      <include>com/kitehybrid/platform/instrument/application/DatedInstrumentMaster.java</include>
+      <include>com/kitehybrid/platform/instrument/application/OfflineUniverseResolution.java</include>
+      <include>com/kitehybrid/platform/instrument/application/HistoricalUniverseResolver.java</include>
+      <include>com/kitehybrid/platform/instrument/domain/Instrument.java</include>
+      <include>com/kitehybrid/platform/instrument/domain/InstrumentIdentity.java</include>
+      <include>com/kitehybrid/platform/instrument/domain/InstrumentText.java</include>
+      <include>com/kitehybrid/platform/instrument/domain/InstrumentType.java</include>
+      <include>com/kitehybrid/platform/instrument/domain/BrokerInstrumentId.java</include>
+      <include>com/kitehybrid/platform/shared/domain/Identifiers.java</include>
+    </includes></configuration></execution></executions></plugin>
+    <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-surefire-plugin</artifactId><configuration><forkCount>1</forkCount><argLine>-Xmx256m</argLine></configuration></plugin>
+  </plugins></build>
+  <profiles><profile><id>integration</id><build><plugins><plugin>
+    <groupId>org.apache.maven.plugins</groupId><artifactId>maven-failsafe-plugin</artifactId><version>${maven-failsafe-plugin.version}</version>
+    <configuration><forkCount>1</forkCount><argLine>-Xmx256m</argLine></configuration>
+    <executions><execution><goals><goal>integration-test</goal><goal>verify</goal></goals></execution></executions>
+  </plugin></plugins></build></profile></profiles>
+</project>
