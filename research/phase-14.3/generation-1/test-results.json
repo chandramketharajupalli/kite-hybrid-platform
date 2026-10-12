@@ -1,0 +1,77 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "operation": "focused tests/lint/type",
+      "result": "PASS"
+    },
+    {
+      "correction": "smaller file patches; no source changes",
+      "operation": "bulk artifact command",
+      "result": "TOOL_POLICY_REJECTION_BEFORE_EXECUTION"
+    }
+  ],
+  "fresh_suites": [
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "Java focused and historical architecture",
+      "skips": 0,
+      "tests": 98
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "name": "Python Phase14",
+      "skips": 0,
+      "tests": 32
+    }
+  ],
+  "full_suites": "NOT_RUN: documentation/static evidence only; no implementation change",
+  "ledger_replay": "1115 rows equal fresh Java output and canonical symbols",
+  "mypy": {
+    "files": 43,
+    "status": "PASS"
+  },
+  "postgresql": "NOT_RUN: no code/schema/storage change; no database started",
+  "preservation": {
+    "baseline": "7c1a6ade34b2d1070cea748d506109e196ad8236",
+    "parent_preservation": {
+      "baseline": "7c1a6ade34b2d1070cea748d506109e196ad8236",
+      "phase141_hash_entries": 1000,
+      "phase14_artifacts": 978,
+      "plan_sha256": "0203c612aec6750c1a80932f655587576000a88bb10ab0d877310809ad1b0b3f",
+      "protected": {
+        "frozen_source_registered_text_sha256": 18,
+        "governance_envelopes_raw_covered_by_KL": 11,
+        "new_documents_raw_sha256": 8,
+        "parent_envelopes": 15,
+        "prior_kl_raw_sha256": 25,
+        "protected_research_raw_sha256": 63,
+        "registered_parent_plans": 17
+      },
+      "real_kite_requests_by_verifier": 0,
+      "reconciled_paths": 13,
+      "result": "PASS",
+      "universe": {
+        "duplicates": 25,
+        "source_rows": 1140,
+        "unique": 1115
+      }
+    },
+    "phase141_committed_paths": 20,
+    "phase142_fingerprint": "5a67ecdc712c8feb4f58e6b4d20c4b85193f147a9c737f94a8281d367295e7be",
+    "phase142_hash_entries": 1017,
+    "plan_raw_sha256": "dd1937807d1eedf800bcb8b9ad5a7d7851f6af05789c5c459d596366dda79ef7",
+    "real_kite_requests_by_verifier": 0,
+    "result": "PASS"
+  },
+  "preview_assertions": {
+    "failures": 0,
+    "negative_mutations": 14,
+    "positive": 1,
+    "scope": "static contract validation, not a security dispatcher"
+  },
+  "real_kite_requests": 0,
+  "ruff": "PASS"
+}

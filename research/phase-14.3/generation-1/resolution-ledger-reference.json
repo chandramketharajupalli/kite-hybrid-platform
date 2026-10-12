@@ -1,0 +1,12 @@
+{
+  "exception_selector": {
+    "status": "MASTER_UNAVAILABLE"
+  },
+  "ledger_raw_sha256": {
+    "research/phase-14.2/generation-1/resolution-ledger.csv": "28053f59db16cc9eea5b192416cfa0e28f4c775a8c4567236efdb124c1ec3e52",
+    "research/phase-14.2/generation-1/resolution-ledger.json": "5ad51059a9bb7a49bb8d42f3d17d3ff713cacc877ff20d54229915dc8553fed9"
+  },
+  "reason": "NO_DATED_MASTER_SUPPLIED",
+  "rows": 1115,
+  "source_phase": "14.2"
+}

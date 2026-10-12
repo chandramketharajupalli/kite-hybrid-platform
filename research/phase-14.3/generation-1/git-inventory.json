@@ -1,0 +1,25 @@
+{
+  "baseline": "7c1a6ade34b2d1070cea748d506109e196ad8236",
+  "baseline_tracked_files": 1018,
+  "frozen_plan_allowlist": "EXACT_MATCH",
+  "initial_status": [],
+  "modified_tracked_files": [],
+  "new_count": 14,
+  "new_files": [
+    "docs/architecture/phase-14.3-audit.md",
+    "docs/operations/phase-14.3-master-authorization.md",
+    "docs/operations/phase-14.3-pilot-authorization.md",
+    "docs/operations/phase-14.3-plan.md",
+    "docs/operations/phase-14.3-provenance.md",
+    "docs/operations/phase-14.3-runbook.md",
+    "docs/operations/phase-14.3-terms.md",
+    "docs/operations/phase-14.3-validation.md",
+    "research/phase-14.3/generation-1/acquisition-preview.json",
+    "research/phase-14.3/generation-1/evidence-manifest.json",
+    "research/phase-14.3/generation-1/git-inventory.json",
+    "research/phase-14.3/generation-1/resolution-ledger-reference.json",
+    "research/phase-14.3/generation-1/summary.json",
+    "research/phase-14.3/generation-1/test-results.json"
+  ],
+  "staged_files": []
+}

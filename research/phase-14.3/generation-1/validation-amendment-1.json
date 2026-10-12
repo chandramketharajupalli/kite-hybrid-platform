@@ -1,0 +1,65 @@
+{
+  "clarification": "Original first-attempt test assertion describes Surefire results, not successful shell exit. This amendment controls attempt reporting. Rerun is not additional distinct tests.",
+  "corrected_attempts": [
+    {
+      "attempt": 1,
+      "cause": "UNCONFIRMED; output redirection present",
+      "errors": 0,
+      "failures": 0,
+      "java_tests": 98,
+      "log_location_ignored": "apps/trading-core/target/phase143-java.txt",
+      "maven_log": "BUILD SUCCESS",
+      "shell_exit": 1,
+      "skips": 0
+    },
+    {
+      "attempt": 2,
+      "change": "Direct invocation without output redirection; no source changes",
+      "errors": 0,
+      "failures": 0,
+      "java_tests": 98,
+      "maven_log": "BUILD SUCCESS",
+      "shell_exit": 0,
+      "skips": 0
+    }
+  ],
+  "final_inventory": {
+    "modified_tracked_files": [],
+    "new_count": 15,
+    "new_files": [
+      "docs/architecture/phase-14.3-audit.md",
+      "docs/operations/phase-14.3-master-authorization.md",
+      "docs/operations/phase-14.3-pilot-authorization.md",
+      "docs/operations/phase-14.3-plan.md",
+      "docs/operations/phase-14.3-provenance.md",
+      "docs/operations/phase-14.3-runbook.md",
+      "docs/operations/phase-14.3-terms.md",
+      "docs/operations/phase-14.3-validation.md",
+      "research/phase-14.3/generation-1/acquisition-preview.json",
+      "research/phase-14.3/generation-1/evidence-manifest.json",
+      "research/phase-14.3/generation-1/git-inventory.json",
+      "research/phase-14.3/generation-1/resolution-ledger-reference.json",
+      "research/phase-14.3/generation-1/summary.json",
+      "research/phase-14.3/generation-1/test-results.json",
+      "research/phase-14.3/generation-1/validation-amendment-1.json"
+    ],
+    "staged_files": []
+  },
+  "final_secret_scan_before_amendment": {
+    "files": 2423,
+    "findings": 0
+  },
+  "kind": "ADDITIVE_PLAN_AND_VALIDATION_AMENDMENT",
+  "original_manifest_raw_sha256": "550d462233eecde920e75602f8aa7d08b577bfec001725741b2ba3640c5b997a",
+  "original_plan_sha256": "574b65cb55538c5a8a0727b6d1360966302389e413a08d1ae2db58a572ce22c9",
+  "real_kite_requests": 0,
+  "reason": "Delayed shell completion showed exit 1 despite Maven BUILD SUCCESS; preserve discrepancy and direct rerun",
+  "scope_amendment": {
+    "additional_permitted_paths": [
+      "research/phase-14.3/generation-1/validation-amendment-1.json"
+    ],
+    "implementation_changes": 0
+  },
+  "sealed_manifest_replays": 2,
+  "status": "PHASE_14_3_OFFLINE_AUTHORIZATION_READY"
+}

@@ -1,0 +1,22 @@
+{
+  "actual_candles": 0,
+  "duplicates": 25,
+  "gate_a": "PENDING",
+  "gate_b": "PENDING",
+  "genuine_master": null,
+  "implementation_changes": 0,
+  "operational_status": "NO_GO",
+  "performance": null,
+  "real_kite_requests": 0,
+  "resolution_counts": {
+    "AMBIGUOUS": 0,
+    "INELIGIBLE": 0,
+    "MASTER_UNAVAILABLE": 1115,
+    "MISSING": 0,
+    "RESOLVED": 0
+  },
+  "source_rows": 1140,
+  "status": "PHASE_14_3_OFFLINE_AUTHORIZATION_READY",
+  "terms": "TERMS_UNRESOLVED",
+  "unique_enabled_NSE": 1115
+}
