@@ -390,9 +390,10 @@ def test_paper_target_and_liquidity_prices_and_times(tmp_path: Path, kind: str) 
         assert D(last["price"]) == D("104.04")
         assert last["timestamp"] == (series.from_inclusive + 5 * FIVE).isoformat()
     elif kind == "liquidity":
-        assert last["state"] == "PAPER_ORDER_REJECTED" and "LIQUIDITY" in last["rejection"]
-        assert last["timestamp"] == (series.from_inclusive + 4 * FIVE).isoformat()
-        assert not any(e["state"] == "PAPER_FILLED" for e in output["events"])
+        fill = next(e for e in output["events"] if e["state"] == "PAPER_FILLED")
+        assert fill["timestamp"] == (series.from_inclusive + 4 * FIVE).isoformat()
+        assert fill["quantity"] == 10 and fill["price"] == "102"
+        assert last["state"] == "PAPER_POSITION_CLOSED" and last["rejection"] == "EOD"
     else:
         assert last["state"] == "PAPER_HALTED" and last["position"] == 10
         assert last["rejection"] == "EXIT_LIQUIDITY_UNVALUED"

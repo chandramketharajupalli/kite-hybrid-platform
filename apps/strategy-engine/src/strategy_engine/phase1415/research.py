@@ -252,6 +252,8 @@ def evaluate(
         return Result(**base, data_status="QUARANTINED", reasons=tuple(reasons))
     try:
         simulation = execute(series, definition, settings, costs)
+        if simulation.unresolved:
+            raise ValueError("EXIT_NO_FILL_UNVALUED_POSITION")
     except ValueError:
         return Result(**base, data_status="QUARANTINED", reasons=("EXECUTION_OR_DATA_REJECTED",))
     trades = simulation.trades

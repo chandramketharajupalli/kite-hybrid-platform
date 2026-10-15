@@ -11,6 +11,7 @@ from strategy_engine.backtest.costs import IntradayCostSchedule
 from strategy_engine.backtest.dataset import digest
 from strategy_engine.phase14.engine import Policy, Settings
 from strategy_engine.phase14.universe import normalize
+from strategy_engine.phase1415.execution import ENGINE, EXECUTION_VERSION, execution_fingerprint
 from strategy_engine.phase1415.hardening import (
     SCHEMA,
     FamilyBinding,
@@ -50,7 +51,9 @@ def run(
     )
     config = json.dumps(
         dict(
-            engine="phase1415-session-executor-v1",
+            engine=ENGINE,
+            execution_policy_version=EXECUTION_VERSION,
+            execution_policy_hash=execution_fingerprint(),
             schema=SCHEMA,
             family=family.model_dump(mode="json"),
             run_id=family.run_id,

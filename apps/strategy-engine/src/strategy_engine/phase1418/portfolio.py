@@ -11,6 +11,12 @@ from pydantic import Field
 from strategy_engine.backtest.costs import IntradayCostSchedule
 from strategy_engine.backtest.dataset import NSE, Frozen, Hash, Instant, Money, digest
 from strategy_engine.phase14.engine import FIVE, PRECISION, Settings
+from strategy_engine.phase1415.execution import (
+    EXECUTION_VERSION,
+    decision_timing,
+    execution_fingerprint,
+    liquidity_bar,
+)
 from strategy_engine.phase1415.hardening import ROOT, UNIVERSE
 from strategy_engine.phase1415.research import Dataset
 from strategy_engine.phase1415.strategies import Definition, registry
@@ -261,6 +267,8 @@ class Coordinator:
             strategy_id=order["strategy_id"] if order else None,
             signal_fingerprint=order["signal"] if order else None,
             qualification_fingerprint=order["qualification_hash"] if order else None,
+            execution_policy_version=EXECUTION_VERSION,
+            execution_policy_fingerprint=execution_fingerprint(),
             risk_policy_fingerprint=self.policy.fingerprint,
             risk_policy_fingerprint_version=self.policy.fingerprint_version,
             scope=self.binding["scope"],
@@ -348,7 +356,7 @@ class Coordinator:
                 price,
                 at,
                 D(self.account()["available"]),
-                candle.volume,
+                liquidity_bar(request.data.series, at).volume,
                 request.definition.stop,
             )
         )
@@ -356,7 +364,14 @@ class Coordinator:
             self.emit(key, "REJECTED", at, reason="CASH_EXPOSURE_LIQUIDITY_OR_RISK")
             return
         fee = request.costs.quote("BUY", price * qty, at, None).total
-        self.emit(key, "RESERVED", at, amount=str(price * qty + fee), quantity=qty)
+        self.emit(
+            key,
+            "RESERVED",
+            at,
+            amount=str(price * qty + fee),
+            quantity=qty,
+            timing=decision_timing(request.data.series, at),
+        )
         if order["signal"] in control.cancel_signals:
             self.emit(key, "CANCELLED", at, reason="EXPLICIT_PAPER_CANCEL")
             return
@@ -366,6 +381,7 @@ class Coordinator:
             "FILLED",
             at,
             price=str(price),
+            timing=decision_timing(request.data.series, at),
             quantity=qty,
             fees=str(fee),
             stop=str(price * (1 - request.definition.stop)),
@@ -451,7 +467,9 @@ def _run(
     if checkpoint.exists():
         _, prior = read_json(checkpoint)
         if (
-            prior.get("schema") != "Phase1418Portfolio.v2"
+            prior.get("schema") != "Phase1418Portfolio.v3"
+            or prior.get("execution_policy_version") != EXECUTION_VERSION
+            or prior.get("execution_policy_hash") != execution_fingerprint()
             or prior.get("policy_fingerprint_version") != VERSION
             or prior.get("policy", {}).get("fingerprint_version") != VERSION
             or prior.get("control", {}).get("policy_fingerprint_version") != VERSION
@@ -485,7 +503,9 @@ def _run(
             raise ValueError("CONFLICTING_SYMBOL_DATASETS")
         datasets[symbol] = r.data.dataset_sha256
     binding = dict(
-        schema="Phase1418Portfolio.v2",
+        schema="Phase1418Portfolio.v3",
+        execution_policy_version=EXECUTION_VERSION,
+        execution_policy_hash=execution_fingerprint(),
         policy_fingerprint_version=VERSION,
         ordering=ORDERING,
         universe_hash=sha(UNIVERSE.read_bytes()),
@@ -668,7 +688,9 @@ def _run(
     for name, payload in payloads.items():
         publish(directory / name, payload)
     summary = dict(
-        schema="Phase1418PortfolioSummary.v2",
+        schema="Phase1418PortfolioSummary.v3",
+        execution_policy_version=EXECUTION_VERSION,
+        execution_policy_hash=execution_fingerprint(),
         policy_fingerprint_version=VERSION,
         risk_policy_fingerprint=policy.fingerprint,
         run_id=c.run_id,

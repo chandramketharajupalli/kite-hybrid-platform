@@ -173,7 +173,7 @@ def test_three_corrected_examples(tmp_path: Path, scenario: str) -> None:
     restored = Policy.model_validate(binding["policy"])
     restored_control = Control.model_validate(binding["control"])
     assert restored.fingerprint == p.fingerprint == restored_control.policy_hash
-    assert result["schema"] == "Phase1418PortfolioSummary.v2"
+    assert result["schema"] == "Phase1418PortfolioSummary.v3"
     assert result["risk_policy_fingerprint"] == p.fingerprint
     assert all(
         e["risk_policy_fingerprint_version"] == VERSION

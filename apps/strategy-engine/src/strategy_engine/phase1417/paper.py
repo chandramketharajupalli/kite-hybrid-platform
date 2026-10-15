@@ -11,7 +11,14 @@ from pydantic import Field
 from strategy_engine.backtest.costs import IntradayCostSchedule
 from strategy_engine.backtest.dataset import NSE, Frozen, Hash, Instant, Money, digest
 from strategy_engine.phase14.engine import FIVE, PRECISION, Settings, Trade
-from strategy_engine.phase1415.execution import execute
+from strategy_engine.phase1415.execution import (
+    EXECUTION_VERSION,
+    Unresolved,
+    decision_timing,
+    execute,
+    execution_fingerprint,
+    liquidity_bar,
+)
 from strategy_engine.phase1415.hardening import UNIVERSE
 from strategy_engine.phase1415.paper import event
 from strategy_engine.phase1415.research import Dataset
@@ -124,6 +131,11 @@ def size(
 
 class Audit:
     def __init__(self, binding: dict[str, Any]) -> None:
+        if (
+            binding.get("execution_policy_version") != EXECUTION_VERSION
+            or binding.get("execution_policy_hash") != execution_fingerprint()
+        ):
+            raise ValueError("INCOMPATIBLE_EXECUTION_POLICY")
         self.binding = binding
         self.run_id = sha(canonical(binding))
         self.events: list[dict[str, Any]] = []
@@ -145,6 +157,8 @@ class Audit:
             signal_fingerprint=signal,
             qualification_fingerprint=self.binding["qualification_hash"],
             risk_policy_fingerprint=self.binding["risk_hash"],
+            execution_policy_version=EXECUTION_VERSION,
+            execution_policy_fingerprint=execution_fingerprint(),
             symbol=self.binding["symbol"],
             strategy_id=self.binding["strategy_id"],
             strategy_version=self.binding["strategy_version"],
@@ -176,6 +190,8 @@ class Audit:
             "signal_fingerprint",
             "qualification_fingerprint",
             "risk_policy_fingerprint",
+            "execution_policy_version",
+            "execution_policy_fingerprint",
             "symbol",
             "strategy_id",
             "strategy_version",
@@ -228,9 +244,20 @@ def _simulate(
 ) -> dict[str, Any]:
     """Complete offline run; synthetic numerical proofs never grant genuine readiness."""
     directory = external(directory)
+    previous = directory / "paper-run.json"
+    if previous.exists():
+        stored_binding = json.loads(previous.read_bytes()).get("binding", {})
+        if (
+            stored_binding.get("schema") != "Phase1417Paper.v2"
+            or stored_binding.get("execution_policy_version") != EXECUTION_VERSION
+            or stored_binding.get("execution_policy_hash") != execution_fingerprint()
+        ):
+            raise ValueError("INCOMPATIBLE_EXECUTION_POLICY")
     series = data.series
     binding = dict(
-        schema="Phase1417Paper.v1",
+        schema="Phase1417Paper.v2",
+        execution_policy_version=EXECUTION_VERSION,
+        execution_policy_hash=execution_fingerprint(),
         universe_hash=sha(UNIVERSE.read_bytes()),
         registry_hash=sha(canonical([d.model_dump(mode="json") for d in registry()])),
         family_run_id=qualification.result.family_run_id,
@@ -328,9 +355,10 @@ def _simulate(
             day = None
             day_start_cash = cash
             by_start = {b.start: b for b in series.bars}
-            candidates: list[tuple[datetime, Trade | None, str | None]] = [
+            candidates: list[tuple[datetime, Trade | Unresolved | None, str | None]] = [
                 (t.entry_at, t, None) for t in candidate.trades
             ]
+            candidates.extend((t.entry_at, t, None) for t in candidate.unresolved)
             candidates.extend(
                 (datetime.fromisoformat(reason.rsplit(":", 1)[0]), None, reason)
                 for reason in candidate.no_fills
@@ -364,7 +392,7 @@ def _simulate(
                     trade.entry,
                     at,
                     cash,
-                    by_start[at].volume,
+                    liquidity_bar(series, at).volume,
                     definition.stop,
                 )
                 assert risk.daily_loss is not None
@@ -381,7 +409,9 @@ def _simulate(
                     audit.emit(key, "PAPER_ORDER_REJECTED", at, rejection=reason, cash=str(cash))
                     continue
                 for state in ("RISK_APPROVED", "PAPER_ORDER_CREATED", "PAPER_ORDER_ACCEPTED"):
-                    audit.emit(key, state, at, quantity=quantity)
+                    audit.emit(
+                        key, state, at, quantity=quantity, timing=decision_timing(series, at)
+                    )
                 buy = trade.entry * quantity
                 fee = costs.quote("BUY", buy, at, None).total
                 cash -= buy + fee
@@ -389,6 +419,7 @@ def _simulate(
                     key,
                     "PAPER_FILLED",
                     at,
+                    timing=decision_timing(series, at),
                     price=str(trade.entry),
                     quantity=quantity,
                     fees=str(fee),
@@ -412,7 +443,10 @@ def _simulate(
                     rejection=trade.reason,
                     position=quantity,
                 )
-                if D(exit_bar.volume) * settings.participation < quantity:
+                if (
+                    isinstance(trade, Unresolved)
+                    or D(exit_bar.volume) * settings.participation < quantity
+                ):
                     audit.emit(
                         key,
                         "PAPER_HALTED",

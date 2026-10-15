@@ -244,8 +244,13 @@ def test_quality_rejects(fault: str) -> None:
         data = data.model_copy(
             update={"bars": data.bars[:-1] + (data.bars[-1].model_copy(update={"volume": 0}),)}
         )
-    with pytest.raises(ValueError):
-        execute(data, registry()[5], Settings(), tariff())
+    if fault == "illiquid":
+        result = execute(data, registry()[5], Settings(), tariff())
+        assert len(result.unresolved) == 1 and not result.trades
+        assert result.unresolved[0].entry == D("102.0510")
+    else:
+        with pytest.raises(ValueError):
+            execute(data, registry()[5], Settings(), tariff())
 
 
 @pytest.mark.parametrize("bad", ["negative", "nan", "duplicate", "future"])
