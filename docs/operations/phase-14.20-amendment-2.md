@@ -1,0 +1,5 @@
+# Cumulative guard timing and publication bound
+
+Review after the 36-focused/687-full passing gates identified a potential same-clock admission gap: the scheduler invokes the normal guard before entry processing, but a confirmed entry fee can cross the new cumulative drawdown limit before a competing entry. Add a regression that requires the second proposal to be cancelled after the first fill crosses an explicitly tiny synthetic limit. Preserve its initial result.
+
+Within the new GuardedPortfolio subclass only, invoke the existing guard after FILLED and CLOSED events as well as the existing mark checks. Do not alter frozen portfolio, strategy, execution or cost source. Also reject aggregate outcome publication beyond 256 MiB before writing the next outcome. Existing outcomes and test receipts remain externally archived; regenerate only the unsealed current-phase synthetic package against final source. Rerun focused/full tests and static checks. No new existing-file modification is authorized.
