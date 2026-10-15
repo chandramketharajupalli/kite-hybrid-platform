@@ -215,6 +215,67 @@ class Audit:
         return audit
 
 
+def admission(
+    qualification: Row,
+    data: Dataset,
+    definition: Definition,
+    settings: Settings,
+    risk: Risk,
+    authorization: Authorization,
+) -> tuple[str, ...]:
+    """Shared immutable offline eligibility checks; no simulation or publication."""
+    series = data.series
+    start = series.from_inclusive
+    synthetic = authorization.mode == "SYNTHETIC_FIXTURE"
+    failures = list(risk.gaps())
+    if (
+        not authorization.enabled
+        or authorization.valid_from > start
+        or authorization.valid_to < series.to_exclusive
+        or authorization.valid_from >= authorization.valid_to
+    ):
+        failures.append("PAPER_AUTHORIZATION_REQUIRED")
+    if (
+        authorization.qualification_hash != qualification.fingerprint
+        or authorization.risk_hash != risk.fingerprint
+        or authorization.dataset_hash != data.dataset_sha256
+        or qualification.risk_policy_hash != risk.fingerprint
+    ):
+        failures.append("PAPER_BINDING_CONFLICT")
+    r = qualification.result
+    if (
+        not qualification.numerical_gate()
+        or (not synthetic and qualification.status != "QUALIFIED")
+        or bool(r.synthetic) != synthetic
+        or series.synthetic != synthetic
+        or risk.fixture_only != synthetic
+    ):
+        failures.append("QUALIFIED_PAIR_REQUIRED")
+    if (
+        r.symbol != series.symbol
+        or r.strategy_hash != definition.fingerprint
+        or r.strategy_version != definition.version
+        or r.window.end > start
+    ):
+        failures.append("STRATEGY_OR_HISTORY_BOUNDARY_CONFLICT")
+    if (
+        data.quarantined
+        or not data.calendar_verified
+        or not data.mapping_verified
+        or not series.corporate_actions_reviewed
+        or data.missing_sessions
+        or data.duplicate_candles
+        or data.out_of_order
+        or series.quality() != ((), ())
+    ):
+        failures.append("PAPER_DATA_QUALITY")
+    if risk.capital != settings.capital:
+        failures.append("SIMULATED_CAPITAL_CONFLICT")
+    if authorization.partial_fills:
+        failures.append("PARTIAL_FILLS_UNSUPPORTED_FROZEN_EXECUTOR")
+    return tuple(failures)
+
+
 def simulate(
     qualification: Row,
     data: Dataset,
@@ -282,52 +343,7 @@ def _simulate(
     audit = Audit(binding)
     start = series.from_inclusive
     synthetic = authorization.mode == "SYNTHETIC_FIXTURE"
-    failures = list(risk.gaps())
-    if (
-        not authorization.enabled
-        or authorization.valid_from > start
-        or authorization.valid_to < series.to_exclusive
-        or authorization.valid_from >= authorization.valid_to
-    ):
-        failures.append("PAPER_AUTHORIZATION_REQUIRED")
-    if (
-        authorization.qualification_hash != qualification.fingerprint
-        or authorization.risk_hash != risk.fingerprint
-        or authorization.dataset_hash != data.dataset_sha256
-        or qualification.risk_policy_hash != risk.fingerprint
-    ):
-        failures.append("PAPER_BINDING_CONFLICT")
-    r = qualification.result
-    if (
-        not qualification.numerical_gate()
-        or (not synthetic and qualification.status != "QUALIFIED")
-        or bool(r.synthetic) != synthetic
-        or series.synthetic != synthetic
-        or risk.fixture_only != synthetic
-    ):
-        failures.append("QUALIFIED_PAIR_REQUIRED")
-    if (
-        r.symbol != series.symbol
-        or r.strategy_hash != definition.fingerprint
-        or r.strategy_version != definition.version
-        or r.window.end > start
-    ):
-        failures.append("STRATEGY_OR_HISTORY_BOUNDARY_CONFLICT")
-    if (
-        data.quarantined
-        or not data.calendar_verified
-        or not data.mapping_verified
-        or not series.corporate_actions_reviewed
-        or data.missing_sessions
-        or data.duplicate_candles
-        or data.out_of_order
-        or series.quality() != ((), ())
-    ):
-        failures.append("PAPER_DATA_QUALITY")
-    if risk.capital != settings.capital:
-        failures.append("SIMULATED_CAPITAL_CONFLICT")
-    if authorization.partial_fills:
-        failures.append("PARTIAL_FILLS_UNSUPPORTED_FROZEN_EXECUTOR")
+    failures = admission(qualification, data, definition, settings, risk, authorization)
     cash = settings.capital
     if failures or authorization.paper_halt:
         signal = digest(audit.run_id + "admission")

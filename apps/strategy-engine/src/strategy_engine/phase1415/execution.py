@@ -64,6 +64,18 @@ def decision_timing(series: Series, at: datetime) -> dict[str, str]:
     }
 
 
+def exit_reference(
+    bar: Candle, entry: Decimal, definition: Definition, last: bool
+) -> tuple[Decimal, Literal["STOP", "TARGET", "EOD"] | None]:
+    """Completed-candle price decision; caller enforces availability and liquidity."""
+    stop, target = entry * (1 - definition.stop), entry * (1 + definition.target)
+    if bar.low <= stop:
+        return min(stop, bar.open), "STOP"
+    if bar.high >= target:
+        return target, "TARGET"
+    return bar.close, "EOD" if last else None
+
+
 class Unresolved(Frozen):
     signal_at: datetime
     entry_at: datetime
@@ -158,15 +170,7 @@ def execute(
                     mark = bar.low * (1 - slip) * settings.quantity
                     mark_fee = costs.quote("SELL", mark, at, entry * settings.quantity).total
                     drawdown = max(drawdown, (peak - cash - mark + mark_fee) / peak)
-                    stop, target = entry * (1 - definition.stop), entry * (1 + definition.target)
-                    reason: Literal["STOP", "TARGET", "EOD"] | None = None
-                    reference = bar.close
-                    if bar.low <= stop:
-                        reference, reason = min(stop, bar.open), "STOP"
-                    elif bar.high >= target:
-                        reference, reason = target, "TARGET"
-                    elif last:
-                        reason = "EOD"
+                    reference, reason = exit_reference(bar, entry, definition, last)
                     if reason is not None:
                         if not liquid:
                             unresolved.append(
