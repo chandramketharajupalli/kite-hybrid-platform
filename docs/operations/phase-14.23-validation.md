@@ -1,0 +1,21 @@
+# Phase 14.23 offline validation
+
+Baseline: 9cce4e3a5f7b19a18511ea49c77d1644faa83392 on develop, matching local origin/develop. All 1,304 tracked raw hashes and protected G1, eighteen source hashes, sixty-three research files, K/L governance, historical manifests and thirteen newline reconciliations pass. Phase 14.21 software and evidence match; its PARTIAL classification is unchanged.
+
+The pre-existing untracked docs/operations/phase-14.22-plan.md remains byte-identical at e417f0c971b5a4778774785b7e5137db0051667598e64d9c409c250d3cb46f31. It is recorded as a preservation exception, never included in the ten-file Phase 14.23 implementation/evidence inventory. No tracked files changed.
+
+Fresh focused tests: 44 passed. Fresh full Python tests: 766 passed. Zero failures/errors/skips in the accepted receipts. Ruff source/tests and verifier passed. Strict mypy passed across 80 files. No Java contracts changed; no Java tests ran. Python -B and PYTHONDONTWRITEBYTECODE=1, pytest --assert=plain -p no:cacheprovider, Ruff --no-cache and external mypy cache/temp/JUnit/log paths were used. Every command gate rechecked baseline and exception hashes.
+
+External receipts: C:/Users/CHANDR~1/AppData/Local/Temp/phase1423-x6nbd4df. Initial focused attempt retained 41 passes and one failure comparing fee decimal serialization strings; numeric comparison corrected the test. Two added coverage/cutoff regressions brought the final total to 44. The verifier's first lint failed on a long hash literal line; a named constant corrected it, with both receipts preserved. No frozen source changed to fix either issue.
+
+The complete-mixed example has four accepted fills and four valid references, 100% coverage, signed slippage 20 and absolute slippage 40 (per-fill signed values 10, -10, 0, 20). Partial-coverage has one measured fill, 25% coverage, measured-subset signed/absolute 10, three NOT_COMPUTABLE fills and null full totals. Future-rejected has one rejected reference, zero measured fills, four NOT_COMPUTABLE fills and null totals, not false zero slippage.
+
+Each example represents six strategies and all 1,115 symbols. S06/SBIN receive observed measurements; other five strategies and 1,114 symbols remain NOT_COMPUTABLE. Future-rejected leaves all groups NOT_COMPUTABLE. Strategy/symbol signed and absolute totals, coverage, fees and cash reconcile to portfolio totals. Existing accepted cash delta remains -2.16958080 and fees remain 2.16958080 in every example. Slippage added to cash is zero. Fixtures are independent synthetic reference quotes, not claims about executable liquidity or actual market prices.
+
+Coverage includes valid buys/sells, both signs and zero, missing/future references, forged later cutoffs, duplicate evidence/fill identities, symbol/strategy/run/session/side/quantity/price linkage, unknown version/policy/source, nonfinite/zero/negative/missing prices, Decimal-context invariance, bps, source tampering, no fills, attribution/cash separation, idempotent publication, input order invariance, no earlier-decision changes and no broker imports.
+
+Reports replay identically in separate external directories. The read-only manifest verifier recomputes all three reports, checks fingerprints, exact inventory, baseline/exception hashes, historical and fresh receipts, LF/Git-byte equivalence, whitespace and secret/canary scans. Two identical verifier outputs and an external final certificate with a distinct command receipt are required for certification; they do not overwrite historical records.
+
+Measurement policy is Phase1423DecisionQuote.v1. Only causally available decision quotes are accepted; post-trade benchmark types are rejected and cannot justify prior decisions. No strategy, execution model, qualification, risk limits or historical reports changed. Frozen family 13,380 and zero genuine qualified pairs remain unchanged. Independent rollback resistance, genuine execution quality and production performance are not established by local synthetic replay.
+
+Gate A/B NOT_AUTHORIZED; Stage B ZERO_CALL_ABORT; Phase12 BLOCK; H1/H2 FROZEN; July SEALED; operational NO_GO. Real Kite requests: zero. No credentials, network requests, data downloads, orders, notifications, infrastructure, operational HALT changes, staging, commit or push.
