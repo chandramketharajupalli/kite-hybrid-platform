@@ -14,10 +14,11 @@ from strategy_engine.phase14.engine import FIVE, PRECISION, Settings
 from strategy_engine.phase1415.hardening import ROOT, UNIVERSE
 from strategy_engine.phase1415.research import Dataset
 from strategy_engine.phase1415.strategies import Definition, registry
-from strategy_engine.phase1416.imports import canonical, external, publish, sha
+from strategy_engine.phase1416.imports import canonical, external, publish, read_json, sha
 from strategy_engine.phase1417.paper import Authorization, Risk, simulate, size
 from strategy_engine.phase1417.qualification import Row
 from strategy_engine.phase1417.qualification import inventory as previous_inventory
+from strategy_engine.phase1418.canonical_policy import VERSION, Version, payload
 
 D = Decimal
 ORDERING = "timestamp-exits-marks-canonical-symbol-strategy-signal-v1"
@@ -34,6 +35,7 @@ TRANSITIONS: dict[str | None, set[str]] = {
 
 
 class Policy(Frozen):
+    fingerprint_version: Version
     base: Risk = Risk()
     strategy_exposure: Money | None = None
     sector_exposure: Money | None = None
@@ -43,7 +45,7 @@ class Policy(Frozen):
 
     @property
     def fingerprint(self) -> str:
-        return digest(self.model_dump_json())
+        return sha(payload(self.model_dump(mode="python"), self.fingerprint_version))
 
     def gaps(self, symbols: set[str]) -> tuple[str, ...]:
         missing = list(self.base.gaps())
@@ -75,6 +77,7 @@ class Request(Frozen):
 
 
 class Control(Frozen):
+    policy_fingerprint_version: Version
     policy_hash: Hash
     authorization_evidence: Hash
     enabled: bool = False
@@ -87,7 +90,11 @@ class Control(Frozen):
 def inventory() -> dict[str, str]:
     result = previous_inventory()
     directory = ROOT / "apps/strategy-engine/src/strategy_engine/phase1418"
-    if {p.name for p in directory.glob("*.py")} != {"__init__.py", "portfolio.py"}:
+    if {p.name for p in directory.glob("*.py")} != {
+        "__init__.py",
+        "portfolio.py",
+        "canonical_policy.py",
+    }:
         raise ValueError("SOFTWARE_INVENTORY_CONFLICT")
     for p in directory.glob("*.py"):
         result[p.relative_to(ROOT).as_posix()] = sha(p.read_bytes())
@@ -255,6 +262,7 @@ class Coordinator:
             signal_fingerprint=order["signal"] if order else None,
             qualification_fingerprint=order["qualification_hash"] if order else None,
             risk_policy_fingerprint=self.policy.fingerprint,
+            risk_policy_fingerprint_version=self.policy.fingerprint_version,
             scope=self.binding["scope"],
             cash_delta=str(D(after["cash"]) - D(before["cash"])),
             reservation_delta=str(D(after["reserved"]) - D(before["reserved"])),
@@ -437,6 +445,18 @@ def _run(
     interrupt_after: int | None,
 ) -> dict[str, Any]:
     directory = external(directory)
+    if policy.fingerprint_version != VERSION or control.policy_fingerprint_version != VERSION:
+        raise ValueError("PAPER_HALTED:UNSUPPORTED_POLICY_FINGERPRINT_VERSION")
+    checkpoint = directory / "portfolio-plan.json"
+    if checkpoint.exists():
+        _, prior = read_json(checkpoint)
+        if (
+            prior.get("schema") != "Phase1418Portfolio.v2"
+            or prior.get("policy_fingerprint_version") != VERSION
+            or prior.get("policy", {}).get("fingerprint_version") != VERSION
+            or prior.get("control", {}).get("policy_fingerprint_version") != VERSION
+        ):
+            raise ValueError("PAPER_HALTED:INCOMPATIBLE_CHECKPOINT_VERSION")
     if (
         not requests
         or len(requests) > 6690
@@ -465,7 +485,8 @@ def _run(
             raise ValueError("CONFLICTING_SYMBOL_DATASETS")
         datasets[symbol] = r.data.dataset_sha256
     binding = dict(
-        schema="Phase1418Portfolio.v1",
+        schema="Phase1418Portfolio.v2",
+        policy_fingerprint_version=VERSION,
         ordering=ORDERING,
         universe_hash=sha(UNIVERSE.read_bytes()),
         registry_hash=sha(canonical([d.model_dump(mode="json") for d in registry()])),
@@ -647,7 +668,9 @@ def _run(
     for name, payload in payloads.items():
         publish(directory / name, payload)
     summary = dict(
-        schema="Phase1418PortfolioSummary.v1",
+        schema="Phase1418PortfolioSummary.v2",
+        policy_fingerprint_version=VERSION,
+        risk_policy_fingerprint=policy.fingerprint,
         run_id=c.run_id,
         scope=binding["scope"],
         event_count=len(c.events),

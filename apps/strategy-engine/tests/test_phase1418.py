@@ -14,6 +14,7 @@ from strategy_engine.phase14.engine import FIVE, Settings
 from strategy_engine.phase1415.paper import event
 from strategy_engine.phase1415.strategies import registry
 from strategy_engine.phase1417.paper import Risk
+from strategy_engine.phase1418.canonical_policy import VERSION
 from strategy_engine.phase1418.portfolio import Control, Coordinator, Policy, Request, run
 
 D = Decimal
@@ -22,6 +23,7 @@ D = Decimal
 def policy(**updates: Any) -> Policy:
     base = risk_fixture().model_copy(update={"simultaneous_positions": 4})
     return Policy(
+        fingerprint_version=VERSION,
         base=base,
         strategy_exposure=D(10000),
         sector_exposure=D(10000),
@@ -69,7 +71,10 @@ def request(
 
 def control(p: Policy, **updates: Any) -> Control:
     return Control(
-        policy_hash=p.fingerprint, authorization_evidence="e" * 64, enabled=True
+        policy_fingerprint_version=VERSION,
+        policy_hash=p.fingerprint,
+        authorization_evidence="e" * 64,
+        enabled=True,
     ).model_copy(update=updates)
 
 
