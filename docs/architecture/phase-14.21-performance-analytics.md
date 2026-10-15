@@ -1,0 +1,9 @@
+# Offline performance analytics
+
+phase1421.analytics accepts an explicitly supplied, bounded local synthetic Phase 14.20 evidence package and a caller-retained expected SHA-256. It validates canonical inputs, software and run bindings, session/outcome envelopes, ordered session chains, carry-forward, summary records and report hashes. It reproduces each accepted session using Phase 14.20 execute and the existing scheduler/portfolio/risk/execution code. Completion is established from outcomes and reconciliation, not file existence. Missing/incompatible records are rejected.
+
+Analytics reads accepted orders and cash snapshots. It does not execute broker orders or own operational balances. The canonical universe supplies all 1,115 symbol rows; strategies S01-S06 always appear. Attribution is realized P&L, with paid entry fees and turnover also represented for unresolved positions. Portfolio equity separately includes unrealized P&L. Peak cost-basis exposure is observed rather than time-weighted. Frozen IntradayCostSchedule.quote supplies fee components and their sum must equal the cash ledger's accrued fees. No execution, indicator, qualification or tariff formulas are duplicated.
+
+Inputs, descriptive metric policy, frozen qualification policy, both corrected risk/execution policies, source dependencies and output bytes are fingerprinted. Output publication uses the established external-only publish contract. A completion receipt is published after the deterministic analytics report. Identical reruns are idempotent; conflicts fail closed. Local content hashes require independently retained expected hashes to detect complete-authority rollback; no production durability claim is made.
+
+Budgets are one worker, 64 MiB input/output, 252 planned sessions and 250,000 snapshots. Input JSON is bounded before parsing through the file API. No external notifications, live data, credentials, network polling or production daemon exists.
