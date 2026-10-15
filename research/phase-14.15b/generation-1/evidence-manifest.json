@@ -1,0 +1,190 @@
+{
+  "fingerprint": "140dd160410916c773653fd458e834cf3cd551ecabd7a45aef394197df6f0f21",
+  "manifest": {
+    "actions": {
+      "HALT_changes": 0,
+      "commits": 0,
+      "credential_reads": 0,
+      "orders": 0,
+      "pushes": 0,
+      "real_Kite_requests": 0,
+      "staging": 0,
+      "vendor_messages": 0
+    },
+    "artifacts_raw_sha256": {
+      "apps/strategy-engine/src/strategy_engine/phase1415/__init__.py": "ef4284308aec9b960a9bdd1b4c32036aee29a36ad24a683fec3d3ed461da5175",
+      "apps/strategy-engine/src/strategy_engine/phase1415/execution.py": "27960a6bc2b4d32d16cf6364522f2f83d8eac729133601f0ee0a8f11f13a8590",
+      "apps/strategy-engine/src/strategy_engine/phase1415/jobs.py": "4e2d189d0373cf58f43660e0d3d059a7cd5eb270bff602d5cf17d2fd2a0089b2",
+      "apps/strategy-engine/src/strategy_engine/phase1415/paper.py": "e04114f0bebe41a2cb6bb9d481aa3f39e047333aeefcf5706ea4f53b0153033c",
+      "apps/strategy-engine/src/strategy_engine/phase1415/reports.py": "1e32e4721fa36471c336e06688eef99fb33838d4ac68b2f7e559bfbf65fdb71a",
+      "apps/strategy-engine/src/strategy_engine/phase1415/research.py": "11900001faffe14ac1fb8475ba911b34eabef60d573f8e9981a268a0995155da",
+      "apps/strategy-engine/src/strategy_engine/phase1415/strategies.py": "a750329f690932f7806ddf0999c8a5d4430205cdc927ec012de663852df18e88",
+      "apps/strategy-engine/tests/test_phase1415.py": "b2e0dd9b9709b377043a03e6d499ebde492d06ff12587e083fb3c5eb9652ff6c",
+      "apps/strategy-engine/tests/test_phase1415b.py": "6b02c7c8995793a5bcba68efb269b84f45760f22128b951c1cdee02602572a1b",
+      "docs/architecture/phase-14.15-multi-strategy-engine.md": "3c2610383d06e196054cbf1352fce2a857a6851644f21d04ec7e43d17bb26ba5",
+      "docs/operations/phase-14.15-plan-amendment-1.md": "7454bbd7c2241f0c005318b0510d38abad1d136b25d4eb23c14a0944e4c73d2e",
+      "docs/operations/phase-14.15-plan.md": "81ddd0c02da72621806cb6ca070d5253c7b076d97b8726efbda4880217bace6c",
+      "docs/operations/phase-14.15-qualification-policy.md": "808a397c98a9a5d41135e7746e2d1d7f4fed39f7430c6e7d24647642c923921c",
+      "docs/operations/phase-14.15-runbook.md": "fec8e085f4f2bf1364eb9e248bd820fcba2120eeac4db7279fbed122d6ce29fb",
+      "docs/operations/phase-14.15-strategy-catalog.md": "7c43fb82f74f70dec11a40381a51361eb76d4b97ff506c0c1d332aaa2c0af587",
+      "docs/operations/phase-14.15b-reconstruction-amendment.md": "e14e9dd16ef1416be2b98073820a254aa78f2dd4e783bc04e4b21c6c189b5635",
+      "docs/operations/phase-14.15b-validation.md": "4eaeb52532bef44e338fcded165ec0f1bf20344359d9a40fdd27d8a04702fc06",
+      "research/phase-14.15/generation-1/ist-corrected/pair-results.csv": "63b46725ca1decf52a6ea812b0d1b575d6170b378cc6c294416919d2d5a6a749",
+      "research/phase-14.15/generation-1/ist-corrected/pair-results.json": "ca4cbfd33e1b9bd07233f36cce445247fa2f89500982853fbd82b7d50856db6e",
+      "research/phase-14.15/generation-1/pair-results.csv": "63b46725ca1decf52a6ea812b0d1b575d6170b378cc6c294416919d2d5a6a749",
+      "research/phase-14.15/generation-1/pair-results.json": "16ff163b78ed62a7b47a0d62baec2b60c4df7d97076a0a54de74379f2c9d4926",
+      "research/phase-14.15/generation-1/synthetic-benchmark.json": "861f2efdc03fa3819a29705db12fa744db2a75accfee12538507d9a259250e83",
+      "research/phase-14.15b/generation-1/diagnostic-inventory.json": "3094a2cf6a9febb8e5043d39712a8e7e5b59bf3ba2b50ab43c2b8cecd3458700",
+      "research/phase-14.15b/generation-1/git-inventory.json": "98734e2c4f573e1c77b4413bd482787fc48b90edbfc9f1487132471418be1348",
+      "research/phase-14.15b/generation-1/test-results.json": "c2d22324fbdd48fb3277f0eb69f42dd402d8545b9a324ce831f53701f91545c9",
+      "scripts/research/verify_phase1415b.py": "eb13f30752aca3435c8ec641243657943e98210bbb86a172a8cf2a06877433ca"
+    },
+    "baseline": "1cad5f0f4d587837678e41cc3c64780a065a4edd",
+    "baseline_files": 1150,
+    "baseline_inventory": "research/phase-14.15b/generation-1/diagnostic-inventory.json",
+    "cache_records": [
+      {
+        "decoded_bytes": 13711,
+        "internal_sha1_verified": true,
+        "name": "test_phase1415.py",
+        "record_id": 13433095,
+        "record_offset": 53732440,
+        "sha256": "9fd94dad3b89d5dca9db57ebd1035e502cb10a7708d0ffadd3d869dcedb482e5",
+        "status": "EARLIER_REVISION_NOT_FINAL",
+        "stored_record_bytes": 6661
+      },
+      {
+        "decoded_bytes": 7027,
+        "internal_sha1_verified": true,
+        "name": "jobs.py",
+        "record_id": 13434761,
+        "record_offset": 53739104,
+        "sha256": "09e5dfd41aeae9cb3f62e4749f599e8ecf243991bbe62105eaa0bdc90aeab17d",
+        "status": "EARLIER_REVISION_NOT_FINAL",
+        "stored_record_bytes": 7055
+      },
+      {
+        "decoded_bytes": 1909,
+        "internal_sha1_verified": true,
+        "name": "paper.py",
+        "record_id": 13436525,
+        "record_offset": 53746160,
+        "sha256": "e04114f0bebe41a2cb6bb9d481aa3f39e047333aeefcf5706ea4f53b0153033c",
+        "status": "EARLIER_REVISION_NOT_FINAL",
+        "stored_record_bytes": 1937
+      },
+      {
+        "decoded_bytes": 9581,
+        "internal_sha1_verified": true,
+        "name": "research.py",
+        "record_id": 13437010,
+        "record_offset": 53748100,
+        "sha256": "1ab4d038b8c7f99a74f667f371099142a304837c57e80a25fbeffec553af71f7",
+        "status": "EARLIER_REVISION_NOT_FINAL",
+        "stored_record_bytes": 4786
+      },
+      {
+        "decoded_bytes": 5786,
+        "internal_sha1_verified": true,
+        "name": "execution.py",
+        "record_id": 13438207,
+        "record_offset": 53752888,
+        "sha256": "d472a71d9ea13b176fa9a4fe46c74961186fd29a724993b66b79845ab5a44e06",
+        "status": "EARLIER_REVISION_NOT_FINAL",
+        "stored_record_bytes": 5814
+      },
+      {
+        "decoded_bytes": 6474,
+        "internal_sha1_verified": true,
+        "name": "strategies.py",
+        "record_id": 13439661,
+        "record_offset": 53758704,
+        "sha256": "9d6df61fb7f63407b774d9179bf7615857eed743e8d692d261306857b35a0dcc",
+        "status": "EARLIER_REVISION_NOT_FINAL",
+        "stored_record_bytes": 6502
+      },
+      {
+        "decoded_bytes": 5165,
+        "internal_sha1_verified": true,
+        "name": "reports.py",
+        "record_id": 13441287,
+        "record_offset": 53765208,
+        "sha256": "1e32e4721fa36471c336e06688eef99fb33838d4ac68b2f7e559bfbf65fdb71a",
+        "status": "EARLIER_REVISION_NOT_FINAL",
+        "stored_record_bytes": 5193
+      }
+    ],
+    "checks": {
+      "mypy": "PASS:52 source files",
+      "project_verifier": "PASS",
+      "replay_acceptance": "Two identical PASS outputs required; outputs external",
+      "replay_command": "PYTHONDONTWRITEBYTECODE=1 python -B scripts/research/verify_phase1415b.py",
+      "ruff": "PASS"
+    },
+    "fresh_tests": {
+      "final_errors": 0,
+      "final_failures": 0,
+      "final_skips": 0,
+      "focused_passed": 52,
+      "full_passed": 334,
+      "retained_failed_runs": 2
+    },
+    "historical_report_hashes": {
+      "research/phase-14.15/generation-1/ist-corrected/pair-results.csv": "63b46725ca1decf52a6ea812b0d1b575d6170b378cc6c294416919d2d5a6a749",
+      "research/phase-14.15/generation-1/ist-corrected/pair-results.json": "ca4cbfd33e1b9bd07233f36cce445247fa2f89500982853fbd82b7d50856db6e",
+      "research/phase-14.15/generation-1/pair-results.csv": "63b46725ca1decf52a6ea812b0d1b575d6170b378cc6c294416919d2d5a6a749",
+      "research/phase-14.15/generation-1/pair-results.json": "16ff163b78ed62a7b47a0d62baec2b60c4df7d97076a0a54de74379f2c9d4926"
+    },
+    "limitations": [
+      "No sourced market candles or verified genuine mappings",
+      "Local research checkpoints are not malicious rollback-resistant authority",
+      "Synthetic timing is not production throughput",
+      "Historical recovered runbook test commands superseded by Phase14.15B safe procedure"
+    ],
+    "operational": {
+      "Gate_A": "NOT_AUTHORIZED",
+      "Gate_B": "NOT_AUTHORIZED",
+      "H1_H2": "FROZEN",
+      "July": "SEALED",
+      "Phase12": "BLOCK",
+      "Stage_B": "ZERO_CALL_ABORT",
+      "readiness": "NO_GO"
+    },
+    "phase": "14.15B",
+    "reports": {
+      "combined": 13380,
+      "performance": null,
+      "qualified": 0,
+      "six_month": 6690,
+      "twelve_month": 6690
+    },
+    "retained_failures": [
+      "Initial historical seven fixture failures retained in transcript snapshot",
+      "Ignored cache directory mkdir refusal",
+      "Extracted amendment missing Path import",
+      "Pre-format lint findings corrected",
+      "Two fresh invalid-window expectation failures retained",
+      "Guarded fixture replacement mismatch refused without write",
+      "Verifier lint dict style corrected",
+      "First replay scanner used whole-text rather than repository line-based matching; false positive corrected without exclusions"
+    ],
+    "source_classification": "NEW_IMPLEMENTATION_NOT_BYTE_IDENTICAL_RECOVERY",
+    "status": "OFFLINE_RECONSTRUCTION_VALIDATION",
+    "strategy_fingerprints": {
+      "S01": "ddd7a01e56e51851b4e14bba4da54ca92fc4cb3be86f0677146f8015025a7c71",
+      "S02": "8dfe1547639eb4a58ada27da20525d1f67131c47a08d11e75e59da963cf4751c",
+      "S03": "089ba371462e6ab3397860c7172558e4276ec49173ec776fb10b11455686ef0d",
+      "S04": "41e1db07a5d187a77f1b09145db5c7e87ffc7a9d73137fcb17b0a64f316718b8",
+      "S05": "930a9896408d7028de58d87ef99ea0971643527be1d5ddcf10227e940ccc7e06",
+      "S06": "e08bbdd283df5eec1b89f35b2c7173d56d04185ccc462b2e67b2851cbf68a4df"
+    },
+    "superseded_candidate_manifest_sha256": "62990fd6802fe149a57ae78175d3f5cccde043663a45421672bae7bb4d46570e",
+    "universe": {
+      "MASTER_UNAVAILABLE": 1115,
+      "duplicates": 25,
+      "genuine_resolved": 0,
+      "source_rows": 1140,
+      "unique": 1115
+    }
+  }
+}

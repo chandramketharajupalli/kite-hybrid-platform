@@ -1,0 +1,71 @@
+{
+  "database": "NOT_RUN: filesystem-only research checkpoints",
+  "fresh": [
+    {
+      "attempt": "focused",
+      "errors": 0,
+      "external_evidence": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415b-iyvd_7xj\\focused.xml",
+      "failures": 0,
+      "junit_sha256": "f9b32361ffefb911c3a6065c57afd7131b54651e3992aca000e090f1565881c2",
+      "seconds": "7.600",
+      "skipped": 0,
+      "tests": 48
+    },
+    {
+      "attempt": "focused-final",
+      "errors": 0,
+      "external_evidence": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415b-iyvd_7xj\\focused-final.xml",
+      "failures": 1,
+      "junit_sha256": "4072bd11f594093abaf4c52287953e4f80de0e901c6ce4359185d9059a90457f",
+      "seconds": "7.394",
+      "skipped": 0,
+      "tests": 52
+    },
+    {
+      "attempt": "focused-rerun",
+      "errors": 0,
+      "external_evidence": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415b-iyvd_7xj\\focused-rerun.xml",
+      "failures": 1,
+      "junit_sha256": "a9812e3e6dfbb50f15872ec2ea07f06f1ff7de3b0a6391b1c89929d27827ddf0",
+      "seconds": "7.363",
+      "skipped": 0,
+      "tests": 52
+    },
+    {
+      "attempt": "focused-accepted",
+      "errors": 0,
+      "external_evidence": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415b-iyvd_7xj\\focused-accepted.xml",
+      "failures": 0,
+      "junit_sha256": "06befdb1ecabfc8f6f712a4f9e3f98e008533a3174db2e948f3372a839404e1a",
+      "seconds": "7.626",
+      "skipped": 0,
+      "tests": 52
+    },
+    {
+      "attempt": "full",
+      "errors": 0,
+      "external_evidence": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415b-iyvd_7xj\\full.xml",
+      "failures": 0,
+      "junit_sha256": "82952847f21aef7e7ce075d749b15473b1fe5c41a4ef26088afac9526a660167",
+      "seconds": "17.985",
+      "skipped": 0,
+      "tests": 334
+    }
+  ],
+  "fresh_corrections": [
+    "Existing ignored cache directory rejected mkdir; no file overwritten",
+    "Amendment-only extracted script missing Path import; corrected before edits",
+    "Pre-format Ruff line-length findings corrected by formatting",
+    "IST constructor check rejects previously quarantined invalid-window fixture; expected failure updated",
+    "First test replacement assertion failed; unchanged fixture produced second retained failure"
+  ],
+  "historical": {
+    "focused": 48,
+    "full": 330,
+    "initial_fixture_failures": 7,
+    "status": "HISTORICAL_ONLY"
+  },
+  "java": "NOT_RUN: no Java/shared contract edits",
+  "lint": "PASS",
+  "mypy": "PASS:52 source files"
+}

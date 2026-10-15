@@ -1,0 +1,581 @@
+{
+  "attempts": [
+    {
+      "command": [
+        "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine\\.venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "tests/test_phase1415d.py",
+        "tests/test_phase1415.py",
+        "tests/test_phase1415b.py",
+        "-k",
+        "dependency or partition or checkpoint or family or subset",
+        "--assert=plain",
+        "-p",
+        "no:cacheprovider",
+        "--basetemp=C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\checkpoint-policy-temp",
+        "--junitxml=C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\checkpoint-policy.xml",
+        "-q"
+      ],
+      "cwd": "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine",
+      "exit_code": 0,
+      "finished_utc": "2026-10-15T06:11:46.342270+00:00",
+      "name": "checkpoint-policy",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\checkpoint-policy-receipt.json",
+      "sha256": "0017dd8b26769c1dca0ee0d6fc2d5c269d34cbb6d91d88efd13b43874c412821",
+      "started_utc": "2026-10-15T06:11:25.378937+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "654f827856f628d5b3d07018ee323f24f95078163ebec4b22487c9c528830421",
+      "totals": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 50
+      },
+      "xml_sha256": "941f66442a48a00064454acad8b0505cba34a253c7f2d5ae17edb0024b4208ac"
+    },
+    {
+      "command": [
+        "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine\\.venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "tests/test_phase1415.py",
+        "tests/test_phase1415b.py",
+        "tests/test_phase1415d.py",
+        "--assert=plain",
+        "-p",
+        "no:cacheprovider",
+        "--basetemp=C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\focused-1-temp",
+        "--junitxml=C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\focused-1.xml",
+        "-q"
+      ],
+      "cwd": "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine",
+      "exit_code": 0,
+      "finished_utc": "2026-10-15T06:04:30.379544+00:00",
+      "name": "focused-1",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\focused-1-receipt.json",
+      "sha256": "ddbaae36fe8198f548ebc473f70b89febc6d5f0da059b5c5f334efdcb11499ce",
+      "started_utc": "2026-10-15T06:03:57.969474+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "8658f1181427661bf896f95b12b90df703e3cc234d8e057bda6826153af13e80",
+      "totals": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 142
+      },
+      "xml_sha256": "1d2df9bbf296ae7aa0f57b0ccb7afcbdf5e4bbe2f4406245cd4228829f0a75ba"
+    },
+    {
+      "command": [
+        "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine\\.venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "tests/test_phase1415.py",
+        "tests/test_phase1415b.py",
+        "tests/test_phase1415d.py",
+        "--assert=plain",
+        "-p",
+        "no:cacheprovider",
+        "--basetemp=C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\focused-final-temp",
+        "--junitxml=C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\focused-final.xml",
+        "-q"
+      ],
+      "cwd": "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine",
+      "exit_code": 0,
+      "finished_utc": "2026-10-15T06:09:33.697293+00:00",
+      "name": "focused-final",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\focused-final-receipt.json",
+      "sha256": "7737cd4bb7e6f6d7fc396e01a35fa58208ead988e16b1e8819cd5aa3b02cc7b6",
+      "started_utc": "2026-10-15T06:09:08.475169+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "4f7d0e9a2297d4a78755b71603a81ac420e207cc6ca1d0ebcba27962216ce0bc",
+      "totals": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 147
+      },
+      "xml_sha256": "cf87506f8d788eb024bbb8b364e7836b99c3b4516ce3d7bc4d02b489ceab27a9"
+    },
+    {
+      "command": [
+        "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine\\.venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "--assert=plain",
+        "-p",
+        "no:cacheprovider",
+        "--basetemp=C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\full-1-temp",
+        "--junitxml=C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\full-1.xml",
+        "-q"
+      ],
+      "cwd": "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine",
+      "exit_code": 0,
+      "finished_utc": "2026-10-15T06:05:32.367209+00:00",
+      "name": "full-1",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\full-1-receipt.json",
+      "sha256": "c3be4696b2df7b6b6b6478ea7a14b99cdda49d4f577611c077396792caeae57c",
+      "started_utc": "2026-10-15T06:04:56.863164+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "9cea132be7ffd8d8bb58f14332d2b779c6bc75576a51f4365939863d0cc26645",
+      "totals": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 424
+      },
+      "xml_sha256": "1a43a4500a13bd6e5f928ab9c80bba779fbf192245ef0b97f2a032ac59813c2a"
+    },
+    {
+      "command": [
+        "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine\\.venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "--assert=plain",
+        "-p",
+        "no:cacheprovider",
+        "--basetemp=C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\full-final-temp",
+        "--junitxml=C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\full-final.xml",
+        "-q"
+      ],
+      "cwd": "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine",
+      "exit_code": 0,
+      "finished_utc": "2026-10-15T06:10:26.214447+00:00",
+      "name": "full-final",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\full-final-receipt.json",
+      "sha256": "7d4408fbaff0cce86002d077c82733edab5eff8c777b966e3bb90646b4e115c1",
+      "started_utc": "2026-10-15T06:09:53.001037+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "2c499615b13bf81546d311e54fabd680ac0ed87b90d723fa520cbf751e033cfd",
+      "totals": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 429
+      },
+      "xml_sha256": "240e209788c7dfee0e3d8f4d807059796c727037a154abc77797e25f2b918584"
+    },
+    {
+      "command": [
+        "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine\\.venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "mypy",
+        "--cache-dir",
+        "C:/Users/CHANDR~1/AppData/Local/Temp/phase1415d-i_g52cha/mypy-cache-1"
+      ],
+      "cwd": "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine",
+      "exit_code": 1,
+      "finished_utc": "2026-10-15T06:07:48.465365+00:00",
+      "name": "mypy-1",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\mypy-1-receipt.json",
+      "sha256": "6a4a3616307d4c3d074a78e712f6f025ee0385f972f40b732df2b75853d963a3",
+      "started_utc": "2026-10-15T06:07:39.020289+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "bdef56dd53fe97c364a353b5f446f27f720df520ab7e0dc558a9336a40ea56de"
+    },
+    {
+      "command": [
+        "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine\\.venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "mypy",
+        "--cache-dir",
+        "C:/Users/CHANDR~1/AppData/Local/Temp/phase1415d-i_g52cha/mypy-cache-final"
+      ],
+      "cwd": "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine",
+      "exit_code": 0,
+      "finished_utc": "2026-10-15T06:10:55.678131+00:00",
+      "name": "mypy-final",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\mypy-final-receipt.json",
+      "sha256": "ffacd4812894de52e5f6e04503d089799c7b595d7f5d4686aa7c568fae481058",
+      "started_utc": "2026-10-15T06:10:47.198608+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "dcb694f11778ae44041ad96d947549bf77cffe07393be2e8e5cf5e5974810786"
+    },
+    {
+      "command": [
+        "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine\\.venv\\Scripts\\python.exe",
+        "-B",
+        "C:/Users/CHANDR~1/AppData/Local/Temp/phase1415d-i_g52cha/pre-certification.py"
+      ],
+      "cwd": "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine",
+      "exit_code": 0,
+      "finished_utc": "2026-10-15T06:13:43.098561+00:00",
+      "name": "pre-certification",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\pre-certification-receipt.json",
+      "sha256": "a3968bf96b71eb0fd86462a4dacbf1057b2cec0939798471a0710951d8d86848",
+      "started_utc": "2026-10-15T06:13:28.153978+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "ea9f89f47fc894e6f19953d6f9f5e924278463b8299808584d89c6e9ad992736"
+    },
+    {
+      "command": [
+        "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine\\.venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "tests/test_phase1415d.py",
+        "-k",
+        "receipt",
+        "--assert=plain",
+        "-p",
+        "no:cacheprovider",
+        "--basetemp=C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\receipt-negative-temp",
+        "--junitxml=C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\receipt-negative.xml",
+        "-q"
+      ],
+      "cwd": "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine",
+      "exit_code": 0,
+      "finished_utc": "2026-10-15T06:11:24.373346+00:00",
+      "name": "receipt-negative",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\receipt-negative-receipt.json",
+      "sha256": "d369933f3f3c74b783f1fc09cf0b5d32fafb372baa6ba0c44243d65bc491f08c",
+      "started_utc": "2026-10-15T06:11:21.683712+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "6082d34fc32e5f7f3998fc96ebc2dbf0b93cae5e0e2bb1624d96b4bf05ef2e3c",
+      "totals": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 16
+      },
+      "xml_sha256": "575ffda5e5ff961e7dd579d327235079a2e4f7d2f5f065f49c382d26895ba85b"
+    },
+    {
+      "command": [
+        "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine\\.venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "check",
+        "--no-cache",
+        "src",
+        "tests",
+        "../../scripts/research/verify_phase1415b.py",
+        "../../scripts/research/verify_phase1415d.py"
+      ],
+      "cwd": "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine",
+      "exit_code": 1,
+      "finished_utc": "2026-10-15T06:06:48.648835+00:00",
+      "name": "ruff-1",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\ruff-1-receipt.json",
+      "sha256": "edfab07b30cb180294cbe3773e47a3c17757b3d862ca56fee9e7ee82ebc42b76",
+      "started_utc": "2026-10-15T06:06:48.047197+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "32ced91b57e348c668547d1dc18a04f6a9a9e8841cc9066a4688582782d29ded"
+    },
+    {
+      "command": [
+        "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine\\.venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "check",
+        "--no-cache",
+        "src",
+        "tests",
+        "../../scripts/research/verify_phase1415b.py",
+        "../../scripts/research/verify_phase1415d.py"
+      ],
+      "cwd": "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine",
+      "exit_code": 1,
+      "finished_utc": "2026-10-15T06:07:18.893342+00:00",
+      "name": "ruff-2",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\ruff-2-receipt.json",
+      "sha256": "7fee30dd6929115293fc73040cc23ffada34c7b768704bed08bf6d3950467db8",
+      "started_utc": "2026-10-15T06:07:18.584570+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "fefe515106aced44ea35be8a6d1b43e024a2abce322da8aefa680f35e58d7597"
+    },
+    {
+      "command": [
+        "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine\\.venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "check",
+        "--no-cache",
+        "src",
+        "tests",
+        "../../scripts/research/verify_phase1415b.py",
+        "../../scripts/research/verify_phase1415d.py"
+      ],
+      "cwd": "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine",
+      "exit_code": 0,
+      "finished_utc": "2026-10-15T06:07:38.045979+00:00",
+      "name": "ruff-3",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\ruff-3-receipt.json",
+      "sha256": "c2b2ff5548c3700f7a2e4bc8c92d631c2b6c4bf9484395d48b849cfc4faf52dd",
+      "started_utc": "2026-10-15T06:07:37.811564+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "command": [
+        "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine\\.venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "check",
+        "--no-cache",
+        "src",
+        "tests",
+        "../../scripts/research/verify_phase1415b.py",
+        "../../scripts/research/verify_phase1415d.py"
+      ],
+      "cwd": "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine",
+      "exit_code": 0,
+      "finished_utc": "2026-10-15T06:13:27.068320+00:00",
+      "name": "ruff-certification",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\ruff-certification-receipt.json",
+      "sha256": "b53b4a745548b8a5b85655d476644cab1c2e9ffe19b144aeef7e912a2dd25698",
+      "started_utc": "2026-10-15T06:13:26.780419+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "command": [
+        "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine\\.venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "check",
+        "--no-cache",
+        "src",
+        "tests",
+        "../../scripts/research/verify_phase1415b.py",
+        "../../scripts/research/verify_phase1415d.py"
+      ],
+      "cwd": "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine",
+      "exit_code": 0,
+      "finished_utc": "2026-10-15T06:10:46.164517+00:00",
+      "name": "ruff-final",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\ruff-final-receipt.json",
+      "sha256": "e0de12b481c4e7cb9afd8e4e63d648a639406d567e74ce0929f1721388351fae",
+      "started_utc": "2026-10-15T06:10:45.783440+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "command": [
+        "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine\\.venv\\Scripts\\python.exe",
+        "-B",
+        "C:/Users/CHANDR~1/AppData/Local/Temp/phase1415d-i_g52cha/pre-certification.py"
+      ],
+      "cwd": "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine",
+      "exit_code": 1,
+      "finished_utc": "2026-10-15T06:12:59.670577+00:00",
+      "name": "scanner-failure-retained",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\scanner-failure-retained-receipt.json",
+      "sha256": "8a7e1baa267efce044cde5f8809cdc9a7423bdf4c0ef1d232aadea99f0b7b282",
+      "started_utc": "2026-10-15T06:12:57.458942+00:00",
+      "stderr_sha256": "80f1efb3c68c51bf32b02150327b557577375f8a3c0af34d4b5b86711595b2d3",
+      "stdout_sha256": "9449cea0a506ec771adb02db71bc7fa97705fd362111ec0e7fdc59a9c67b03c6"
+    }
+  ],
+  "current": [
+    {
+      "command_receipt": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\focused-final-receipt.json",
+      "command_sha256": "7737cd4bb7e6f6d7fc396e01a35fa58208ead988e16b1e8819cd5aa3b02cc7b6",
+      "errors": 0,
+      "failures": 0,
+      "id": "focused-final",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\focused-final.xml",
+      "scope": "FRESH",
+      "sha256": "cf87506f8d788eb024bbb8b364e7836b99c3b4516ce3d7bc4d02b489ceab27a9",
+      "skipped": 0,
+      "tests": 147
+    },
+    {
+      "command_receipt": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\full-final-receipt.json",
+      "command_sha256": "7d4408fbaff0cce86002d077c82733edab5eff8c777b966e3bb90646b4e115c1",
+      "errors": 0,
+      "failures": 0,
+      "id": "full-final",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\full-final.xml",
+      "scope": "FRESH",
+      "sha256": "240e209788c7dfee0e3d8f4d807059796c727037a154abc77797e25f2b918584",
+      "skipped": 0,
+      "tests": 429
+    },
+    {
+      "command_receipt": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\receipt-negative-receipt.json",
+      "command_sha256": "d369933f3f3c74b783f1fc09cf0b5d32fafb372baa6ba0c44243d65bc491f08c",
+      "errors": 0,
+      "failures": 0,
+      "id": "receipt-negative",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\receipt-negative.xml",
+      "scope": "FRESH",
+      "sha256": "575ffda5e5ff961e7dd579d327235079a2e4f7d2f5f065f49c382d26895ba85b",
+      "skipped": 0,
+      "tests": 16
+    },
+    {
+      "command_receipt": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\checkpoint-policy-receipt.json",
+      "command_sha256": "0017dd8b26769c1dca0ee0d6fc2d5c269d34cbb6d91d88efd13b43874c412821",
+      "errors": 0,
+      "failures": 0,
+      "id": "checkpoint-policy",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\checkpoint-policy.xml",
+      "scope": "FRESH",
+      "sha256": "941f66442a48a00064454acad8b0505cba34a253c7f2d5ae17edb0024b4208ac",
+      "skipped": 0,
+      "tests": 50
+    }
+  ],
+  "failure_history": [
+    {
+      "gate": "ruff-1",
+      "result": "118 style/import findings; preserved raw output; corrected only permitted files"
+    },
+    {
+      "gate": "ruff-2",
+      "result": "one long synthetic XML literal; split into adjacent literals"
+    },
+    {
+      "gate": "mypy-1",
+      "result": "two test annotations corrected: Generator return and Candle list"
+    },
+    {
+      "gate": "scanner-failure-retained",
+      "result": "Initial scanner included frozen Java synthetic Bearer fixture. Reproduced and retained raw failure, then matched B scanner canary scope (all new/untracked delivery text). Repository secret patterns still scan all eligible repository text."
+    }
+  ],
+  "historical_b": [
+    {
+      "accepted": true,
+      "errors": 0,
+      "failures": 0,
+      "id": "focused",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415b-iyvd_7xj\\focused.xml",
+      "scope": "HISTORICAL",
+      "sha256": "f9b32361ffefb911c3a6065c57afd7131b54651e3992aca000e090f1565881c2",
+      "skipped": 0,
+      "tests": 48
+    },
+    {
+      "accepted": false,
+      "errors": 0,
+      "failures": 1,
+      "id": "focused-final",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415b-iyvd_7xj\\focused-final.xml",
+      "scope": "HISTORICAL",
+      "sha256": "4072bd11f594093abaf4c52287953e4f80de0e901c6ce4359185d9059a90457f",
+      "skipped": 0,
+      "tests": 52
+    },
+    {
+      "accepted": false,
+      "errors": 0,
+      "failures": 1,
+      "id": "focused-rerun",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415b-iyvd_7xj\\focused-rerun.xml",
+      "scope": "HISTORICAL",
+      "sha256": "a9812e3e6dfbb50f15872ec2ea07f06f1ff7de3b0a6391b1c89929d27827ddf0",
+      "skipped": 0,
+      "tests": 52
+    },
+    {
+      "accepted": true,
+      "errors": 0,
+      "failures": 0,
+      "id": "focused-accepted",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415b-iyvd_7xj\\focused-accepted.xml",
+      "scope": "HISTORICAL",
+      "sha256": "06befdb1ecabfc8f6f712a4f9e3f98e008533a3174db2e948f3372a839404e1a",
+      "skipped": 0,
+      "tests": 52
+    },
+    {
+      "accepted": true,
+      "errors": 0,
+      "failures": 0,
+      "id": "full",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415b-iyvd_7xj\\full.xml",
+      "scope": "HISTORICAL",
+      "sha256": "82952847f21aef7e7ce075d749b15473b1fe5c41a4ef26088afac9526a660167",
+      "skipped": 0,
+      "tests": 334
+    }
+  ],
+  "previous_c": [
+    {
+      "command_receipt": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415c-quew2whk\\focused-receipt.json",
+      "command_sha256": "b6ff09afd376bcd7eea7004bb8de84967292b2ddc597399bc84155cce8f08b8b",
+      "errors": 0,
+      "failures": 0,
+      "id": "focused",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415c-quew2whk\\focused.xml",
+      "scope": "PREVIOUS_C",
+      "sha256": "13252a7094a2e24151d2b1abe8ab73282e74e215d8cb890032869640c4e1d361",
+      "skipped": 0,
+      "tests": 52
+    },
+    {
+      "command_receipt": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415c-quew2whk\\full-receipt.json",
+      "command_sha256": "1d07ef1939edd7cf8ca03582383266842f63ce4df1d1b05a1fa5a9c48afc55f3",
+      "errors": 0,
+      "failures": 0,
+      "id": "full",
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415c-quew2whk\\full.xml",
+      "scope": "PREVIOUS_C",
+      "sha256": "ab455f5cf1367a2b87d5d289884b47d724d52d71dd05f0877454a803bb057fe1",
+      "skipped": 0,
+      "tests": 334
+    }
+  ],
+  "replay_acceptance": "Both exit0, PASS, byte-identical output; receipts external; required before final acceptance",
+  "replay_outputs": [
+    "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\replay-1.stdout",
+    "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\replay-2.stdout"
+  ],
+  "required_current": [
+    "focused-final",
+    "full-final",
+    "receipt-negative",
+    "checkpoint-policy"
+  ],
+  "required_historical_b": [
+    "focused",
+    "focused-final",
+    "focused-rerun",
+    "focused-accepted",
+    "full"
+  ],
+  "runtime": {
+    "packages": {
+      "mypy": "1.20.2",
+      "pydantic": "2.13.5",
+      "pytest": "8.4.2",
+      "ruff": "0.16.8"
+    },
+    "python": "3.12.14 (main, Sep  1 2026, 14:17:39) [MSC v.1944 64 bit (AMD64)]"
+  },
+  "tool_receipts": [
+    {
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\ruff-certification-receipt.json",
+      "sha256": "b53b4a745548b8a5b85655d476644cab1c2e9ffe19b144aeef7e912a2dd25698",
+      "stderr": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\ruff-certification.stderr",
+      "stdout": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\ruff-certification.stdout"
+    },
+    {
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\mypy-final-receipt.json",
+      "sha256": "ffacd4812894de52e5f6e04503d089799c7b595d7f5d4686aa7c568fae481058",
+      "stderr": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\mypy-final.stderr",
+      "stdout": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\mypy-final.stdout"
+    },
+    {
+      "path": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\pre-certification-receipt.json",
+      "sha256": "a3968bf96b71eb0fd86462a4dacbf1057b2cec0939798471a0710951d8d86848",
+      "stderr": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\pre-certification.stderr",
+      "stdout": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\pre-certification.stdout"
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "fingerprint": "b430cdff78a4a2eac704c1e5720a3a9d1050bad38fb6c62ac1f8378d6f68ea6c",
+  "manifest": {
+    "artifacts_raw_sha256": {
+      "apps/strategy-engine/src/strategy_engine/phase1415/__init__.py": "ef4284308aec9b960a9bdd1b4c32036aee29a36ad24a683fec3d3ed461da5175",
+      "apps/strategy-engine/src/strategy_engine/phase1415/execution.py": "27960a6bc2b4d32d16cf6364522f2f83d8eac729133601f0ee0a8f11f13a8590",
+      "apps/strategy-engine/src/strategy_engine/phase1415/hardening.py": "f4aa8762ef93184ed9a8ba3af3529e64ba96c81922a798832e531adb953f233a",
+      "apps/strategy-engine/src/strategy_engine/phase1415/jobs.py": "37143d8612baf2fa1319dd9ee0dec34fd8a740ad3acbfe7a743d4b85b7c4a4e4",
+      "apps/strategy-engine/src/strategy_engine/phase1415/paper.py": "e04114f0bebe41a2cb6bb9d481aa3f39e047333aeefcf5706ea4f53b0153033c",
+      "apps/strategy-engine/src/strategy_engine/phase1415/reports.py": "1e32e4721fa36471c336e06688eef99fb33838d4ac68b2f7e559bfbf65fdb71a",
+      "apps/strategy-engine/src/strategy_engine/phase1415/research.py": "e07b0f51b0f09f3478d238703446e9da9c8411ce8337ef952a1f058c2d9ecdd9",
+      "apps/strategy-engine/src/strategy_engine/phase1415/strategies.py": "a750329f690932f7806ddf0999c8a5d4430205cdc927ec012de663852df18e88",
+      "apps/strategy-engine/tests/test_phase1415.py": "860718f6e905ebc0bcd856b0de02f299d590894e639f620cf0c1c63bf4bd4e83",
+      "apps/strategy-engine/tests/test_phase1415b.py": "0ef62e9b0de90c4a3331da3e75f37a694311831f9b20672246a99d4372677a27",
+      "apps/strategy-engine/tests/test_phase1415d.py": "c0c72480f0f5cc009043d8f6d084b708c3480fb912a2dc9d4de745b1c14195be",
+      "docs/architecture/phase-14.15-multi-strategy-engine.md": "3c2610383d06e196054cbf1352fce2a857a6851644f21d04ec7e43d17bb26ba5",
+      "docs/operations/phase-14.15-plan-amendment-1.md": "7454bbd7c2241f0c005318b0510d38abad1d136b25d4eb23c14a0944e4c73d2e",
+      "docs/operations/phase-14.15-plan.md": "81ddd0c02da72621806cb6ca070d5253c7b076d97b8726efbda4880217bace6c",
+      "docs/operations/phase-14.15-qualification-policy.md": "808a397c98a9a5d41135e7746e2d1d7f4fed39f7430c6e7d24647642c923921c",
+      "docs/operations/phase-14.15-runbook.md": "fec8e085f4f2bf1364eb9e248bd820fcba2120eeac4db7279fbed122d6ce29fb",
+      "docs/operations/phase-14.15-strategy-catalog.md": "7c43fb82f74f70dec11a40381a51361eb76d4b97ff506c0c1d332aaa2c0af587",
+      "docs/operations/phase-14.15b-reconstruction-amendment.md": "e14e9dd16ef1416be2b98073820a254aa78f2dd4e783bc04e4b21c6c189b5635",
+      "docs/operations/phase-14.15b-validation.md": "4eaeb52532bef44e338fcded165ec0f1bf20344359d9a40fdd27d8a04702fc06",
+      "docs/operations/phase-14.15d-hardening.md": "de36552c40a0f2f183ad407bdb67c5a8064c4a575cbd1b00c71579fdd127f58e",
+      "docs/operations/phase-14.15d-plan.md": "173ef2cadc35c5b13a22e730075fc2624dd5c7ef7fd862f7ce6e115b8ef04305",
+      "docs/operations/phase-14.15d-validation.md": "4e5c2f7eb9f57e346e8d0605373796cee5dd579b2a065e328f2874352b0e4d55",
+      "research/phase-14.15/generation-1/ist-corrected/pair-results.csv": "63b46725ca1decf52a6ea812b0d1b575d6170b378cc6c294416919d2d5a6a749",
+      "research/phase-14.15/generation-1/ist-corrected/pair-results.json": "ca4cbfd33e1b9bd07233f36cce445247fa2f89500982853fbd82b7d50856db6e",
+      "research/phase-14.15/generation-1/pair-results.csv": "63b46725ca1decf52a6ea812b0d1b575d6170b378cc6c294416919d2d5a6a749",
+      "research/phase-14.15/generation-1/pair-results.json": "16ff163b78ed62a7b47a0d62baec2b60c4df7d97076a0a54de74379f2c9d4926",
+      "research/phase-14.15/generation-1/synthetic-benchmark.json": "861f2efdc03fa3819a29705db12fa744db2a75accfee12538507d9a259250e83",
+      "research/phase-14.15b/generation-1/diagnostic-inventory.json": "3094a2cf6a9febb8e5043d39712a8e7e5b59bf3ba2b50ab43c2b8cecd3458700",
+      "research/phase-14.15b/generation-1/evidence-manifest.json": "6c61fe9678e48ac12efc92f0aa63c8aa9e96f399106e1e9cc19a7d466d53a535",
+      "research/phase-14.15b/generation-1/git-inventory.json": "98734e2c4f573e1c77b4413bd482787fc48b90edbfc9f1487132471418be1348",
+      "research/phase-14.15b/generation-1/test-results.json": "c2d22324fbdd48fb3277f0eb69f42dd402d8545b9a324ce831f53701f91545c9",
+      "research/phase-14.15d/generation-1/dependency-inventory.json": "9443722c22fb8a201be41c934b36a49e3a16c90d42c9943bbe9444c02ec6dcad",
+      "research/phase-14.15d/generation-1/git-inventory.json": "554cbd2548bc3176113d639b716dd46648c207059c3bd1b681d8428e7ed19ac5",
+      "research/phase-14.15d/generation-1/original-inventory.json": "721a5b99007b164ed1f1b26a50d3a98440972a215095e6c97d9e8988abf4a191",
+      "research/phase-14.15d/generation-1/policy-binding.json": "61c6f2bc012de637648b4a6bfc0514da7968a330cc6ef4440c1c922589071b1d",
+      "research/phase-14.15d/generation-1/test-results.json": "81ea903a0eebb2542d1d68ac99af4c2f20ab22aca54f5a7a7e18dd38206ca1a0",
+      "scripts/research/verify_phase1415b.py": "4be77d6827a17be91cf74d9d9d09bdf86de6fd8e12a0e9935ddb16218f96f58e",
+      "scripts/research/verify_phase1415d.py": "cf324762bc7e14e292ff36091f9d940c1420d5021ddb2b48dc56d9aee4152ab2"
+    },
+    "baseline": "1cad5f0f4d587837678e41cc3c64780a065a4edd",
+    "checks": {
+      "mypy": "PASS:54 source files",
+      "pre_certification": "PASS",
+      "replay_acceptance": "Two identical exit0 PASS outputs required externally",
+      "ruff": "PASS"
+    },
+    "failure_history": [
+      {
+        "gate": "ruff-1",
+        "result": "118 style/import findings; preserved raw output; corrected only permitted files"
+      },
+      {
+        "gate": "ruff-2",
+        "result": "one long synthetic XML literal; split into adjacent literals"
+      },
+      {
+        "gate": "mypy-1",
+        "result": "two test annotations corrected: Generator return and Candle list"
+      },
+      {
+        "gate": "scanner-failure-retained",
+        "result": "Initial scanner included frozen Java synthetic Bearer fixture. Reproduced and retained raw failure, then matched B scanner canary scope (all new/untracked delivery text). Repository secret patterns still scan all eligible repository text."
+      }
+    ],
+    "fresh_tests": {
+      "checkpoint_policy_tests": 50,
+      "errors": 0,
+      "failures": 0,
+      "focused": 147,
+      "full": 429,
+      "receipt_tests": 16,
+      "skipped": 0
+    },
+    "operational": {
+      "Gate_A": "NOT_AUTHORIZED",
+      "Gate_B": "NOT_AUTHORIZED",
+      "H1_H2": "FROZEN",
+      "HALT_changes": 0,
+      "July": "SEALED",
+      "Phase12": "BLOCK",
+      "Stage_B": "ZERO_CALL_ABORT",
+      "commits": 0,
+      "credential_reads": 0,
+      "orders": 0,
+      "pushes": 0,
+      "readiness": "NO_GO",
+      "real_Kite_requests": 0,
+      "staged": 0
+    },
+    "original_archive": "C:\\Users\\CHANDR~1\\AppData\\Local\\Temp\\phase1415d-i_g52cha\\original-27",
+    "original_count": 27,
+    "phase": "14.15D",
+    "plan_sha256": "173ef2cadc35c5b13a22e730075fc2624dd5c7ef7fd862f7ce6e115b8ef04305",
+    "policy_binding_classification": "SYNTHETIC_VALIDATION_REFERENCE_NO_MARKET_RUN",
+    "policy_hash": "aaf9b9eeebf23816728174b99a8dec2584205a9d12b9d7bf131c645df9ffedde",
+    "preservation": {
+      "baseline_raw": 1150,
+      "immutable_originals": 22,
+      "newline_reconciliations": 13
+    },
+    "reference_run_id": "4a15ec52623c19b583dfc6400c8c3e82ad4f0efeb7c5ed0fae0f009814273d0f",
+    "report": {
+      "per_window": 6690,
+      "performance": null,
+      "qualified": 0,
+      "rows": 13380
+    },
+    "software_hash": "d8723c4ff18797d4d9cd785fb677cc468b42aa321832d9da576108ed40bad4cf",
+    "source_changes": [
+      {
+        "after_sha256": "37143d8612baf2fa1319dd9ee0dec34fd8a740ad3acbfe7a743d4b85b7c4a4e4",
+        "before_sha256": "4e2d189d0373cf58f43660e0d3d059a7cd5eb270bff602d5cf17d2fd2a0089b2",
+        "path": "apps/strategy-engine/src/strategy_engine/phase1415/jobs.py"
+      },
+      {
+        "after_sha256": "e07b0f51b0f09f3478d238703446e9da9c8411ce8337ef952a1f058c2d9ecdd9",
+        "before_sha256": "11900001faffe14ac1fb8475ba911b34eabef60d573f8e9981a268a0995155da",
+        "path": "apps/strategy-engine/src/strategy_engine/phase1415/research.py"
+      },
+      {
+        "after_sha256": "860718f6e905ebc0bcd856b0de02f299d590894e639f620cf0c1c63bf4bd4e83",
+        "before_sha256": "b2e0dd9b9709b377043a03e6d499ebde492d06ff12587e083fb3c5eb9652ff6c",
+        "path": "apps/strategy-engine/tests/test_phase1415.py"
+      },
+      {
+        "after_sha256": "0ef62e9b0de90c4a3331da3e75f37a694311831f9b20672246a99d4372677a27",
+        "before_sha256": "6b02c7c8995793a5bcba68efb269b84f45760f22128b951c1cdee02602572a1b",
+        "path": "apps/strategy-engine/tests/test_phase1415b.py"
+      },
+      {
+        "after_sha256": "4be77d6827a17be91cf74d9d9d09bdf86de6fd8e12a0e9935ddb16218f96f58e",
+        "before_sha256": "eb13f30752aca3435c8ec641243657943e98210bbb86a172a8cf2a06877433ca",
+        "path": "scripts/research/verify_phase1415b.py"
+      }
+    ]
+  }
+}

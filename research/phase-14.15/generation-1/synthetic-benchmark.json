@@ -1,0 +1,10 @@
+{
+  "bars": 76,
+  "classification": "FRESH_SYNTHETIC_MICROBENCHMARK_NOT_PRODUCTION_THROUGHPUT",
+  "dataset_sha256": "f3456f8c50439c634e1db7242cd2ed5e3c37a265213e7a0a03b31e819e3c9d37",
+  "elapsed_seconds": 3.068314799806103,
+  "evaluations": 60,
+  "historical_measurement_reproduced": false,
+  "peak_python_allocation_bytes": 227085,
+  "real_market_data": false
+}
