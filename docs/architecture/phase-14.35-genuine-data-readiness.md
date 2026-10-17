@@ -1,0 +1,11 @@
+# Genuine-data preparation boundary
+
+The new pure offline validator accepts explicit synthetic inputs; it has no transport, credential, storage, deletion or execution adapter. It does not authorize acquisition. Inputs require independently reviewed custody, policies and fingerprints. A caller cannot establish source authenticity merely by supplying a hash. Approval checking is a necessary check, not a substitute for governance or compliance review.
+
+Mapping contract: canonical NSE exchange plus exact trading symbol in frozen order; token is a positive, refreshable attribute, not a permanent security identity. Bind each row to a raw source digest and timezone-aware acquisition timestamp. Supply an explicitly approved maximum age; no daily-refresh permission is inferred. Reject missing/extra/reordered symbols, duplicates, exchange mismatch, stale/future observations, changed source and token reuse across identities. Legitimate token reuse or symbol changes require a separately evidenced corporate-action resolution; never silently overwrite history. Genuine mapping count is zero. Fixture tokens are synthetic only.
+
+Historical dataset contract: instrument mapping snapshot, exact UTC date bounds and exchange timezone, five-minute interval, raw source digest, acquisition receipt, authorized storage policy and expiry, calendar version/digest, listing/suspension coverage, corporate-action ledger and adjustment policy. Six- and twelve-month research windows remain frozen but exact acquisition dates and endpoint entitlements are unresolved. No current API availability or twelve-month coverage claim is made.
+
+Completeness uses explicit verified expected slots, not a hard-coded ordinary-session count. It rejects duplicates, missing/out-of-session bars, unordered/naive timestamps, nonfinite or invalid OHLCV and absent calendar/action coverage. Zero volume is valid only when actually observed. No interpolation, zero-filling or genuine metric calculation. A passing synthetic fixture does not validate a genuine dataset.
+
+S01-S06, 1,115 symbols, 13,380 combinations, qualification policy, chronological train/validation/holdout, causal execution, fees and multiple-testing controls remain unchanged. This layer performs no indicators, accounting, strategy optimization or qualification. Genuine qualified pairs: zero; win rates unavailable.
