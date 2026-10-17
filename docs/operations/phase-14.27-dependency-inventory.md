@@ -1,0 +1,13 @@
+# Phase 14.27 offline dependency inventory
+
+Runtime: CPython 3.12.14, AMD64. Python executable bytes, pyproject.toml and uv.lock are hashed. Java and Maven are NOT_APPLICABLE to this Python-only RC claim; their versions/dependencies and fresh behavior are not certified. No Java files changed.
+
+Direct Python requirements remain `pydantic>=2.11,<3` and `pydantic-settings>=2.9,<3`; resolved versions are 2.13.5 and 2.15.0. Development requirements remain pytest, jsonschema with format extras, types-jsonschema, Ruff and mypy. Resolved tools include pytest 8.4.2, Ruff 0.16.8 and mypy 1.20.2. The full inventory records all 37 installed distributions, active requirement constraints, every hashed RECORD entry, aggregate file fingerprints, un-hashed metadata/generated entries and exact correspondence with uv.lock.
+
+All 37 installed distribution versions match the lock and their hashed RECORD entries verify. Active metadata requirement constraints pass. RECORD itself and generated un-hashed entries are listed separately; editable project metadata does not substitute for the separately sealed source inventory. This verifies local installed content, not publisher signatures, absence of vulnerabilities or supply-chain completeness.
+
+Build backend: cached Hatchling 1.27.0, with cached trove-classifiers 2026.6.1.19 and installed packaging 26.3, pathspec 1.1.1 and pluggy 1.6.0. Cached backend files verify against their RECORD hashes and requirements. Exact versions and file fingerprints are retained in the build report. uv 0.12.10 was inspected as an available tool; the build invokes the cached backend directly, without a resolver or installation. Two builds and source archives are byte-identical in separate external directories.
+
+Dependency source declarations and original wheel/sdist SHA-256 values are recorded from uv.lock. Cache status is installed files plus unpacked cached build distributions. Original downloaded dependency archives are not available as original wheel/sdist bytes for independent hash comparison. Their archive provenance is UNVERIFIED. Local RECORD integrity does not establish equivalence to those upstream archives. This unresolved provenance requirement remains an explicit RC condition; nothing was downloaded to close it.
+
+Runtime package imports pass in an isolated Python process, but the wheel alone cannot locate repository-relative universe/configuration evidence. Resource binding is UNRESOLVED_STANDALONE_WHEEL. No executable or production launcher is packaged. Reviewers must retain the recorded checkout and external evidence; the wheel must not be promoted as a standalone deployment.
