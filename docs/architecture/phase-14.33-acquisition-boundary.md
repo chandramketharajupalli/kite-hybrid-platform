@@ -1,0 +1,13 @@
+# Phase 14.33 acquisition boundary
+
+The new phase1433 layer is an offline policy and read-only local evidence verifier. It reuses Phase 14.31 manifest/wheel identity checks, Phase 14.32 explicit index custody and canonical SHA-256 serialization. It has no network, archive extraction, dynamic package import, installer, dependency resolver, credential or broker client. No existing trading, accounting, risk, scheduling or package metadata implementation is changed.
+
+The real acquisition fingerprint is fixed at 74b40b6723fd6bfc5401a48e76fd8e94f2cd68919b5c532fa4b271c7f59db65c. The independently retained Phase 14.32 ledger is fixed at 4cd34fe05156683bde92483d246819ac63cccda5d2a8267bb422042d709f4a7f. Raw metadata responses and transport hashes are verified before a preparation packet is produced. The earlier committed Phase 14.32 unavailable-metadata ledger is historical evidence and is not replaced.
+
+Trusted owner-decision hashes and trusted receipt hashes are explicit verifier inputs from separate authenticated custody. Receipt JSON cannot authenticate itself. This component verifies binding and raw-byte integrity, not cryptographic publisher signatures or owner identity. It does not implement durable authorization consumption or a downloader. A future executor must enforce exclusive one-run authorization accounting and immutable receipts; successful policy validation alone grants no automatic action.
+
+A complete result requires exact inventory, approval scope and validity, eight complete independently retained receipts, unique identities and request sequences, exact sources, HTTP 200, identity encoding, no redirects/retries, matching raw size/hash and time/count/byte limits. Malformed or incomplete evidence fails closed. No archive member is read or extracted. Name/version/tags are bound through the sealed exact filename and independently attested raw digest; archive content inspection is deliberately absent.
+
+Synthetic byte fixtures use test-only manifest/attestation pins and cannot verify the real artifacts. The real preparation report records zero acquired archives. Static import tests and read-only verification are not OS egress containment, hostile concurrent filesystem protection, physical power-loss durability, publisher authentication or package safety certification. Existing complete-authority rollback limitations remain unchanged.
+
+PREPARATION_ONLY. Acquisition PENDING and NOT_AUTHORIZED; installation NOT_AUTHORIZED; clean installation NOT_ATTEMPTED. Zero artifacts downloaded and zero real raw archive hashes verified. OFFLINE_RC_CONDITIONAL. Gate A/B NOT_AUTHORIZED; Stage B ZERO_CALL_ABORT; Phase 12 BLOCK; H1/H2 FROZEN; July SEALED; genuine qualified pairs zero; operational NO_GO.
