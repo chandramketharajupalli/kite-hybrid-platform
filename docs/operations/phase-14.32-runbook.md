@@ -1,0 +1,12 @@
+# Phase 14.32 offline runbook
+
+1. Verify develop, full HEAD/local origin/develop, clean tracked worktree/index and sealed Phase 14.31 acquisition fingerprint. Preserve the Phase 14.22 exception unchanged. Check all 1,427 baseline raw hashes and historical reconciliations.
+2. Inspect only approved local custody. This phase enumerated uv/cache, pip/Cache/wheels and Phase 14.31 external evidence without following links. Bounded JSON inspection found no candidate official version records. Opaque cache payloads and installed metadata are not treated as independently reviewed metadata. This is a scoped finding, not a claim about every private directory.
+3. Run the pure prepare function with no evidence/custody to reproduce the real unavailable ledger and pending decisions. Scripts/research/prepare_phase1432.py prints JSON only; it does not write artifacts or contact services.
+4. Run tests offline with Python -B, PYTHONDONTWRITEBYTECODE=1, pytest --assert=plain -p no:cacheprovider and external JUnit paths. Ruff --no-cache; strict mypy with external cache. Verify all protected hashes after each gate. Keep failed receipts and corrective reruns.
+5. Run scripts/research/verify_phase1432.py twice against the sealed evidence manifest; compare stdout bytes and retain separate receipts. It verifies evidence without reconstructing missing historical files.
+6. Stop at the pending metadata-only request. Do not retrieve until separately approved. Future raw observations must be retained externally and reviewed for endpoint/hash/time custody, then supplied explicitly to the pure verifier. Never derive trust by copying the evidence's own labels.
+7. On hash, size, source, identity, yanked status or evidence mismatch, preserve the result and block acquisition. Never edit the lockfile to match a remote response. No alternate version/platform or source archive substitution.
+8. Only after all eight matches, prepare a new manifest-bound acquisition decision for separate owner approval. Acquisition, installation and release remain separate. No automatic download follows the policy predicate. No staging, commit, push or operational HALT changes.
+
+All results concern offline preparation. No network requests, distribution downloads or installations occurred. Acquisition PENDING; installation NOT_AUTHORIZED; clean installation NOT_ATTEMPTED; OFFLINE_RC_CONDITIONAL. Gate A/B NOT_AUTHORIZED; Stage B ZERO_CALL_ABORT; Phase 12 BLOCK; H1/H2 FROZEN; July SEALED; genuine qualified pairs zero; operational NO_GO.

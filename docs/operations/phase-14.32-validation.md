@@ -1,0 +1,19 @@
+# Phase 14.32 validation
+
+Classification PHASE_14_32_PARTIAL. Baseline d0db4b86f54d63969b0dbedbafc2acab90d29350; develop and local origin/develop agree. All 15 Phase 14.31 additions are committed. All 1,427 current tracked raw hashes remain unchanged. Index and tracked worktree remain clean. The separate Phase 14.22 plan is byte-identical and excluded from this phase.
+
+Fresh validation: 51 focused tests passed (49 new policy tests and two architecture guards); 1,125 full Python tests passed; Ruff across src/tests and the two new scripts passed; strict mypy across src/tests and the two new scripts passed (113 files). All executed gates passed on their first run; no failed attempts or corrective reruns occurred. Initial focused lint and full-scope lint are separately retained. No Java changes or Java tests.
+
+Tests used Python -B, PYTHONDONTWRITEBYTECODE=1, pytest --assert=plain -p no:cacheprovider, external JUnit files, Ruff --no-cache and an external mypy cache. No dependencies were installed or updated. All command receipts include exit code, elapsed time, stdout/stderr hashes and an empty protected_changed list.
+
+Historical preservation: 13 Phase 14.0A newline reconciliations; 18 frozen source registrations; 63 protected research raw hashes; 25 K/L hashes covering 11 governance envelopes; historical manifests and plans. Legacy checks use verified historical Git blobs only for the three explicitly authorized Phase 14.30 changes, while all three current files independently match their committed sealed hashes. No files were rewritten for these checks. Universe: 1,140 source rows, 25 duplicate removals, 1,115 unique symbols; six frozen strategies and 13,380 research combinations; genuine qualified pairs zero.
+
+Approved local metadata inspection enumerated 12,843 uv cache files, zero pip wheel-cache files and 10,483 files in prior external evidence (including tool caches), without following links. Bounded JSON inspection found zero candidate official index records. Opaque cache contents and installed RECORD files were not promoted to independent metadata custody. This does not establish absence in unrelated directories. No network requests were authorized or attempted.
+
+All eight real artifacts are METADATA_UNAVAILABLE: zero independent digest matches, eight missing metadata records, zero observed mismatches, eight available lockfile digests. Synthetic positive fixtures test policy behavior only. No raw publisher/index responses or observation timestamps are fabricated. Existing eight missing runtime archives and historical 38 missing third-party archives remain unresolved; original archive provenance UNVERIFIED.
+
+Acquisition PENDING and ineligible, metadata retrieval PENDING and NOT_AUTHORIZED, installation NOT_AUTHORIZED, clean installation NOT_ATTEMPTED. OFFLINE_RC_CONDITIONAL. Official index agreement is not a publisher signature or safety assertion. Independent custody authentication, original archive verification and production egress containment are not established. No automatic acquisition follows the pure authorization predicate.
+
+The evidence manifest binds the exact new inventory, raw hashes, frozen plan, three canonical reports, baseline hashes, preflight records and all test receipts. Two separately recorded read-only manifest replays and the final integrity certificate/command receipt live in external custody to avoid self-referential hashing. Final replay checks include LF stability, Git-byte equivalence, whitespace and full tracked/new-file secret/canary scans. The certificate binds the replay outputs; these are integrity evidence, not publisher signatures or owner approval.
+
+No source or historical evidence modifications, staging, commit, push, dependency downloads/installations, credential access, broker requests or notifications. Gate A/B NOT_AUTHORIZED; Stage B ZERO_CALL_ABORT; Phase 12 BLOCK; H1/H2 FROZEN; July SEALED; operational NO_GO.
