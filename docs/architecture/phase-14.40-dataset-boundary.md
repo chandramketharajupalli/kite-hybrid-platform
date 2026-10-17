@@ -1,0 +1,19 @@
+# Phase 14.40 dataset boundary
+
+OFFLINE_SYNTHETIC_ONLY. No acquisition, network, credential or persistence ports. Source evidence is supplied and explicitly synthetic; hashes establish correspondence, not exchange authenticity or contractual permission. Genuine labels return GENUINE_DATA_UNAVAILABLE. Retention remains UNVERIFIED.
+
+Reuse phase14 Candle/Series/Session/FIVE, phase1419 Calendar, phase1439 Instrument/Master/Transient/research and the frozen causal execution policy. No existing code changes or replacement engine/calendar/registry. Input JSON is hash-checked, duplicate-key-rejecting and bounded to 16 MiB/100000 records. Invalid rows retain indices/reasons. Invalid OHLCV duplicate timestamps are counted without extra coverage. Prices require exact Decimal text, volume integer; zero volume may be valid. No rounding, interpolation or zero-filling.
+
+Phase1440ExpectedCandleLedger.v1 uses UTC opening timestamps and half-open intervals, with IST exchange interpretation. Every window date requires explicit supplied evidence. Ordinary 09:15-15:30 derives 75 intervals; short/special/muhurat sessions derive actual lengths. Verified listing/delisting and suspension periods filter the schedule. No weekday inference, missing-candle suspension inference or future calendar/suspension knowledge. Unverified coverage blocks certification.
+
+Phase1440CandleCompleteness.v1 reconciles exact timestamp sets, observed/valid/missing/duplicate/invalid/out-of-session intervals, first/last missing times, consecutive missing runs and per-session/stock/window totals. Coverage never overrides integrity gates. Dataset aggregation rejects duplicate symbols, records scope and never certifies empty expected coverage.
+
+Phase1440InstrumentIdentityLedger.v1 binds exchange/symbol/token, generation, observation/effective intervals and source. Every expected interval needs one identity. Overlap, ambiguous reuse, stale or missing mapping rejects. Token transitions have ledger support; heterogeneous histories are rejected by the existing single-token Series research adapter rather than silently relabeled.
+
+Phase1440CorporateActionEvidence.v1 covers splits, bonuses, dividends, rights, mergers, demergers, symbol changes, delistings, suspensions and identity changes. Even an empty list requires complete synthetic source coverage. Availability/effective dates and applicable ratio/amount are validated. These synthetic assertions do not authenticate real corporate-action evidence.
+
+Phase1440CorporateActionAdjustment.v1 freezes NO_LOCAL_ADJUSTMENT: raw price/volume bytes, no rounding or local transformation. Split/bonus reciprocal-price/proportional-volume conventions require a future justified methodology decision; dividends, rights and complex events receive no inferred adjustment. Events return ADJUSTMENT_REQUIRED and block certification as ADJUSTMENT_UNVERIFIED. ADJUSTED_VERIFIED is never granted here. Verified complete no-action coverage yields NOT_APPLICABLE. The frozen PROVIDER_UNSPECIFIED_NO_LOCAL_ADJUSTMENT engine label is unchanged.
+
+Phase1440ResearchDataset.v1 scope plus source-bound receipt includes universe, window, calendar, mapping, source, action/adjustment/retention, completeness and causal bindings. Phase1440DatasetCertificationReceipt.v1 binds software, decision and certification timestamp. Replay rejects altered receipts, sources, calendars, generations, policies and versions. Duplicate IDs reject in memory; persistence always rejects; existing transient expiry/disposal controls apply.
+
+Only completed candles enter existing strategies. Changing future evidence cannot silently rewrite sealed decisions. Integration is one synthetic symbol/one six-month window across S01-S06, with separate full 1115-symbol mapping metadata and 13380-family checks. Not full-universe end-to-end or genuine qualification.
