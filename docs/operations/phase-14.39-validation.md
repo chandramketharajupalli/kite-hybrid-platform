@@ -1,0 +1,25 @@
+# Phase 14.39 validation
+
+Classification: PHASE_14_39_PARTIAL. Offline synthetic pipeline controls pass; genuine acquisition readiness and complete full-suite evidence remain unresolved.
+
+Git baseline: 55793a3a0a8756e4ab8239f010b355333c21f21c; develop and local origin/develop agree. Frozen plan SHA-256: 2c5d88452596e7628674f3a45561793fa8ee67132dd782db40b1f99021b22c02.
+
+Fresh final receipts: 50 pipeline tests passed; 304 relevant integration regressions passed (phase1415, phase1417, phase1418/A/B, phase1419, phase1420, phase1428 and architecture); 122 Phase 14.35?14.38 audit regressions passed. These are 476 distinct successful final selected tests, not a full-suite total. Ruff passes for the four added Python files; strict mypy passes for those four files and follows their imports. No Java contracts changed; no Java tests run.
+
+The full application-suite attempt exceeded 300 seconds. Its initial driver raised TimeoutExpired before saving the captured partial pytest streams; the observed failure is retained in full-python-timeout.json, with that receipt limitation explicit. No full-suite pass or partial passed-count is claimed. Subsequent targeted commands stream stdout/stderr directly to external custody, preserving output even on timeout. Initial focused runs passed; initial Ruff import-order failures and one mypy checkpoint typing failure are preserved alongside successful corrective receipts. An adjacent expiry-reuse defect found during review was corrected before sealing: observing expiry irreversibly closes the synthetic session, including when a later caller supplies an earlier clock.
+
+Full 1,115-symbol synthetic mapping is checked independently of the one-symbol, six-strategy integration. All S01?S06 return SYNTHETIC, unqualified results through the existing research evaluator. The sparse six-month calendar and forty candles are fabricated fixtures; no full-universe end-to-end or genuine calendar/history claim is made. Separate execution regressions preserve previous-completed-volume liquidity, future-candle invariance, immutable fills, failed-exit HALT and multi-session behavior. Calendar and corporate-action flags refer only to synthetic fixture evidence.
+
+Synthetic pipeline report fingerprint: 7bb05f7662306f42d0063cd50bf55820655ec0e8734a6669078f3984f59ab3ea.
+Research output fingerprint: 12d9e832daffd4988d9da569fc8773ce2443b254dae53daa88ae4214c2b08f71.
+Two independent report executions match. The final manifest is replayed twice by rereading its canonical body, all artifact bytes, all baseline hashes and retained receipts. The manifest excludes its own raw hash; a separate external certificate seals that raw hash and both replay receipts.
+
+Preservation: all 1,536 captured tracked raw hashes match. Prior Phase 14.35/36/37/38 canonical envelopes, committed artifact bytes, historical raw baselines and referenced external receipts match. Phase 14.38 thirteen artifact hashes plus its separately sealed raw manifest match; the two historical LF-LF EOF warnings remain unchanged. Frozen G1, eighteen registered sources, sixty-three research files, K/L governance and thirteen newline reconciliations pass. Canonical universe remains 1,115 symbols; research family remains 13,380 combinations. Phase 14.22 plan remains unchanged and untracked with SHA-256 e417f0c971b5a4778774785b7e5137db0051667598e64d9c409c250d3cb46f31.
+
+External receipt custody: C:\Users\CHANDR~1\AppData\Local\Temp\phase1439-ti_hioy8. Initial failures, corrective reruns, preflight, final preservation and synthetic replay receipts are retained there. Caches are outside the repository and excluded from sealed evidence. New artifacts are LF-only with one final newline, no trailing whitespace and raw/filtered Git blob equivalence. Secret/canary scanning covers new artifacts and baseline text; fingerprints and receipts are checked again after sealing.
+
+Remaining limits: original correspondence custody and genuine retention authority remain UNVERIFIED; no arbitrary temporary storage is permitted. API budgets and date-range capabilities require approved documentation. Genuine calendar/listing/suspension/corporate-action evidence is unavailable. Checkpoint replay is memory-only, not durable or distributed recovery. Disposal releases references, not secure erasure. Static and Python guarded-process checks do not establish OS-level production egress containment. No new wheel build or installation certification is claimed; the historical offline RC remains CONDITIONAL.
+
+Genuine qualified pairs: 0. Genuine performance: null. Real Kite requests: 0. Instrument master NOT_AUTHORIZED; historical candles NOT_AUTHORIZED. Gate A/B NOT_AUTHORIZED; Stage B ZERO_CALL_ABORT; Phase 12 BLOCK; H1/H2 FROZEN; July SEALED; operational NO_GO. No staging, commit, push, credentials, downloads, orders, notifications or deployment.
+
+Initial unsealed whitespace inspection incorrectly rejected Git --no-index exit 1 despite empty diagnostic streams. The wrapper was corrected to accept exit 0/1 only when both diagnostic streams are empty; no artifact bytes required normalization. That failed inspection is preserved separately.
