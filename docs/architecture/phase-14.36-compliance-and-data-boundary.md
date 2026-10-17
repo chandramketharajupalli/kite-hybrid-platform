@@ -1,0 +1,9 @@
+# Compliance and genuine-data boundary
+
+This additive offline layer classifies supplied evidence and validates necessary approval fields. It has no network, credential, acquisition or deletion implementation. Existing Phase 14.35 mapping, OHLCV completeness and expiry validators are reused unchanged. Trusted review/owner fingerprints must come from independently authenticated custody, not from hashing an unreviewed record. The validators are necessary checks, not a legal determination or execution authorization.
+
+Evidence hierarchy: ORIGINAL_CORRESPONDENCE_VERIFIED or AUTHENTICATED_SUPPORT_RECORD requires an independently trusted review binding raw evidence, exact body, source identity and timestamp. Exact supplied text without that review remains USER_SUPPLIED_RESPONSE_TEXT; a paraphrase remains SECONDARY_SUMMARY; no content is UNAVAILABLE. Current available evidence is the fourteen-item user summary, not an exact response. Do not discard a later supplied exact response or overwrite the original summary; add a separately hashed source and reconciliation.
+
+Conflict handling retains restrictions. PERMITTED_WITH_CONDITIONS does not authorize unresolved storage. Sender display name, ticket number, HTTPS, a local hash or reported personal-use permission cannot establish source authority by itself. Source review and operational approval remain separate. No account access or external service lookup occurs.
+
+The historical installation certificate and Phase 14.35 evidence remain verified inputs, with OFFLINE_RC_CONDITIONAL unchanged. Python-distribution provenance, production egress containment, publisher authentication/package safety and formal owner release acceptance remain limitations. Genuine acquisition and operational readiness are independent of synthetic engineering success.

@@ -1,0 +1,9 @@
+# Separate acquisition scopes
+
+Phase1436GenuineDataAcquisitionApproval.v1 fingerprint: 3699e0c26a48f5a3d0bcaf93817d975ba0fb902f392acaa450ef40575f21e902. Both instrument_master and historical_candles scopes are NOT_AUTHORIZED with zero executable request/byte budgets. Exact endpoints, dates, rate and volume budgets, compliance binding, credential custody, storage/retention/deletion and audit controls are null. No owner decision or expiry is invented. This incomplete packet is not ready for actual acquisition approval.
+
+Instrument mapping requires all 1,115 canonical NSE symbols in original order, exchange plus exact symbol identity, refreshable positive tokens, raw source hash/time and retrieval receipt. Reject duplicates, missing symbols, exchange mismatch, stale observations and token reuse across identities. Changes/delistings need separately evidenced identity resolution; never fabricate genuine tokens.
+
+Historical requests require authorized token snapshots, five-minute OHLCV, bounded exact dates within the frozen six/twelve-month methodology, verified per-request date limits and aggregate request/byte budgets. Request count per symbol is unresolved; the reported order threshold is not a historical-data limit. No genuine acquisition is permitted until all these controls and separate Gate A approval pass. Gate B remains closed; instrument approval cannot authorize candle acquisition.
+
+Calendar controls must bind IST sessions, UTC transport timestamps, holidays, special/partial sessions, listing/delisting dates and evidenced suspensions. Expected intervals are supplied by a verified calendar, not inferred as a fixed count every day. Missing, duplicate, unordered, out-of-session and invalid OHLCV fail completeness. No interpolation or missing-as-zero conversion. Calendar provenance and genuine coverage are currently UNVERIFIED.

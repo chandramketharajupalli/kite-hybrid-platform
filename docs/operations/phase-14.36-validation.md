@@ -1,0 +1,13 @@
+# Phase 14.36 validation
+
+Fresh final results: 31 focused synthetic tests passed; 136 tests passed in the relevant full audit regression set (Phases 14.33B, 14.34A, 14.35 and 14.36, including the focused 31). Ruff passed and strict mypy passed two new files. Trading-engine and Java suites were not rerun because their source/contracts were unchanged; historical test totals are not claimed as fresh results.
+
+Initial focused/regression and Ruff checks passed. Initial mypy reported seven implicit-export errors in the test's digest references. Tests now import the existing helper directly from its owning module; no validation semantics changed. Initial failures and final reruns are retained separately under phase1436-cntti9vp in the local external temporary evidence root. Exact commands, stdout/stderr, JUnit and hashes are sealed in the evidence inventory.
+
+Python -B and PYTHONDONTWRITEBYTECODE=1 were used, pytest --assert=plain -p no:cacheprovider with external basetemp, Ruff --no-cache and an external mypy cache. All 1,495 tracked raw hashes were rechecked after every test/lint/type gate. The untracked Phase 14.22 plan retains its original hash.
+
+Preflight verified both committed prior inventories, Phase 14.35 manifest and external receipts, Phase 14.34 installation certificate and receipt hashes, protected historical research/governance, 13 newline reconciliations, 18 frozen sources, 63 protected research files, canonical 1,115 symbols and 13,380 combinations. The documented in-memory Phase 14.30 reconciliation was used only for the legacy historical verifier; current raw bytes were independently checked first.
+
+All fourteen reported topics are preserved as SECONDARY_SUMMARY with original text and source metadata null. No exact fourteen-answer source was located in the approved identified inputs; no private mail or unrelated custody search occurred. The public forum name hit is unrelated and provides no authentication. No public documents were freshly fetched. Source classification, conflict, retention, token/candle/calendar/action, approval and no-network/no-performance checks use synthetic fixtures and existing pure validators.
+
+Final sealing requires LF/Git-byte equivalence, whitespace and secret/canary checks on all thirteen additions and two identical external manifest replay results. A separate final certificate and command receipts record these checks without a self-hash cycle. Readiness remains PHASE_14_36_PARTIAL: original custody, retention and data-use authorization unresolved; both acquisition scopes and Gate A/B NOT_AUTHORIZED; genuine performance null; qualified pairs zero; operational NO_GO. No staging, commits, pushes, downloads, installations, real broker calls or credential access.
