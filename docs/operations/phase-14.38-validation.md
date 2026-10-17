@@ -1,0 +1,13 @@
+# Phase 14.38 validation
+
+Final fresh results: 25 focused synthetic tests passed; 190 tests passed in the relevant full audit regression set (Phases 14.33B through 14.38, including the focused 25). Ruff and strict mypy passed two new files. Trading and Java suites were not rerun because their implementation/contracts were unchanged; no historical totals are relabeled as fresh tests.
+
+Initial focused/regression and Ruff checks passed. Initial mypy reported four errors caused by reusing one loop variable for a Path and parsed email part. Renaming the path variable corrected the type collision without changing behavior. All initial/final commands, stdout/stderr, exit codes and JUnit receipts remain separately retained under external phase1438-oarapz9w custody.
+
+Fixtures are synthetic .eml files in explicit external pytest temporary locations and in-memory policy records. No genuine message, protected evidence or source file is normalized, extracted, executed or deleted. Tests cover raw tampering, duplicate custody, unapproved paths, sender mismatch, absent/duplicate headers, absent ticket, missing/incomplete fourteen answers, exact newline differences, duration/permission/backup/derived ambiguity, expiry, approval binding/separation and no broker/performance claims.
+
+Python -B and PYTHONDONTWRITEBYTECODE=1; pytest --assert=plain -p no:cacheprovider with external basetemp; Ruff --no-cache; strict mypy external cache. All 1,522 baseline raw hashes were rechecked after each gate. The Phase 14.22 untracked exception retains its expected hash. Preflight verified prior committed inventories, historical receipts, Phase 14.34 installation certificate, protected research/governance, thirteen newline reconciliations, eighteen frozen sources, sixty-three research files, 1,115 symbols and 13,380 combinations. The documented legacy in-memory Phase 14.30 reconciliation did not alter any files.
+
+Original correspondence remains unavailable in approved identified inputs; source transfer requested. Reported conversation-copy provenance remains USER_SUPPLIED_RESPONSE_TEXT; exact text unavailable. All fourteen comparisons UNVERIFIED. Twelve clarification questions drafted, not sent. Retention UNVERIFIED; both acquisition decisions NOT_AUTHORIZED. No current public terms retrieval or contractual authority inference.
+
+Final sealing requires fourteen additions to pass LF/Git-byte, whitespace and secret/canary scans, followed by two identical independent external manifest replays. The final certificate and command receipts remain separate to avoid circular hashes. PHASE_14_38_PARTIAL, genuine qualified pairs zero, Gate A/B NOT_AUTHORIZED and operational NO_GO. No staging, commit, push, credentials, network or real Kite requests.
