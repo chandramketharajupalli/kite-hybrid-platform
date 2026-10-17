@@ -8,7 +8,7 @@ import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-ALLOWED_PROJECT_DEPENDENCIES = {"pydantic", "pydantic-settings"}
+ALLOWED_PROJECT_DEPENDENCIES = {"pydantic", "pydantic-settings", "tzdata"}
 FORBIDDEN_IMPORTS = {"kiteconnect", "requests", "httpx", "urllib", "socket", "redis",
                      "psycopg", "psycopg2", "sqlalchemy", "subprocess", "ctypes"}
 

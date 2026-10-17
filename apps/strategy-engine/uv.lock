@@ -414,6 +414,7 @@ source = { editable = "." }
 dependencies = [
     { name = "pydantic" },
     { name = "pydantic-settings" },
+    { name = "tzdata", marker = "sys_platform == 'win32'" },
 ]
 
 [package.dev-dependencies]
@@ -429,6 +430,7 @@ dev = [
 requires-dist = [
     { name = "pydantic", specifier = ">=2.11,<3" },
     { name = "pydantic-settings", specifier = ">=2.9,<3" },
+    { name = "tzdata", marker = "sys_platform == 'win32'", specifier = "==2026.4" },
 ]
 
 [package.metadata.requires-dev]
