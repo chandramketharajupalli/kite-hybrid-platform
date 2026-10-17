@@ -1,0 +1,17 @@
+# Phase 14.26: offline alert and authority assurance
+
+Baseline: `8b59cb912ea9f8161716a11d3e70aac4d18d9c6b`. All previously tracked files remain immutable.
+
+The additive `phase1426` package has two isolated interfaces. `AlertLedger.accept` takes a versioned, hashed synthetic accepted incident. It uses the Phase 14.20 alert constructor, adds incident and accepted-event bindings, and publishes the incident, alert and sticky paper-HALT requirement atomically as one chained record. It receives neither ground truth nor a detection deadline. Duplicate identical incident delivery is idempotent; changed delivery fails closed. Caller-owned expected heads detect missing, truncated or reordered records.
+
+`assure` independently reads the sealed Phase 14.24 ground truth. It creates one obligation per critical incident and projects the existing Phase 14.24 matcher onto each exact identity/evidence binding. Original deadlines are unchanged. One alert cannot satisfy two incidents. Late and duplicate alerts remain unmatched false positives under the frozen matching policy. Missing-alert failure records belong to the evaluator and never increase monitored true positives.
+
+This validates the synthetic accepted-event-to-alert boundary. Accepted events are constructed from the frozen scenario definitions, independently of observed alert output. It does not establish live incident detection, external delivery, production reliability or newly qualified trading strategies. Existing historical alert output remains unchanged.
+
+`Authority` binds explicit synthetic approvals to a caller-provided allowlist, evidence, run, incident, action, scope, expiry and trusted head. A separate append-only witness records sequence, journal digest, epoch, HALT and last recovery action. Local one-use consumption is published before a CONSUMED witness record and before invoking the recovery callback. File publication reuses the existing exclusive pending-file and fsync contract. Concurrent consumers serialize through an exclusive owner lock. A process dying with that lock leaves a fail-closed ambiguous state; no lock removal or repair API is supplied.
+
+The witness directory is outside the local consumption rollback subtree. The caller must retain its latest accepted head independently of the local state being rolled back. These are explicit experimental survival assumptions, not independent custody. If all witness files, local consumption, approvals and caller head are rolled back together, reuse is possible. The executable counterexample is retained.
+
+The authority callback is a trusted, offline synthetic adapter. Tests invoke the existing Phase 14.19 scheduler after a simulated fill, bind the current journal inventory to the witness, and recheck existing accounting and replay invariants. No fill, accounting, risk, execution or strategy algorithm is duplicated. HALT clearance is unsupported; acknowledgment, resolution and approval do not constitute clearance. Interrupted recovery consumes its approval permanently within the surviving authority domain and requires separate review.
+
+Budgets: 64 incidents, 256 alerts, 10,000 chained records and 1 MiB per record. Existing scheduler journal limits remain in force. No production daemon, transport, notification service or real credential is introduced. File fsync and process-restart tests do not establish power-loss durability or hardware failure tolerance.
