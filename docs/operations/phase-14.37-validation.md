@@ -1,0 +1,13 @@
+# Phase 14.37 validation
+
+Fresh final results: 29 focused synthetic tests passed; the relevant full audit regression set passed 165 tests (Phases 14.33B, 14.34A, 14.35, 14.36 and 14.37, including the focused 29). Ruff and strict mypy passed two new scripts. Trading/Java suites were not rerun because no trading source or contracts changed. Historical totals are not fresh test results.
+
+Initial focused/regression and Ruff passed. Initial mypy reported two optional-value narrowing errors for already-validated receipt/copy identities. Explicit post-validation type narrowing corrected these without changing validation semantics. Initial failures and corrective reruns are retained separately in external phase1437-e643d018 custody with command, exit code, stdout/stderr and JUnit receipts.
+
+Python -B, PYTHONDONTWRITEBYTECODE=1, pytest --assert=plain -p no:cacheprovider, external basetemp, Ruff --no-cache and external mypy cache were used. All 1,508 tracked hashes were verified after each major gate. Phase 14.22 preservation exception remains unchanged and untracked. Preflight verified committed prior inventories, external installation evidence, protected research/governance, thirteen newline reconciliations, eighteen frozen source hashes, sixty-three protected research files, canonical 1,115 symbols and 13,380 combinations. The documented in-memory legacy Phase 14.30 reconciliation did not modify any historical file.
+
+Tests cover reported text without original, trusted synthetic original custody, body/raw/metadata tampering, explicit missing message-ID gaps, support/terms conflict, duration/authority/expiry/backup/recovery failures, duplicate/tampered/interrupted/missing-copy deletion receipts, policy binding, owner approval and master/candle separation. No genuine file is deleted; lifecycle records are synthetic in-memory fixtures. No physical-erasure or discovered-all-backups guarantee is claimed.
+
+The original user-supplied response remains recorded as reported provenance, not replaced by secondary topics. Its exact body is unavailable in the identified approved inputs, and original custody remains unverified. No exact quotation, timestamp, message ID or authenticity evidence is invented. No private correspondence is published or external service accessed.
+
+Final sealing requires all fourteen additions to pass LF/Git-byte equivalence, whitespace and secret/canary checks, with two matching independent external manifest replays and a separate final certificate/command receipts. Classification PHASE_14_37_PARTIAL; retention unresolved, master/candle NOT_AUTHORIZED, genuine qualified pairs zero, Gate A/B NOT_AUTHORIZED and operational NO_GO. No staging, commits, pushes, credential access or broker requests.
