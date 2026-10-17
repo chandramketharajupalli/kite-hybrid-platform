@@ -7,6 +7,8 @@ from pathlib import Path
 from typing import Any
 
 import pytest
+from test_phase14 import tariff
+
 from strategy_engine.backtest.dataset import NSE
 from strategy_engine.phase14.engine import FIVE, Candle, Series, Session
 from strategy_engine.phase1415.execution import execution_fingerprint, liquidity_bar
@@ -14,7 +16,6 @@ from strategy_engine.phase1415.research import ResearchWindow, standard_window
 from strategy_engine.phase1419.scheduler import Calendar
 from strategy_engine.phase1428.resources import load
 from strategy_engine.phase1439 import pipeline as p
-from test_phase14 import tariff
 
 NOW = datetime(2026, 10, 1, tzinfo=NSE).astimezone(UTC)
 POLICY = p.sha(b"SYNTHETIC_MEMORY_ONLY_EXPLICIT_EXPIRY")

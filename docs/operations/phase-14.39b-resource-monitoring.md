@@ -1,0 +1,9 @@
+# Phase 14.39B worker resource monitoring
+
+Contract: Phase1439BWorkerResourceEvidence.v1. Windows Toolhelp snapshots discover launcher and descendants. Open handles and creation FILETIME bind identities and prevent PID reuse ambiguity. GetProcessTimes supplies cumulative CPU; GetProcessMemoryInfo supplies observed OS PeakWorkingSetSize and working set. QueryFullProcessImageNameW records executable identity. The pytest observer independently records its own PID/parent; these match the monitored tree.
+
+Full launcher PID 28156; actual worker PID 28172; creation FILETIME 134367277639722198; parent 28156. CPU 400.3125 seconds. Maximum observed OS peak working set 143876096 bytes. Interval 0.1 second. Worker exit 0 and termination FILETIME recorded. Samples and process receipts retained at C:\Users\CHANDR~1\AppData\Local\Temp\phase1439b-22qccoj9; raw bytes are hash-sealed. Worker classification WORKER_RESOURCE_VERIFIED.
+
+Calibration used disposable synthetic workloads: venv launcher to worker, positive CPU, 48 MiB allocation, parent exits first, child exits first, short-lived process, inaccessible system PID, injected identity mismatch, timeout termination and preserved partial samples. Positive synthetic workers used approximately 1.5 CPU seconds and 63 MB observed peak working set. Permission errors are explicit and never translated to zero utilization. No installed monitoring dependency was added.
+
+Child coverage PARTIAL_PROCESS_COVERAGE: processes shorter than the snapshot interval may be missed. The peak is the maximum observed Windows lifetime-to-query counter, not a guaranteed exact final lifetime maximum; growth after the last successful memory query may be missed. CPU utilization is per logical core. Process guard is not OS-level egress containment. Phase 14.39A launcher-only historical metrics remain uncorrected.
