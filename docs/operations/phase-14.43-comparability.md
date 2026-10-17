@@ -1,0 +1,7 @@
+# Phase1443ResearchComparabilityPolicy.v1
+
+Proposed mandatory boundary: separate LEGACY_SERIES_V1,CANDIDATE_SERIES_V2 and RAW_UNADJUSTED,PROVIDER_ADJUSTED,LOCALLY_ADJUSTED,ADJUSTMENT_UNVERIFIED families. Match methodology,basis,identity,availability,corporate-action,cost,execution and qualification policy before any comparability review. Same metadata is insufficient proof of independent/equivalent data; source/window/security/lineage and statistical independence also require evidence. No incompatible pooling of win rates,PnL,trades or qualification results.
+
+Any adopted methodology change requires independent requalification under a separately versioned family. Preserve six frozen strategies,1115symbols,13380combinations,stock-strategy specificity,chronological train/validation/holdout walk-forward,minimum samples,Wilson/Bonferroni,transaction costs,causal execution,EOD and paper HALT. No inherited legacy qualification, no synthetic-to-genuine promotion, genuine qualified pairs remain0.
+
+Require paired per-bar signal,fill,cash and policy comparisons,not just aggregate PnL. Future corporate-action or token observations must not silently change earlier decisions. Current immutable legacy report replay verifies unchanged existing behavior; it does not validate active v2 behavior or full-universe genuine backtesting. Reuse Phase14.42 comparison guards; do not create another qualification engine.
