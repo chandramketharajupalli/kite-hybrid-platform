@@ -1,0 +1,41 @@
+{
+  "alternatives": [
+    {
+      "candidate": "Organization-approved mirror",
+      "origin": null,
+      "status": "NO_APPROVED_MIRROR_EVIDENCED"
+    },
+    {
+      "candidate": "Spring release repositories",
+      "origin": null,
+      "status": "NO_SPECIFIC_REQUIREMENT_OR_APPROVAL_EVIDENCED"
+    },
+    {
+      "candidate": "Existing local cache",
+      "origin": null,
+      "status": "ROOT_POMS_MISSING"
+    },
+    {
+      "candidate": "Deferral",
+      "origin": null,
+      "status": "RECOMMENDED_PENDING_EVIDENCE"
+    }
+  ],
+  "approval_status": "NOT_APPROVED",
+  "approved_repository": null,
+  "baseline": "12f743bda73d0573b2ae77c2f206145d1e946392",
+  "candidate": "MAVEN_CENTRAL_CANDIDATE",
+  "contract": "Phase1446IRepositorySelection.v1",
+  "effective_owner_selected_repository": null,
+  "network_requests": 0,
+  "offline_evidence": "H cache origin records name central; no authenticated URL/ownership binding. No super-POM source found in scoped local model-builder cache.",
+  "origin_evidence": "UNVERIFIED_CONVENTIONAL_PROPOSAL_NOT_FOUND_IN_INSPECTED_SUPER_POM",
+  "plan_sha256": "173eba46bff6f7b773d2ca1adf6503625d4e2437cde1cee022cfbd858245cafe",
+  "proposed_https_origin": "https://repo.maven.apache.org",
+  "publisher_provenance": "UNVERIFIED",
+  "release_policy": "PINNED_RELEASE_POMS_ONLY_NO_SNAPSHOTS",
+  "repository_base_path": "/maven2/",
+  "repository_ownership_evidence": null,
+  "technical_recommendation": "DEFER_PENDING_REPOSITORY_VERIFICATION",
+  "tls_verification": null
+}
