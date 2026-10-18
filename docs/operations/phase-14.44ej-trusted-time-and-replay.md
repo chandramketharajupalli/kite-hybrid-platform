@@ -1,0 +1,9 @@
+# Trusted time, replay and revocation
+
+Phase1444EJTrustedTime.v1 is TRUSTED_TIME_UNVERIFIED. Future source trust identity, authenticated time evidence, UTC not-before/expiry, uncertainty and maximum age require approval. Accept only if the entire uncertainty interval lies within validity and evidence remains fresh. No local-clock-derived authority or automatic expiry extension. Backward movement rejects; unexplained forward jump invalidates continuity. Restart/reboot/snapshot restore requires independent continuity evidence; monotonic process time alone is insufficient. Offline stale/unverifiable time fails closed.
+
+Phase1444EJReplayAuthority.v1 is REPLAY_AUTHORITY_UNVERIFIED. Atomic persistent unique decision/nonce reservation precedes launch. Single-use consumption, revocation and reservation must share a serializable consistency boundary or a verified fencing protocol. Concurrent stale versions reject. Revalidate authority, revocation, expiry and scope before consumption; linearize revocation against consume. If verification/ledger/checkpoint is unavailable, no resume.
+
+Persist decision/key/role revocation, nonce tombstones and audit linkage. Independently protected checkpoint must detect file replacement, rollback and restore; an internal SQLite hash chain cannot. Retention duration/authority remain null: do not silently prune tombstones or restore consumed decisions. Backup recovery requires checkpoint reconciliation. Crash recovery rejects uncertain reservations until independently reconciled; this design burns reserved IDs, never silently releases consumed IDs.
+
+Immutable Ledger implements only the logical CAS specification. Two consumers with stale version reject when supplied the updated state; no claim of durable atomicity or thread/process concurrency is made by these tests.

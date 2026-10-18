@@ -1,0 +1,286 @@
+{
+  "baseline": "54b15bece6fee2b3be8a039011010cccfc93a4ee",
+  "cleanup": {
+    "authority": null,
+    "contract": "Phase1444EJCleanupAuthority.v1",
+    "job_identity": null,
+    "ownership_evidence": null,
+    "post_cleanup_evidence": null,
+    "retention": null,
+    "revocation": null,
+    "rollback_scope": null,
+    "status": "NOT_AUTHORIZED",
+    "storage_cleanup": null,
+    "timeout_termination": null
+  },
+  "contract": "Phase1444EJAuthorizationAssessment.v1",
+  "decision": {
+    "approval_evidence": null,
+    "approval_timestamp": null,
+    "baseline": "54b15bece6fee2b3be8a039011010cccfc93a4ee",
+    "cleanup_authority": null,
+    "commands": {
+      "child": {
+        "argv": [
+          "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+          "-I",
+          "-S",
+          "-B",
+          "-c",
+          "import subprocess,sys;p=subprocess.Popen([sys.executable,'-I','-S','-B','-c','import time;time.sleep(.4)']);p.wait()"
+        ],
+        "budget_seconds": 5
+      },
+      "child-crash": {
+        "argv": [
+          "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+          "-I",
+          "-S",
+          "-B",
+          "-c",
+          "import subprocess,sys,time;p=subprocess.Popen([sys.executable,'-I','-S','-B','-c','import time;time.sleep(.3);raise SystemExit(9)']);p.wait()"
+        ],
+        "budget_seconds": 5
+      },
+      "descendant": {
+        "argv": [
+          "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+          "-I",
+          "-S",
+          "-B",
+          "-c",
+          "import subprocess,sys;p=subprocess.Popen([sys.executable,'-I','-S','-B','-c',\"import subprocess,sys;p=subprocess.Popen([sys.executable,'-I','-S','-B','-c','import time;time.sleep(.4)']);p.wait()\"]);p.wait()"
+        ],
+        "budget_seconds": 5
+      },
+      "early": {
+        "argv": [
+          "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+          "-I",
+          "-S",
+          "-B",
+          "-c",
+          "pass"
+        ],
+        "budget_seconds": 5
+      },
+      "hold": {
+        "argv": [
+          "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+          "-I",
+          "-S",
+          "-B",
+          "-c",
+          "import time;time.sleep(5)"
+        ],
+        "budget_seconds": 5
+      },
+      "nonzero": {
+        "argv": [
+          "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+          "-I",
+          "-S",
+          "-B",
+          "-c",
+          "raise SystemExit(7)"
+        ],
+        "budget_seconds": 5
+      },
+      "normal": {
+        "argv": [
+          "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+          "-I",
+          "-S",
+          "-B",
+          "-c",
+          "import time;time.sleep(.2)"
+        ],
+        "budget_seconds": 5
+      },
+      "parent-crash": {
+        "argv": [
+          "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+          "-I",
+          "-S",
+          "-B",
+          "-c",
+          "import os;os._exit(8)"
+        ],
+        "budget_seconds": 5
+      },
+      "sentinel": {
+        "argv": [
+          "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+          "-I",
+          "-S",
+          "-B",
+          "-c",
+          "import time;time.sleep(15)"
+        ],
+        "budget_seconds": 5
+      },
+      "timeout": {
+        "argv": [
+          "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+          "-I",
+          "-S",
+          "-B",
+          "-c",
+          "import subprocess,sys,time;subprocess.Popen([sys.executable,'-I','-S','-B','-c','import time;time.sleep(10)']);time.sleep(10)"
+        ],
+        "budget_seconds": 0.8
+      }
+    },
+    "contract": "Phase1444EJControlledQualificationDecision.v1",
+    "durable_replay": null,
+    "execution_custody": null,
+    "expiry": null,
+    "helper_identity": {
+      "catalog_reference": "D:\\Yogendra\\offline-validation-evidence\\phase-14.44E-G\\generation-1\\catalog-trust.json",
+      "catalog_sha256": "87397a8cb12e45872ae6919573d8a8d010bc92051739660ebc629621c62f3083",
+      "path": "C:/Windows/System32/conhost.exe",
+      "revocation_freshness": "UNVERIFIED",
+      "sha256": "c86146188b78e484f32cc29e2331689659943b47689a85570342044f499938ac",
+      "signer": "CN=Microsoft Windows, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    },
+    "job_enforcement_design": "docs/operations/phase-14.44ej-resource-and-cleanup.md",
+    "owner_identity": null,
+    "owner_role": null,
+    "resource_limits": {
+      "child_count": null,
+      "contract": "Phase1444EJResourceLimits.v1",
+      "cpu_seconds": null,
+      "job_identity": null,
+      "memory_bytes": null,
+      "output_bytes": null,
+      "process_count": null,
+      "retry_count": null,
+      "status": "NOT_APPROVED_NOT_ENFORCED",
+      "storage_bytes": null,
+      "timeout_cleanup_policy": null,
+      "wall_seconds": null
+    },
+    "revocation": null,
+    "rollback_authority": null,
+    "source_hashes": {
+      "apps/strategy-engine/src/strategy_engine/phase1444c/replay.py": "7035454ff0060f3f1c3e2b54d685b51e57f02cd4ad75608c52a567d617178e28",
+      "apps/strategy-engine/src/strategy_engine/phase1444ee/supervisor.py": "5a38edf05fb6a9b4a3ee4fd358e6a5d5f6102828b95a07d3366ce737ee8c5d3e",
+      "apps/strategy-engine/src/strategy_engine/phase1444ef/supervisor.py": "a70a068cf71b8da035d5d15c764ef8721b73ce265fd3eaa4b05ffa973de76597",
+      "apps/strategy-engine/src/strategy_engine/phase1444eh/policy.py": "c417ba7802c2d08362c0e3d83aad57d109c4a07dbc99e030d9748adf4adbc043",
+      "apps/strategy-engine/src/strategy_engine/phase1444ei/integration.py": "dcdd4291c6fda938121aea25af63f974bd43caeab6f23752385ae08545a7218d"
+    },
+    "status": "NOT_AUTHORIZED",
+    "test_ids": [
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[nonzero-7]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[early-0]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[child-0]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[descendant-0]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[parent-crash-8]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[child-crash-0]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[access-denied]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[image31]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[missing-image]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[wrong-image]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[invalid-handle]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[query-rights]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[assignment-failure]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[membership-failure]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[pid-reuse]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[handle-mismatch]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[creation-mismatch]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_timeout_sentinel_and_exited_query"
+    ],
+    "test_source_sha256": "e48a16a8457ca63162e0855805cea97a7ee29f74e39a2a7f867f1dd62c494e37"
+  },
+  "historical_classification": "HISTORICAL_RECEIPTS_UNAVAILABLE",
+  "historical_missing": 73,
+  "lease": {
+    "contract": "Phase1444EJExecutionLease.v1",
+    "native_launch_implemented": false,
+    "states": [
+      "PENDING",
+      "VERIFIED",
+      "RESERVED",
+      "CONSUMED",
+      "EXPIRED",
+      "REVOKED",
+      "REJECTED",
+      "ABORTED"
+    ],
+    "status": "NO_REAL_LEASE_ISSUED",
+    "synthetic_only": true
+  },
+  "native_activation": "NOT_AUTHORIZED",
+  "original31": "NOT_EXECUTED",
+  "owner": {
+    "approval_evidence": null,
+    "approval_timestamp": null,
+    "authorized_operation": null,
+    "contract": "Phase1444EJOwnerAuthority.v1",
+    "decision_payload_fingerprint": null,
+    "expiry": null,
+    "owner_identity": null,
+    "owner_role": null,
+    "public_key": null,
+    "replay_identifier": null,
+    "revocation_reference": null,
+    "signature_algorithm": null,
+    "status": "TRUST_NOT_ESTABLISHED",
+    "trust_root": null
+  },
+  "real_kite_requests": 0,
+  "remaining18": "NOT_EXECUTED",
+  "replay": {
+    "checkpoint_authority": null,
+    "contract": "Phase1444EJReplayAuthority.v1",
+    "requirements": [
+      "unique decision and nonce",
+      "serializable atomic reservation and consumption",
+      "persistent revocation and conflicting decision rejection",
+      "crash/restart recovery",
+      "audit-chain verification",
+      "independent rollback-resistant checkpoint",
+      "restore cannot resurrect decisions"
+    ],
+    "retention_policy": null,
+    "status": "REPLAY_AUTHORITY_UNVERIFIED"
+  },
+  "resources": {
+    "child_count": null,
+    "contract": "Phase1444EJResourceLimits.v1",
+    "cpu_seconds": null,
+    "job_identity": null,
+    "memory_bytes": null,
+    "output_bytes": null,
+    "process_count": null,
+    "retry_count": null,
+    "status": "NOT_APPROVED_NOT_ENFORCED",
+    "storage_bytes": null,
+    "timeout_cleanup_policy": null,
+    "wall_seconds": null
+  },
+  "source_hashes": {
+    "apps/strategy-engine/src/strategy_engine/phase1444c/replay.py": "7035454ff0060f3f1c3e2b54d685b51e57f02cd4ad75608c52a567d617178e28",
+    "apps/strategy-engine/src/strategy_engine/phase1444ee/supervisor.py": "5a38edf05fb6a9b4a3ee4fd358e6a5d5f6102828b95a07d3366ce737ee8c5d3e",
+    "apps/strategy-engine/src/strategy_engine/phase1444ef/supervisor.py": "a70a068cf71b8da035d5d15c764ef8721b73ce265fd3eaa4b05ffa973de76597",
+    "apps/strategy-engine/src/strategy_engine/phase1444eh/policy.py": "c417ba7802c2d08362c0e3d83aad57d109c4a07dbc99e030d9748adf4adbc043",
+    "apps/strategy-engine/src/strategy_engine/phase1444ei/integration.py": "dcdd4291c6fda938121aea25af63f974bd43caeab6f23752385ae08545a7218d"
+  },
+  "trusted_time": {
+    "authenticated_evidence": null,
+    "contract": "Phase1444EJTrustedTime.v1",
+    "expiry": null,
+    "maximum_evidence_age_seconds": null,
+    "not_before": null,
+    "requirements": [
+      "UTC",
+      "reject rollback",
+      "reject forward jump beyond continuity bounds",
+      "fail closed after restart/reboot/snapshot without independent continuity"
+    ],
+    "source": null,
+    "source_trust": null,
+    "status": "TRUSTED_TIME_UNVERIFIED",
+    "uncertainty_seconds": null
+  }
+}

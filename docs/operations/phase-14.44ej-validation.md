@@ -1,0 +1,11 @@
+# Phase14.44E-J partial validation
+
+PHASE_14_44EJ_PARTIAL. Actual develop HEAD and local origin/develop54b15bece6fee2b3be8a039011010cccfc93a4ee. Predecessor I12committed blobs, manifest/certificate,40test PASS/Ruff/mypy/two replay receipts verify.1769baseline hashes preserved. Phase14.22 unchanged/untracked.13historical newline reconciliations,1115universe,13380research family preserved;73original receipts HISTORICAL_RECEIPTS_UNAVAILABLE.
+
+Validation stopped at pytest collection:42items collected,0executed,1collection error,exit2. Both explicitly permitted test paths have basename test_phase1444ej.py and the default import mode produced an import-file mismatch. No cache deletion, test renaming, source modification or retry was attempted. Complete stdout/stderr/JUnit/command/exit/timing receipt retained. A separately reviewed continuation should resolve collection semantics while preserving both paths and all assertions. No successful security-test claim.
+
+Ruff NOT_EXECUTED_AFTER_STOP. Strict mypy NOT_EXECUTED_AFTER_STOP. JSON schema validation NOT_EXECUTED_AFTER_STOP. Preparation replays0completed; fingerprints null. No full application suite. The new model is unqualified draft pure logic. Native launch sequence/resource controls remain documentation only. A candidate schema for the assessment is retained, not certified.
+
+Post-stop work only retains partial evidence and verifies preservation/bytes/whitespace/secrets. New-file source AST imports are pure stdlib; no native supervisor imported. Ordinary pytest tool launch is not live synthetic qualification. No18live cases or31database tests executed. No real owner/keys/enrollment/time/replay authority, real lease, native activation, cleanup/rollback or qualification authorization.
+
+Owner NOT_ESTABLISHED; time UNVERIFIED; independent replay authority UNVERIFIED. Resource enforcement UNVERIFIED and real budgets null. Cleanup/rollback NOT_AUTHORIZED. Historical conhost signature/association/revocation freshness, WinError5/31 causes remain unknown. Isolation deferred. GateA/B NOT_AUTHORIZED; StageB ZERO_CALL_ABORT; Phase12 BLOCK; H1/H2 FROZEN; July SEALED; operational NO_GO. Genuine qualified pairs0; real Kite requests0. No network/dependencies/security changes/guest/adoption/Seriesv2/staging/commit/push.
