@@ -1,0 +1,158 @@
+{
+  "approval_timestamp": null,
+  "baseline": "0888e5265b300585ac866df4a84fafa57649278c",
+  "candidate_design": "B_EXACT_IDENTITY_BOUND_HELPER_PIN",
+  "contract": "Phase1444EGLiveSupervisorQualificationApproval.v1",
+  "custody_creation_authorized": false,
+  "eligibility": "INCOMPLETE_NOT_ELIGIBLE_FOR_EXECUTABLE_APPROVAL",
+  "evidence_custody": "D:/Yogendra/offline-validation-evidence/phase-14.44E-G/live-qualification-generation-1",
+  "executable_allowlist": {
+    "c:\\users\\chandram k\\appdata\\roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe": "1a967738a234a3bd90e8fa8b925e20a994326e1eb8b74913026a9449a933e6db",
+    "c:\\windows\\system32\\conhost.exe": "c86146188b78e484f32cc29e2331689659943b47689a85570342044f499938ac"
+  },
+  "expiry": null,
+  "job_ownership_policy": [
+    "Exact retained handle/PID/creation",
+    "Approved root parent PID AND retained creation/exit lifetime",
+    "Verified membership in the retained supervisor-owned Job Object",
+    "Console association alone is insufficient",
+    "No new process may be enrolled by name alone"
+  ],
+  "live_replay_command": null,
+  "owner_authentication_evidence": null,
+  "owner_identity": null,
+  "patch_fingerprint": "64b362c461a52ac327ab9d95c71c83abae788efe6576a16b14c97fdc5110710b",
+  "process_supervisor_identity": {
+    "future_sha256": null,
+    "original_sha256": "a70a068cf71b8da035d5d15c764ef8721b73ce265fd3eaa4b05ffa973de76597",
+    "qualified": false
+  },
+  "resource_limits": {
+    "cleanup_seconds": 10,
+    "each_synthetic_seconds": 5,
+    "qualification_driver_seconds": 300,
+    "replay_seconds": 300
+  },
+  "revocation_and_replay": "Independent authenticated decision, expiry, revocation and unique consumption verification required; not implemented by pure policy fixtures",
+  "rollback": "Before execution, separately authorized removal of new candidate only; during later execution only retained owned Job Object cleanup; never historical deletion",
+  "selected_design": "D_RETAIN_REJECTION_DEFER",
+  "source_file_allowlist": [
+    "apps/strategy-engine/src/strategy_engine/phase1444eg/supervisor.py",
+    "D:/Yogendra/offline-validation-evidence/phase-14.44E-G/live-qualification-generation-1/command-allowlist.json"
+  ],
+  "status": "NOT_AUTHORIZED",
+  "synthetic_command_inventory": {
+    "child": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "import subprocess,sys;p=subprocess.Popen([sys.executable,'-I','-S','-B','-c','import time;time.sleep(.4)']);p.wait()"
+      ],
+      "budget_seconds": 5
+    },
+    "child-crash": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "import subprocess,sys,time;p=subprocess.Popen([sys.executable,'-I','-S','-B','-c','import time;time.sleep(.3);raise SystemExit(9)']);p.wait()"
+      ],
+      "budget_seconds": 5
+    },
+    "descendant": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "import subprocess,sys;p=subprocess.Popen([sys.executable,'-I','-S','-B','-c',\"import subprocess,sys;p=subprocess.Popen([sys.executable,'-I','-S','-B','-c','import time;time.sleep(.4)']);p.wait()\"]);p.wait()"
+      ],
+      "budget_seconds": 5
+    },
+    "early": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "pass"
+      ],
+      "budget_seconds": 5
+    },
+    "hold": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "import time;time.sleep(5)"
+      ],
+      "budget_seconds": 5
+    },
+    "nonzero": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "raise SystemExit(7)"
+      ],
+      "budget_seconds": 5
+    },
+    "normal": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "import time;time.sleep(.2)"
+      ],
+      "budget_seconds": 5
+    },
+    "parent-crash": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "import os;os._exit(8)"
+      ],
+      "budget_seconds": 5
+    },
+    "sentinel": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "import time;time.sleep(15)"
+      ],
+      "budget_seconds": 5
+    },
+    "timeout": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "import subprocess,sys,time;subprocess.Popen([sys.executable,'-I','-S','-B','-c','import time;time.sleep(10)']);time.sleep(10)"
+      ],
+      "budget_seconds": 0.8
+    }
+  },
+  "timeout_policy": "Only retained owned Job Object; stop on identity uncertainty",
+  "unrelated_process_protection": "No PID-only termination; future separately owned sentinel survival required"
+}

@@ -1,0 +1,11 @@
+# Separate live qualification authorization
+
+Phase1444EGLiveSupervisorQualificationApproval.v1 is NOT_AUTHORIZED and INCOMPLETE_NOT_ELIGIBLE_FOR_EXECUTABLE_APPROVAL. Owner identity, authenticated evidence, approval timestamp and expiry are null. Baseline0888e5265b300585ac866df4a84fafa57649278c; exact candidate patch, original source and command pins are bound in allowlist-approval.json. No proposal authorizes itself.
+
+Proposed future custody D:\Yogendra\offline-validation-evidence\phase-14.44E-G\live-qualification-generation-1 has NOT been created or authorized. This differs from current preparation custody. A future approval must specify complete source bytes, independent owner decision verification, signature/revocation freshness policy, current pinned binaries, exact commands, process/job ownership and cleanup, and explicit unrelated-sentinel protection.
+
+Later procedure, only after separate approval: validate fresh custody/ACLs and frozen approved source/commands; static safety checks; owned-job qualification with retained handle and creation-time identity; fail closed on any unexpected identity or cleanup failure; preserve partial receipts. Limits proposed: driver300seconds, each synthetic workload5seconds, cleanup10seconds. No broad system-process allowance or arbitrary PID termination. Original eighteen remaining cases are excluded from this phase; future scope must explicitly address them without claiming prior success.
+
+Only after all future mandatory qualification gates pass may a separately approved verifier command run twice, each in a distinct owned job with exact source/command/executable hashes, complete supervision receipts and matching canonical outputs. That live replay command is currently null. Current preparation replays are ordinary read-only checks and do not meet supervisor qualification requirements.
+
+Revocation, expiry, replay identity and conflict rejection require independently verified real authorization. Synthetic test attestations cannot supply it. Rollback is limited to separately approved new candidate files and retained owned-job cleanup, never historical evidence deletion. No guest provision, original31tests, production activation, enrollment/adoption, dependency acquisition, Seriesv2 or trading authority.

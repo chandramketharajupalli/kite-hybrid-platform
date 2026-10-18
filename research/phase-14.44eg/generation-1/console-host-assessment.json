@@ -1,0 +1,100 @@
+{
+  "baseline": "0888e5265b300585ac866df4a84fafa57649278c",
+  "behavior_evidence": "Original child parent/creation/job receipt plus local Console-Host-Package catalog; no live behavior experiment or online documentation retrieval",
+  "candidate": "B_EXACT_IDENTITY_BOUND_HELPER_PIN",
+  "classification": "PHASE_14_44EG_PARTIAL",
+  "contract": "Phase1444EGConsoleHostIdentity.v1",
+  "historical_missing": 73,
+  "historical_process": {
+    "allowlist_status": "REJECTED_UNLISTED",
+    "console_session_association": null,
+    "creation": 134367930123613212,
+    "image_query": "SUCCEEDED",
+    "job_empty_after_cleanup": true,
+    "job_identity": {
+      "created_before_launch": true,
+      "handle": 544,
+      "kill_on_close": true,
+      "owner_pid": 19272
+    },
+    "job_member": true,
+    "name": "conhost.exe",
+    "parent_creation": 134367930123184366,
+    "parent_exit": 134367930124090391,
+    "parent_pid": 18308,
+    "path": "C:\\Windows\\System32\\conhost.exe",
+    "pid": 21332,
+    "root_exit_code": 125,
+    "sha256": "c86146188b78e484f32cc29e2331689659943b47689a85570342044f499938ac",
+    "signature_identity": null,
+    "state_at_query": "ACTIVE"
+  },
+  "historical_winerror5_31_causes": "UNVERIFIED",
+  "local_file": {
+    "catalog_signer": {
+      "issuer": "CN=Microsoft Windows Production PCA 2026 RSA2048-SHA256, O=Microsoft Corporation, C=US",
+      "not_after": "2027-08-05T17:49:20.0000000Z",
+      "not_before": "2026-08-06T17:49:20.0000000Z",
+      "source": "Local catalog embedded certificate; identity extraction only",
+      "subject": "CN=Microsoft Windows, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+      "thumbprint": "667BBA1E1F478221AA65DE4F75187A751B03A453"
+    },
+    "catalog_trust": {
+      "catalog": "C:\\WINDOWS\\system32\\CatRoot\\{F750E6C3-38EE-11D1-85E5-00C04FC295EE}\\Microsoft-OneCore-Console-Host-Package~31bf3856ad364e35~amd64~~10.0.26100.9549.cat",
+      "catalog_sha256": "b51b2edaa6a03e1ad00efd03139d14c941b97f6c9ea78c3d217bde43aa5e7b44",
+      "close_status_hex": "0x0",
+      "file_raw_sha256": "c86146188b78e484f32cc29e2331689659943b47689a85570342044f499938ac",
+      "flags": "0x1010",
+      "member_digest": "A68EDA8EA8E059D121B935F66BD7F72DBC8FBC41A61653145073C9BECB95F3E9",
+      "method": "Offline WinVerifyTrust catalog member; cache-only retrieval and no revocation fetch",
+      "revocation": "UNVERIFIED_OFFLINE",
+      "status": "CATALOG_MEMBER_TRUST_PASS_OFFLINE_NO_REVOCATION",
+      "status_hex": "0x0"
+    },
+    "file_subject_trust": {
+      "catalog_enumeration": "NOT_PERFORMED",
+      "close_status_hex": "0x0",
+      "flags_hex": "0x1010",
+      "historical_signature": "NOT_RECONSTRUCTED",
+      "method": "WinVerifyTrust WINTRUST_ACTION_GENERIC_VERIFY_V2 file subject; cache-only URL retrieval; revocation disabled",
+      "network_retrieval": "DISABLED_BY_CACHE_ONLY_FLAG",
+      "path": "C:\\Windows\\System32\\conhost.exe",
+      "revocation": "UNVERIFIED_OFFLINE",
+      "sha256": "c86146188b78e484f32cc29e2331689659943b47689a85570342044f499938ac",
+      "status": "SIGNATURE_TRUST_UNVERIFIED",
+      "status_hex": "0x800b0100"
+    },
+    "matches_historical_hash": true,
+    "metadata": {
+      "Attributes": 32,
+      "FileVersion": "10.0.26100.1 (WinBuild.160101.0800)",
+      "FullName": "C:\\Windows\\System32\\conhost.exe",
+      "Length": 1003520,
+      "ProductVersion": "10.0.26100.1"
+    },
+    "os_compatibility": "Local installed Windows console-host package located; no independent support or runtime qualification claim",
+    "os_registry": {
+      "CurrentBuild": "26200",
+      "DisplayVersion": "25H2",
+      "EditionID": "CoreSingleLanguage",
+      "ProductName": "Windows 10 Home Single Language",
+      "UBR": 9711
+    },
+    "raw_sha256": "c86146188b78e484f32cc29e2331689659943b47689a85570342044f499938ac",
+    "revocation": "UNVERIFIED_OFFLINE"
+  },
+  "original31": "NOT_EXECUTED",
+  "original_receipt": "D:\\Yogendra\\offline-validation-evidence\\phase-14.44E-F\\generation-1\\test-051c2071abfd40b08c266ce9873fb4ec-normal.command.json",
+  "patch_fingerprint": "64b362c461a52ac327ab9d95c71c83abae788efe6576a16b14c97fdc5110710b",
+  "real_kite_requests": 0,
+  "relationship": {
+    "console_session_association": "UNVERIFIED",
+    "direct_parent_lifetime": "VERIFIED_FROM_RETAINED_RECEIPT",
+    "full_console_relationship": "PROCESS_RELATIONSHIP_UNVERIFIED",
+    "historical_signature": "UNVERIFIED",
+    "no_new_process_metadata_substitution": true,
+    "owned_job_membership": "VERIFIED_FROM_RETAINED_RECEIPT"
+  },
+  "remaining18": "NOT_EXECUTED",
+  "selected_alternative": "D_RETAIN_REJECTION_DEFER"
+}
