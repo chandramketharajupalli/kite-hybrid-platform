@@ -1,0 +1,15 @@
+# Qualification stopped; reliability remains partial
+
+PHASE_14_44EE_PARTIAL. Baseline c311942638fd9b4e5979995debcec72d1916fd6b,1709protected tracked files; canonical map00aff811f6b9da67266e1aa808ae70cdacce693bb89ed9d474b126c8ae9005b9. All predecessor sealed files and receipts remain preserved, including historical newline reconciliation records and frozen research evidence. Phase14.22 remains unchanged and untracked.
+
+Initial focused pytest run:29tests,22passed,7failed. The failures were underscore-containing fixture receipt labels rejected before launching; original output/JUnit and initial test-source hash retained. Only new test fixture labels were corrected to unique hyphenated names. New-code import/format issues were corrected without touching tracked files. Cleanup now retains an error receipt if native cleanup observation itself fails.
+
+Corrected run: unexpected active process-image access denied / WinError5. Supervisor status SUPERVISION_FAILED, launch exit125, job empty after owned cleanup. No complete final JUnit receipt exists; partial stdout contains progress only and is not a test-count receipt. This triggered the frozen stop condition. No further qualification processes or replays were launched. Both independently supervised replays: NOT_EXECUTED. No replay fingerprints are claimed. Safe predecessor tests and final Ruff/strict-mypy gates were NOT_EXECUTED after this stop; formatting/import cleanup is not a full validation pass.
+
+The first run exercised a synthetic timeout and unrelated-sentinel survival successfully; its receipt is retained but does not override the later supervision failure. WinError31 injection is synthetic. Natural historical WinError31 was not reproduced; historical root cause remains UNVERIFIED. Overall RESOURCE_MONITORING_PARTIAL. Polling may miss short-lived children; launch and interpreter metrics are separately represented, and no completeness claim is made for the interrupted suite.
+
+Final work after the stop is limited to static records, JSON/schema checks, byte preservation, heuristic secret scans and failure-evidence sealing. No complete application suite or original31database tests ran. Exactly twelve new repository artifacts; no tracked modification. External raw stdout/stderr, initial JUnit, partial final receipt and source hashes retained in the fresh restricted NTFS generation. Mutable cache contents are excluded from immutable receipt hashing.
+
+Manifest canonicalization: UTF-8 JSON, sorted keys, compact separators, ensure_ascii=True, allow_nan=False; SHA256 of manifest body only, excluding its own file. Readiness fingerprint is document integrity, not a supervised replay or owner signature. No credentials or real private keys are included; heuristic scans do not prove absence of every possible secret.
+
+No staging/commit/push, guest provisioning, dependency acquisition, owner enrollment, amendment adoption or Seriesv2. Original31tests NOT_EXECUTED, historical73receipts unavailable, GateA/B NOT_AUTHORIZED, StageB ZERO_CALL_ABORT, Phase12 BLOCK, H1/H2 FROZEN, July SEALED, qualified pairs/Kite requests0, operational NO_GO.
