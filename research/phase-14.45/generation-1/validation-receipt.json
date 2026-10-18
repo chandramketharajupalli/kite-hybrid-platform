@@ -1,0 +1,463 @@
+{
+  "phase": "14.45",
+  "classification": "PHASE_14_45_PARTIAL",
+  "baseline": "1def1f2fab887f08bc109f2657fda80a385550a9",
+  "plan_sha256": "0886d5b44e811521da2a4f77a762b5d0823042dd96d82e6c6bc81c10abfc36cb",
+  "api_spec_sha256": "462c04acb6d19f8a1107e952b9025a13415abbbf735ec7490605ca324123f929",
+  "predecessor_preservation": "PASS",
+  "baseline_count": 1866,
+  "in_memory_checks": {
+    "runtime": "functions JavaScript isolate",
+    "child_processes_created": 0,
+    "passed": 106,
+    "cases": [
+      {
+        "name": "OpenAPI version",
+        "result": "PASS"
+      },
+      {
+        "name": "Twelve paths",
+        "result": "PASS"
+      },
+      {
+        "name": "scope /api/trading/status",
+        "result": "PASS"
+      },
+      {
+        "name": "metadata only",
+        "result": "PASS"
+      },
+      {
+        "name": "scope /api/trading/strategies",
+        "result": "PASS"
+      },
+      {
+        "name": "contract only /api/trading/strategies",
+        "result": "PASS"
+      },
+      {
+        "name": "scope /api/trading/instruments",
+        "result": "PASS"
+      },
+      {
+        "name": "contract only /api/trading/instruments",
+        "result": "PASS"
+      },
+      {
+        "name": "scope /api/trading/signals",
+        "result": "PASS"
+      },
+      {
+        "name": "contract only /api/trading/signals",
+        "result": "PASS"
+      },
+      {
+        "name": "scope /api/trading/qualifications",
+        "result": "PASS"
+      },
+      {
+        "name": "contract only /api/trading/qualifications",
+        "result": "PASS"
+      },
+      {
+        "name": "scope /api/trading/positions",
+        "result": "PASS"
+      },
+      {
+        "name": "contract only /api/trading/positions",
+        "result": "PASS"
+      },
+      {
+        "name": "scope /api/trading/orders",
+        "result": "PASS"
+      },
+      {
+        "name": "contract only /api/trading/orders",
+        "result": "PASS"
+      },
+      {
+        "name": "scope /api/trading/risk/status",
+        "result": "PASS"
+      },
+      {
+        "name": "contract only /api/trading/risk/status",
+        "result": "PASS"
+      },
+      {
+        "name": "scope /api/trading/backtests",
+        "result": "PASS"
+      },
+      {
+        "name": "contract only /api/trading/backtests",
+        "result": "PASS"
+      },
+      {
+        "name": "idempotency /api/trading/backtests",
+        "result": "PASS"
+      },
+      {
+        "name": "CSRF /api/trading/backtests",
+        "result": "PASS"
+      },
+      {
+        "name": "request /api/trading/backtests",
+        "result": "PASS"
+      },
+      {
+        "name": "scope /api/trading/signals/evaluate",
+        "result": "PASS"
+      },
+      {
+        "name": "contract only /api/trading/signals/evaluate",
+        "result": "PASS"
+      },
+      {
+        "name": "idempotency /api/trading/signals/evaluate",
+        "result": "PASS"
+      },
+      {
+        "name": "CSRF /api/trading/signals/evaluate",
+        "result": "PASS"
+      },
+      {
+        "name": "request /api/trading/signals/evaluate",
+        "result": "PASS"
+      },
+      {
+        "name": "scope /api/trading/paper/orders",
+        "result": "PASS"
+      },
+      {
+        "name": "contract only /api/trading/paper/orders",
+        "result": "PASS"
+      },
+      {
+        "name": "idempotency /api/trading/paper/orders",
+        "result": "PASS"
+      },
+      {
+        "name": "CSRF /api/trading/paper/orders",
+        "result": "PASS"
+      },
+      {
+        "name": "request /api/trading/paper/orders",
+        "result": "PASS"
+      },
+      {
+        "name": "scope /api/trading/paper/stop",
+        "result": "PASS"
+      },
+      {
+        "name": "contract only /api/trading/paper/stop",
+        "result": "PASS"
+      },
+      {
+        "name": "idempotency /api/trading/paper/stop",
+        "result": "PASS"
+      },
+      {
+        "name": "CSRF /api/trading/paper/stop",
+        "result": "PASS"
+      },
+      {
+        "name": "request /api/trading/paper/stop",
+        "result": "PASS"
+      },
+      {
+        "name": "Four mutation contracts",
+        "result": "PASS"
+      },
+      {
+        "name": "Only status implemented",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Status",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Backtest",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Evaluation",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/PaperOrder",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Error",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Stop",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Instrument",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/StrategyConfiguration",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/StrategyConfiguration",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Instrument",
+        "result": "PASS"
+      },
+      {
+        "name": "resolved #/components/schemas/Instrument",
+        "result": "PASS"
+      },
+      {
+        "name": "closed schema Status",
+        "result": "PASS"
+      },
+      {
+        "name": "required fields Status",
+        "result": "PASS"
+      },
+      {
+        "name": "closed schema Error",
+        "result": "PASS"
+      },
+      {
+        "name": "required fields Error",
+        "result": "PASS"
+      },
+      {
+        "name": "closed schema Instrument",
+        "result": "PASS"
+      },
+      {
+        "name": "required fields Instrument",
+        "result": "PASS"
+      },
+      {
+        "name": "closed schema StrategyConfiguration",
+        "result": "PASS"
+      },
+      {
+        "name": "required fields StrategyConfiguration",
+        "result": "PASS"
+      },
+      {
+        "name": "closed schema Evaluation",
+        "result": "PASS"
+      },
+      {
+        "name": "required fields Evaluation",
+        "result": "PASS"
+      },
+      {
+        "name": "closed schema Backtest",
+        "result": "PASS"
+      },
+      {
+        "name": "required fields Backtest",
+        "result": "PASS"
+      },
+      {
+        "name": "closed schema PaperOrder",
+        "result": "PASS"
+      },
+      {
+        "name": "required fields PaperOrder",
+        "result": "PASS"
+      },
+      {
+        "name": "closed schema Stop",
+        "result": "PASS"
+      },
+      {
+        "name": "required fields Stop",
+        "result": "PASS"
+      },
+      {
+        "name": "closed schema Qualification",
+        "result": "PASS"
+      },
+      {
+        "name": "required fields Qualification",
+        "result": "PASS"
+      },
+      {
+        "name": "Live disabled",
+        "result": "PASS"
+      },
+      {
+        "name": "No readiness claim",
+        "result": "PASS"
+      },
+      {
+        "name": "Paper synthetic",
+        "result": "PASS"
+      },
+      {
+        "name": "Qualification no authority",
+        "result": "PASS"
+      },
+      {
+        "name": "Completed candle required",
+        "result": "PASS"
+      }
+    ]
+  },
+  "java_compilation": "NOT_EXECUTED",
+  "junit": "NOT_EXECUTED",
+  "formal_openapi_schema_validator": "NOT_EXECUTED",
+  "pytest": "NOT_EXECUTED",
+  "ruff": "NOT_EXECUTED",
+  "mypy": "NOT_EXECUTED",
+  "original_test_families": {
+    "18": "NOT_EXECUTED",
+    "31": "NOT_EXECUTED",
+    "46": "NOT_EXECUTED"
+  },
+  "live_requests": 0,
+  "genuine_qualified_pairs_established": 0,
+  "failures": [],
+  "discovery_notes": [
+    "A read-only rg glob query for docs/development* returned Windows path error 123; it was a discovery query, not a validation receipt or preservation failure. No test was invoked."
+  ],
+  "limits": [
+    "Static contract invariants do not validate Java compilation or Spring serialization/registration.",
+    "Only status metadata source implemented; eleven endpoints remain contract-only.",
+    "No formal OpenAPI validator executed; JSON parsing and internal-reference/required-field checks passed.",
+    "No new external custody or independent certificate; repository manifest provides byte integrity only."
+  ]
+}

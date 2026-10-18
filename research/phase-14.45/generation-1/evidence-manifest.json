@@ -1,0 +1,48 @@
+{
+  "fingerprint": "fb878cf60db8fe3fffd79fa502f523e40b1b9ecce6cbdde03364d5dd613d5c72",
+  "manifest": {
+    "artifacts": {
+      "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/domain/TradingFoundationStatus.java": "f3d4df342d2d36ffb0bca21db8860e7a2fc5259acc4e092fcdb43fa9ae84e558",
+      "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/infrastructure/TradingFoundationController.java": "0338e97e51ad54464242095a435bb529cec3452a5d9c8d16d038003e7c364dd1",
+      "apps/trading-core/src/test/java/com/kitehybrid/platform/TradingFoundationTest.java": "d05bec2fadfda3c2f756a2c49f9c5161f8b31ee92d817fb3889b4250b6737603",
+      "docs/api/trading-v1.openapi.json": "462c04acb6d19f8a1107e952b9025a13415abbbf735ec7490605ca324123f929",
+      "docs/architecture/phase-14.45-trading-integration.md": "bec355815de60c552c294ac9911986b6d15eefdfad2e929a40d4874348651a4b",
+      "docs/operations/phase-14.45-plan.md": "0886d5b44e811521da2a4f77a762b5d0823042dd96d82e6c6bc81c10abfc36cb",
+      "docs/operations/phase-14.45-validation.md": "23e1cda7e85e1e57e2eed3cd3dc497c72d85a1677cde5138187d9b1ea4d55c69",
+      "research/phase-14.45/generation-1/baseline-hashes.json": "ed0ade3025d2327d98af0620de930a91bcc54fd45e50792e5e9bf231f65e4737",
+      "research/phase-14.45/generation-1/validation-receipt.json": "e0b07b07b0a088e5e241658b7686ff2cbefc5e864ae05baf2437911924028d92"
+    },
+    "baseline": "1def1f2fab887f08bc109f2657fda80a385550a9",
+    "baseline_count": 1866,
+    "baseline_map_fingerprint": "f5de4e75afca13e8c1616bb26ccc2675e3e4cac2a03d8d61f11b351b45749caa",
+    "checks": {
+      "baseline": "PASS",
+      "formal_schema_validator": "NOT_EXECUTED",
+      "in_memory_contract_invariants": 106,
+      "java_compile": "NOT_EXECUTED",
+      "junit": "NOT_EXECUTED",
+      "lf_git_bytes": "PASS",
+      "phase1422": "PASS",
+      "predecessor_custody": "PASS",
+      "secret_canary_scan": "PASS",
+      "whitespace": "PASS"
+    },
+    "classification": "PHASE_14_45_PARTIAL",
+    "historical_missing_receipts": 73,
+    "inventory": [
+      "docs/operations/phase-14.45-plan.md",
+      "docs/api/trading-v1.openapi.json",
+      "docs/architecture/phase-14.45-trading-integration.md",
+      "docs/operations/phase-14.45-validation.md",
+      "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/domain/TradingFoundationStatus.java",
+      "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/infrastructure/TradingFoundationController.java",
+      "apps/trading-core/src/test/java/com/kitehybrid/platform/TradingFoundationTest.java",
+      "research/phase-14.45/generation-1/baseline-hashes.json",
+      "research/phase-14.45/generation-1/validation-receipt.json",
+      "research/phase-14.45/generation-1/evidence-manifest.json"
+    ],
+    "method": "SHA256 of UTF-8 recursively sorted compact JSON manifest object; exclude outer fingerprint and manifest file raw self-hash",
+    "newline_reconciliations": 13,
+    "phase": "14.45"
+  }
+}

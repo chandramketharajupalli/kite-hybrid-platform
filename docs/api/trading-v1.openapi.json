@@ -1,0 +1,1141 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Trading foundation API",
+    "version": "1.0.0",
+    "description": "Phase 14.45 design. Only opt-in status metadata is implemented. Other routes require separate implementation and validation. No live execution route."
+  },
+  "paths": {
+    "/api/trading/status": {
+      "get": {
+        "operationId": "status",
+        "summary": "Read static foundation capabilities",
+        "x-implementation": "OPT_IN_METADATA_ONLY",
+        "x-existing-contract": "TradingFoundationStatus",
+        "x-required-permission": "public-metadata",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Static capability statement, never runtime attestation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trading/strategies": {
+      "get": {
+        "operationId": "strategies",
+        "summary": "Design contract; no handler implemented",
+        "x-implementation": "CONTRACT_ONLY",
+        "x-existing-contract": "phase1415.strategies.registry",
+        "x-required-permission": "trading:read",
+        "security": [
+          {
+            "operatorSession": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized or execution gate closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Reserved contract; currently no handler (deployment may return 404). No success behavior is implemented."
+          },
+          "503": {
+            "description": "Required evidence or durable dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trading/instruments": {
+      "get": {
+        "operationId": "instruments",
+        "summary": "Design contract; no handler implemented",
+        "x-implementation": "CONTRACT_ONLY",
+        "x-existing-contract": "InstrumentRegistry verified snapshot",
+        "x-required-permission": "trading:read",
+        "security": [
+          {
+            "operatorSession": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized or execution gate closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Reserved contract; currently no handler (deployment may return 404). No success behavior is implemented."
+          },
+          "503": {
+            "description": "Required evidence or durable dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trading/signals": {
+      "get": {
+        "operationId": "signals",
+        "summary": "Design contract; no handler implemented",
+        "x-implementation": "CONTRACT_ONLY",
+        "x-existing-contract": "SignalEvent.v1 and StrategyEvaluationStore",
+        "x-required-permission": "trading:read",
+        "security": [
+          {
+            "operatorSession": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized or execution gate closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Reserved contract; currently no handler (deployment may return 404). No success behavior is implemented."
+          },
+          "503": {
+            "description": "Required evidence or durable dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trading/qualifications": {
+      "get": {
+        "operationId": "qualifications",
+        "summary": "Design contract; no handler implemented",
+        "x-implementation": "CONTRACT_ONLY",
+        "x-existing-contract": "phase1417.qualification.Row",
+        "x-required-permission": "trading:read",
+        "security": [
+          {
+            "operatorSession": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized or execution gate closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Reserved contract; currently no handler (deployment may return 404). No success behavior is implemented."
+          },
+          "503": {
+            "description": "Required evidence or durable dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trading/positions": {
+      "get": {
+        "operationId": "positions",
+        "summary": "Design contract; no handler implemented",
+        "x-implementation": "CONTRACT_ONLY",
+        "x-existing-contract": "Java durable paper position projection: NOT_IMPLEMENTED",
+        "x-required-permission": "paper:read",
+        "security": [
+          {
+            "operatorSession": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized or execution gate closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Reserved contract; currently no handler (deployment may return 404). No success behavior is implemented."
+          },
+          "503": {
+            "description": "Required evidence or durable dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trading/orders": {
+      "get": {
+        "operationId": "orders",
+        "summary": "Design contract; no handler implemented",
+        "x-implementation": "CONTRACT_ONLY",
+        "x-existing-contract": "OrderRepository plus explicit paper-account partition: NOT_IMPLEMENTED",
+        "x-required-permission": "paper:read",
+        "security": [
+          {
+            "operatorSession": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized or execution gate closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Reserved contract; currently no handler (deployment may return 404). No success behavior is implemented."
+          },
+          "503": {
+            "description": "Required evidence or durable dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trading/risk/status": {
+      "get": {
+        "operationId": "risk_status",
+        "summary": "Design contract; no handler implemented",
+        "x-implementation": "CONTRACT_ONLY",
+        "x-existing-contract": "RiskService and RuntimeTradingHalt; no broker refresh",
+        "x-required-permission": "trading:read",
+        "security": [
+          {
+            "operatorSession": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized or execution gate closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Reserved contract; currently no handler (deployment may return 404). No success behavior is implemented."
+          },
+          "503": {
+            "description": "Required evidence or durable dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trading/backtests": {
+      "post": {
+        "operationId": "backtests",
+        "summary": "Design contract; no handler implemented",
+        "x-implementation": "CONTRACT_ONLY",
+        "x-existing-contract": "Local verified dataset job admission: NOT_IMPLEMENTED",
+        "x-required-permission": "research:submit",
+        "security": [
+          {
+            "operatorSession": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized or execution gate closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency payload conflict or stale revision"
+          },
+          "422": {
+            "description": "Invalid identity, candle causality, configuration or evidence"
+          },
+          "501": {
+            "description": "Reserved contract; currently no handler (deployment may return 404). No success behavior is implemented."
+          },
+          "503": {
+            "description": "Required evidence or durable dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Backtest"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9:_-]+$"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "x-idempotency": "Atomic PostgreSQL claim scoped by authenticated principal, operation, account and key; canonical payload digest; same payload returns original result; different payload 409; retain across restart. Authorization rechecked before replay response; no side effect before admission."
+      }
+    },
+    "/api/trading/signals/evaluate": {
+      "post": {
+        "operationId": "signals_evaluate",
+        "summary": "Design contract; no handler implemented",
+        "x-implementation": "CONTRACT_ONLY",
+        "x-existing-contract": "Python signal proposal only: transport NOT_IMPLEMENTED",
+        "x-required-permission": "strategy:evaluate",
+        "security": [
+          {
+            "operatorSession": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized or execution gate closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency payload conflict or stale revision"
+          },
+          "422": {
+            "description": "Invalid identity, candle causality, configuration or evidence"
+          },
+          "501": {
+            "description": "Reserved contract; currently no handler (deployment may return 404). No success behavior is implemented."
+          },
+          "503": {
+            "description": "Required evidence or durable dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Evaluation"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9:_-]+$"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "x-idempotency": "Atomic PostgreSQL claim scoped by authenticated principal, operation, account and key; canonical payload digest; same payload returns original result; different payload 409; retain across restart. Authorization rechecked before replay response; no side effect before admission."
+      }
+    },
+    "/api/trading/paper/orders": {
+      "post": {
+        "operationId": "paper_orders",
+        "summary": "Design contract; no handler implemented",
+        "x-implementation": "CONTRACT_ONLY",
+        "x-existing-contract": "Java isolated paper gateway: NOT_IMPLEMENTED",
+        "x-required-permission": "paper:order",
+        "security": [
+          {
+            "operatorSession": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized or execution gate closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency payload conflict or stale revision"
+          },
+          "422": {
+            "description": "Invalid identity, candle causality, configuration or evidence"
+          },
+          "501": {
+            "description": "Reserved contract; currently no handler (deployment may return 404). No success behavior is implemented."
+          },
+          "503": {
+            "description": "Required evidence or durable dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaperOrder"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9:_-]+$"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "x-idempotency": "Atomic PostgreSQL claim scoped by authenticated principal, operation, account and key; canonical payload digest; same payload returns original result; different payload 409; retain across restart. Authorization rechecked before replay response; no side effect before admission."
+      }
+    },
+    "/api/trading/paper/stop": {
+      "post": {
+        "operationId": "paper_stop",
+        "summary": "Design contract; no handler implemented",
+        "x-implementation": "CONTRACT_ONLY",
+        "x-existing-contract": "Durable paper halt: NOT_IMPLEMENTED",
+        "x-required-permission": "paper:stop",
+        "security": [
+          {
+            "operatorSession": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized or execution gate closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency payload conflict or stale revision"
+          },
+          "422": {
+            "description": "Invalid identity, candle causality, configuration or evidence"
+          },
+          "501": {
+            "description": "Reserved contract; currently no handler (deployment may return 404). No success behavior is implemented."
+          },
+          "503": {
+            "description": "Required evidence or durable dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Stop"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9:_-]+$"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "x-idempotency": "Atomic PostgreSQL claim scoped by authenticated principal, operation, account and key; canonical payload digest; same payload returns original result; different payload 409; retain across restart. Authorization rechecked before replay response; no side effect before admission."
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "operatorSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "operator_session",
+        "description": "Design requirement only: server-verified operator session, Secure/HttpOnly/SameSite, CSRF checks, principal/account authorization. Broker login alone does not satisfy this requirement."
+      }
+    },
+    "schemas": {
+      "Status": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schemaVersion": {
+            "const": "TradingApi.v1"
+          },
+          "scope": {
+            "const": "FOUNDATION_CAPABILITIES_NOT_RUNTIME_HEALTH"
+          },
+          "liveOrderPlacement": {
+            "const": "DISABLED"
+          },
+          "paperOrderSubmission": {
+            "const": "NOT_IMPLEMENTED"
+          },
+          "operationalReadiness": {
+            "const": "NO_GO"
+          },
+          "seriesV2": {
+            "const": "PROPOSED_NOT_ADOPTED"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "scope",
+          "liveOrderPlacement",
+          "paperOrderSubmission",
+          "operationalReadiness",
+          "seriesV2"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schemaVersion": {
+            "const": "TradingApi.v1"
+          },
+          "code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "correlationId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "code",
+          "correlationId"
+        ]
+      },
+      "Instrument": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "instrumentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "exchange": {
+            "type": "string",
+            "minLength": 1
+          },
+          "symbol": {
+            "type": "string",
+            "minLength": 1
+          },
+          "referenceSnapshotHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "identityEvidenceHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "instrumentId",
+          "exchange",
+          "symbol",
+          "referenceSnapshotHash",
+          "identityEvidenceHash"
+        ]
+      },
+      "StrategyConfiguration": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "configurationVersion": {
+            "const": "TradingStrategyConfiguration.v1"
+          },
+          "strategyId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "strategyVersion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "methodologyVersion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "instrument": {
+            "$ref": "#/components/schemas/Instrument"
+          },
+          "timeframe": {
+            "enum": [
+              "5minute"
+            ]
+          },
+          "parameters": {
+            "type": "object"
+          },
+          "entryConditions": {
+            "type": "string",
+            "minLength": 1
+          },
+          "exitConditions": {
+            "type": "string",
+            "minLength": 1
+          },
+          "stopLossFraction": {
+            "type": "string",
+            "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]{1,8})?$"
+          },
+          "profitTargetFraction": {
+            "type": "string",
+            "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]{1,8})?$"
+          },
+          "eodExitCalendarHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "completedCandlesOnly": {
+            "const": true
+          },
+          "executionAuthorization": {
+            "const": "NOT_AUTHORIZED"
+          }
+        },
+        "required": [
+          "configurationVersion",
+          "strategyId",
+          "strategyVersion",
+          "methodologyVersion",
+          "instrument",
+          "timeframe",
+          "parameters",
+          "entryConditions",
+          "exitConditions",
+          "stopLossFraction",
+          "profitTargetFraction",
+          "eodExitCalendarHash",
+          "completedCandlesOnly",
+          "executionAuthorization"
+        ]
+      },
+      "Evaluation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "configuration": {
+            "$ref": "#/components/schemas/StrategyConfiguration"
+          },
+          "datasetHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "calendarHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "evaluationTimestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastCompletedCandleTimestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "configuration",
+          "datasetHash",
+          "calendarHash",
+          "evaluationTimestamp",
+          "lastCompletedCandleTimestamp"
+        ]
+      },
+      "Backtest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "configuration": {
+            "$ref": "#/components/schemas/StrategyConfiguration"
+          },
+          "datasetHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "corporateActionProvenanceHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "costModelHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "slippageModelHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "splitPolicyHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "sourceManifestHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "configuration",
+          "datasetHash",
+          "corporateActionProvenanceHash",
+          "costModelHash",
+          "slippageModelHash",
+          "splitPolicyHash",
+          "sourceManifestHash"
+        ]
+      },
+      "PaperOrder": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "paperAccountId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "instrument": {
+            "$ref": "#/components/schemas/Instrument"
+          },
+          "signalEventHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "side": {
+            "enum": [
+              "BUY",
+              "SELL"
+            ]
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "referencePrice": {
+            "type": "string",
+            "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]{1,8})?$"
+          },
+          "mode": {
+            "const": "PAPER"
+          },
+          "syntheticFills": {
+            "const": true
+          },
+          "riskPolicyHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "paperAccountId",
+          "instrument",
+          "signalEventHash",
+          "side",
+          "quantity",
+          "referencePrice",
+          "mode",
+          "syntheticFills",
+          "riskPolicyHash"
+        ]
+      },
+      "Stop": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "paperAccountId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "expectedRevision": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "paperAccountId",
+          "reason",
+          "expectedRevision"
+        ]
+      },
+      "Qualification": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "instrument": {
+            "$ref": "#/components/schemas/Instrument"
+          },
+          "strategyId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "strategyVersion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "timeframe": {
+            "type": "string",
+            "minLength": 1
+          },
+          "methodologyVersion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceResultHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "synthetic": {
+            "type": "boolean"
+          },
+          "tradeCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "winRate": {
+            "type": "string",
+            "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]{1,8})?$"
+          },
+          "netExpectancy": {
+            "type": "string",
+            "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]{1,8})?$"
+          },
+          "drawdown": {
+            "type": "string",
+            "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]{1,8})?$"
+          },
+          "outOfSampleEvidenceHash": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "policyHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "status": {
+            "enum": [
+              "INSUFFICIENT_EVIDENCE",
+              "REJECTED",
+              "QUALIFIED_RESEARCH_ONLY"
+            ]
+          },
+          "executionAuthorization": {
+            "const": "NOT_AUTHORIZED"
+          }
+        },
+        "required": [
+          "instrument",
+          "strategyId",
+          "strategyVersion",
+          "timeframe",
+          "methodologyVersion",
+          "sourceResultHash",
+          "synthetic",
+          "tradeCount",
+          "winRate",
+          "netExpectancy",
+          "drawdown",
+          "outOfSampleEvidenceHash",
+          "policyHash",
+          "status",
+          "executionAuthorization"
+        ]
+      }
+    }
+  }
+}
