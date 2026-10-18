@@ -1,0 +1,771 @@
+{
+  "activity": {
+    "amendment_adoption": false,
+    "dependency_acquisition": false,
+    "guest_provisioning": false,
+    "kite_request": false,
+    "native_activation": false,
+    "owner_enrollment": false,
+    "real_lease": false,
+    "remote_connection": false,
+    "security_setting_change": false,
+    "series_v2": false
+  },
+  "baseline": "9bd13a1c36e9696c22c86bbb2a28a0bddf9748ef",
+  "candidates": [
+    {
+      "complexity": "Unverified host/provider suitability",
+      "credentials": "UNVERIFIED",
+      "evidence_export": [
+        "guest writes local evidence only",
+        "preserve JUnit and raw stdout/stderr plus exit/process/resource receipts",
+        "hash all exports with manifest and size/type limits",
+        "separately approved one-way or host-controlled transfer to fresh host quarantine",
+        "host reconciles hashes and manifests before sealing",
+        "guest never writes sealed host custody",
+        "retain failed-run/crash evidence under explicit custody authority",
+        "revoke execution lease on failure; no automatic retry",
+        "approved guest shutdown/destruction with post-destruction resource verification",
+        "cleanup cannot alter historical custody or unrelated resources"
+      ],
+      "filesystem": "UNVERIFIED",
+      "guest_compatibility": "UNVERIFIED",
+      "host_compatibility": "UNVERIFIED",
+      "id": "A",
+      "image_provenance": null,
+      "licensing": null,
+      "name": "Existing workstation",
+      "network": "UNVERIFIED",
+      "observations": "HypervisorPresent true; VirtualMachinePlatform/WSL InstallState1; vmcompute running. No approved provider or guest. Docker client is presence evidence only.",
+      "process": "UNVERIFIED",
+      "provider": null,
+      "provider_version": null,
+      "python_runtime": "UNVERIFIED",
+      "recovery_cleanup": "Separately authorized guest-only cleanup; preserve failures",
+      "required_approvals": [
+        "authenticated owner infrastructure decision",
+        "image/runtime attestation",
+        "containment qualification",
+        "resource and cleanup authority"
+      ],
+      "required_privileges": null,
+      "resources": "UNVERIFIED"
+    },
+    {
+      "complexity": "Acquisition and offline qualification required",
+      "credentials": "UNVERIFIED",
+      "evidence_export": [
+        "guest writes local evidence only",
+        "preserve JUnit and raw stdout/stderr plus exit/process/resource receipts",
+        "hash all exports with manifest and size/type limits",
+        "separately approved one-way or host-controlled transfer to fresh host quarantine",
+        "host reconciles hashes and manifests before sealing",
+        "guest never writes sealed host custody",
+        "retain failed-run/crash evidence under explicit custody authority",
+        "revoke execution lease on failure; no automatic retry",
+        "approved guest shutdown/destruction with post-destruction resource verification",
+        "cleanup cannot alter historical custody or unrelated resources"
+      ],
+      "filesystem": "UNVERIFIED",
+      "guest_compatibility": "UNVERIFIED",
+      "host_compatibility": "UNVERIFIED",
+      "id": "B",
+      "image_provenance": null,
+      "licensing": null,
+      "name": "Dedicated Windows virtualization host",
+      "network": "UNVERIFIED",
+      "observations": "No dedicated host identity, provider/version, image or approval supplied.",
+      "process": "UNVERIFIED",
+      "provider": null,
+      "provider_version": null,
+      "python_runtime": "UNVERIFIED",
+      "recovery_cleanup": "Separately authorized guest-only cleanup; preserve failures",
+      "required_approvals": [
+        "authenticated owner infrastructure decision",
+        "image/runtime attestation",
+        "containment qualification",
+        "resource and cleanup authority"
+      ],
+      "required_privileges": null,
+      "resources": "UNVERIFIED"
+    },
+    {
+      "complexity": "Separate connection, transfer and isolation authorization required",
+      "credentials": "UNVERIFIED",
+      "evidence_export": [
+        "guest writes local evidence only",
+        "preserve JUnit and raw stdout/stderr plus exit/process/resource receipts",
+        "hash all exports with manifest and size/type limits",
+        "separately approved one-way or host-controlled transfer to fresh host quarantine",
+        "host reconciles hashes and manifests before sealing",
+        "guest never writes sealed host custody",
+        "retain failed-run/crash evidence under explicit custody authority",
+        "revoke execution lease on failure; no automatic retry",
+        "approved guest shutdown/destruction with post-destruction resource verification",
+        "cleanup cannot alter historical custody or unrelated resources"
+      ],
+      "filesystem": "UNVERIFIED",
+      "guest_compatibility": "UNVERIFIED",
+      "host_compatibility": "UNVERIFIED",
+      "id": "C",
+      "image_provenance": null,
+      "licensing": null,
+      "name": "Remote Windows virtualization host",
+      "network": "UNVERIFIED",
+      "observations": "No remote endpoint/provider approved or contacted.",
+      "process": "UNVERIFIED",
+      "provider": null,
+      "provider_version": null,
+      "python_runtime": "UNVERIFIED",
+      "recovery_cleanup": "Separately authorized guest-only cleanup; preserve failures",
+      "required_approvals": [
+        "authenticated owner infrastructure decision",
+        "image/runtime attestation",
+        "containment qualification",
+        "resource and cleanup authority"
+      ],
+      "required_privileges": null,
+      "resources": "UNVERIFIED"
+    },
+    {
+      "complexity": "Host/image/kernel isolation compatibility unresolved",
+      "credentials": "UNVERIFIED",
+      "evidence_export": [
+        "guest writes local evidence only",
+        "preserve JUnit and raw stdout/stderr plus exit/process/resource receipts",
+        "hash all exports with manifest and size/type limits",
+        "separately approved one-way or host-controlled transfer to fresh host quarantine",
+        "host reconciles hashes and manifests before sealing",
+        "guest never writes sealed host custody",
+        "retain failed-run/crash evidence under explicit custody authority",
+        "revoke execution lease on failure; no automatic retry",
+        "approved guest shutdown/destruction with post-destruction resource verification",
+        "cleanup cannot alter historical custody or unrelated resources"
+      ],
+      "filesystem": "UNVERIFIED",
+      "guest_compatibility": "UNVERIFIED",
+      "host_compatibility": "UNVERIFIED",
+      "id": "D",
+      "image_provenance": null,
+      "licensing": null,
+      "name": "Windows container environment",
+      "network": "UNVERIFIED",
+      "observations": "Docker executable found; daemon backend/container mode unqueried to avoid remote-context/credential access. No Windows container evidence.",
+      "process": "UNVERIFIED",
+      "provider": null,
+      "provider_version": null,
+      "python_runtime": "UNVERIFIED",
+      "recovery_cleanup": "Separately authorized guest-only cleanup; preserve failures",
+      "required_approvals": [
+        "authenticated owner infrastructure decision",
+        "image/runtime attestation",
+        "containment qualification",
+        "resource and cleanup authority"
+      ],
+      "required_privileges": null,
+      "resources": "UNVERIFIED"
+    },
+    {
+      "complexity": "No provisioning; retain pending packet",
+      "credentials": "UNVERIFIED",
+      "evidence_export": [
+        "guest writes local evidence only",
+        "preserve JUnit and raw stdout/stderr plus exit/process/resource receipts",
+        "hash all exports with manifest and size/type limits",
+        "separately approved one-way or host-controlled transfer to fresh host quarantine",
+        "host reconciles hashes and manifests before sealing",
+        "guest never writes sealed host custody",
+        "retain failed-run/crash evidence under explicit custody authority",
+        "revoke execution lease on failure; no automatic retry",
+        "approved guest shutdown/destruction with post-destruction resource verification",
+        "cleanup cannot alter historical custody or unrelated resources"
+      ],
+      "filesystem": "UNVERIFIED",
+      "guest_compatibility": "UNVERIFIED",
+      "host_compatibility": "UNVERIFIED",
+      "id": "E",
+      "image_provenance": null,
+      "licensing": null,
+      "name": "Deferral",
+      "network": "UNVERIFIED",
+      "observations": "No candidate A-D has sufficient independently approved infrastructure evidence.",
+      "process": "UNVERIFIED",
+      "provider": null,
+      "provider_version": null,
+      "python_runtime": "UNVERIFIED",
+      "recovery_cleanup": "Separately authorized guest-only cleanup; preserve failures",
+      "required_approvals": [
+        "authenticated owner infrastructure decision",
+        "image/runtime attestation",
+        "containment qualification",
+        "resource and cleanup authority"
+      ],
+      "required_privileges": null,
+      "resources": "UNVERIFIED"
+    }
+  ],
+  "classification": "PHASE_14_44EN_INFRASTRUCTURE_SELECTION_READY",
+  "containment": {
+    "credentials": [
+      "no inherited Kite API credentials/access tokens/encryption keys",
+      "no production DB credentials",
+      "no host credential store",
+      "no mounted .env",
+      "no profile inheritance",
+      "no production broker configuration",
+      "synthetic canaries only"
+    ],
+    "filesystem": [
+      "guest-owned disposable filesystem",
+      "byte-identical read-only source copies",
+      "no host sealed-custody mounts",
+      "no writable host repository mounts",
+      "no production database access",
+      "no host credential-file access",
+      "reject junction/symlink escapes",
+      "disposable outputs",
+      "independently enforced boundary",
+      "complete write inventory"
+    ],
+    "network": [
+      "guest NIC disabled or independently blocked",
+      "no outbound egress",
+      "no DNS",
+      "no broker API",
+      "no NAT fallback",
+      "no inherited proxy",
+      "no host bridge",
+      "no guest interface reactivation",
+      "independent enforcement evidence"
+    ],
+    "process": [
+      "exact executable identities",
+      "PID plus creation time",
+      "retained handles",
+      "owned Job Object where applicable",
+      "assignment before resume",
+      "verified child containment",
+      "no PID-only termination",
+      "owned-only timeout cleanup",
+      "unrelated-process protection",
+      "complete failure receipts"
+    ],
+    "resources": [
+      "OS-enforced CPU/memory/process limits independently qualified",
+      "output and storage controls independently enforced",
+      "measurements do not establish enforcement",
+      "no retry after unexpected failure"
+    ]
+  },
+  "contract": "Phase1444ENInfrastructureAssessment.v1",
+  "gate_a": "NOT_AUTHORIZED",
+  "gate_b": "NOT_AUTHORIZED",
+  "genuine_qualified_pairs": 0,
+  "guest_image": {
+    "architecture": null,
+    "build": null,
+    "contract": "Phase1444ENGuestImageProvenance.v1",
+    "image_source": null,
+    "licensing": null,
+    "offline_operation_evidence": null,
+    "original_sha256": null,
+    "os_edition": null,
+    "patch_baseline": null,
+    "requirements": [
+      "exact immutable identity and independent provenance",
+      "host/guest/provider compatibility verified offline",
+      "licensed patched Windows guest",
+      "offline operation demonstrated",
+      "reject revoked image before provisioning"
+    ],
+    "revocation_evidence": null,
+    "revocation_policy": "Independent authenticated image revocation required; fail closed if unavailable",
+    "signing_provenance_evidence": null,
+    "status": "UNVERIFIED",
+    "supported_hypervisor": null
+  },
+  "historical_missing": 73,
+  "historical_status": "HISTORICAL_RECEIPTS_UNAVAILABLE",
+  "host": {
+    "cpu": {
+      "command": "Get-CimInstance Win32_Processor",
+      "duration_ms": 1693,
+      "status": "OBSERVED",
+      "value": {
+        "Architecture": 9,
+        "SecondLevelAddressTranslationExtensions": false,
+        "VMMonitorModeExtensions": false,
+        "VirtualizationFirmwareEnabled": false
+      }
+    },
+    "disk": {
+      "command": "Get-Volume -DriveLetter D",
+      "duration_ms": 3504,
+      "status": "OBSERVED",
+      "value": {
+        "FileSystem": "NTFS",
+        "Size": 314451161088,
+        "SizeRemaining": 275993206784
+      }
+    },
+    "docker_backend": {
+      "reason": "No daemon/context query; remote endpoint and credential settings not accessed. Client presence does not establish Windows containers.",
+      "status": "UNVERIFIED",
+      "value": null
+    },
+    "features": {
+      "command": "Get-CimInstance Win32_OptionalFeature; filter relevant names",
+      "duration_ms": 1784,
+      "status": "OBSERVED",
+      "value": [
+        {
+          "InstallState": 1,
+          "Name": "VirtualMachinePlatform"
+        },
+        {
+          "InstallState": 1,
+          "Name": "Microsoft-Windows-Subsystem-Linux"
+        }
+      ]
+    },
+    "hypervisor": {
+      "command": "Get-CimInstance Win32_ComputerSystem",
+      "duration_ms": 61,
+      "status": "OBSERVED",
+      "value": {
+        "HypervisorPresent": true
+      }
+    },
+    "os": {
+      "command": "Get-CimInstance Win32_OperatingSystem",
+      "duration_ms": 471,
+      "status": "OBSERVED",
+      "value": {
+        "BuildNumber": "26200",
+        "Caption": "Microsoft Windows 11 Home Single Language",
+        "OSArchitecture": "64-bit",
+        "Version": "10.0.26200"
+      }
+    },
+    "privilege": {
+      "command": "WindowsPrincipal administrator membership, no elevation",
+      "duration_ms": 32,
+      "status": "OBSERVED",
+      "value": {
+        "administrator": false,
+        "elevation_attempted": false
+      }
+    },
+    "provider_approval": {
+      "reason": "No independent infrastructure approval supplied.",
+      "status": "UNVERIFIED",
+      "value": null
+    },
+    "registry_os": {
+      "command": "Get-ItemProperty HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion",
+      "duration_ms": 118,
+      "status": "OBSERVED",
+      "value": {
+        "CurrentBuild": "26200",
+        "DisplayVersion": "25H2",
+        "EditionID": "CoreSingleLanguage",
+        "ProductName": "Windows 10 Home Single Language",
+        "UBR": 9711
+      }
+    },
+    "services": {
+      "command": "Get-Service vmms,vmcompute,com.docker.service if present",
+      "duration_ms": 94,
+      "status": "OBSERVED",
+      "value": {
+        "Name": "vmcompute",
+        "Status": "Running"
+      }
+    },
+    "standard_provider_files": {
+      "command": "Test-Path and file-version metadata only",
+      "duration_ms": 30,
+      "status": "OBSERVED",
+      "value": [
+        {
+          "exists": false,
+          "path": "C:\\Program Files\\Docker\\Docker\\Docker Desktop.exe",
+          "version": null
+        },
+        {
+          "exists": false,
+          "path": "C:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe",
+          "version": null
+        },
+        {
+          "exists": false,
+          "path": "C:\\Program Files (x86)\\VMware\\VMware Workstation\\vmware.exe",
+          "version": null
+        },
+        {
+          "exists": false,
+          "path": "C:\\Windows\\System32\\WindowsSandbox.exe",
+          "version": null
+        }
+      ]
+    },
+    "tools": {
+      "command": "Get-Command metadata only; no executable invocation",
+      "duration_ms": 192,
+      "status": "OBSERVED",
+      "value": [
+        {
+          "name": "docker.exe",
+          "path": "C:\\Users\\Chandram K\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+          "version": "0.0.0.0"
+        },
+        {
+          "name": "VBoxManage.exe",
+          "path": null,
+          "version": null
+        },
+        {
+          "name": "vmrun.exe",
+          "path": null,
+          "version": null
+        }
+      ]
+    }
+  },
+  "operational": "NO_GO",
+  "original18": "NOT_EXECUTED",
+  "original31": "NOT_EXECUTED",
+  "original46": "NOT_EXECUTED",
+  "real_kite_requests": 0,
+  "runtime": {
+    "closure_fingerprint": null,
+    "contract": "Phase1444ENPythonRuntimeClosure.v1",
+    "dependency_archive_hashes": null,
+    "dll_sha256": null,
+    "environment_allowlist": [
+      "SystemRoot",
+      "WINDIR",
+      "TEMP",
+      "TMP",
+      "PYTHONDONTWRITEBYTECODE",
+      "PYTHONNOUSERSITE"
+    ],
+    "exact_version": null,
+    "executable_sha256": null,
+    "package_inventory": null,
+    "package_versions": null,
+    "required_family": "CPython 3.12",
+    "requirements": [
+      "no inherited user packages",
+      "no inherited PYTHONPATH",
+      "no production credentials",
+      "no broker configuration",
+      "no network dependency during execution",
+      "guest verification independent of host executable"
+    ],
+    "status": "UNVERIFIED",
+    "stdlib_identity": null
+  },
+  "schema_scope": [
+    "owner-authority",
+    "trusted-time",
+    "replay-authority",
+    "execution-lease",
+    "resource-limits",
+    "cleanup-authority",
+    "controlled-qualification-decision"
+  ],
+  "selection": {
+    "approval_requirements": [
+      "independently authenticated owner authority",
+      "trusted time",
+      "revocation",
+      "durable replay protection",
+      "separate provisioning and workload approval"
+    ],
+    "baseline": "9bd13a1c36e9696c22c86bbb2a28a0bddf9748ef",
+    "candidate_id": "E",
+    "candidate_provider": null,
+    "containment_controls": {
+      "credentials": [
+        "no inherited Kite API credentials/access tokens/encryption keys",
+        "no production DB credentials",
+        "no host credential store",
+        "no mounted .env",
+        "no profile inheritance",
+        "no production broker configuration",
+        "synthetic canaries only"
+      ],
+      "filesystem": [
+        "guest-owned disposable filesystem",
+        "byte-identical read-only source copies",
+        "no host sealed-custody mounts",
+        "no writable host repository mounts",
+        "no production database access",
+        "no host credential-file access",
+        "reject junction/symlink escapes",
+        "disposable outputs",
+        "independently enforced boundary",
+        "complete write inventory"
+      ],
+      "network": [
+        "guest NIC disabled or independently blocked",
+        "no outbound egress",
+        "no DNS",
+        "no broker API",
+        "no NAT fallback",
+        "no inherited proxy",
+        "no host bridge",
+        "no guest interface reactivation",
+        "independent enforcement evidence"
+      ],
+      "process": [
+        "exact executable identities",
+        "PID plus creation time",
+        "retained handles",
+        "owned Job Object where applicable",
+        "assignment before resume",
+        "verified child containment",
+        "no PID-only termination",
+        "owned-only timeout cleanup",
+        "unrelated-process protection",
+        "complete failure receipts"
+      ],
+      "resources": [
+        "OS-enforced CPU/memory/process limits independently qualified",
+        "output and storage controls independently enforced",
+        "measurements do not establish enforcement",
+        "no retry after unexpected failure"
+      ]
+    },
+    "contract": "Phase1444ENIsolationInfrastructureSelection.v1",
+    "evidence_export_policy": [
+      "guest writes local evidence only",
+      "preserve JUnit and raw stdout/stderr plus exit/process/resource receipts",
+      "hash all exports with manifest and size/type limits",
+      "separately approved one-way or host-controlled transfer to fresh host quarantine",
+      "host reconciles hashes and manifests before sealing",
+      "guest never writes sealed host custody",
+      "retain failed-run/crash evidence under explicit custody authority",
+      "revoke execution lease on failure; no automatic retry",
+      "approved guest shutdown/destruction with post-destruction resource verification",
+      "cleanup cannot alter historical custody or unrelated resources"
+    ],
+    "guest_os_requirements": {
+      "architecture": null,
+      "build": null,
+      "contract": "Phase1444ENGuestImageProvenance.v1",
+      "image_source": null,
+      "licensing": null,
+      "offline_operation_evidence": null,
+      "original_sha256": null,
+      "os_edition": null,
+      "patch_baseline": null,
+      "requirements": [
+        "exact immutable identity and independent provenance",
+        "host/guest/provider compatibility verified offline",
+        "licensed patched Windows guest",
+        "offline operation demonstrated",
+        "reject revoked image before provisioning"
+      ],
+      "revocation_evidence": null,
+      "revocation_policy": "Independent authenticated image revocation required; fail closed if unavailable",
+      "signing_provenance_evidence": null,
+      "status": "UNVERIFIED",
+      "supported_hypervisor": null
+    },
+    "host_requirements": [
+      "approved identified offline Windows virtualization infrastructure",
+      "verified host/guest compatibility and licensing"
+    ],
+    "image_provenance_requirements": [
+      "exact immutable identity and independent provenance",
+      "host/guest/provider compatibility verified offline",
+      "licensed patched Windows guest",
+      "offline operation demonstrated",
+      "reject revoked image before provisioning"
+    ],
+    "python_runtime_requirements": {
+      "closure_fingerprint": null,
+      "contract": "Phase1444ENPythonRuntimeClosure.v1",
+      "dependency_archive_hashes": null,
+      "dll_sha256": null,
+      "environment_allowlist": [
+        "SystemRoot",
+        "WINDIR",
+        "TEMP",
+        "TMP",
+        "PYTHONDONTWRITEBYTECODE",
+        "PYTHONNOUSERSITE"
+      ],
+      "exact_version": null,
+      "executable_sha256": null,
+      "package_inventory": null,
+      "package_versions": null,
+      "required_family": "CPython 3.12",
+      "requirements": [
+        "no inherited user packages",
+        "no inherited PYTHONPATH",
+        "no production credentials",
+        "no broker configuration",
+        "no network dependency during execution",
+        "guest verification independent of host executable"
+      ],
+      "status": "UNVERIFIED",
+      "stdlib_identity": null
+    },
+    "remaining_blockers": [
+      "no approved provider",
+      "no image provenance",
+      "no guest runtime closure",
+      "no containment qualification",
+      "owner trust not established"
+    ],
+    "resource_requirements": {
+      "enforcement": "UNVERIFIED",
+      "proposed_not_approved": {
+        "child_count": 3,
+        "cpu_seconds": 120,
+        "memory_bytes": 536870912,
+        "output_bytes": 8388608,
+        "process_count": 4,
+        "retries": 0,
+        "wall_seconds": 300,
+        "write_bytes": 67108864
+      }
+    },
+    "selection_status": "DEFER_PENDING_APPROVED_INFRASTRUCTURE"
+  },
+  "test_inventory": {
+    "expected": 46,
+    "nodes": [
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[owner]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[role]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[root]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[signature]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[payload]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[baseline]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[integration]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[policy]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[supervisor]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[helper]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[command]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[missing_test]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[duplicate_test]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[changed_tests]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[limits]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[process_limit]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[cpu_limit]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[memory_limit]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[output_limit]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[cleanup]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[trusted_time]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[expired]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[future]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[clock_rollback]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[revoked]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[duplicate_decision]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[duplicate_nonce]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[concurrent]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[crash_before_reserve]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[crash_after_reserve]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[crash_before_consume]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[crash_after_consume]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[ledger_rollback]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[checkpoint]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[invalid_transition]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[promotion]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[native]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[live]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[database]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[series]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_security[kite]",
+      "apps/strategy-engine/tests/test_phase1444ej.py::test_happy_fixture_and_consumption_barrier",
+      "scripts/research/test_phase1444ej.py::test_no_authority_from_any_fixture_state",
+      "scripts/research/test_phase1444ej.py::test_fixture_immutable",
+      "scripts/research/test_phase1444ej.py::test_revocation_before_consumption",
+      "scripts/research/test_phase1444ej.py::test_clock_forward_jump"
+    ],
+    "source_hashes": {
+      "apps/strategy-engine/tests/test_phase1444ej.py": "5239472a4ba542fcc6d64e35593a2e88e9e1632579bb47d6f53740f25ba466a2",
+      "scripts/research/test_phase1444ej.py": "c4bcc883ecda5f86601983d0ed95e38a2aac46d1b1ba9e97f7566fcefa81cf4d"
+    }
+  },
+  "transfer_recovery": [
+    "guest writes local evidence only",
+    "preserve JUnit and raw stdout/stderr plus exit/process/resource receipts",
+    "hash all exports with manifest and size/type limits",
+    "separately approved one-way or host-controlled transfer to fresh host quarantine",
+    "host reconciles hashes and manifests before sealing",
+    "guest never writes sealed host custody",
+    "retain failed-run/crash evidence under explicit custody authority",
+    "revoke execution lease on failure; no automatic retry",
+    "approved guest shutdown/destruction with post-destruction resource verification",
+    "cleanup cannot alter historical custody or unrelated resources"
+  ],
+  "validation_scope": {
+    "collection": [
+      "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine\\.venv\\Scripts\\python.exe",
+      "-B",
+      "-m",
+      "pytest",
+      "--import-mode=importlib",
+      "-p",
+      "no:cacheprovider",
+      "--collect-only",
+      "-q",
+      "apps/strategy-engine/tests/test_phase1444ej.py",
+      "scripts/research/test_phase1444ej.py"
+    ],
+    "mypy": [
+      "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine\\.venv\\Scripts\\python.exe",
+      "-B",
+      "-m",
+      "mypy",
+      "--strict",
+      "--namespace-packages",
+      "--explicit-package-bases",
+      "--config-file",
+      "apps/strategy-engine/pyproject.toml",
+      "--cache-dir",
+      "D:/Yogendra/offline-validation-evidence/phase-14.44E-M/authorized-validation-generation-1/mypy-cache",
+      "apps/strategy-engine/src/strategy_engine/phase1444ej/enforcement.py",
+      "apps/strategy-engine/tests/test_phase1444ej.py",
+      "scripts/research/test_phase1444ej.py",
+      "scripts/research/verify_phase1444ej.py",
+      "apps/strategy-engine/src/strategy_engine/phase1444em/runner_policy.py",
+      "apps/strategy-engine/tests/test_phase1444em.py",
+      "scripts/research/verify_phase1444em.py"
+    ],
+    "pytest": [
+      "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine\\.venv\\Scripts\\python.exe",
+      "-B",
+      "-m",
+      "pytest",
+      "--import-mode=importlib",
+      "-p",
+      "no:cacheprovider",
+      "-v",
+      "--junitxml=D:/Yogendra/offline-validation-evidence/phase-14.44E-M/authorized-validation-generation-1/policy.junit.xml",
+      "apps/strategy-engine/tests/test_phase1444ej.py",
+      "scripts/research/test_phase1444ej.py"
+    ],
+    "ruff": [
+      "D:\\Yogendra\\kite-hybrid-platform\\apps\\strategy-engine\\.venv\\Scripts\\python.exe",
+      "-B",
+      "-m",
+      "ruff",
+      "check",
+      "--no-cache",
+      "--config",
+      "apps/strategy-engine/pyproject.toml",
+      "apps/strategy-engine/src/strategy_engine/phase1444ej/enforcement.py",
+      "apps/strategy-engine/tests/test_phase1444ej.py",
+      "scripts/research/test_phase1444ej.py",
+      "scripts/research/verify_phase1444ej.py",
+      "apps/strategy-engine/src/strategy_engine/phase1444em/runner_policy.py",
+      "apps/strategy-engine/tests/test_phase1444em.py",
+      "scripts/research/verify_phase1444em.py"
+    ]
+  }
+}
