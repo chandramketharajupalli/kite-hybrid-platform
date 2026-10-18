@@ -1,0 +1,7 @@
+# Guest image, runtime and containment prerequisites
+
+Require exact Windows guest edition/build, original image source and hash, independent provenance, licensing, patch baseline, supported hypervisor, architecture compatibility, offline-operation evidence and image revocation policy. All actual guest fields remain null. No image downloaded or guest provisioned.
+
+Require exact CPython 3.12 guest version, executable/DLL hashes, standard-library identity, complete installed package inventory and original dependency wheel hashes. Host Python 3.12.14 and its local hashes do not establish transferable guest runtime closure. No inherited user packages/PYTHONPATH, credentials or production broker/database configuration. Execution must have no network dependency. Unknown guest runtime fields remain null.
+
+Guest storage must expose the original Phase 14.44C custody spelling entirely within a disposable guest namespace. Exclude host sealed custody, writable repository shares, credential stores and production databases. Require provider-enforced denial of network egress, DNS and NAT fallback, and prevention of uncontrolled process escape or unrelated host-process termination. Explicit evidence export, snapshot/rollback and cleanup authorization are mandatory. No actual guest enforcement evidence exists; all these containment claims remain UNVERIFIED. Diagnostic Job Object results do not substitute for them.
