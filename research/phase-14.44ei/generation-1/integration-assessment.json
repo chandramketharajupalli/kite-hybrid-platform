@@ -1,0 +1,140 @@
+{
+  "baseline": "ab7984794edb2f6be0cb6db90cbbd71a9486aaf0",
+  "contract": "Phase1444EIIntegrationAssessment.v1",
+  "historical_missing": 73,
+  "historical_unknowns": {
+    "console_session_association": "UNVERIFIED",
+    "revocation_freshness": "UNVERIFIED",
+    "signature_status": "UNVERIFIED",
+    "winerror31_root_cause": "UNVERIFIED",
+    "winerror5_root_cause": "UNVERIFIED"
+  },
+  "integration_contract": {
+    "approval_timestamp": null,
+    "authentication": null,
+    "baseline": "ab7984794edb2f6be0cb6db90cbbd71a9486aaf0",
+    "cleanup_authority": null,
+    "command_identity": null,
+    "contract": "Phase1444EIPolicySupervisorIntegration.v1",
+    "envelope_fingerprint": null,
+    "expiry": null,
+    "fingerprint": "cfca47f25c02bf5541ffdcf3fd513dc95ef8e2858ecb21d5182bb08108c60202",
+    "image": "C:/Windows/System32/conhost.exe",
+    "image_sha256": "c86146188b78e484f32cc29e2331689659943b47689a85570342044f499938ac",
+    "job_policy": "OWNED_JOB_ASSIGN_BEFORE_RESUME",
+    "limits": {
+      "children": 3,
+      "cpu_seconds": 10,
+      "memory_bytes": 268435456,
+      "output_bytes": 8388608,
+      "processes": 4,
+      "retries": 0,
+      "wall_seconds": 5,
+      "write_bytes": 33554432
+    },
+    "operation": "PREPARATION_ONLY",
+    "owner": null,
+    "policy_sha256": "c417ba7802c2d08362c0e3d83aad57d109c4a07dbc99e030d9748adf4adbc043",
+    "relationship_policy": "HANDLE_PID_CREATION_PARENT_CONSOLE",
+    "replay_reference": null,
+    "revocation_evidence": null,
+    "role": "CONSOLE_HOST_FOR_SYNTHETIC_EXECUTION",
+    "status": "NOT_AUTHORIZED",
+    "supervisor_sha256": "a70a068cf71b8da035d5d15c764ef8721b73ce265fd3eaa4b05ffa973de76597",
+    "test_ids": [
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[nonzero-7]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[early-0]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[child-0]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[descendant-0]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[parent-crash-8]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[child-crash-0]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[access-denied]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[image31]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[missing-image]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[wrong-image]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[invalid-handle]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[query-rights]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[assignment-failure]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[membership-failure]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[pid-reuse]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[handle-mismatch]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[creation-mismatch]",
+      "apps/strategy-engine/tests/test_phase1444ef.py::test_live_timeout_sentinel_and_exited_query"
+    ],
+    "trust_root": null
+  },
+  "isolation": "DEFER_PENDING_APPROVED_ISOLATION_HOST",
+  "native_integration": "NOT_IMPLEMENTED_NOT_ACTIVATED",
+  "original31": "NOT_EXECUTED",
+  "owner_trust": "NOT_ESTABLISHED",
+  "remaining18": [
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[nonzero-7]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[early-0]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[child-0]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[descendant-0]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[parent-crash-8]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[child-crash-0]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[access-denied]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[image31]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[missing-image]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[wrong-image]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[invalid-handle]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[query-rights]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[assignment-failure]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[membership-failure]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[pid-reuse]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[handle-mismatch]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[creation-mismatch]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_timeout_sentinel_and_exited_query"
+  ],
+  "source_audit": {
+    "apps/strategy-engine/src/strategy_engine/phase1444ee/supervisor.py": {
+      "functions": [
+        "SI",
+        "PI",
+        "IDS",
+        "PE",
+        "MEM",
+        "api",
+        "check",
+        "info",
+        "members",
+        "parents",
+        "utc",
+        "BasicLimits",
+        "ExtendedLimits",
+        "classify_query",
+        "validate_lineage",
+        "allowed_images",
+        "inspect_image",
+        "run"
+      ],
+      "sha256": "5a38edf05fb6a9b4a3ee4fd358e6a5d5f6102828b95a07d3366ce737ee8c5d3e"
+    },
+    "apps/strategy-engine/src/strategy_engine/phase1444ef/supervisor.py": {
+      "functions": [
+        "StartupEx",
+        "digest",
+        "save",
+        "exited",
+        "image_identity",
+        "same_identity",
+        "run"
+      ],
+      "sha256": "a70a068cf71b8da035d5d15c764ef8721b73ce265fd3eaa4b05ffa973de76597"
+    },
+    "apps/strategy-engine/src/strategy_engine/phase1444eh/policy.py": {
+      "functions": [
+        "fingerprint",
+        "validate_envelope",
+        "Verdict",
+        "evaluate_authorization",
+        "SyntheticContext",
+        "image_state",
+        "utc_timestamp",
+        "evaluate_synthetic"
+      ],
+      "sha256": "c417ba7802c2d08362c0e3d83aad57d109c4a07dbc99e030d9748adf4adbc043"
+    }
+  }
+}

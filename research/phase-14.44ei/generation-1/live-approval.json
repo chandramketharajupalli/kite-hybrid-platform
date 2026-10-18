@@ -1,0 +1,226 @@
+{
+  "approval_timestamp": null,
+  "authentication": null,
+  "baseline": "ab7984794edb2f6be0cb6db90cbbd71a9486aaf0",
+  "cleanup_authority": null,
+  "command_allowlist": {
+    "child": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "import subprocess,sys;p=subprocess.Popen([sys.executable,'-I','-S','-B','-c','import time;time.sleep(.4)']);p.wait()"
+      ],
+      "budget_seconds": 5
+    },
+    "child-crash": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "import subprocess,sys,time;p=subprocess.Popen([sys.executable,'-I','-S','-B','-c','import time;time.sleep(.3);raise SystemExit(9)']);p.wait()"
+      ],
+      "budget_seconds": 5
+    },
+    "descendant": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "import subprocess,sys;p=subprocess.Popen([sys.executable,'-I','-S','-B','-c',\"import subprocess,sys;p=subprocess.Popen([sys.executable,'-I','-S','-B','-c','import time;time.sleep(.4)']);p.wait()\"]);p.wait()"
+      ],
+      "budget_seconds": 5
+    },
+    "early": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "pass"
+      ],
+      "budget_seconds": 5
+    },
+    "hold": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "import time;time.sleep(5)"
+      ],
+      "budget_seconds": 5
+    },
+    "nonzero": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "raise SystemExit(7)"
+      ],
+      "budget_seconds": 5
+    },
+    "normal": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "import time;time.sleep(.2)"
+      ],
+      "budget_seconds": 5
+    },
+    "parent-crash": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "import os;os._exit(8)"
+      ],
+      "budget_seconds": 5
+    },
+    "sentinel": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "import time;time.sleep(15)"
+      ],
+      "budget_seconds": 5
+    },
+    "timeout": {
+      "argv": [
+        "C:\\Users\\Chandram K\\AppData\\Roaming\\uv\\python\\cpython-3.12.14-windows-x86_64-none\\python.exe",
+        "-I",
+        "-S",
+        "-B",
+        "-c",
+        "import subprocess,sys,time;subprocess.Popen([sys.executable,'-I','-S','-B','-c','import time;time.sleep(10)']);time.sleep(10)"
+      ],
+      "budget_seconds": 0.8
+    }
+  },
+  "contract": "Phase1444EIBoundedLiveQualificationApproval.v1",
+  "durable_replay_reference": null,
+  "eligibility": "INCOMPLETE_NOT_EXECUTABLE",
+  "evidence_custody": null,
+  "executable_identities": {
+    "catalog_reference": "D:\\Yogendra\\offline-validation-evidence\\phase-14.44E-G\\generation-1\\catalog-trust.json",
+    "catalog_sha256": "87397a8cb12e45872ae6919573d8a8d010bc92051739660ebc629621c62f3083",
+    "path": "C:/Windows/System32/conhost.exe",
+    "revocation_freshness": "UNVERIFIED",
+    "sha256": "c86146188b78e484f32cc29e2331689659943b47689a85570342044f499938ac",
+    "signer": "CN=Microsoft Windows, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+  },
+  "expiry": null,
+  "integration_contract_fingerprint": "cfca47f25c02bf5541ffdcf3fd513dc95ef8e2858ecb21d5182bb08108c60202",
+  "integration_source_sha256": "dcdd4291c6fda938121aea25af63f974bd43caeab6f23752385ae08545a7218d",
+  "job_identity": null,
+  "limits_status": "PROPOSED_NOT_APPROVED_NOT_ENFORCED",
+  "owner": null,
+  "proposed_new_sources": [
+    "apps/strategy-engine/src/strategy_engine/phase1444ei/__init__.py",
+    "apps/strategy-engine/src/strategy_engine/phase1444ei/integration.py"
+  ],
+  "resource_limits": {
+    "children": 3,
+    "cpu_seconds": 10,
+    "memory_bytes": 268435456,
+    "output_bytes": 8388608,
+    "processes": 4,
+    "retries": 0,
+    "wall_seconds": 5,
+    "write_bytes": 33554432
+  },
+  "revocation_evidence": null,
+  "rollback_authority": null,
+  "source_inventory": {
+    "apps/strategy-engine/src/strategy_engine/phase1444ee/supervisor.py": {
+      "functions": [
+        "SI",
+        "PI",
+        "IDS",
+        "PE",
+        "MEM",
+        "api",
+        "check",
+        "info",
+        "members",
+        "parents",
+        "utc",
+        "BasicLimits",
+        "ExtendedLimits",
+        "classify_query",
+        "validate_lineage",
+        "allowed_images",
+        "inspect_image",
+        "run"
+      ],
+      "sha256": "5a38edf05fb6a9b4a3ee4fd358e6a5d5f6102828b95a07d3366ce737ee8c5d3e"
+    },
+    "apps/strategy-engine/src/strategy_engine/phase1444ef/supervisor.py": {
+      "functions": [
+        "StartupEx",
+        "digest",
+        "save",
+        "exited",
+        "image_identity",
+        "same_identity",
+        "run"
+      ],
+      "sha256": "a70a068cf71b8da035d5d15c764ef8721b73ce265fd3eaa4b05ffa973de76597"
+    },
+    "apps/strategy-engine/src/strategy_engine/phase1444eh/policy.py": {
+      "functions": [
+        "fingerprint",
+        "validate_envelope",
+        "Verdict",
+        "evaluate_authorization",
+        "SyntheticContext",
+        "image_state",
+        "utc_timestamp",
+        "evaluate_synthetic"
+      ],
+      "sha256": "c417ba7802c2d08362c0e3d83aad57d109c4a07dbc99e030d9748adf4adbc043"
+    }
+  },
+  "status": "NOT_AUTHORIZED",
+  "supervisor_identity": "a70a068cf71b8da035d5d15c764ef8721b73ce265fd3eaa4b05ffa973de76597",
+  "test_ids": [
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[nonzero-7]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[early-0]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[child-0]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[descendant-0]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[parent-crash-8]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_lifecycle[child-crash-0]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[access-denied]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[image31]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[missing-image]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[wrong-image]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[invalid-handle]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[query-rights]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[assignment-failure]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[membership-failure]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[pid-reuse]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[handle-mismatch]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_fault[creation-mismatch]",
+    "apps/strategy-engine/tests/test_phase1444ef.py::test_live_timeout_sentinel_and_exited_query"
+  ],
+  "test_source_sha256": "e48a16a8457ca63162e0855805cea97a7ee29f74e39a2a7f867f1dd62c494e37",
+  "trust_root": null
+}
