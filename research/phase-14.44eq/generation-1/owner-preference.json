@@ -1,0 +1,31 @@
+{
+  "authentication_status": "NOT_ESTABLISHED",
+  "baseline": "b912ba3345ef02b297c9248f2cf727996d048b07",
+  "contract": "Phase1444EQOwnerInfrastructurePreference.v1",
+  "effective_owner_selected_provider": null,
+  "effective_owner_selected_workload_families": null,
+  "execution_authorization": "NOT_AUTHORIZED",
+  "explicit_instruction": "No infrastructure or workload family has been selected.",
+  "owner_selection_status": "PENDING_OWNER_SELECTION",
+  "provenance_kind": "USER_SUBMITTED_REVIEW_CHOICES_ONLY",
+  "provider_selection_scope": "SCOPE_NOT_APPROVED",
+  "provisioning_authorization": "NOT_AUTHORIZED",
+  "submitted_choices": {
+    "infrastructure_option": "PENDING",
+    "workload_scope": "NONE"
+  },
+  "technical_recommendation": "DEFER_PENDING_APPROVED_PROVIDER",
+  "unknown_authority_fields": {
+    "approval_expiry": null,
+    "approval_timestamp": null,
+    "authenticated_owner_identity": null,
+    "cost_ceiling": null,
+    "currency": null,
+    "executable_provisioning_scope": null,
+    "guest_image_fingerprint": null,
+    "provider_identity": null,
+    "provider_version": null,
+    "rollback_authority": null,
+    "runtime_fingerprint": null
+  }
+}
