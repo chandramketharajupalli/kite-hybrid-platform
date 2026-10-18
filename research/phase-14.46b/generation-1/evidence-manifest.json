@@ -1,0 +1,79 @@
+{
+  "fingerprint": "a3928bc95a41ed228f92f60b5c9f1bf07a6b2f3a435b49b52e452056c3ed2de1",
+  "manifest": {
+    "architecture_decision": "DEFER_PROTECTED_ENDPOINT_ACTIVATION",
+    "artifacts": {
+      "docs/architecture/phase-14.46b-operator-authentication.md": "cf3edd0cfd1f4c0ed341a23a323d2eacbd70d79fc4b11e877981d147096d79f1",
+      "docs/operations/phase-14.46b-authentication-options.md": "71467853d136e39d30545f6102acf48ccc52102e2958a6ea1c32a2b0cb87da68",
+      "docs/operations/phase-14.46b-endpoint-permissions.md": "9d4372aa2bda8314d40000a15a6247a0d9cce3982a6f529d53b00ac374886f71",
+      "docs/operations/phase-14.46b-implementation-gate.md": "14dff8793836b5874d1e9106d5c9806fcb39a6f8d3c54fef8bfff4a9d776c5ed",
+      "docs/operations/phase-14.46b-plan.md": "6f966d919d10b355ffcd3b3c42a40a07044ac3426aff1cdc05b378739408e983",
+      "docs/operations/phase-14.46b-security-inventory.md": "950592c509f9b6955c3455062910d744b483109cc2bd6a24616602bb677b8f11",
+      "docs/operations/phase-14.46b-validation.md": "e0645c35d4eedc98df5967bee4908e40fa0c4f16c6f505d7983e5dd1cf68ffb5",
+      "research/phase-14.46b/generation-1/implementation-gate.json": "bfd69a6fcaf9ca8d1be774dc3ae34b1e07b1765d82e712be4b8dcfcb7cb4b084",
+      "research/phase-14.46b/generation-1/security-assessment.json": "f1486cd64d4bff1b5e91e8ff584a281c776b06fc4e43a23beed6c874151217b8",
+      "scripts/research/verify_phase1446b.py": "90d37a713f9a2b85760b589a86e3fc4511a4216c6b91336942d366543c57ea10"
+    },
+    "authorization": "NOT_AUTHORIZED",
+    "baseline": "a03769be3b6b54f1db3f233d8b51bb6367c47953",
+    "baseline_count": 1885,
+    "baseline_map_sha256": "c45d74f43c6213feb94354b7c357d2ad9a19fe5fa258278ab00f4962b8fe798d",
+    "classification": "PHASE_14_46B_AUTHENTICATION_PENDING",
+    "external_receipts": {
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46B\\generation-1\\baseline-hashes.json": "c45d74f43c6213feb94354b7c357d2ad9a19fe5fa258278ab00f4962b8fe798d",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46B\\generation-1\\byte-checks.json": "edd5b886da8ba5a173a083091fb3a3a890e9d3780837fcfda8e4102101215530",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46B\\generation-1\\custody-acl.json": "9e88c5a9d7dc54a4ecd98e04a3a61edb7dd9fed6d1061801123b1f054a3f4f9c",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46B\\generation-1\\dependency-discovery.json": "5a7b221944742fb385909d9a1ff519a663c4c138c931b45b3790165493db7cd5",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46B\\generation-1\\frozen-plan.md": "6f966d919d10b355ffcd3b3c42a40a07044ac3426aff1cdc05b378739408e983",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46B\\generation-1\\preparation-validation.json": "c61e6d1846deebf8863b49249a8ac9e5559d0997a4047419baa050d2da6e160a",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46B\\generation-1\\protected-inputs.json": "918e7faf3b80e8aee71953faba36f8ba99b731894eb077d95acbbc739771a92b",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46B\\generation-1\\replay1.receipt.json": "ae9b7017c3c29d242266fb02fe428f99d96576ea832c7782b7144b7904f74fba",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46B\\generation-1\\replay1.stdout": "74201e4ebe9b4cabd13ac14271848f1ff3bfb85a8be76444ccea028d06e5e72e",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46B\\generation-1\\replay2.receipt.json": "da67f7198cf40c48388b228622c2aac19a4813aef4ea6cbc352ff1cebbbb626c",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46B\\generation-1\\replay2.stdout": "74201e4ebe9b4cabd13ac14271848f1ff3bfb85a8be76444ccea028d06e5e72e",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46B\\generation-1\\schemas.json": "2b820f1d5796ee43fe9d7a5f9ff73cf5a50ad4a8a41ec94108f09a1665d4bdd1",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46B\\generation-1\\source-inventory.json": "a2bd60bfa798ba24b27047b654e5d03f8faff268115e4f73aed7d694dd437a4f",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46B\\generation-1\\verification-inputs.json": "279d58ce9d8f0a50b432faf93bb72eb289bf49fec688f796ed7e9973e969cf29"
+    },
+    "fingerprint_method": "SHA256 of recursively sorted compact ASCII-escaped UTF8 JSON manifest object; exclude outer fingerprint and raw self-hash. Certificate subsequently binds raw manifest.",
+    "historical_unavailable": 73,
+    "inventory": [
+      "docs/operations/phase-14.46b-plan.md",
+      "docs/operations/phase-14.46b-security-inventory.md",
+      "docs/operations/phase-14.46b-authentication-options.md",
+      "docs/operations/phase-14.46b-endpoint-permissions.md",
+      "docs/operations/phase-14.46b-implementation-gate.md",
+      "docs/operations/phase-14.46b-validation.md",
+      "docs/architecture/phase-14.46b-operator-authentication.md",
+      "research/phase-14.46b/generation-1/security-assessment.json",
+      "research/phase-14.46b/generation-1/implementation-gate.json",
+      "research/phase-14.46b/generation-1/evidence-manifest.json",
+      "scripts/research/verify_phase1446b.py"
+    ],
+    "live_order_placement": "DISABLED",
+    "newline_reconciliations": 13,
+    "operational_readiness": "NO_GO",
+    "phase": "14.46B",
+    "plan_sha256": "6f966d919d10b355ffcd3b3c42a40a07044ac3426aff1cdc05b378739408e983",
+    "predecessor_untracked": {
+      "docs/operations/phase-14.46-authorization.md": "608d2fad02f55b7881f55b4fe9ecc5862479a5b41549fa80bb00e60f1cbfe7be",
+      "docs/operations/phase-14.46-plan.md": "020f4944cc35b726e41a8248b1ed224557f9c7fd373152b0a4c4f05899505a58",
+      "research/phase-14.46/generation-1/authorization-assessment.json": "5ccfd1e54aecdc1fdccaa97a6249b182589fa5876e4b5fe401d7685b16f72d3d"
+    },
+    "real_kite_requests": 0,
+    "replay_fingerprints": [
+      "43a5082876e33e1f016b58d048a430ae18d991649bbc81cc5747471c97ea56e4",
+      "43a5082876e33e1f016b58d048a430ae18d991649bbc81cc5747471c97ea56e4"
+    ],
+    "runtime_authorization": "NOT_AUTHORIZED",
+    "validation": {
+      "java": "NOT_EXECUTED",
+      "junit": "NOT_EXECUTED",
+      "original46_18_31": "NOT_EXECUTED",
+      "schema": "PASS",
+      "schema_negative_cases": 6,
+      "syntax": "PASS",
+      "synthetic_policy_cases": 27
+    }
+  }
+}

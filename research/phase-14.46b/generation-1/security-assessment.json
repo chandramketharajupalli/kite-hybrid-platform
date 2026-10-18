@@ -1,0 +1,188 @@
+{
+  "activity": {
+    "broker_calls": 0,
+    "dependencies_installed": false,
+    "java_created": 0,
+    "owner_enrollment": false,
+    "runtime_tests": 0
+  },
+  "baseline": "a03769be3b6b54f1db3f233d8b51bb6367c47953",
+  "broker_authentication": "EXISTING_KITE_FLOW_NOT_OPERATOR_AUTHORITY",
+  "conditional_recommendation": "SPRING_SECURITY_SERVER_SIDE_SESSION_WITH_APPROVED_OIDC_PROVIDER",
+  "contract": "Phase1446BSecurityAssessment.v1",
+  "decision": "DEFER_PROTECTED_ENDPOINT_ACTIVATION",
+  "declared_dependencies": [
+    {
+      "artifact": "httpclient5",
+      "group": "org.apache.httpcomponents.client5"
+    },
+    {
+      "artifact": "spring-boot-starter-web",
+      "group": "org.springframework.boot"
+    },
+    {
+      "artifact": "spring-boot-starter-validation",
+      "group": "org.springframework.boot"
+    },
+    {
+      "artifact": "spring-boot-starter-jdbc",
+      "group": "org.springframework.boot"
+    },
+    {
+      "artifact": "spring-boot-starter-actuator",
+      "group": "org.springframework.boot"
+    },
+    {
+      "artifact": "spring-boot-starter-data-redis",
+      "group": "org.springframework.boot"
+    },
+    {
+      "artifact": "jackson-dataformat-csv",
+      "group": "com.fasterxml.jackson.dataformat"
+    },
+    {
+      "artifact": "flyway-core",
+      "group": "org.flywaydb"
+    },
+    {
+      "artifact": "flyway-database-postgresql",
+      "group": "org.flywaydb"
+    },
+    {
+      "artifact": "postgresql",
+      "group": "org.postgresql"
+    },
+    {
+      "artifact": "micrometer-registry-prometheus",
+      "group": "io.micrometer"
+    },
+    {
+      "artifact": "spring-boot-starter-test",
+      "group": "org.springframework.boot"
+    },
+    {
+      "artifact": "archunit-junit5",
+      "group": "com.tngtech.archunit"
+    },
+    {
+      "artifact": "json-schema-validator",
+      "group": "com.networknt"
+    },
+    {
+      "artifact": "junit-platform-launcher",
+      "group": "org.junit.platform"
+    },
+    {
+      "artifact": "byte-buddy",
+      "group": "net.bytebuddy"
+    }
+  ],
+  "default_cache_observations": {
+    "C:\\Users\\Chandram K\\.m2\\repository\\org\\springframework\\boot\\spring-boot-starter-oauth2-client": {
+      "directories": [],
+      "exists": false
+    },
+    "C:\\Users\\Chandram K\\.m2\\repository\\org\\springframework\\boot\\spring-boot-starter-security": {
+      "directories": [],
+      "exists": false
+    },
+    "C:\\Users\\Chandram K\\.m2\\repository\\org\\springframework\\security": {
+      "directories": [
+        "spring-security-bom"
+      ],
+      "exists": true
+    }
+  },
+  "endpoint_permissions": [
+    {
+      "activation": "EXISTING_OPT_IN_STATIC_ONLY",
+      "method": "GET",
+      "path": "/api/trading/status",
+      "permission": null,
+      "protected": false
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/strategies",
+      "permission": "trading:strategies:read",
+      "protected": true
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/instruments",
+      "permission": "trading:instruments:read",
+      "protected": true
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/qualifications",
+      "permission": "trading:qualifications:read",
+      "protected": true
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/signals",
+      "permission": "trading:signals:read",
+      "protected": true
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/positions",
+      "permission": "trading:positions:read",
+      "protected": true
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/orders",
+      "permission": "trading:orders:read",
+      "protected": true
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/risk/status",
+      "permission": "trading:risk:read",
+      "protected": true
+    }
+  ],
+  "framework_resolved_version": null,
+  "governance_owner_authentication": "NOT_ESTABLISHED",
+  "http_security_pattern_matches": {
+    "@PreAuthorize": [],
+    "HandlerInterceptor": [],
+    "OncePerRequestFilter": [],
+    "SecurityFilterChain": []
+  },
+  "operator_http_authentication": "NOT_ESTABLISHED",
+  "pagination_proposal": {
+    "cursor": "OPAQUE_VALIDATED_SNAPSHOT_BOUND",
+    "default_limit": 25,
+    "maximum": 100,
+    "minimum": 1
+  },
+  "provider_identity": null,
+  "resolved_runtime_classpath": "UNVERIFIED_NO_MAVEN_EXECUTION",
+  "source_hashes": {
+    ".mvn/wrapper/maven-wrapper.properties": "bb0b8f16b2661c3676ed5a6a15f5b11d864460c4e77cfb50c583f54708f944e7",
+    "apps/strategy-engine/src/strategy_engine/phase1415/strategies.py": "a750329f690932f7806ddf0999c8a5d4430205cdc927ec012de663852df18e88",
+    "apps/strategy-engine/src/strategy_engine/phase1417/qualification.py": "73cad48eaf42a91d718306ba861ae3dda704c960785658d701d6554b5e5b17a7",
+    "apps/trading-core/pom.xml": "fb41bf8741237991cb3edf7ffbeede0c014493eb90ccf7f2695843352129f87c",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/bootstrap/OperatorConsoleApplication.java": "ee4c5fcb5c24f17bdc11b5d55b933e8b863abed0884e9061cea9576b5e134eda",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/broker/application/auth/KiteAuthenticationUseCase.java": "7b507bafb818c4da088ac911a10dca911b1d17a365330c86f493502bfd946410",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/broker/application/auth/KiteLoginAttemptUseCase.java": "cd709b5ba2b8566a219a931f6e7761a9fa3adc3a0c076319de605df48c07b5d5",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/broker/infrastructure/kite/KiteAuthenticationController.java": "d782aff9b2e5d582516f3a7de26c1fe5affa0c51536fdac24179e046beeda01d",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/broker/infrastructure/kite/KiteTradingReadDiagnosticController.java": "68711c0781597dc8ed1ad9dae11104e2165754eb1475c6e33382bdc3c61741b5",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/instrument/application/InstrumentRegistry.java": "a8248b8a27ebe2177ad05793877b0faf5c1c16956674490aea5a8513749232f2",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/operator/console/TrustedOperatorConsole.java": "03b2de15ca137369e8f65c6582aa80332776e1155f656004040afb9142ef43d6",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/infrastructure/TradingFoundationController.java": "0338e97e51ad54464242095a435bb529cec3452a5d9c8d16d038003e7c364dd1",
+    "apps/trading-core/src/main/resources/application.yml": "30ac0848676f1ec8be04691b5d30940e74bcd95aa7fa4054cc00f69c542bfe8d",
+    "pom.xml": "a688ba431a3bbfef69d9de1d12e0bf6e433ae3500cda99cbd740057c32a7df7f"
+  },
+  "spring_boot_parent": "3.5.16"
+}

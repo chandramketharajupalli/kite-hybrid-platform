@@ -1,0 +1,78 @@
+{
+  "assessment_plan_sha256": "6f966d919d10b355ffcd3b3c42a40a07044ac3426aff1cdc05b378739408e983",
+  "authority": {
+    "durable_replay_evidence": null,
+    "expiry": null,
+    "operator_identity_provider": null,
+    "owner_identity": null,
+    "owner_role": null,
+    "revocation": null,
+    "runtime_runner_approval": null,
+    "signature": null,
+    "trust_root": null,
+    "trusted_approval_timestamp": null
+  },
+  "blockers": [
+    "INDEPENDENT_OWNER_AUTHORITY_UNAVAILABLE",
+    "HTTP_OPERATOR_IDENTITY_PROVIDER_UNAVAILABLE",
+    "SECURITY_DEPENDENCY_CLOSURE_UNVERIFIED",
+    "POM_AND_SECURITY_CONFIGURATION_SCOPE_NOT_AUTHORIZED",
+    "TRUSTED_TIME_REVOCATION_REPLAY_UNVERIFIED",
+    "JAVA_RUNNER_NOT_APPROVED"
+  ],
+  "conditional_recommendation": "SPRING_SECURITY_SERVER_SIDE_SESSION_WITH_APPROVED_OIDC_PROVIDER",
+  "contract": "Phase1446BImplementationGateResolution.v1",
+  "dependency_adoption": "NOT_AUTHORIZED",
+  "future_auth_configuration_scope": "NOT_DEFINED_OR_AUTHORIZED_BY_EIGHT_FILES",
+  "future_paths": {
+    "path1": "PURE_INACTIVE_JAVA_CONTRACTS_PENDING_GOVERNANCE_APPROVAL",
+    "path2": "PROTECTED_HTTP_PENDING_IDENTITY_SCOPE_AND_RUNTIME_QUALIFICATION",
+    "selected_path": null
+  },
+  "git_sha": "a03769be3b6b54f1db3f233d8b51bb6367c47953",
+  "governance_owner_authentication": "NOT_ESTABLISHED",
+  "implementation_authorization": "NOT_AUTHORIZED",
+  "java_inventory": [
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/application/TradingApiAuthorization.java",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/application/TradingProjectionService.java",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/domain/TradingProjection.java",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/infrastructure/TradingReadConfiguration.java",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/infrastructure/TradingReadController.java",
+    "apps/trading-core/src/test/java/com/kitehybrid/platform/TradingApiAuthorizationTest.java",
+    "apps/trading-core/src/test/java/com/kitehybrid/platform/TradingProjectionTest.java",
+    "apps/trading-core/src/test/java/com/kitehybrid/platform/TradingReadControllerTest.java"
+  ],
+  "operational_readiness": "NO_GO",
+  "operator_architecture": "DEFER_PROTECTED_ENDPOINT_ACTIVATION",
+  "owner_decision": {
+    "authentication": "NOT_ESTABLISHED",
+    "decision": "APPROVE_SCOPE_IN_PRINCIPLE",
+    "path": "docs/operations/phase-14.46-authorization.md",
+    "payload_sha256": "a789713a0bb32a8ab3ca51f88662dad6d7264cf86f5af9c5feaed41ec56ff056",
+    "sha256": "608d2fad02f55b7881f55b4fe9ecc5862479a5b41549fa80bb00e60f1cbfe7be",
+    "source": "EXPLICIT_OWNER_CHAT_INSTRUCTION"
+  },
+  "phase1446_plan_sha256": "020f4944cc35b726e41a8248b1ed224557f9c7fd373152b0a4c4f05899505a58",
+  "phase1446a_evidence": {
+    "research/phase-14.46a/generation-1/authorization-readiness.json": "1fdbcf809ae2cc24e917b6217e0c468b63bc051002825896925ed3143800d46b",
+    "research/phase-14.46a/generation-1/evidence-manifest.json": "5f3206607f6744fa7193c5ad524dc78d30788ca6851abc0db172c594ee8b1aee"
+  },
+  "required_dependency_candidates": [
+    "org.springframework.boot:spring-boot-starter-security",
+    "org.springframework.boot:spring-boot-starter-oauth2-client",
+    "org.springframework.security:spring-security-test (test scope)"
+  ],
+  "required_existing_file_change": {
+    "before_sha256": "fb41bf8741237991cb3edf7ffbeede0c014493eb90ccf7f2695843352129f87c",
+    "path": "apps/trading-core/pom.xml",
+    "status": "SEPARATE_SCOPE_APPROVAL_REQUIRED"
+  },
+  "runtime_runner_status": "UNQUALIFIED",
+  "source_bindings": {
+    "apps/strategy-engine/src/strategy_engine/phase1415/strategies.py": "a750329f690932f7806ddf0999c8a5d4430205cdc927ec012de663852df18e88",
+    "apps/strategy-engine/src/strategy_engine/phase1417/qualification.py": "73cad48eaf42a91d718306ba861ae3dda704c960785658d701d6554b5e5b17a7",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/instrument/application/InstrumentRegistry.java": "a8248b8a27ebe2177ad05793877b0faf5c1c16956674490aea5a8513749232f2"
+  },
+  "status": "NOT_AUTHORIZED",
+  "test_execution_authorization": "NOT_AUTHORIZED"
+}
