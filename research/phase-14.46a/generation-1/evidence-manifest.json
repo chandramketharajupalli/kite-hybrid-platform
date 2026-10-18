@@ -1,0 +1,73 @@
+{
+  "fingerprint": "a6894e48221ad92bf1969fc790077bee6a0c12c3ee08d84f76543ec866c22749",
+  "manifest": {
+    "artifacts": {
+      "docs/operations/phase-14.46a-authentication-assessment.md": "422bca32a4b29fdcefde82e427006e8018b64a52e5f0ee263a0aa96f3f1893d8",
+      "docs/operations/phase-14.46a-owner-authority.md": "54a657cacc613ae6e46c663ebe2729e1ee4c9701a9597ae8f7880138b41d3251",
+      "docs/operations/phase-14.46a-plan.md": "f3e7ca695bf52bff7bf24f94918c83677b574eedda96af767e9b222686134d49",
+      "docs/operations/phase-14.46a-scope-binding.md": "63191b001bfb88b2cfab36f0905838d6034f4b974b1534ef5e94e94fbc4f49c6",
+      "docs/operations/phase-14.46a-time-replay.md": "a8ca18620bfad71e08204d7f119f85977a798489ec582b92827b7fc80bf7a521",
+      "docs/operations/phase-14.46a-validation.md": "892ceea317a81605e87ee0ffe3d76cb7595a27e496aefbae699868afce00f8a0",
+      "research/phase-14.46a/generation-1/authorization-readiness.json": "1fdbcf809ae2cc24e917b6217e0c468b63bc051002825896925ed3143800d46b",
+      "scripts/research/verify_phase1446a.py": "1829921e95db54c9a49abe3d6119ee0531be23ae2f4a9fa30a2869d057b63c54"
+    },
+    "authorization": "NOT_AUTHORIZED",
+    "baseline": "2acf229dfb1a53140b6dfcb33f83b992f2bce4df",
+    "baseline_count": 1876,
+    "baseline_map_sha256": "720c4f146ab7076a68812448f7d49056a97db5019032f833b2bd3c6951c549b2",
+    "classification": "PHASE_14_46A_AUTHENTICATION_PENDING",
+    "external_receipts": {
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46A\\generation-1\\baseline-hashes.json": "720c4f146ab7076a68812448f7d49056a97db5019032f833b2bd3c6951c549b2",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46A\\generation-1\\byte-checks.json": "96ba29704b0791dc2f7c33cc03294bcd746906c8c7d58e1f57b43f57dbf9fb13",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46A\\generation-1\\custody-acl.json": "c12234a589429fd3225a46d8c917af3cb9f7a8b6a654d903e7996d5cb2a701e0",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46A\\generation-1\\frozen-plan.md": "f3e7ca695bf52bff7bf24f94918c83677b574eedda96af767e9b222686134d49",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46A\\generation-1\\packet.schema.json": "d2389f4fe316ee7303630c9eadc6ea526070cabb7913e861988c58e0394d4155",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46A\\generation-1\\preparation-validation.json": "c51663d592c72077a70449b5a3c9cfe9a0dd7219bae8d77119a936e31b96139a",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46A\\generation-1\\protected-inputs.json": "808902a61ab7820608134715fb33af1e98e09a7c432f99cc93305ef589b930e8",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46A\\generation-1\\replay1.receipt.json": "3eb85dbf130d6684d1adbaec37893429edc644b6995e45bf9f0e6feaec3a0b07",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46A\\generation-1\\replay1.stdout": "a111b1605217b53e32b2a1e436debe483d9f8bdc7541205f7a64dbb044ec4171",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46A\\generation-1\\replay2.receipt.json": "fe874ad4a34daf63cfcc54c8d54adef1677578f8a71f1253437ed7e456d94a47",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46A\\generation-1\\replay2.stdout": "a111b1605217b53e32b2a1e436debe483d9f8bdc7541205f7a64dbb044ec4171",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46A\\generation-1\\source-inventory.json": "c781d65a6062f2741f93ba3c2ece9c8a33f44567373201e47ac0fc76b7ab86da",
+      "D:\\Yogendra\\offline-validation-evidence\\phase-14.46A\\generation-1\\verification-inputs.json": "c267fbc232020506ebd1e8398c115620ce483a17acd15cca9ae50f758f82b69b"
+    },
+    "fingerprint_method": "SHA256 of recursively sorted compact ASCII-escaped UTF8 JSON manifest object; exclude outer fingerprint and raw self-hash. Certificate subsequently binds raw manifest.",
+    "historical_unavailable": 73,
+    "inventory": [
+      "docs/operations/phase-14.46a-plan.md",
+      "docs/operations/phase-14.46a-authentication-assessment.md",
+      "docs/operations/phase-14.46a-owner-authority.md",
+      "docs/operations/phase-14.46a-scope-binding.md",
+      "docs/operations/phase-14.46a-time-replay.md",
+      "docs/operations/phase-14.46a-validation.md",
+      "research/phase-14.46a/generation-1/authorization-readiness.json",
+      "research/phase-14.46a/generation-1/evidence-manifest.json",
+      "scripts/research/verify_phase1446a.py"
+    ],
+    "live_order_placement": "DISABLED",
+    "newline_reconciliations": 13,
+    "operational_readiness": "NO_GO",
+    "phase": "14.46A",
+    "plan_sha256": "f3e7ca695bf52bff7bf24f94918c83677b574eedda96af767e9b222686134d49",
+    "predecessor_untracked": {
+      "docs/operations/phase-14.46-authorization.md": "608d2fad02f55b7881f55b4fe9ecc5862479a5b41549fa80bb00e60f1cbfe7be",
+      "docs/operations/phase-14.46-plan.md": "020f4944cc35b726e41a8248b1ed224557f9c7fd373152b0a4c4f05899505a58",
+      "research/phase-14.46/generation-1/authorization-assessment.json": "5ccfd1e54aecdc1fdccaa97a6249b182589fa5876e4b5fe401d7685b16f72d3d"
+    },
+    "real_kite_requests": 0,
+    "replay_fingerprints": [
+      "8ad09909095aecb5063596a91d4506a342c3a19295d4b2f7ae41e331ebd9979b",
+      "8ad09909095aecb5063596a91d4506a342c3a19295d4b2f7ae41e331ebd9979b"
+    ],
+    "runtime_authorization": "NOT_AUTHORIZED",
+    "validation": {
+      "java": "NOT_EXECUTED",
+      "junit": "NOT_EXECUTED",
+      "original46_18_31": "NOT_EXECUTED",
+      "schema": "PASS",
+      "schema_negative_cases": 5,
+      "syntax": "PASS",
+      "synthetic_policy_cases": 16
+    }
+  }
+}

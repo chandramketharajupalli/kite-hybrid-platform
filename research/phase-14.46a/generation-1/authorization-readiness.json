@@ -1,0 +1,86 @@
+{
+  "contract_version": "Phase1446AJavaImplementationReadiness.v1",
+  "git_sha": "2acf229dfb1a53140b6dfcb33f83b992f2bce4df",
+  "assessment_plan_sha256": "f3e7ca695bf52bff7bf24f94918c83677b574eedda96af767e9b222686134d49",
+  "frozen_phase1446_plan_sha256": "020f4944cc35b726e41a8248b1ed224557f9c7fd373152b0a4c4f05899505a58",
+  "owner_decision_reference": {
+    "path": "docs/operations/phase-14.46-authorization.md",
+    "sha256": "608d2fad02f55b7881f55b4fe9ecc5862479a5b41549fa80bb00e60f1cbfe7be",
+    "decision": "APPROVE_SCOPE_IN_PRINCIPLE",
+    "source": "EXPLICIT_OWNER_CHAT_INSTRUCTION",
+    "authentication": "NOT_ESTABLISHED",
+    "payload_sha256": "a789713a0bb32a8ab3ca51f88662dad6d7264cf86f5af9c5feaed41ec56ff056"
+  },
+  "assessment_permission": "APPROVE_ASSESSMENT_SCOPE_ONLY",
+  "java_inventory": [
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/application/TradingApiAuthorization.java",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/application/TradingProjectionService.java",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/domain/TradingProjection.java",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/infrastructure/TradingReadConfiguration.java",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/infrastructure/TradingReadController.java",
+    "apps/trading-core/src/test/java/com/kitehybrid/platform/TradingApiAuthorizationTest.java",
+    "apps/trading-core/src/test/java/com/kitehybrid/platform/TradingProjectionTest.java",
+    "apps/trading-core/src/test/java/com/kitehybrid/platform/TradingReadControllerTest.java"
+  ],
+  "new_java_source_hashes": {
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/application/TradingApiAuthorization.java": null,
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/application/TradingProjectionService.java": null,
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/domain/TradingProjection.java": null,
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/infrastructure/TradingReadConfiguration.java": null,
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/infrastructure/TradingReadController.java": null,
+    "apps/trading-core/src/test/java/com/kitehybrid/platform/TradingApiAuthorizationTest.java": null,
+    "apps/trading-core/src/test/java/com/kitehybrid/platform/TradingProjectionTest.java": null,
+    "apps/trading-core/src/test/java/com/kitehybrid/platform/TradingReadControllerTest.java": null
+  },
+  "source_bindings": {
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/instrument/application/InstrumentRegistry.java": "a8248b8a27ebe2177ad05793877b0faf5c1c16956674490aea5a8513749232f2",
+    "apps/strategy-engine/src/strategy_engine/phase1415/strategies.py": "a750329f690932f7806ddf0999c8a5d4430205cdc927ec012de663852df18e88",
+    "apps/strategy-engine/src/strategy_engine/phase1417/qualification.py": "73cad48eaf42a91d718306ba861ae3dda704c960785658d701d6554b5e5b17a7"
+  },
+  "predecessor_manifest_sha256": "ac1401da030518db2d836b4c4d6f8bb10b13bcf950e3afdcdb9bdb26bacb3363",
+  "api_specification_sha256": "462c04acb6d19f8a1107e952b9025a13415abbbf735ec7490605ca324123f929",
+  "discovery_sources": {
+    "docs/operations/phase-14.44ej-owner-authority.md": "d7ace91cc3c176029b34ebe7e23e1081adcccc237fcb019aad4d57e8553559be",
+    "docs/operations/phase-14.44ej-trusted-time-and-replay.md": "56c40543999e1245baef971da188e5c02c70597a35fbdf934ecbc7b9d9d65f36",
+    "apps/strategy-engine/src/strategy_engine/phase1444ej/enforcement.py": "d4ad0c06cdbe95c949410894cbfda4391c1c0fb65da809e12aa59b40fee5cf57",
+    "apps/synthetic-credential-owner/src/main/java/com/kitehybrid/synthetic/SyntheticOwner.java": "1e4f70f0aa483a2bc3b5daeef70798ac24056fa5c44517c0e28392aab8ac39f5",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/operator/console/TrustedOperatorConsole.java": "03b2de15ca137369e8f65c6582aa80332776e1155f656004040afb9142ef43d6",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/broker/infrastructure/kite/KiteAuthenticationController.java": "d782aff9b2e5d582516f3a7de26c1fe5affa0c51536fdac24179e046beeda01d"
+  },
+  "authority": {
+    "authentication_mechanism": null,
+    "owner_identity": null,
+    "owner_role": null,
+    "trust_root": null,
+    "approval_signature": null,
+    "trusted_timestamp": null,
+    "validity_period": null,
+    "expiry": null,
+    "revocation_reference": null,
+    "decision_identifier": null,
+    "decision_nonce": null,
+    "replay_ledger_reference": null,
+    "independent_checkpoint": null,
+    "key_custody_requirements": null
+  },
+  "authentication_status": "AUTHENTICATION_MECHANISM_UNAVAILABLE",
+  "trusted_time_status": "TRUSTED_TIME_UNVERIFIED",
+  "revocation_status": "UNVERIFIED",
+  "durable_replay_status": "DURABLE_REPLAY_UNVERIFIED",
+  "implementation_purpose": "BOUNDED_OFFLINE_JAVA_IMPLEMENTATION_ONLY_AFTER_INDEPENDENT_AUTHORIZATION",
+  "exclusions": [
+    "JAVA_IMPLEMENTATION_IN_THIS_PHASE",
+    "RUNTIME_EXECUTION",
+    "LIVE_TRADING",
+    "BROKER_CALLS",
+    "OWNER_ENROLLMENT",
+    "REAL_KEYS",
+    "CREDENTIAL_ACCESS",
+    "SERIES_V2_ADOPTION",
+    "ORIGINAL_46_18_31_TESTS"
+  ],
+  "authorization_status": "NOT_AUTHORIZED",
+  "runtime_authorization": "NOT_AUTHORIZED",
+  "live_order_placement": "DISABLED",
+  "operational_readiness": "NO_GO"
+}
