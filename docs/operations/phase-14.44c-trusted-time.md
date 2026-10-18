@@ -1,0 +1,7 @@
+# Phase1444CTrustedTimePolicy.v1 — proposed
+
+TRUSTED_TIME_UNVERIFIED. Future signed approval timestamps must use canonical UTC with six fractional digits and Z, and bind independent source identity, signed time evidence, uncertainty, observation/verification chronology and freshness. An ordinary local timestamp or ledger commit time does not establish independent time. No actual approval/expiry is assigned here.
+
+For later adoption, proposed validity is exactly168hours from independently authenticated approval. Approval must not be future dated; the entire justified uncertainty interval must fit before expiry and within owner/key/role authority. The earlier proposed one-second uncertainty limit remains subject to independent policy approval, not an implemented clock guarantee. Missing/stale/ambiguous clock evidence denies and reports TRUSTED_TIME_UNVERIFIED.
+
+The disposable fixture clock has zero uncertainty by test assumption, is explicitly caller supplied, and is sampled under the database transaction and just before commit. It rejects missing time-reference fields, future/expired decisions and times older than persisted audit history. Those fields are synthetic evidence, not real timestamp verification. Persisted checkpoints detect local clock rollback only relative to the present database; restoring both clock and database requires an independent anchor. Offline operation cannot refresh a remote revocation/time source automatically; loss of justified freshness must stop acceptance. No network time requests are performed.
