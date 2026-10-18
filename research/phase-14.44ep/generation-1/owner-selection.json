@@ -1,0 +1,21 @@
+{
+  "baseline": "4e542529bacb39d34ebcd439d338e08c60c6ac0e",
+  "contract": "Phase1444EPOwnerInfrastructureSelection.v1",
+  "decision": {
+    "approval_timestamp": null,
+    "authenticated_decision_evidence": null,
+    "decision_fingerprint": null,
+    "expiry": null,
+    "owner_identity": null,
+    "owner_role": null,
+    "provider_identity": null,
+    "provider_version": null,
+    "revocation_reference": null,
+    "selected_infrastructure_option": null,
+    "selection_rationale": null,
+    "workload_family_scope": null
+  },
+  "recommendation_is_owner_selection": false,
+  "status": "PENDING_OWNER_DECISION",
+  "technical_recommendation": "DEFER_PENDING_APPROVED_PROVIDER"
+}
