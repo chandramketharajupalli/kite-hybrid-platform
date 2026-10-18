@@ -1,0 +1,5 @@
+# Separate workload families
+FamilyA:46 original J pure enforcement tests. Static imports/model are platform-independent; CPython3.12/pytest/importlib and all original assertions require future runtime qualification. Read-only source and disposable outputs; no database/native APIs required by the pure model.
+FamilyB:18 remaining F supervisor cases. Native Windows Job Object/process APIs and original child semantics required. WSL/Linux-container substitution cannot qualify them.
+FamilyC:31 original C replay database tests. SQLite writes and restart/concurrency/crash behavior with original hard-coded Windows D: custody containment; Linux path rewriting is not faithful. A guest must provide that namespace without mounting sealed host custody.
+The assessment JSON contains18rows (six provider categories by three families), each recording OS/Python/filesystem/native API/database/process/network/credential/custody/authorization requirements. Each family needs a separate approval. None executed.

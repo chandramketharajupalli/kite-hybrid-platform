@@ -1,0 +1,4 @@
+# Docker feasibility
+Client-only docker.exe --version returned Docker29.8.0 build88096ef,exit0. Local pipe names include dockerDesktopLinuxEngine and dockerDesktopWindowsEngine, plus network/proxy/filesystem integration names. These names do not establish server reachability or Windows-container capability.
+Current context, server version/reachability,backend,existing images and Linux/Windows-container support remain null/UNVERIFIED. No daemon,context or private credential configuration was read; no endpoint connection attempted. This bounded assessment avoids remote-context or startup side effects.
+Linux containers may support familyA only after runtime/containment qualification; familyB/C require original Windows contracts. Windows containers remain a hypothesis until host/image/API/namespace compatibility is independently shown. Bind mounts,NAT,DNS,proxy and credentials require independent restrictions. No pulls,starts,context switches or service enablement.

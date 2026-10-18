@@ -1,0 +1,4 @@
+# WSL feasibility
+Installed WSL package2.7.14.0,X64. Registry DefaultVersion2 and only docker-desktop Version2 distribution observed. No distribution started. Distribution runtime state and kernel identity remain null.
+WSL_RUNTIME_UNAVAILABLE for a suitable approved general-purpose test runtime. Docker's registered distribution is not adopted as a qualification environment. No WSL config or distro files changed.
+FamilyA pure tests appear platform-independent by static source review, conditional on byte-identical tests/imports,CPython3.12 dependencies and containment. WSL2 Linux cannot faithfully qualify native Windows familyB or unchanged Windows-path familyC. Host filesystem integration/network model is unverified, with potential mount/environment/credential exposure; no claim of independent isolation.
