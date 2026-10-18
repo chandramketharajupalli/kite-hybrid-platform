@@ -1,0 +1,40 @@
+{
+  "approval_fields": {
+    "expiry": null,
+    "owner_identity": null,
+    "owner_role": null,
+    "replay_ledger": null,
+    "revocation": null,
+    "signature": null,
+    "trusted_approval_time": null
+  },
+  "authentication_status": "NOT_ESTABLISHED",
+  "baseline": "defde6dc49c89acc23188d241f18c2865f026e68",
+  "contract": "Phase1446DOwnerIdentityProviderPreference.v1",
+  "decision_classification": "PROPOSED_NOT_AUTHENTICATED",
+  "decision_provenance": "EXPLICIT_OWNER_CHAT_INSTRUCTION",
+  "dependency_acquisition_authorization": "NOT_AUTHORIZED",
+  "effective_selected_provider": null,
+  "implementation_authorization": "NOT_AUTHORIZED",
+  "live_order_placement": "DISABLED",
+  "operator_authentication": "NOT_ESTABLISHED",
+  "owner_preference_status": "PENDING_OWNER_SELECTION",
+  "plan_sha256": "d5b5e8dff29007bb04663cbced683bd41a1cbb0030d416bec8cf52c52164819c",
+  "protected_endpoint_activation": "DISABLED",
+  "provider_decision": "DEFER_PENDING_APPROVED_IDENTITY_PROVIDER",
+  "provider_fields": {
+    "client_registration": null,
+    "issuer": null,
+    "provider_identity": null,
+    "provider_version": null,
+    "redirect_uri": null,
+    "revocation_reference": null,
+    "role_mapping": null,
+    "secret_custody_reference": null,
+    "session_policy": null
+  },
+  "runtime_execution_authorization": "NOT_AUTHORIZED",
+  "submitted_preference": "PENDING",
+  "submitted_scope": "DESIGN_ONLY",
+  "technical_recommendation": "CONDITIONAL_SPRING_SECURITY_OIDC_SERVER_SIDE_SESSION"
+}

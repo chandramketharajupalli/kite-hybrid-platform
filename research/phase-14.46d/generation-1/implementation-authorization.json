@@ -1,0 +1,136 @@
+{
+  "approval_fields": {
+    "durable_replay": null,
+    "expiry": null,
+    "identity": null,
+    "revocation": null,
+    "role": null,
+    "rollback_authority": null,
+    "signature": null,
+    "trusted_timestamp": null
+  },
+  "baseline": "defde6dc49c89acc23188d241f18c2865f026e68",
+  "contract": "Phase1446DImplementationAuthorization.v1",
+  "existing_source_inventory": {
+    ".mvn/wrapper/maven-wrapper.properties": "bb0b8f16b2661c3676ed5a6a15f5b11d864460c4e77cfb50c583f54708f944e7",
+    "apps/strategy-engine/src/strategy_engine/phase1415/strategies.py": "a750329f690932f7806ddf0999c8a5d4430205cdc927ec012de663852df18e88",
+    "apps/strategy-engine/src/strategy_engine/phase1417/qualification.py": "73cad48eaf42a91d718306ba861ae3dda704c960785658d701d6554b5e5b17a7",
+    "apps/trading-core/pom.xml": "fb41bf8741237991cb3edf7ffbeede0c014493eb90ccf7f2695843352129f87c",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/bootstrap/OperatorConsoleApplication.java": "ee4c5fcb5c24f17bdc11b5d55b933e8b863abed0884e9061cea9576b5e134eda",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/broker/application/auth/KiteAuthenticationUseCase.java": "7b507bafb818c4da088ac911a10dca911b1d17a365330c86f493502bfd946410",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/broker/application/auth/KiteLoginAttemptUseCase.java": "cd709b5ba2b8566a219a931f6e7761a9fa3adc3a0c076319de605df48c07b5d5",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/broker/infrastructure/kite/KiteAuthenticationController.java": "d782aff9b2e5d582516f3a7de26c1fe5affa0c51536fdac24179e046beeda01d",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/broker/infrastructure/kite/KiteTradingReadDiagnosticController.java": "68711c0781597dc8ed1ad9dae11104e2165754eb1475c6e33382bdc3c61741b5",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/instrument/application/InstrumentRegistry.java": "a8248b8a27ebe2177ad05793877b0faf5c1c16956674490aea5a8513749232f2",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/operator/console/TrustedOperatorConsole.java": "03b2de15ca137369e8f65c6582aa80332776e1155f656004040afb9142ef43d6",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/infrastructure/TradingFoundationController.java": "0338e97e51ad54464242095a435bb529cec3452a5d9c8d16d038003e7c364dd1",
+    "apps/trading-core/src/main/resources/application.yml": "30ac0848676f1ec8be04691b5d30940e74bcd95aa7fa4054cc00f69c542bfe8d",
+    "pom.xml": "a688ba431a3bbfef69d9de1d12e0bf6e433ae3500cda99cbd740057c32a7df7f"
+  },
+  "frozen_phase1446_plan": "020f4944cc35b726e41a8248b1ed224557f9c7fd373152b0a4c4f05899505a58",
+  "implementation_purpose": "OFFLINE_DESIGN_ONLY_NO_CODE_EXECUTION",
+  "independent_gates": {
+    "dependency_acquisition": "NOT_AUTHORIZED",
+    "java_implementation": "NOT_AUTHORIZED",
+    "live_trading": "NOT_AUTHORIZED",
+    "provider_registration": "NOT_AUTHORIZED",
+    "runtime_execution": "NOT_AUTHORIZED"
+  },
+  "java_inventory": [
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/application/TradingApiAuthorization.java",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/application/TradingProjectionService.java",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/domain/TradingProjection.java",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/infrastructure/TradingReadConfiguration.java",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/infrastructure/TradingReadController.java",
+    "apps/trading-core/src/test/java/com/kitehybrid/platform/TradingApiAuthorizationTest.java",
+    "apps/trading-core/src/test/java/com/kitehybrid/platform/TradingProjectionTest.java",
+    "apps/trading-core/src/test/java/com/kitehybrid/platform/TradingReadControllerTest.java"
+  ],
+  "operational_readiness": "NO_GO",
+  "owner_decision_reference": "research/phase-14.46d/generation-1/provider-decision.json",
+  "permission_matrix": [
+    {
+      "activation": "EXISTING_OPT_IN_STATIC_ONLY",
+      "method": "GET",
+      "path": "/api/trading/status",
+      "permission": null,
+      "protected": false
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/strategies",
+      "permission": "trading:strategies:read",
+      "protected": true
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/instruments",
+      "permission": "trading:instruments:read",
+      "protected": true
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/qualifications",
+      "permission": "trading:qualifications:read",
+      "protected": true
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/signals",
+      "permission": "trading:signals:read",
+      "protected": true
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/positions",
+      "permission": "trading:positions:read",
+      "protected": true
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/orders",
+      "permission": "trading:orders:read",
+      "protected": true
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/risk/status",
+      "permission": "trading:risk:read",
+      "protected": true
+    }
+  ],
+  "plan_sha256": "d5b5e8dff29007bb04663cbced683bd41a1cbb0030d416bec8cf52c52164819c",
+  "predecessor_manifest": "ef795fd91bcf18ac994744832c3574509c9ac59a059bf888330fea329c09a1c9",
+  "preparation_scope": "EXACT_TWELVE_FILES_ONLY",
+  "proposal_bindings": [
+    {
+      "after_sha256": "8648ed8f661c3dd990f93b813e8234b0bc015302c41cba892f71a4d8bcf51b02",
+      "before_sha256": "fb41bf8741237991cb3edf7ffbeede0c014493eb90ccf7f2695843352129f87c",
+      "path": "apps/trading-core/pom.xml"
+    },
+    {
+      "after_sha256": "458ea7d89c7300120aac31fbef72d5bfeb227bc6d6a02490f9db6f300d90ae07",
+      "before_sha256": null,
+      "path": "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/infrastructure/TradingReadConfiguration.java"
+    },
+    {
+      "after_sha256": "b6bfc0e2951809fc62a2c22df4362a99191d1d366270fe1af2428f54cdf08277",
+      "before_sha256": null,
+      "path": "apps/trading-core/src/main/resources/application-operator-security.yml"
+    }
+  ],
+  "protected_endpoint_activation": "DISABLED",
+  "source_bindings": {
+    "apps/strategy-engine/src/strategy_engine/phase1415/strategies.py": "a750329f690932f7806ddf0999c8a5d4430205cdc927ec012de663852df18e88",
+    "apps/strategy-engine/src/strategy_engine/phase1417/qualification.py": "73cad48eaf42a91d718306ba861ae3dda704c960785658d701d6554b5e5b17a7",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/instrument/application/InstrumentRegistry.java": "a8248b8a27ebe2177ad05793877b0faf5c1c16956674490aea5a8513749232f2"
+  },
+  "status": "NOT_AUTHORIZED"
+}
