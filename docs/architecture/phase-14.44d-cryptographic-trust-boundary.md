@@ -1,0 +1,7 @@
+# Phase 14.44D cryptographic trust boundary
+
+Specification and synthetic policy checks only. Phase1444DCryptoDependencyAcquisition.v1, Phase1444DTrustedTimeAuthority.v1 and Phase1444DRollbackResistance.v1 do not establish owner trust. policy.py accepts only strict TEST_ONLY fixture contracts; all actual operations unconditionally deny. Signature-validity flags are assumptions for rejection-path exercises, never signature verification. No custom cryptography, HMAC substitution, broker access or production dispatcher exists.
+
+Separate gates: LOCKFILE_HASH_AVAILABLE; INDEPENDENT_METADATA_HASH_MATCH; ARCHIVE_BYTES_VERIFIED; INSTALLATION_VERIFIED; PROVIDER_FUNCTIONALLY_VALIDATED; OWNER_TRUST_ESTABLISHED. Evidence for one does not imply another. No candidate currently passes all gates. Index metadata identifies observed registry bytes, not authenticated publisher intent. RECORD verifies installed-file consistency, not original archive provenance. Successful algorithm vectors do not enroll an owner. Preserve all prior immutable contracts and architecture guards.
+
+The dependency packet must be complete and separately authenticated before acquisition. Time authority enrollment and external checkpoint custody need independent approval and evidence. No real decision can pass while any required trust layer remains unverified. Later168hour adoption validity requires an authenticated approval and remains unstarted here. Gate A/B NOT_AUTHORIZED; operational NO_GO.
