@@ -1,0 +1,15 @@
+{
+  "artifacts": 28,
+  "baseline": "7c9e02b75cbcc0ec2b9043b0ae000e6c0d624420",
+  "contract": "Phase1446GDependencyReconciliation.v1",
+  "dependency_acquisition": "NOT_AUTHORIZED",
+  "dependency_closure": "UNVERIFIED",
+  "graph_fingerprint": "4071cacc3e2d57ce4313aab9c80b35211c17d9b9f108957235ac9f74a2733621",
+  "graph_status": "PARTIAL",
+  "imported_boms": 43,
+  "local_files": 76,
+  "missing_paths": 40,
+  "missing_roots": 3,
+  "publisher_provenance": "UNVERIFIED",
+  "result": "UNCHANGED"
+}

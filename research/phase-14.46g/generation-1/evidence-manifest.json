@@ -1,0 +1,70 @@
+{
+  "fingerprint": "e50d6cd2713cd3c65f798686b43d531e103f9d9d089171ae3e07d4beb8a0ca16",
+  "manifest": {
+    "artifacts": {
+      "docs/operations/phase-14.46g-correction.md": "9450adb9849f7e681d78a065582b992b0ac3aeb0afdba8afe4a27ff29a985979",
+      "docs/operations/phase-14.46g-dependency-reconciliation.md": "24ecbbac878f88edf02f686b81e2c7ba68a29a7881128cb17b00877ecec6fd3f",
+      "docs/operations/phase-14.46g-plan.md": "e21ca78de5a1cec3a190b21f30b5bd0b1e4056ac83f3e6a154ed987878a7c073",
+      "docs/operations/phase-14.46g-regression-tests.md": "38ac9868d91ec6bd7a1f0c4932942779554108c413b533c3570712038171e52c",
+      "docs/operations/phase-14.46g-schema-diagnosis.md": "65c5051af017c20e9459037bb08c4a74d1ab43a1d67d456dca833f7b909ae747",
+      "docs/operations/phase-14.46g-validation.md": "63ad37122b730766279236bab25b897d202c48dc39faade5ad67e95e1d4fc530",
+      "research/phase-14.46g/generation-1/dependency-reconciliation.json": "cf66d38c8545e0f079eee4498008fd7d195e7662ae5521dbba687f4d08f476d9",
+      "research/phase-14.46g/generation-1/schema-recovery.json": "b3f5882318cc7d87dbc5297aa3027de7e0e850e47b999c0eacb213a719b80b43",
+      "scripts/research/test_phase1446g.py": "66b5c812f2ad2d4ae4c68b0e94b6c4638246190597b027baba5ad2125332d60f",
+      "scripts/research/verify_phase1446g.py": "96d580b759bc13966d7a462e052d3849beb0fa9a765551ae1189d3a9c9fc1505"
+    },
+    "baseline": "7c9e02b75cbcc0ec2b9043b0ae000e6c0d624420",
+    "baseline_files": 1942,
+    "canonical_method": "SHA256_SORTED_COMPACT_ASCII_JSON_MANIFEST_OBJECT_EXCLUDES_FINGERPRINT_AND_CERTIFICATE",
+    "classification": "PHASE_14_46G_DEPENDENCY_PENDING",
+    "corrected_f_packet_schema_checks": 3,
+    "dependency_acquisition": "NOT_AUTHORIZED",
+    "dependency_closure": "UNVERIFIED",
+    "frozen_universe": 1115,
+    "gate_a_b": "NOT_AUTHORIZED",
+    "historical_receipts": "73_HISTORICAL_RECEIPTS_UNAVAILABLE",
+    "inventory": [
+      "docs/operations/phase-14.46g-plan.md",
+      "docs/operations/phase-14.46g-schema-diagnosis.md",
+      "docs/operations/phase-14.46g-correction.md",
+      "docs/operations/phase-14.46g-regression-tests.md",
+      "docs/operations/phase-14.46g-dependency-reconciliation.md",
+      "docs/operations/phase-14.46g-validation.md",
+      "research/phase-14.46g/generation-1/schema-recovery.json",
+      "research/phase-14.46g/generation-1/dependency-reconciliation.json",
+      "research/phase-14.46g/generation-1/evidence-manifest.json",
+      "scripts/research/verify_phase1446g.py",
+      "scripts/research/test_phase1446g.py"
+    ],
+    "java_implementation": "NOT_AUTHORIZED",
+    "live_orders": "DISABLED",
+    "newline_reconciliations": 13,
+    "operational_readiness": "NO_GO",
+    "operator_authentication": "NOT_ESTABLISHED",
+    "original_f_certificate": "NOT_CREATED",
+    "original_f_manifest": "NOT_CREATED",
+    "original_f_replays": "NOT_EXECUTED",
+    "original_failure_sha256": "2f4814c2a3974d25e26d2cd71b70e9761167ace0c02a1381baff6e37bc28a659",
+    "original_schema_validation": "FAILED",
+    "owner_authentication": "NOT_ESTABLISHED",
+    "packet_policy_negative_cases": 5,
+    "phase": "14.46G",
+    "plan_sha256": "e21ca78de5a1cec3a190b21f30b5bd0b1e4056ac83f3e6a154ed987878a7c073",
+    "predecessor": "PHASE_14_46F_PARTIAL_PRESERVED_IN_GIT",
+    "protected_endpoint_activation": "DISABLED",
+    "publisher_provenance": "UNVERIFIED",
+    "replay_fingerprints": [
+      "abcaeb9a6447ab1c19356f241408e979bb6034eb3b21be30482f071919e34b76",
+      "abcaeb9a6447ab1c19356f241408e979bb6034eb3b21be30482f071919e34b76"
+    ],
+    "replay_receipt_hashes": {
+      "replay1.receipt.json": "0f256c545638086881409a96823e041e3f20b566283a95b47251f60328872d9a",
+      "replay2.receipt.json": "6585736c351467ecb492e5386a6033f427ec76f86edd2bdc24635c1c0d6c63e8"
+    },
+    "research_combinations": 13380,
+    "runtime_validation": "NOT_AUTHORIZED",
+    "schema_draft": "https://json-schema.org/draft/2020-12/schema",
+    "series_v2": "PROPOSED_NOT_ADOPTED",
+    "synthetic_regression_checks": 48
+  }
+}
