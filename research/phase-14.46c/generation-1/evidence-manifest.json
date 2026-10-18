@@ -1,0 +1,56 @@
+{
+  "fingerprint": "ef795fd91bcf18ac994744832c3574509c9ac59a059bf888330fea329c09a1c9",
+  "manifest": {
+    "artifacts": {
+      "docs/operations/phase-14.46c-dependency-assessment.md": "8f9665faef8b0eae1992fb4f628c37b68b07bba6da3f6817a1b6a560e808526d",
+      "docs/operations/phase-14.46c-identity-provider.md": "30f4fff086183a053d797e1b3b581476fdd8907abd025d2564bff48cf8d06628",
+      "docs/operations/phase-14.46c-implementation-diff.md": "d7777bea34d68628ea46ee02ef2d673dcb00b9168ff4ac113798f1e147de79be",
+      "docs/operations/phase-14.46c-plan.md": "9352be0961252f497230d209d094ff7e33fea0a481168b39a0d6efbed38751b8",
+      "docs/operations/phase-14.46c-runtime-readiness.md": "6fa59d0b7a52f5fb687c2fb8987d7375966bfbdbb3100a98f8669bd41edc8df5",
+      "docs/operations/phase-14.46c-security-design.md": "da2f827d37d5c159a42140307679b420962f0eeb6a10adf12734d42a45b6f1f8",
+      "docs/operations/phase-14.46c-validation.md": "8fc21aa2f1be3ff4e275306af5e7f98c45d29cf7613a71b9feaed8d9e3eff6c6",
+      "research/phase-14.46c/generation-1/dependency-readiness.json": "021585e72322b622a4afaf23d6c9bfbe88dee018a498297a1c6e0c75168c8ef0",
+      "research/phase-14.46c/generation-1/identity-readiness.json": "0d264531da45e274db1ac1a6f04fa86bb439453d1441b405284971f3d949cf0b",
+      "scripts/research/verify_phase1446c.py": "9449d1a131d53ba0021235b7299ae29630c7f0ea3d55b65d2fb2a6702b1b6aba"
+    },
+    "baseline": "5143eeb804a5f2d20812069efb783ee194b500f5",
+    "canonical_method": "SHA256_SORTED_COMPACT_ASCII_JSON_MANIFEST_OBJECT_EXCLUDES_FINGERPRINT_AND_CERTIFICATE",
+    "classification": "PHASE_14_46C_IDENTITY_PROVIDER_PENDING",
+    "evidence_custody": "D:\\Yogendra\\offline-validation-evidence\\phase-14.46C\\generation-1",
+    "gate_a_b": "NOT_AUTHORIZED",
+    "historical_receipts": "73_HISTORICAL_RECEIPTS_UNAVAILABLE",
+    "identity_provider": "IDENTITY_PROVIDER_NOT_SELECTED",
+    "implementation": "NOT_AUTHORIZED",
+    "inventory": [
+      "docs/operations/phase-14.46c-plan.md",
+      "docs/operations/phase-14.46c-dependency-assessment.md",
+      "docs/operations/phase-14.46c-identity-provider.md",
+      "docs/operations/phase-14.46c-security-design.md",
+      "docs/operations/phase-14.46c-implementation-diff.md",
+      "docs/operations/phase-14.46c-runtime-readiness.md",
+      "docs/operations/phase-14.46c-validation.md",
+      "research/phase-14.46c/generation-1/dependency-readiness.json",
+      "research/phase-14.46c/generation-1/identity-readiness.json",
+      "research/phase-14.46c/generation-1/evidence-manifest.json",
+      "scripts/research/verify_phase1446c.py"
+    ],
+    "java_compilation": "NOT_EXECUTED",
+    "junit": "NOT_EXECUTED",
+    "live_orders": "DISABLED",
+    "negative_schema_cases": 8,
+    "operational_readiness": "NO_GO",
+    "phase": "14.46C",
+    "plan_sha256": "9352be0961252f497230d209d094ff7e33fea0a481168b39a0d6efbed38751b8",
+    "policy_checks": 32,
+    "predecessor_certificate_sha256": "4dd092d3fc5286c0990078cd85f78bc51ca9dbb7f1abd3ba466349949c4f8f1b",
+    "predecessor_manifest_fingerprint": "a3928bc95a41ed228f92f60b5c9f1bf07a6b2f3a435b49b52e452056c3ed2de1",
+    "protected_activation": "DISABLED",
+    "protected_baseline_count": 1896,
+    "replay_fingerprints": [
+      "79f609fe1e41b9a3d44c1dbe5c20ec29ab62a9a54a0895ba69fa84fcaa9bf954",
+      "79f609fe1e41b9a3d44c1dbe5c20ec29ab62a9a54a0895ba69fa84fcaa9bf954"
+    ],
+    "runtime": "NOT_AUTHORIZED",
+    "series_v2": "PROPOSED_NOT_ADOPTED"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "baseline": "5143eeb804a5f2d20812069efb783ee194b500f5",
+  "boot_version": "3.5.16",
+  "candidates": [
+    {
+      "artifact": "spring-boot-starter-security",
+      "group": "org.springframework.boot",
+      "jar_sha256": null,
+      "managed_version": "3.5.16",
+      "pom_sha256": null
+    },
+    {
+      "artifact": "spring-boot-starter-oauth2-client",
+      "group": "org.springframework.boot",
+      "jar_sha256": null,
+      "managed_version": "3.5.16",
+      "pom_sha256": null
+    },
+    {
+      "artifact": "spring-security-test",
+      "group": "org.springframework.security",
+      "jar_sha256": null,
+      "managed_version": "6.5.11",
+      "pom_sha256": null
+    }
+  ],
+  "compiler_release": "21",
+  "contract": "Phase1446CDependencyReadiness.v1",
+  "dependencies_added": false,
+  "java_baseline": "21",
+  "maven_wrapper_distribution": "3.9.11",
+  "metadata_hashes": {
+    "C:\\Users\\Chandram K\\.m2\\repository\\org\\springframework\\boot\\spring-boot-dependencies\\3.5.16\\spring-boot-dependencies-3.5.16.pom": "b99b1870802b9a652221c99c491678f37773a8c0ad14e80bd6b275ae9201638a",
+    "C:\\Users\\Chandram K\\.m2\\repository\\org\\springframework\\security\\spring-security-bom\\6.5.11\\spring-security-bom-6.5.11.pom": "a7ce4ddef2e43eb1597bd25134f8d518a0e130a317c1a5b62525c785d5eb9706"
+  },
+  "offline_dependency_closure": "NOT_ESTABLISHED",
+  "required_security_modules": [
+    {
+      "artifact": "spring-security-core",
+      "jar_sha256": null,
+      "managed_version": "6.5.11"
+    },
+    {
+      "artifact": "spring-security-web",
+      "jar_sha256": null,
+      "managed_version": "6.5.11"
+    },
+    {
+      "artifact": "spring-security-config",
+      "jar_sha256": null,
+      "managed_version": "6.5.11"
+    },
+    {
+      "artifact": "spring-security-oauth2-core",
+      "jar_sha256": null,
+      "managed_version": "6.5.11"
+    },
+    {
+      "artifact": "spring-security-oauth2-client",
+      "jar_sha256": null,
+      "managed_version": "6.5.11"
+    },
+    {
+      "artifact": "spring-security-oauth2-jose",
+      "jar_sha256": null,
+      "managed_version": "6.5.11"
+    }
+  ],
+  "resolution_method": "STATIC_LOCAL_BOM_ONLY_NOT_MAVEN_RESOLUTION",
+  "runtime_runner": "NOT_APPROVED",
+  "security_bom_version": "6.5.11",
+  "source_hashes": {
+    ".mvn/wrapper/maven-wrapper.properties": "bb0b8f16b2661c3676ed5a6a15f5b11d864460c4e77cfb50c583f54708f944e7",
+    "apps/trading-core/pom.xml": "fb41bf8741237991cb3edf7ffbeede0c014493eb90ccf7f2695843352129f87c",
+    "apps/trading-core/src/main/resources/application.yml": "30ac0848676f1ec8be04691b5d30940e74bcd95aa7fa4054cc00f69c542bfe8d",
+    "pom.xml": "a688ba431a3bbfef69d9de1d12e0bf6e433ae3500cda99cbd740057c32a7df7f"
+  },
+  "transitive_graph": "INCOMPLETE_STARTER_POMS_UNAVAILABLE"
+}

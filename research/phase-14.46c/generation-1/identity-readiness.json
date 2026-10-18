@@ -1,0 +1,117 @@
+{
+  "baseline": "5143eeb804a5f2d20812069efb783ee194b500f5",
+  "conditional_recommendation": "SPRING_SECURITY_SERVER_SIDE_SESSION_WITH_APPROVED_OIDC_PROVIDER",
+  "contract": "Phase1446COperatorAuthenticationArchitecture.v1",
+  "governance_authority": {
+    "expiry": null,
+    "owner_identity": null,
+    "owner_role": null,
+    "replay_authority": null,
+    "revocation": null,
+    "signature": null,
+    "trusted_timestamp": null
+  },
+  "identity_provider_status": "IDENTITY_PROVIDER_NOT_SELECTED",
+  "implementation_authorization": "NOT_AUTHORIZED",
+  "java_inventory": [
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/application/TradingApiAuthorization.java",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/application/TradingProjectionService.java",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/domain/TradingProjection.java",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/infrastructure/TradingReadConfiguration.java",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/trading/infrastructure/TradingReadController.java",
+    "apps/trading-core/src/test/java/com/kitehybrid/platform/TradingApiAuthorizationTest.java",
+    "apps/trading-core/src/test/java/com/kitehybrid/platform/TradingProjectionTest.java",
+    "apps/trading-core/src/test/java/com/kitehybrid/platform/TradingReadControllerTest.java"
+  ],
+  "live_orders": "DISABLED",
+  "operational_readiness": "NO_GO",
+  "owner_decision": {
+    "authentication": "NOT_ESTABLISHED",
+    "decision": "APPROVE_SCOPE_IN_PRINCIPLE",
+    "path": "docs/operations/phase-14.46-authorization.md",
+    "payload_sha256": "a789713a0bb32a8ab3ca51f88662dad6d7264cf86f5af9c5feaed41ec56ff056",
+    "sha256": "608d2fad02f55b7881f55b4fe9ecc5862479a5b41549fa80bb00e60f1cbfe7be",
+    "source": "EXPLICIT_OWNER_CHAT_INSTRUCTION"
+  },
+  "permission_matrix": [
+    {
+      "activation": "EXISTING_OPT_IN_STATIC_ONLY",
+      "method": "GET",
+      "path": "/api/trading/status",
+      "permission": null,
+      "protected": false
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/strategies",
+      "permission": "trading:strategies:read",
+      "protected": true
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/instruments",
+      "permission": "trading:instruments:read",
+      "protected": true
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/qualifications",
+      "permission": "trading:qualifications:read",
+      "protected": true
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/signals",
+      "permission": "trading:signals:read",
+      "protected": true
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/positions",
+      "permission": "trading:positions:read",
+      "protected": true
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/orders",
+      "permission": "trading:orders:read",
+      "protected": true
+    },
+    {
+      "activation": "NOT_AUTHORIZED",
+      "method": "GET",
+      "path": "/api/trading/risk/status",
+      "permission": "trading:risk:read",
+      "protected": true
+    }
+  ],
+  "phase1446_plan_sha256": "020f4944cc35b726e41a8248b1ed224557f9c7fd373152b0a4c4f05899505a58",
+  "plan_sha256": "9352be0961252f497230d209d094ff7e33fea0a481168b39a0d6efbed38751b8",
+  "predecessor_manifest_sha256": "b8024b7f144c0b94a4d0f53067223e5fcaa2746aa779f8929f04764cdeab77a4",
+  "protected_activation": "DISABLED",
+  "provider_fields": {
+    "client_id": null,
+    "client_registration_mechanism": null,
+    "client_secret_custody_reference": null,
+    "issuer": null,
+    "logout_endpoint": null,
+    "redirect_uri": null,
+    "revocation_authority": null,
+    "role_registry": null,
+    "session_expiry": null,
+    "trusted_time_source": null
+  },
+  "runtime_authorization": "NOT_AUTHORIZED",
+  "selected_provider": null,
+  "source_bindings": {
+    "apps/strategy-engine/src/strategy_engine/phase1415/strategies.py": "a750329f690932f7806ddf0999c8a5d4430205cdc927ec012de663852df18e88",
+    "apps/strategy-engine/src/strategy_engine/phase1417/qualification.py": "73cad48eaf42a91d718306ba861ae3dda704c960785658d701d6554b5e5b17a7",
+    "apps/trading-core/src/main/java/com/kitehybrid/platform/instrument/application/InstrumentRegistry.java": "a8248b8a27ebe2177ad05793877b0faf5c1c16956674490aea5a8513749232f2"
+  }
+}
