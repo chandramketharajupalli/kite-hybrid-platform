@@ -1,0 +1,9 @@
+# Phase1444EBPythonRuntimeClosure.v1
+
+GUEST_RUNTIME_CLOSURE_UNVERIFIED. Local CPython3.12.14 AMD64 observations are retained in isolation-assessment.json: exact executable/base executable/python312.dll/python3.dll hashes,690standard-library .py files' canonical map fingerprint, native DLLs/pyd hashes and installed distribution versions. This is scoped local identity, not a full transferable guest runtime closure or original-archive provenance. The executable's dependencies, resources, native runtime libraries, site-packages contents and approved archive/source evidence must be fully reconciled before use in a guest.
+
+Installed distributions include development tools and transitive dependencies; their presence does not approve guest transfer. A libcrypto DLL bundled with Python is not an approved owner-signature provider. Exact guest wheel/archive hashes and full dependency closure remain null; no guesses from version strings or installed RECORD. Prior provenance approvals apply only to their original scope. No installer/resolver/network fallback is allowed.
+
+Future runtime policy: independently verify Python3.12 executable/DLL/stdlib and complete native/package closure from approved original bytes; disable user site-packages and inherited PYTHONPATH; use exact approved import roots, interpreter and source tree. Sanitize environment from an allowlist rather than attempting to enumerate/log secret values. Exclude user profiles, .env/token/credential files, Kite keys, broker settings and production database configuration. Record safe variable names and explicit values only. No credentials were read by this assessment.
+
+Byte-identical imports and original31IDs/assertions must survive guest placement. Child sys.executable must resolve to the same approved runtime; reject a missing/wrong runtime or unexpected import root. No installation, transfer or guest validation is performed now.
