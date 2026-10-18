@@ -1,0 +1,9 @@
+# Qualification stopped
+
+PHASE_14_44EF_PARTIAL. Collection contained30new tests. Preparation-safe selection:11passed,19live cases deselected,0.30seconds. Live selection:19selected,11static cases deselected; first normal lifecycle test failed,0passed,1failed,18remaining live cases not executed after pytest -x stopped,0.35seconds. JUnit/stdout/stderr and exact command/exit/duration retained externally.
+
+Before live execution, static safety review verified retained job/root cleanup ownership, explicit inherited handle list, frozen commands/executable pin, minimal environment and no networking/credential/database snippets. Ruff passed. Initial strict mypy reported9new-code typing diagnostics; they were corrected only in new files, and strict mypy then passed4source files with a fresh external cache. These receipts are preserved. No source changed after those passing gates.
+
+The first live child was unlisted conhost.exe; identity query succeeded but policy rejected. Owned job544 under launcher19272 was empty after cleanup; root18308 exited125. Root creation134367930123184366, CPU0.046875seconds, peak observed working set9306112bytes. Child CPU0.015625seconds; no complete child memory claim. Sampling20ms can miss short-lived children. External tool-capture launcher metrics are separately labelled and are not claimed as interpreter-worker coverage.
+
+Mandatory stop was honored. Live fault injection, sentinel survival, descendant/timeout qualification and two supervised replays were NOT_EXECUTED after the failure. No retry, no expanded allowlist, no claim that the30requested scenarios passed. Static rejection checks establish only their own limited behavior. No original31database tests, full application suite or safe predecessor test run was performed. Matching replay outputs and replay fingerprints do not exist for this phase.

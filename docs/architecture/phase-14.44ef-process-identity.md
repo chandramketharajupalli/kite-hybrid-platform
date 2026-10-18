@@ -1,0 +1,9 @@
+# Additive process identity boundary
+
+Phase1444EFProcessSupervisor.v1 is synthetic diagnostic support, not a qualified supervisor. The sealed E-E supervisor remains unchanged. The new module reuses its native API/structure declarations and pure classification helpers, never its run function or custody. It adds STARTUPINFOEX explicit standard-stream inheritance, exact frozen command and executable pins, direct CPython -I -S -B, a minimal environment, checked wait states, GetProcessId plus creation-time checks, retained root handles and 0x101000 query-only child handles.
+
+The owned unnamed Job Object is created before the root, with kill-on-close and no breakaway. Root creation is suspended, executable path/hash is independently queried, then assignment and membership precede resume. Cleanup uses the retained owned job; preassignment cleanup uses only the retained suspended root handle. No PID-derived termination authority. Unknown image, image error, identity mismatch, assignment or parent-lifetime failure rejects. Partial receipts retain native errors and handles.
+
+Static review passed, but first live qualification exposed an incomplete executable pin set: Windows created conhost.exe, which was not included. The image query succeeded; identity authorization failed closed. Do not confuse exact image observation with an approved identity. The candidate is NOT QUALIFIED. No broader mask or automatic fallback was attempted. Historical WinError5/31 causes remain unverified.
+
+Sampling can miss short-lived children. Optional memory observations do not establish complete metrics. Exact audited snippets have no network or credential access; neither a Job Object nor minimal environment proves OS-level network, filesystem or guest containment. Unknown outcomes remain unverified. Any next correction needs review of image-pin completeness and fresh qualification under a new frozen scope; this phase performs no retry after failure.

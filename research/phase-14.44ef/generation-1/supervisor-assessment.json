@@ -1,0 +1,168 @@
+{
+  "baseline": "8b3e52dd0a60455cb64de2027e88e87b0c41bde8",
+  "classification": "PHASE_14_44EF_PARTIAL",
+  "contract": "Phase1444EFProcessIdentity.v1",
+  "correction": {
+    "additive_only": true,
+    "command_allowlist_sha256": "8da54faebd03a9bb1fa83073ded7ae98bec693c7d3263b3be366d062e7c29555",
+    "inheritance": "explicit standard streams only",
+    "query_access": "0x101000",
+    "root_handle": "retained CreateProcessW handle",
+    "status": "NOT_QUALIFIED"
+  },
+  "current_failure": {
+    "api_error": null,
+    "child_creation": 134367930123613212,
+    "child_handle": 572,
+    "child_image_sha256": "c86146188b78e484f32cc29e2331689659943b47689a85570342044f499938ac",
+    "child_pid": 21332,
+    "classification": "CHILD_IDENTITY_UNVERIFIED",
+    "cleanup_empty": true,
+    "no_historical_cause_inference": true,
+    "query_succeeded": true,
+    "reason": "Frozen image allowlist omitted actual conhost.exe child; no allowlist expansion after stop",
+    "receipt": "D:\\Yogendra\\offline-validation-evidence\\phase-14.44E-F\\generation-1\\test-051c2071abfd40b08c266ce9873fb4ec-normal.command.json",
+    "requested_access": "0x101000",
+    "root_exit_code": 125
+  },
+  "genuine_qualified_pairs": 0,
+  "historical_missing_receipts": 73,
+  "historical_winerror31": {
+    "creation": null,
+    "natural_reproduction": "NOT_ESTABLISHED",
+    "pid": null,
+    "root_cause": "UNVERIFIED"
+  },
+  "historical_winerror5": {
+    "api": "QueryFullProcessImageNameW",
+    "cleanup_empty": true,
+    "creation": 134367917340762588,
+    "exception": "ValueError ACTIVE_PROCESS_IDENTITY_UNVERIFIED after native query error5",
+    "exited_at_query": false,
+    "image_path": null,
+    "job_identity": {
+      "created_before_launch": true,
+      "handle": 432,
+      "kill_on_close": true,
+      "owner_pid": 20904
+    },
+    "last_successful_observation": "Creation/exit time and owned-job membership before image query",
+    "parent_pid": 22584,
+    "pid": 20416,
+    "possible_causes_not_established": [
+      "access rights",
+      "handle misuse",
+      "process-exit race",
+      "wrong process",
+      "inherited/duplicated handle",
+      "Windows access restriction",
+      "image buffer handling"
+    ],
+    "requested_access_from_sealed_source": "0x100410",
+    "retained_handle_value": null,
+    "root_cause": "UNVERIFIED",
+    "state": "PROCESS_ACCESS_DENIED"
+  },
+  "lint": {
+    "initial_mypy_diagnostics": 9,
+    "ruff": "PASS_PREQUALIFICATION",
+    "source_unchanged_after_pass": true,
+    "strict_mypy": "PASS_PREQUALIFICATION_4_FILES"
+  },
+  "monitoring": {
+    "launcher_metrics_not_worker_metrics": true,
+    "polling_seconds": 0.02,
+    "root_cpu_seconds": 0.046875,
+    "root_peak_observed_working_set": 9306112,
+    "short_lived_children": "MAY_BE_MISSED",
+    "status": "PARTIAL"
+  },
+  "original31": "NOT_EXECUTED",
+  "predecessor_manifest": "542d849b1613a5c8f61dedce4d478a6bc9335742390658def69418cb0c11d9cd",
+  "qualification": {
+    "fault_injection_live_tests": "NOT_EXECUTED",
+    "full_collection": 30,
+    "independent_supervised_replays": 0,
+    "live_duration_seconds": 0.35,
+    "live_failed": 1,
+    "live_not_executed_after_stop": 18,
+    "live_passed": 0,
+    "live_selected": 19,
+    "sentinel_test": "NOT_EXECUTED",
+    "static_duration_seconds": 0.3,
+    "static_passed": 11
+  },
+  "real_kite_requests": 0,
+  "seven_fixture_failures": [
+    {
+      "actual": "ValueError: LABEL",
+      "assertion_reached": false,
+      "classification": "FIXTURE_LABEL_REJECTED_BEFORE_LAUNCH",
+      "expected": "Receipt creation followed by SUPERVISION_FAILED, retained errors and cleanup/exit assertions; fault-specific assertions where applicable",
+      "failure_text_sha256": "807bffa78c6a7f735f49722740ca6557c52c0f6ae98b6d3d06519970640662e3",
+      "new_fixture_correction": "Hyphen-only unique receipt labels; historical fixtures untouched",
+      "production_failure_demonstrated": false,
+      "test_id": "apps/strategy-engine/tests/test_phase1444ee.py::test_failure_retains_receipt_and_cleanup[access_denied]"
+    },
+    {
+      "actual": "ValueError: LABEL",
+      "assertion_reached": false,
+      "classification": "FIXTURE_LABEL_REJECTED_BEFORE_LAUNCH",
+      "expected": "Receipt creation followed by SUPERVISION_FAILED, retained errors and cleanup/exit assertions; fault-specific assertions where applicable",
+      "failure_text_sha256": "f47ac21e855d465325f9da1ba7ee275c34fad0603cea528e9962f89523a40926",
+      "new_fixture_correction": "Hyphen-only unique receipt labels; historical fixtures untouched",
+      "production_failure_demonstrated": false,
+      "test_id": "apps/strategy-engine/tests/test_phase1444ee.py::test_failure_retains_receipt_and_cleanup[missing_image]"
+    },
+    {
+      "actual": "ValueError: LABEL",
+      "assertion_reached": false,
+      "classification": "FIXTURE_LABEL_REJECTED_BEFORE_LAUNCH",
+      "expected": "Receipt creation followed by SUPERVISION_FAILED, retained errors and cleanup/exit assertions; fault-specific assertions where applicable",
+      "failure_text_sha256": "22d0ec3a543b2254f830c019593af52b3d23d4d7f45653d3fdb2b659cf7318aa",
+      "new_fixture_correction": "Hyphen-only unique receipt labels; historical fixtures untouched",
+      "production_failure_demonstrated": false,
+      "test_id": "apps/strategy-engine/tests/test_phase1444ee.py::test_failure_retains_receipt_and_cleanup[invalid_handle]"
+    },
+    {
+      "actual": "ValueError: LABEL",
+      "assertion_reached": false,
+      "classification": "FIXTURE_LABEL_REJECTED_BEFORE_LAUNCH",
+      "expected": "Receipt creation followed by SUPERVISION_FAILED, retained errors and cleanup/exit assertions; fault-specific assertions where applicable",
+      "failure_text_sha256": "e75b9b36b0bd1bce32f6bf576c43817e1154ac9576b6b94adc1444c364113303",
+      "new_fixture_correction": "Hyphen-only unique receipt labels; historical fixtures untouched",
+      "production_failure_demonstrated": false,
+      "test_id": "apps/strategy-engine/tests/test_phase1444ee.py::test_failure_retains_receipt_and_cleanup[executable_mismatch]"
+    },
+    {
+      "actual": "ValueError: LABEL",
+      "assertion_reached": false,
+      "classification": "FIXTURE_LABEL_REJECTED_BEFORE_LAUNCH",
+      "expected": "Receipt creation followed by SUPERVISION_FAILED, retained errors and cleanup/exit assertions; fault-specific assertions where applicable",
+      "failure_text_sha256": "b5426228f0070f63a9f1f8a19afc67968b03c100f37e3c84e3d1ca9c2f6b1064",
+      "new_fixture_correction": "Hyphen-only unique receipt labels; historical fixtures untouched",
+      "production_failure_demonstrated": false,
+      "test_id": "apps/strategy-engine/tests/test_phase1444ee.py::test_failure_retains_receipt_and_cleanup[creation_mismatch]"
+    },
+    {
+      "actual": "ValueError: LABEL",
+      "assertion_reached": false,
+      "classification": "FIXTURE_LABEL_REJECTED_BEFORE_LAUNCH",
+      "expected": "Receipt creation followed by SUPERVISION_FAILED, retained errors and cleanup/exit assertions; fault-specific assertions where applicable",
+      "failure_text_sha256": "796efc9f419e1d6c56f53038a1fcac079dfac28203ca39ea40abd837c34a472e",
+      "new_fixture_correction": "Hyphen-only unique receipt labels; historical fixtures untouched",
+      "production_failure_demonstrated": false,
+      "test_id": "apps/strategy-engine/tests/test_phase1444ee.py::test_failure_retains_receipt_and_cleanup[assignment_failure]"
+    },
+    {
+      "actual": "ValueError: LABEL",
+      "assertion_reached": false,
+      "classification": "FIXTURE_LABEL_REJECTED_BEFORE_LAUNCH",
+      "expected": "Receipt creation followed by SUPERVISION_FAILED, retained errors and cleanup/exit assertions; fault-specific assertions where applicable",
+      "failure_text_sha256": "4102ed561b77922a18c3ce5d387ba57c13e6ce426461fb3e096a265ee61c7f67",
+      "new_fixture_correction": "Hyphen-only unique receipt labels; historical fixtures untouched",
+      "production_failure_demonstrated": false,
+      "test_id": "apps/strategy-engine/tests/test_phase1444ee.py::test_failure_retains_receipt_and_cleanup[job_closed]"
+    }
+  ]
+}
