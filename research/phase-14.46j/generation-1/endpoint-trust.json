@@ -1,0 +1,30 @@
+{
+  "alternate_hosts": "DENY",
+  "approved_trust_store": null,
+  "baseline": "85574f42eadfbce6faf51d0138d0bb1ac60cb246",
+  "contract": "Phase1446JEndpointTrust.v1",
+  "credential_transmission": "DENY",
+  "dns_network_approval": null,
+  "dns_network_policy": "ONLY_INDEPENDENTLY_APPROVED_RESOLUTION_AND_ENDPOINTS_NO_DNS_LOOKUPS_IN_PREPARATION",
+  "effective_owner_selected_repository": null,
+  "endpoint_identity": "UNVERIFIED",
+  "endpoint_verification_evidence": null,
+  "exact_urls": [
+    "https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-security/3.5.16/spring-boot-starter-security-3.5.16.pom",
+    "https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-oauth2-client/3.5.16/spring-boot-starter-oauth2-client-3.5.16.pom",
+    "https://repo.maven.apache.org/maven2/org/springframework/security/spring-security-test/6.5.11/spring-security-test-6.5.11.pom"
+  ],
+  "hostname_policy": "EXACT_repo.maven.apache.org",
+  "mirror_fallback": "DENY",
+  "network_requests": 0,
+  "origin": "https://repo.maven.apache.org",
+  "plan_sha256": "0bb6c6cad50a90497e8a5c3fbacb20d49d8c74615ca075e50f2b33ab83f62b88",
+  "proxies": "DENY_UNAPPROVED_AND_INHERITED",
+  "publisher_provenance": "UNVERIFIED",
+  "redirects": "DENY",
+  "repository_approval": "NOT_APPROVED",
+  "response_url_policy": "EXACT_REQUEST_URL",
+  "source_allowlist_path": "research/phase-14.46i/generation-1/metadata-allowlist.json",
+  "source_allowlist_sha256": "3461af016b10457fa0db7ce0cb8f134ca95307e4262675bead97e2d7497efcd6",
+  "tls_policy": "VERIFY_CHAIN_HOSTNAME_VALIDITY_AND_APPROVED_TRUST_STORE"
+}

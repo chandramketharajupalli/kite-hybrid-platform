@@ -1,0 +1,70 @@
+{
+  "allowlist_fingerprint": "6d116c140e657d842c7f2546e8e47ce03c7b09055cb939709de6b30f5e1a7321",
+  "approval_evidence": null,
+  "approved_limits": null,
+  "baseline": "85574f42eadfbce6faf51d0138d0bb1ac60cb246",
+  "contract": "Phase1446JMetadataRetrievalApproval.v1",
+  "dependency_closure": "UNVERIFIED",
+  "downloads": 0,
+  "durable_replay_protection": null,
+  "effective_retrieval_authorization": "NOT_AUTHORIZED",
+  "exact_url_allowlist": [
+    "https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-security/3.5.16/spring-boot-starter-security-3.5.16.pom",
+    "https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-oauth2-client/3.5.16/spring-boot-starter-oauth2-client-3.5.16.pom",
+    "https://repo.maven.apache.org/maven2/org/springframework/security/spring-security-test/6.5.11/spring-security-test-6.5.11.pom"
+  ],
+  "expiry": null,
+  "gate_a_b": "NOT_AUTHORIZED",
+  "jar_acquisition": "NOT_AUTHORIZED",
+  "java_implementation": "NOT_AUTHORIZED",
+  "live_orders": "DISABLED",
+  "network_requests": 0,
+  "operational_readiness": "NO_GO",
+  "operator_identity": null,
+  "origin": "https://repo.maven.apache.org",
+  "output_custody": {
+    "approved_acl": null,
+    "approved_owner": null,
+    "archive_policy": "POM_XML_ONLY_NO_EXECUTABLE_ARCHIVES",
+    "cleanup_authority": null,
+    "destination": null,
+    "hash_policy": "RAW_SHA256",
+    "overwrite_policy": "REJECT",
+    "proposed_raw_files": [
+      "spring-boot-starter-security-3.5.16.pom",
+      "spring-boot-starter-oauth2-client-3.5.16.pom",
+      "spring-security-test-6.5.11.pom"
+    ],
+    "proposed_receipt_files": [
+      "spring-boot-starter-security-3.5.16.pom.receipt.json",
+      "spring-boot-starter-oauth2-client-3.5.16.pom.receipt.json",
+      "spring-security-test-6.5.11.pom.receipt.json",
+      "retrieval-manifest.json"
+    ],
+    "reparse_policy": "REJECT",
+    "status": "NOT_AUTHORIZED"
+  },
+  "output_destination": null,
+  "owner_identity": null,
+  "plan_sha256": "0bb6c6cad50a90497e8a5c3fbacb20d49d8c74615ca075e50f2b33ab83f62b88",
+  "proposed_limits": {
+    "connection_timeout_seconds": 5,
+    "contract": "Phase1446JMetadataLimits.v1",
+    "credentials": "NONE",
+    "http_method": "GET",
+    "maximum_requests": 3,
+    "maximum_response_bytes": 262144,
+    "maximum_total_bytes": 786432,
+    "read_timeout_seconds": 10,
+    "redirects": 0,
+    "retries": 0,
+    "status": "PROPOSED_NOT_APPROVED"
+  },
+  "protected_endpoint_activation": "DISABLED",
+  "revocation": null,
+  "runtime_validation": "NOT_AUTHORIZED",
+  "series_v2": "PROPOSED_NOT_ADOPTED",
+  "status": "NOT_AUTHORIZED",
+  "tls_trust_requirements": "VERIFY_CHAIN_HOSTNAME_VALIDITY_AND_APPROVED_TRUST_STORE",
+  "trusted_timestamp": null
+}
