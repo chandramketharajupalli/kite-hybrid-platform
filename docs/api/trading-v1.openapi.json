@@ -31,10 +31,10 @@
     "/api/trading/strategies": {
       "get": {
         "operationId": "strategies",
-        "summary": "Design contract; no handler implemented",
-        "x-implementation": "CONTRACT_ONLY",
+        "summary": "Read-only projection; production access remains denied",
+        "x-implementation": "IMPLEMENTED_DENY_ONLY_NOT_RUNTIME_VALIDATED",
         "x-existing-contract": "phase1415.strategies.registry",
-        "x-required-permission": "trading:read",
+        "x-required-permission": "trading:strategies:read",
         "security": [
           {
             "operatorSession": []
@@ -42,7 +42,7 @@
         ],
         "responses": {
           "401": {
-            "description": "Unauthenticated",
+            "description": "Verified operator identity absent; no broker-token authentication.",
             "content": {
               "application/json": {
                 "schema": {
@@ -52,7 +52,7 @@
             }
           },
           "403": {
-            "description": "Unauthorized or execution gate closed",
+            "description": "Endpoint permission missing, synthetic/unverified identity or closed production gate.",
             "content": {
               "application/json": {
                 "schema": {
@@ -65,7 +65,7 @@
             "description": "Reserved contract; currently no handler (deployment may return 404). No success behavior is implemented."
           },
           "503": {
-            "description": "Required evidence or durable dependency unavailable",
+            "description": "Evidence unavailable, source unavailable, stale or unverified; no fabricated rows or risk evaluation.",
             "content": {
               "application/json": {
                 "schema": {
@@ -73,17 +73,28 @@
                 }
               }
             }
+          },
+          "200": {
+            "description": "Supplied read-only projection, not an authentication, qualification or execution grant. Inaccessible through the current deny-only production boundary.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StrategiesReadResponse"
+                }
+              }
+            }
           }
-        }
+        },
+        "description": "No refresh, synchronization, broker access, risk evaluation or execution. Success schema describes projection serialization only; no production identity provider or protected-data grant exists. Missing evidence is unavailable, never fabricated."
       }
     },
     "/api/trading/instruments": {
       "get": {
         "operationId": "instruments",
-        "summary": "Design contract; no handler implemented",
-        "x-implementation": "CONTRACT_ONLY",
+        "summary": "Read-only projection; production access remains denied",
+        "x-implementation": "IMPLEMENTED_DENY_ONLY_NOT_RUNTIME_VALIDATED",
         "x-existing-contract": "InstrumentRegistry verified snapshot",
-        "x-required-permission": "trading:read",
+        "x-required-permission": "trading:instruments:read",
         "security": [
           {
             "operatorSession": []
@@ -91,7 +102,7 @@
         ],
         "responses": {
           "401": {
-            "description": "Unauthenticated",
+            "description": "Verified operator identity absent; no broker-token authentication.",
             "content": {
               "application/json": {
                 "schema": {
@@ -101,7 +112,7 @@
             }
           },
           "403": {
-            "description": "Unauthorized or execution gate closed",
+            "description": "Endpoint permission missing, synthetic/unverified identity or closed production gate.",
             "content": {
               "application/json": {
                 "schema": {
@@ -114,7 +125,7 @@
             "description": "Reserved contract; currently no handler (deployment may return 404). No success behavior is implemented."
           },
           "503": {
-            "description": "Required evidence or durable dependency unavailable",
+            "description": "Evidence unavailable, source unavailable, stale or unverified; no fabricated rows or risk evaluation.",
             "content": {
               "application/json": {
                 "schema": {
@@ -122,8 +133,19 @@
                 }
               }
             }
+          },
+          "200": {
+            "description": "Supplied read-only projection, not an authentication, qualification or execution grant. Inaccessible through the current deny-only production boundary.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstrumentsReadResponse"
+                }
+              }
+            }
           }
-        }
+        },
+        "description": "No refresh, synchronization, broker access, risk evaluation or execution. Success schema describes projection serialization only; no production identity provider or protected-data grant exists. Missing evidence is unavailable, never fabricated."
       }
     },
     "/api/trading/signals": {
@@ -178,10 +200,10 @@
     "/api/trading/qualifications": {
       "get": {
         "operationId": "qualifications",
-        "summary": "Design contract; no handler implemented",
-        "x-implementation": "CONTRACT_ONLY",
+        "summary": "Read-only projection; production access remains denied",
+        "x-implementation": "IMPLEMENTED_DENY_ONLY_NOT_RUNTIME_VALIDATED",
         "x-existing-contract": "phase1417.qualification.Row",
-        "x-required-permission": "trading:read",
+        "x-required-permission": "trading:qualifications:read",
         "security": [
           {
             "operatorSession": []
@@ -189,7 +211,7 @@
         ],
         "responses": {
           "401": {
-            "description": "Unauthenticated",
+            "description": "Verified operator identity absent; no broker-token authentication.",
             "content": {
               "application/json": {
                 "schema": {
@@ -199,7 +221,7 @@
             }
           },
           "403": {
-            "description": "Unauthorized or execution gate closed",
+            "description": "Endpoint permission missing, synthetic/unverified identity or closed production gate.",
             "content": {
               "application/json": {
                 "schema": {
@@ -212,7 +234,7 @@
             "description": "Reserved contract; currently no handler (deployment may return 404). No success behavior is implemented."
           },
           "503": {
-            "description": "Required evidence or durable dependency unavailable",
+            "description": "Evidence unavailable, source unavailable, stale or unverified; no fabricated rows or risk evaluation.",
             "content": {
               "application/json": {
                 "schema": {
@@ -220,8 +242,19 @@
                 }
               }
             }
+          },
+          "200": {
+            "description": "Supplied read-only projection, not an authentication, qualification or execution grant. Inaccessible through the current deny-only production boundary.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QualificationsReadResponse"
+                }
+              }
+            }
           }
-        }
+        },
+        "description": "No refresh, synchronization, broker access, risk evaluation or execution. Success schema describes projection serialization only; no production identity provider or protected-data grant exists. Missing evidence is unavailable, never fabricated."
       }
     },
     "/api/trading/positions": {
@@ -325,10 +358,10 @@
     "/api/trading/risk/status": {
       "get": {
         "operationId": "risk_status",
-        "summary": "Design contract; no handler implemented",
-        "x-implementation": "CONTRACT_ONLY",
+        "summary": "Read-only projection; production access remains denied",
+        "x-implementation": "IMPLEMENTED_DENY_ONLY_NOT_RUNTIME_VALIDATED",
         "x-existing-contract": "RiskService and RuntimeTradingHalt; no broker refresh",
-        "x-required-permission": "trading:read",
+        "x-required-permission": "trading:risk:read",
         "security": [
           {
             "operatorSession": []
@@ -336,7 +369,7 @@
         ],
         "responses": {
           "401": {
-            "description": "Unauthenticated",
+            "description": "Verified operator identity absent; no broker-token authentication.",
             "content": {
               "application/json": {
                 "schema": {
@@ -346,7 +379,7 @@
             }
           },
           "403": {
-            "description": "Unauthorized or execution gate closed",
+            "description": "Endpoint permission missing, synthetic/unverified identity or closed production gate.",
             "content": {
               "application/json": {
                 "schema": {
@@ -359,7 +392,7 @@
             "description": "Reserved contract; currently no handler (deployment may return 404). No success behavior is implemented."
           },
           "503": {
-            "description": "Required evidence or durable dependency unavailable",
+            "description": "Evidence unavailable, source unavailable, stale or unverified; no fabricated rows or risk evaluation.",
             "content": {
               "application/json": {
                 "schema": {
@@ -367,8 +400,19 @@
                 }
               }
             }
+          },
+          "200": {
+            "description": "Supplied read-only projection, not an authentication, qualification or execution grant. Inaccessible through the current deny-only production boundary.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RiskReadResponse"
+                }
+              }
+            }
           }
-        }
+        },
+        "description": "No refresh, synchronization, broker access, risk evaluation or execution. Success schema describes projection serialization only; no production identity provider or protected-data grant exists. Missing evidence is unavailable, never fabricated."
       }
     },
     "/api/trading/backtests": {
@@ -1134,6 +1178,280 @@
           "policyHash",
           "status",
           "executionAuthorization"
+        ]
+      },
+      "ReadEvidence": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sourceSha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "observedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "provenance": {
+            "enum": [
+              "LOCAL_UNVERIFIED",
+              "SYNTHETIC_FIXTURE"
+            ]
+          }
+        },
+        "required": [
+          "sourceSha256",
+          "observedAt",
+          "provenance"
+        ]
+      },
+      "InstrumentReadRow": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "instrumentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "exchange": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "symbol": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "referenceSnapshotHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "identityEvidenceHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "instrumentId",
+          "exchange",
+          "symbol",
+          "referenceSnapshotHash",
+          "identityEvidenceHash"
+        ]
+      },
+      "StrategyReadRow": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "strategyId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "strategyVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "definitionHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "definitionProvenance": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          }
+        },
+        "required": [
+          "strategyId",
+          "strategyVersion",
+          "definitionHash",
+          "definitionProvenance"
+        ]
+      },
+      "QualificationReadRow": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "instrumentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "strategyId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "strategyVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "resultHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "state": {
+            "enum": [
+              "INSUFFICIENT_EVIDENCE",
+              "REJECTED"
+            ]
+          }
+        },
+        "required": [
+          "instrumentId",
+          "strategyId",
+          "strategyVersion",
+          "resultHash",
+          "state"
+        ]
+      },
+      "RiskReadRow": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "halted": {
+            "type": "boolean"
+          },
+          "policyHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "halted",
+          "policyHash"
+        ]
+      },
+      "InstrumentsReadResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schemaVersion": {
+            "const": "TradingApi.v1"
+          },
+          "kind": {
+            "const": "INSTRUMENTS"
+          },
+          "entries": {
+            "type": "array",
+            "maxItems": 1000,
+            "items": {
+              "$ref": "#/components/schemas/InstrumentReadRow"
+            }
+          },
+          "evidence": {
+            "$ref": "#/components/schemas/ReadEvidence"
+          },
+          "executionAuthorized": {
+            "const": false
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "kind",
+          "entries",
+          "evidence",
+          "executionAuthorized"
+        ]
+      },
+      "StrategiesReadResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schemaVersion": {
+            "const": "TradingApi.v1"
+          },
+          "kind": {
+            "const": "STRATEGIES"
+          },
+          "entries": {
+            "type": "array",
+            "maxItems": 1000,
+            "items": {
+              "$ref": "#/components/schemas/StrategyReadRow"
+            }
+          },
+          "evidence": {
+            "$ref": "#/components/schemas/ReadEvidence"
+          },
+          "executionAuthorized": {
+            "const": false
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "kind",
+          "entries",
+          "evidence",
+          "executionAuthorized"
+        ]
+      },
+      "QualificationsReadResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schemaVersion": {
+            "const": "TradingApi.v1"
+          },
+          "kind": {
+            "const": "QUALIFICATIONS"
+          },
+          "entries": {
+            "type": "array",
+            "maxItems": 1000,
+            "items": {
+              "$ref": "#/components/schemas/QualificationReadRow"
+            }
+          },
+          "evidence": {
+            "$ref": "#/components/schemas/ReadEvidence"
+          },
+          "executionAuthorized": {
+            "const": false
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "kind",
+          "entries",
+          "evidence",
+          "executionAuthorized"
+        ]
+      },
+      "RiskReadResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schemaVersion": {
+            "const": "TradingApi.v1"
+          },
+          "kind": {
+            "const": "RISK_STATUS"
+          },
+          "entries": {
+            "type": "array",
+            "maxItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/RiskReadRow"
+            },
+            "minItems": 1
+          },
+          "evidence": {
+            "$ref": "#/components/schemas/ReadEvidence"
+          },
+          "executionAuthorized": {
+            "const": false
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "kind",
+          "entries",
+          "evidence",
+          "executionAuthorized"
         ]
       }
     }
