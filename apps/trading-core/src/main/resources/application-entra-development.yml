@@ -1,0 +1,29 @@
+# Explicit opt-in profile. No credentials or approved tenant identities are shipped.
+operator:
+  entra-development:
+    enabled: false
+server:
+  address: 127.0.0.1
+  port: 8443
+  ssl:
+    enabled: true
+  forward-headers-strategy: none
+  servlet:
+    session:
+      tracking-modes: cookie
+      cookie:
+        name: JSESSIONID
+        path: /
+        secure: true
+        http-only: true
+        same-site: lax
+spring:
+  flyway:
+    enabled: false
+logging:
+  level:
+    org.springframework.web.client: WARN
+    org.springframework.http: WARN
+    org.springframework.security.oauth2: WARN
+    com.nimbusds: WARN
+# Dedicated DB migration and external TLS/tenant configuration require separate authorization.
