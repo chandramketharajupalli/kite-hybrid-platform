@@ -7,7 +7,7 @@ import java.util.Optional;
 
 /** Immutable query result. AVAILABLE means a current permitted fixture, never production trust. */
 public final class EvidenceAvailability<T extends EvidenceProvenance.Snapshot> {
-    public enum Status { AVAILABLE, MISSING, STALE, INVALID }
+    public enum Status { AVAILABLE, MISSING, STALE, INVALID, INCOMPLETE }
     private final Status status;
     private final Optional<T> evidence;
     private EvidenceAvailability(Status status, Optional<T> evidence) {
@@ -23,6 +23,9 @@ public final class EvidenceAvailability<T extends EvidenceProvenance.Snapshot> {
     }
     public static <T extends EvidenceProvenance.Snapshot> EvidenceAvailability<T> invalid() {
         return new EvidenceAvailability<>(Status.INVALID, Optional.empty());
+    }
+    public static <T extends EvidenceProvenance.Snapshot> EvidenceAvailability<T> incomplete() {
+        return new EvidenceAvailability<>(Status.INCOMPLETE, Optional.empty());
     }
     public static <T extends EvidenceProvenance.Snapshot> EvidenceAvailability<T> inspect(T value, Clock clock) {
         Objects.requireNonNull(clock);
