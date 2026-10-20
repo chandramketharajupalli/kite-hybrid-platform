@@ -1339,7 +1339,14 @@
             "type": "array",
             "maxItems": 1000,
             "items": {
-              "$ref": "#/components/schemas/InstrumentReadRow"
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/InstrumentReadRow"
+                },
+                {
+                  "$ref": "#/components/schemas/InstrumentEvidenceReadRow"
+                }
+              ]
             }
           },
           "evidence": {
@@ -1355,7 +1362,8 @@
           "entries",
           "evidence",
           "executionAuthorized"
-        ]
+        ],
+        "description": "Existing summary rows remain supported. The additional complete-snapshot variant requires explicit consumer support and grants no access or execution authority. INCOMPLETE_EVIDENCE is an unavailable error code using the existing 503 mapping."
       },
       "StrategiesReadResponse": {
         "type": "object",
@@ -1371,7 +1379,14 @@
             "type": "array",
             "maxItems": 1000,
             "items": {
-              "$ref": "#/components/schemas/StrategyReadRow"
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/StrategyReadRow"
+                },
+                {
+                  "$ref": "#/components/schemas/StrategyEvidenceReadRow"
+                }
+              ]
             }
           },
           "evidence": {
@@ -1387,7 +1402,8 @@
           "entries",
           "evidence",
           "executionAuthorized"
-        ]
+        ],
+        "description": "Existing summary rows remain supported. The additional complete-snapshot variant requires explicit consumer support and grants no access or execution authority. INCOMPLETE_EVIDENCE is an unavailable error code using the existing 503 mapping."
       },
       "QualificationsReadResponse": {
         "type": "object",
@@ -1403,7 +1419,14 @@
             "type": "array",
             "maxItems": 1000,
             "items": {
-              "$ref": "#/components/schemas/QualificationReadRow"
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/QualificationReadRow"
+                },
+                {
+                  "$ref": "#/components/schemas/QualificationEvidenceReadRow"
+                }
+              ]
             }
           },
           "evidence": {
@@ -1419,7 +1442,8 @@
           "entries",
           "evidence",
           "executionAuthorized"
-        ]
+        ],
+        "description": "Existing summary rows remain supported. The additional complete-snapshot variant requires explicit consumer support and grants no access or execution authority. INCOMPLETE_EVIDENCE is an unavailable error code using the existing 503 mapping."
       },
       "RiskReadResponse": {
         "type": "object",
@@ -1435,7 +1459,14 @@
             "type": "array",
             "maxItems": 1,
             "items": {
-              "$ref": "#/components/schemas/RiskReadRow"
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/RiskReadRow"
+                },
+                {
+                  "$ref": "#/components/schemas/AccountRiskEvidenceReadRow"
+                }
+              ]
             },
             "minItems": 1
           },
@@ -1452,6 +1483,437 @@
           "entries",
           "evidence",
           "executionAuthorized"
+        ],
+        "description": "Existing summary rows remain supported. The additional complete-snapshot variant requires explicit consumer support and grants no access or execution authority. INCOMPLETE_EVIDENCE is an unavailable error code using the existing 503 mapping."
+      },
+      "SnapshotInstrumentId": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      },
+      "SnapshotStrategyId": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,63}$"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      },
+      "SnapshotStrategyIdentity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/SnapshotStrategyId"
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          }
+        },
+        "required": [
+          "id",
+          "version"
+        ]
+      },
+      "SnapshotDuration": {
+        "description": "Exact positive Java Duration: ISO-8601 text or decimal seconds according to the existing Jackson Java-time converter configuration.",
+        "oneOf": [
+          {
+            "type": "string",
+            "format": "duration"
+          },
+          {
+            "type": "number",
+            "exclusiveMinimum": 0
+          }
+        ]
+      },
+      "SnapshotProvenance": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sourceIdentity": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "fingerprint": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "observedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "origin": {
+            "const": "SYNTHETIC_FIXTURE"
+          },
+          "retention": {
+            "const": "SYNTHETIC_ONLY"
+          }
+        },
+        "required": [
+          "sourceIdentity",
+          "fingerprint",
+          "observedAt",
+          "expiresAt",
+          "origin",
+          "retention"
+        ]
+      },
+      "SnapshotInstrumentToken": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "broker": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_-]{0,31}$"
+          },
+          "value": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          }
+        },
+        "required": [
+          "broker",
+          "value"
+        ]
+      },
+      "InstrumentSnapshotEvidence": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "instrumentId": {
+            "$ref": "#/components/schemas/SnapshotInstrumentId"
+          },
+          "exchange": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "symbol": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "instrumentToken": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SnapshotInstrumentToken"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "snapshotVersion": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/SnapshotProvenance"
+          }
+        },
+        "required": [
+          "instrumentId",
+          "exchange",
+          "symbol",
+          "instrumentToken",
+          "snapshotVersion",
+          "provenance"
+        ]
+      },
+      "StrategyDefinitionEvidence": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "strategy": {
+            "$ref": "#/components/schemas/SnapshotStrategyIdentity"
+          },
+          "timeframe": {
+            "$ref": "#/components/schemas/SnapshotDuration"
+          },
+          "parameters": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "entryConditions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "minItems": 1
+          },
+          "exitConditions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "minItems": 1
+          },
+          "applicableUniverse": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SnapshotInstrumentId"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/SnapshotProvenance"
+          }
+        },
+        "required": [
+          "strategy",
+          "timeframe",
+          "parameters",
+          "entryConditions",
+          "exitConditions",
+          "applicableUniverse",
+          "provenance"
+        ]
+      },
+      "SnapshotQualificationPolicy": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "policyId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "fingerprint": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "minimumTrades": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "minimumWinPercentage": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "remainingChecksPassed": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "policyId",
+          "version",
+          "fingerprint",
+          "minimumTrades",
+          "minimumWinPercentage",
+          "remainingChecksPassed"
+        ]
+      },
+      "StockStrategyQualificationEvidence": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "instrumentId": {
+            "$ref": "#/components/schemas/SnapshotInstrumentId"
+          },
+          "strategy": {
+            "$ref": "#/components/schemas/SnapshotStrategyIdentity"
+          },
+          "timeframe": {
+            "$ref": "#/components/schemas/SnapshotDuration"
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "evaluatedTrades": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "wins": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "losses": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "costModel": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "transactionCosts": {
+            "type": "number",
+            "minimum": 0
+          },
+          "slippageBasisPoints": {
+            "type": "number",
+            "minimum": 0
+          },
+          "dataset": {
+            "$ref": "#/components/schemas/SnapshotProvenance"
+          },
+          "policy": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SnapshotQualificationPolicy"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/SnapshotProvenance"
+          }
+        },
+        "required": [
+          "instrumentId",
+          "strategy",
+          "timeframe",
+          "periodStart",
+          "periodEnd",
+          "evaluatedTrades",
+          "wins",
+          "losses",
+          "costModel",
+          "transactionCosts",
+          "slippageBasisPoints",
+          "dataset",
+          "policy",
+          "provenance"
+        ]
+      },
+      "AccountRiskSnapshotEvidence": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "accountScope": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "currency": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
+          },
+          "exposure": {
+            "type": "number",
+            "minimum": 0
+          },
+          "exposureLimit": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "additionalLimits": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/SnapshotProvenance"
+          }
+        },
+        "required": [
+          "accountScope",
+          "currency",
+          "exposure",
+          "exposureLimit",
+          "additionalLimits",
+          "provenance"
+        ]
+      },
+      "InstrumentEvidenceReadRow": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "snapshot": {
+            "$ref": "#/components/schemas/InstrumentSnapshotEvidence"
+          }
+        },
+        "required": [
+          "snapshot"
+        ]
+      },
+      "StrategyEvidenceReadRow": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "snapshot": {
+            "$ref": "#/components/schemas/StrategyDefinitionEvidence"
+          }
+        },
+        "required": [
+          "snapshot"
+        ]
+      },
+      "QualificationEvidenceReadRow": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "snapshot": {
+            "$ref": "#/components/schemas/StockStrategyQualificationEvidence"
+          },
+          "state": {
+            "enum": [
+              "INSUFFICIENT_EVIDENCE",
+              "REJECTED"
+            ]
+          }
+        },
+        "required": [
+          "snapshot",
+          "state"
+        ]
+      },
+      "AccountRiskEvidenceReadRow": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "snapshot": {
+            "$ref": "#/components/schemas/AccountRiskSnapshotEvidence"
+          }
+        },
+        "required": [
+          "snapshot"
         ]
       }
     }

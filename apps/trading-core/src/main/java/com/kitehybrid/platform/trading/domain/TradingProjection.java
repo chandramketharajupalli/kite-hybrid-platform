@@ -13,7 +13,7 @@ public sealed interface TradingProjection
         permits TradingProjection.Available, TradingProjection.Unavailable {
 
     enum Kind { INSTRUMENTS, STRATEGIES, QUALIFICATIONS, RISK_STATUS }
-    enum UnavailableReason { EVIDENCE_UNAVAILABLE, SOURCE_UNAVAILABLE, STALE_EVIDENCE, UNVERIFIED_EVIDENCE }
+    enum UnavailableReason { EVIDENCE_UNAVAILABLE, SOURCE_UNAVAILABLE, STALE_EVIDENCE, UNVERIFIED_EVIDENCE, INCOMPLETE_EVIDENCE }
     enum EvidenceProvenance { LOCAL_UNVERIFIED, SYNTHETIC_FIXTURE }
     enum QualificationState { INSUFFICIENT_EVIDENCE, REJECTED }
 
@@ -53,8 +53,39 @@ public sealed interface TradingProjection
         }
     }
 
-    sealed interface Entry permits InstrumentView, StrategyView, QualificationView, RiskView {
+    sealed interface Entry permits InstrumentView, StrategyView, QualificationView, RiskView,
+            InstrumentEvidenceView, StrategyEvidenceView, QualificationEvidenceView, AccountRiskEvidenceView {
         Kind kind();
+    }
+
+    /** Complete captured evidence; new wire variants do not replace the legacy summaries. */
+    record InstrumentEvidenceView(InstrumentSnapshotEvidence snapshot) implements Entry {
+        public InstrumentEvidenceView { Objects.requireNonNull(snapshot); }
+        @Override public Kind kind() { return Kind.INSTRUMENTS; }
+    }
+
+    record StrategyEvidenceView(StrategyDefinitionEvidence snapshot) implements Entry {
+        public StrategyEvidenceView { Objects.requireNonNull(snapshot); }
+        @Override public Kind kind() { return Kind.STRATEGIES; }
+    }
+
+    record QualificationEvidenceView(StockStrategyQualificationEvidence snapshot, QualificationState state)
+            implements Entry {
+        public QualificationEvidenceView {
+            Objects.requireNonNull(snapshot);
+            if (Objects.requireNonNull(state) != snapshot.decision())
+                throw new IllegalArgumentException("Qualification decision must match captured evidence");
+        }
+        public QualificationEvidenceView(StockStrategyQualificationEvidence snapshot) {
+            this(Objects.requireNonNull(snapshot), snapshot.decision());
+        }
+        @Override public Kind kind() { return Kind.QUALIFICATIONS; }
+    }
+
+    /** Account exposure is not a halt status or an independently captured policy hash. */
+    record AccountRiskEvidenceView(AccountRiskSnapshotEvidence snapshot) implements Entry {
+        public AccountRiskEvidenceView { Objects.requireNonNull(snapshot); }
+        @Override public Kind kind() { return Kind.RISK_STATUS; }
     }
 
     record InstrumentView(UUID instrumentId, String exchange, String symbol,
